@@ -135,17 +135,17 @@ const Login = () => {
             </TabsContent>
           </Tabs>
 
-          {/* Banda de ventajas */}
-          <div className="mt-6 grid grid-cols-3 gap-2 text-[10px] font-bold uppercase tracking-widest text-[#F5F5F5]/60">
-            <div className="flex items-center justify-center gap-1.5">
+          {/* Banda de ventajas: siempre en 1 línea */}
+          <div className="mt-6 flex flex-nowrap items-center justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#F5F5F5]/60 overflow-x-auto no-scrollbar">
+            <div className="inline-flex items-center gap-1.5 whitespace-nowrap">
               <Lock className="w-3.5 h-3.5 text-[#B454FF]" />
               Cifrado SSL
             </div>
-            <div className="flex items-center justify-center gap-1.5">
+            <div className="inline-flex items-center gap-1.5 whitespace-nowrap">
               <ShieldCheck className="w-3.5 h-3.5 text-[#B454FF]" />
               Datos seguros
             </div>
-            <div className="flex items-center justify-center gap-1.5">
+            <div className="inline-flex items-center gap-1.5 whitespace-nowrap">
               <Zap className="w-3.5 h-3.5 text-[#B454FF]" />
               Acceso inmediato
             </div>
@@ -156,6 +156,14 @@ const Login = () => {
           <ArrowLeft className="w-3 h-3" />
           Volver al inicio
         </Link>
+
+        {/* Texto legal bajo el bloque */}
+        <p className="mt-3 text-center text-[11px] text-[#F5F5F5]/55">
+          Al continuar, aceptas nuestra{" "}
+          <a href="#privacy" className="underline hover:text-[#B454FF]">Política de Privacidad</a>{" "}
+          y los{" "}
+          <a href="#terms" className="underline hover:text-[#B454FF]">Términos de Uso</a>.
+        </p>
       </motion.div>
     </div>
   );
