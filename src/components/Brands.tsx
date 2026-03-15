@@ -52,7 +52,7 @@ const Brands = () => {
                 onMouseLeave={resumeTrack}
                 onTouchStart={pauseTrack}
                 onTouchEnd={resumeTrack}
-                className="flex items-center justify-center select-none"
+                className="flex items-center justify-center select-none h-10 sm:h-11 md:h-12 w-32 sm:w-36 md:w-40"
                 aria-hidden={i >= brands.length}
               >
                 <img
@@ -60,7 +60,7 @@ const Brands = () => {
                   alt={brand.name}
                   loading="lazy"
                   decoding="async"
-                  className="h-8 sm:h-9 md:h-10 w-auto opacity-60 grayscale contrast-125 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                  className="max-h-full max-w-full object-contain opacity-60 grayscale contrast-125 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
                 />
               </div>
             ))}
