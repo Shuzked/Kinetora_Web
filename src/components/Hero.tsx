@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'pramer-motion';
+import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Zap, Rocket, Layers } from 'lucide-react';
 
@@ -31,7 +31,6 @@ const Hero = () => {
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto en 48h.
           </p>
           
-          {/* Botones Optimizados */}
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 md:gap-5 max-w-sm mx-auto lg:mx-0">
             <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-14 md:h-16 text-[13px] md:text-base font-black tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full sm:w-auto">
               VER PLANES
