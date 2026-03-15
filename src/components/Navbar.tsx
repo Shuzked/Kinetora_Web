@@ -86,9 +86,9 @@ const Navbar = () => {
         {/* Derecha: Acciones (alineado vertical y baseline consistente) */}
         <div className="h-full flex items-center justify-end gap-3 md:gap-6">
           <Link to="/login" className="hidden sm:block">
-            <PremiumButton variant="glass" size="md" className="leading-none">
+            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[12px] leading-none font-bold text-[#F5F5F5]/70 hover:text-[#F5F5F5] transition-colors">
               LOGIN
-            </PremiumButton>
+            </button>
           </Link>
           <Link to="/login">
             <PremiumButton variant="primary" size="md" className="leading-none">
