@@ -20,6 +20,7 @@ import Notifications from "./pages/Notifications";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import { NotificationsProvider } from "./providers/NotificationsProvider";
+import { RequestsProvider } from "./providers/RequestsProvider";
 
 const queryClient = new QueryClient();
 
@@ -30,32 +31,33 @@ const App = () => (
       <Sonner />
       <ScrollProgress />
       <NotificationsProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/casos" element={<Cases />} />
-            <Route path="/login" element={<Login />} />
+        <RequestsProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/casos" element={<Cases />} />
+              <Route path="/login" element={<Login />} />
 
-            {/* Portal */}
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/requests" element={<Requests />} />
-            <Route path="/dashboard/requests/:id" element={<RequestDetail />} />
-            <Route path="/dashboard/new" element={<NewRequest />} />
-            <Route path="/dashboard/files" element={<Files />} />
-            <Route path="/dashboard/billing" element={<Billing />} />
-            <Route path="/dashboard/support" element={<Support />} />
-            <Route path="/dashboard/notifications" element={<Notifications />} />
-            <Route path="/dashboard/profile" element={<Profile />} />
-            <Route path="/dashboard/settings" element={<Settings />} />
+              {/* Portal */}
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard/requests" element={<Requests />} />
+              <Route path="/dashboard/requests/:id" element={<RequestDetail />} />
+              <Route path="/dashboard/new" element={<NewRequest />} />
+              <Route path="/dashboard/files" element={<Files />} />
+              <Route path="/dashboard/billing" element={<Billing />} />
+              <Route path="/dashboard/support" element={<Support />} />
+              <Route path="/dashboard/notifications" element={<Notifications />} />
+              <Route path="/dashboard/profile" element={<Profile />} />
+              <Route path="/dashboard/settings" element={<Settings />} />
 
-            {/* Aliases to avoid breaking old links */}
-            <Route path="/dashboard/projects" element={<Navigate to="/dashboard/requests" replace />} />
-            <Route path="/dashboard/messages" element={<Navigate to="/dashboard/support" replace />} />
+              {/* Aliases */}
+              <Route path="/dashboard/projects" element={<Navigate to="/dashboard/requests" replace />} />
+              <Route path="/dashboard/messages" element={<Navigate to="/dashboard/support" replace />} />
 
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </RequestsProvider>
       </NotificationsProvider>
       <ScrollToTop />
     </TooltipProvider>

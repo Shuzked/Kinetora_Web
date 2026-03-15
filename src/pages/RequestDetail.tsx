@@ -31,19 +31,8 @@ import {
 } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
 import { deliverables as allDeliverables, type Deliverable } from "@/data/deliverables";
-
-type RequestStatus = "completed" | "in-progress" | "review";
-type Priority = "alta" | "media" | "baja";
-
-type ActivityItem = {
-  type: "done" | "review" | "progress" | "update" | "note" | "file";
-  text: string;
-  time: string;
-};
-
-type Attachment = { id: string; name: string; url: string; kind: "image" | "file" };
-
-type Comment = { id: string; author: string; text: string; time: string };
+import { useRequests } from "@/hooks/use-requests";
+import type { RequestStatus, Priority, Attachment, Comment, ActivityItem } from "@/providers/RequestsProvider";
 
 const prioColor: Record<Priority, string> = {
   alta: "text-red-300",
@@ -81,87 +70,48 @@ const RequestDetail = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Datos demo
-  const base = useMemo(() => {
-    const items = [
-      {
-        id: "REQ-001",
-        title: "Diseño de Landing Page",
-        service: "UX/UI Design",
-        status: "completed" as RequestStatus,
-        date: "2025-01-15",
-        priority: "alta" as Priority,
-        description:
-          "Rediseño completo de la landing orientado a conversión. Enfoque en hero más directo, beneficios claros y prueba social. Favor revisar también la versión móvil.",
-        attachments: [
-          { id: "att-1", name: "wireframe-home.png", url: "/assets/portfolio/elixir-token.webp", kind: "image" as const },
-          { id: "att-2", name: "hero-variant-b.png", url: "/assets/portfolio/cybertitans-clash.webp", kind: "image" as const },
-        ],
-        activity: [
-          { type: "done", text: "Landing Page completada", time: "Hoy, 10:20" },
-          { type: "review", text: "Primera entrega enviada", time: "Ayer, 17:05" },
-          { type: "progress", text: "Bocetos iniciales listos", time: "Ayer, 12:30" },
-        ] as ActivityItem[],
-        comments: [
-          { id: "c1", author: "Kinetora Team", text: "¡Primera entrega lista en el tablero!", time: "Ayer, 17:05" },
-        ] as Comment[],
-      },
-      {
-        id: "REQ-002",
-        title: "Vídeo AD para Instagram",
-        service: "Motion Graphics",
-        status: "review" as RequestStatus,
-        date: "2025-01-16",
-        priority: "media" as Priority,
-        description:
-          "Animación 15s formato vertical. Referencia de ritmo: anuncios de marketplaces tech. Entrega en 1080x1920, H.264.",
-        attachments: [{ id: "att-3", name: "ad-storyboard.png", url: "/assets/portfolio/chronosworlds.webp", kind: "image" as const }],
-        activity: [
-          { type: "review", text: "Versión v2 en revisión", time: "Hoy, 09:50" },
-          { type: "progress", text: "Storyboard validado", time: "Ayer, 16:12" },
-        ],
-        comments: [],
-      },
-      {
-        id: "REQ-003",
-        title: "Pitch Deck para Inversores",
-        service: "Branding",
-        status: "in-progress" as RequestStatus,
-        date: "2025-01-17",
-        priority: "alta" as Priority,
-        description:
-          "Deck de 12-14 diapositivas para ronda Seed. Mantener consistencia con marca Kinetora. Énfasis en tracción y hoja de ruta.",
-        attachments: [],
-        activity: [{ type: "progress", text: "Plantilla base creada", time: "Hoy, 08:15" }],
-        comments: [],
-      },
-    ];
-    return items.find((r) => r.id === id) ?? items[0];
-  }, [id]);
+  const { getById, updateFields, addAttachments, removeAttachment, addComment, deleteComment, addActivity } = useRequests();
+  const req = getById(id);
+  const notFound = !req;
 
-  // Estados editables
-  const [title, setTitle] = useState(base.title);
-  const [status, setStatus] = useState<RequestStatus>(base.status);
-  const [priority, setPriority] = useState<Priority>(base.priority);
-  const [dueDate, setDueDate] = useState<string>(base.date);
-  const [description, setDescription] = useState(base.description);
+  const [title, setTitle] = useState(req?.title ?? "");
+  const [status, setStatus] = useState<RequestStatus>(req?.status ?? "in-progress");
+  const [priority, setPriority] = useState<Priority>(req?.priority ?? "media");
+  const [dueDate, setDueDate] = useState<string>(req?.date ?? "");
+  const [description, setDescription] = useState(req?.description ?? "");
 
-  const [attachments, setAttachments] = useState<Attachment[]>(base.attachments);
-  const [activity, setActivity] = useState<ActivityItem[]>(base.activity);
-  const [comments, setComments] = useState<Comment[]>(base.comments);
-  const [note, setNote] = useState("");
+  const myDeliverables: Deliverable[] = useMemo(
+    () => (req ? allDeliverables.filter((d) => d.requestId === req.id) : []),
+    [req]
+  );
+
+  if (notFound) {
+    return (
+      <PortalLayout>
+        <div className="px-4 py-10">
+          <button
+            type="button"
+            onClick={() => navigate("/dashboard/requests")}
+            className="text-[#B454FF] hover:text-[#C07CFF] font-semibold"
+          >
+            Volver a Mis Requests
+          </button>
+          <div className="mt-4 text-[#F5F5F5] text-lg">Request no encontrada.</div>
+        </div>
+      </PortalLayout>
+    );
+  }
 
   const saveMeta = () => {
+    updateFields(req!.id, { title, status, priority, date: dueDate });
+    addActivity(req!.id, { type: "update", text: "Metadatos actualizados (título/estado/prioridad/fecha)", time: nowLabel() });
     showSuccess("Cambios guardados.");
-    setActivity((prev) => [
-      { type: "update", text: "Metadatos actualizados (título/estado/prioridad/fecha)", time: nowLabel() },
-      ...prev,
-    ]);
   };
 
   const saveDescription = () => {
+    updateFields(req!.id, { description });
+    addActivity(req!.id, { type: "update", text: "Descripción actualizada", time: nowLabel() });
     showSuccess("Descripción actualizada.");
-    setActivity((prev) => [{ type: "update", text: "Descripción actualizada", time: nowLabel() }, ...prev]);
   };
 
   const onUploadClick = () => fileInputRef.current?.click();
@@ -178,57 +128,31 @@ const RequestDetail = () => {
         kind: isImage ? "image" : "file",
       };
     });
-    setAttachments((prev) => [...newOnes, ...prev]);
-    setActivity((prev) => [
-      { type: "file", text: `${newOnes.length} archivo(s) subido(s)`, time: nowLabel() },
-      ...prev,
-    ]);
+    addAttachments(req!.id, newOnes);
     showSuccess("Adjuntos añadidos.");
     e.currentTarget.value = "";
   };
 
-  const removeAttachment = (attId: string) => {
-    setAttachments((prev) => prev.filter((a) => a.id !== attId));
-    setActivity((prev) => [{ type: "file", text: "Adjunto eliminado", time: nowLabel() }, ...prev]);
+  const removeAtt = (attId: string) => {
+    removeAttachment(req!.id, attId);
+    showSuccess("Adjunto eliminado.");
   };
+
+  const [note, setNote] = useState("");
 
   const addNote = (e: React.FormEvent) => {
     e.preventDefault();
     const text = note.trim();
     if (!text) return;
-    const newComment: Comment = {
-      id: `c-${Date.now()}`,
-      author: "Yo",
-      text,
-      time: nowLabel(),
-    };
-    setComments((prev) => [newComment, ...prev]);
-    setActivity((prev) => [{ type: "note", text: "Nueva nota añadida", time: nowLabel() }, ...prev]);
+    const newComment: Comment = { id: `c-${Date.now()}`, author: "Yo", text, time: nowLabel() };
+    addComment(req!.id, newComment);
     setNote("");
     showSuccess("Nota enviada.");
   };
 
-  const deleteComment = (cid: string) => {
-    setComments((prev) => prev.filter((c) => c.id !== cid));
-    setActivity((prev) => [{ type: "note", text: "Nota eliminada", time: nowLabel() }, ...prev]);
-  };
-
-  const myDeliverables: Deliverable[] = useMemo(
-    () => allDeliverables.filter((d) => d.requestId === base.id),
-    [base.id]
-  );
-
-  const iconForDeliverable = (k: Deliverable["kind"]) => {
-    switch (k) {
-      case "figma":
-        return <Figma className="w-4 h-4" />;
-      case "video":
-        return <Film className="w-4 h-4" />;
-      case "pdf":
-        return <FileText className="w-4 h-4" />;
-      default:
-        return <Archive className="w-4 h-4" />;
-    }
+  const deleteNote = (cid: string) => {
+    deleteComment(req!.id, cid);
+    showSuccess("Nota eliminada.");
   };
 
   return (
@@ -297,7 +221,7 @@ const RequestDetail = () => {
             </div>
 
             <div className="mt-1 text-[#F5F5F5]/55">
-              ID {base.id} · {base.service} · <span className={prioColor[priority]}>Prioridad {priority}</span>
+              ID {req!.id} · {req!.service} · <span className={prioColor[priority]}>Prioridad {priority}</span>
             </div>
           </div>
         </div>
@@ -348,7 +272,7 @@ const RequestDetail = () => {
                       <div className="p-3 flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2 min-w-0">
                           <div className="h-8 w-8 rounded-lg bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 flex items-center justify-center">
-                            {iconForDeliverable(it.kind)}
+                            {it.kind === "figma" ? <Figma className="w-4 h-4" /> : it.kind === "video" ? <Film className="w-4 h-4" /> : it.kind === "pdf" ? <FileText className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
                           </div>
                           <div className="min-w-0">
                             <div className="truncate text-[#F5F5F5]/85 text-sm">{it.name}</div>
@@ -370,7 +294,7 @@ const RequestDetail = () => {
               )}
             </section>
 
-            {/* Adjuntos */}
+            {/* Tus adjuntos */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="flex items-center justify-between">
                 <div className="text-[#F5F5F5] font-bold">Tus adjuntos</div>
@@ -395,7 +319,7 @@ const RequestDetail = () => {
                 </div>
               </div>
 
-              {attachments.length === 0 ? (
+              {req!.attachments.length === 0 ? (
                 <div className="mt-5 rounded-2xl border border-dashed border-white/15 bg-[#0D0D0D] p-8 text-center">
                   <div className="mx-auto h-12 w-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#F5F5F5]/80">
                     <UploadCloud className="w-6 h-6" />
@@ -404,7 +328,7 @@ const RequestDetail = () => {
                 </div>
               ) : (
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {attachments.map((att) => (
+                  {req!.attachments.map((att) => (
                     <div
                       key={att.id}
                       className="rounded-xl overflow-hidden border border-white/10 bg-[#0D0D0D] group"
@@ -439,7 +363,7 @@ const RequestDetail = () => {
                           </a>
                           <button
                             type="button"
-                            onClick={() => removeAttachment(att.id)}
+                            onClick={() => removeAtt(att.id)}
                             className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:bg-white/[0.06] transition-colors"
                             aria-label="Eliminar"
                           >
@@ -475,9 +399,9 @@ const RequestDetail = () => {
                 </div>
               </form>
 
-              {comments.length > 0 && (
+              {req!.comments.length > 0 && (
                 <div className="mt-6 space-y-3">
-                  {comments.map((c) => (
+                  {req!.comments.map((c) => (
                     <div key={c.id} className="rounded-xl bg:white/[0.02] border border-white/10 p-4">
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-3">
@@ -492,7 +416,7 @@ const RequestDetail = () => {
                         {c.author === "Yo" && (
                           <button
                             type="button"
-                            onClick={() => deleteComment(c.id)}
+                            onClick={() => deleteNote(c.id)}
                             className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:bg-white/[0.06] transition-colors"
                             aria-label="Eliminar nota"
                           >
@@ -512,7 +436,7 @@ const RequestDetail = () => {
           <div className="rounded-2xl bg-[#111111] border border-white/10 p-6">
             <div className="text-[#F5F5F5] font-bold">Actividad</div>
             <div className="mt-4 space-y-3">
-              {activity.map((a, i) => (
+              {req!.activity.map((a, i) => (
                 <div
                   key={i}
                   className="flex items-center justify-between gap-4 rounded-xl bg-white/[0.02] border border-white/10 px-4 py-3"
@@ -528,7 +452,7 @@ const RequestDetail = () => {
                   </div>
                 </div>
               ))}
-              {activity.length === 0 && (
+              {req!.activity.length === 0 && (
                 <div className="text-[#F5F5F5]/55 text-sm">Sin actividad todavía.</div>
               )}
             </div>

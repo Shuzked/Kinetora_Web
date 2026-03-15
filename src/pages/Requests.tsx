@@ -9,18 +9,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { showSuccess } from "@/utils/toast";
-
-type RequestStatus = "completed" | "in-progress" | "review";
-type Priority = "alta" | "media" | "baja";
-
-type RequestRow = {
-  id: string;
-  title: string;
-  service: string;
-  status: RequestStatus;
-  date: string; // ISO yyyy-mm-dd
-  priority: Priority;
-};
+import { useRequests } from "@/hooks/use-requests";
+import type { RequestStatus, Priority } from "@/providers/RequestsProvider";
 
 const statusOptions: { value: RequestStatus; label: string }[] = [
   { value: "in-progress", label: "En Progreso" },
@@ -42,40 +32,31 @@ const prioColor: Record<Priority, string> = {
 
 const Requests = () => {
   const navigate = useNavigate();
+  const { items, updateFields, addActivity } = useRequests();
   const [filter, setFilter] = useState<"all" | RequestStatus>("all");
 
-  // Datos de ejemplo en formato ISO para el date input
-  const [rows, setRows] = useState<RequestRow[]>([
-    { id: "REQ-001", title: "Diseño de Landing Page", service: "UX/UI Design", status: "in-progress", date: "2025-01-12", priority: "alta" },
-    { id: "REQ-002", title: "Vídeo AD para Instagram", service: "Motion Graphics", status: "review", date: "2025-01-14", priority: "media" },
-    { id: "REQ-003", title: "Pitch Deck para Inversores", service: "Branding", status: "completed", date: "2025-01-08", priority: "alta" },
-    { id: "REQ-004", title: "Rediseño de Logo", service: "Branding", status: "in-progress", date: "2025-01-18", priority: "baja" },
-    { id: "REQ-005", title: "Desarrollo Web E-commerce", service: "Desarrollo Web", status: "completed", date: "2025-01-10", priority: "media" },
-  ]);
-
   const filtered = useMemo(() => {
-    if (filter === "all") return rows;
-    return rows.filter((r) => r.status === filter);
-  }, [rows, filter]);
-
-  const updateRow = <K extends keyof RequestRow>(id: string, key: K, value: RequestRow[K]) => {
-    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, [key]: value } : r)));
-  };
+    if (filter === "all") return items;
+    return items.filter((r) => r.status === filter);
+  }, [items, filter]);
 
   const onChangeStatus = (id: string, value: RequestStatus) => {
-    updateRow(id, "status", value);
+    updateFields(id, { status: value });
+    addActivity(id, { type: "update", text: "Estado actualizado", time: new Date().toLocaleString() });
     showSuccess("Estado actualizado.");
   };
 
   const onChangePriority = (id: string, value: Priority) => {
-    updateRow(id, "priority", value);
+    updateFields(id, { priority: value });
+    addActivity(id, { type: "update", text: "Prioridad actualizada", time: new Date().toLocaleString() });
     showSuccess("Prioridad actualizada.");
   };
 
   const onChangeDate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { name: id, value } = e.target; // usamos name para pasar el id
+    const { name: id, value } = e.target;
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return;
-    updateRow(id, "date", value);
+    updateFields(id, { date: value });
+    addActivity(id, { type: "update", text: "Fecha límite actualizada", time: new Date().toLocaleString() });
     showSuccess("Fecha actualizada.");
   };
 
@@ -158,7 +139,6 @@ const Requests = () => {
 
                   <TableCell className="text-[#F5F5F5]/70">{r.service}</TableCell>
 
-                  {/* Estado editable */}
                   <TableCell>
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
                       <SelectTrigger className="h-9 w-[170px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
@@ -172,20 +152,16 @@ const Requests = () => {
                     </Select>
                   </TableCell>
 
-                  {/* Fecha editable */}
                   <TableCell className="min-w-[180px]">
-                    <div className="relative">
-                      <Input
-                        name={r.id}
-                        type="date"
-                        value={r.date}
-                        onChange={onChangeDate}
-                        className="h-9 rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                      />
-                    </div>
+                    <Input
+                      name={r.id}
+                      type="date"
+                      value={r.date}
+                      onChange={onChangeDate}
+                      className="h-9 rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                    />
                   </TableCell>
 
-                  {/* Prioridad editable */}
                   <TableCell>
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
                       <SelectTrigger className="h-9 w-[150px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
