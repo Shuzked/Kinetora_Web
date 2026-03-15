@@ -28,6 +28,14 @@ export type RequestItem = {
   activity: ActivityItem[];
 };
 
+// Generador simple de IDs únicas legibles (p. ej., REQ-8F3C2A)
+const generateRequestId = (existing = new Set<string>()) => {
+  const make = () => `REQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+  let id = make();
+  while (existing.has(id)) id = make();
+  return id;
+};
+
 type RequestsContextValue = {
   items: RequestItem[];
   getById: (id: string | undefined) => RequestItem | undefined;
@@ -127,7 +135,16 @@ const initialRequests: RequestItem[] = [
 ];
 
 export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<RequestItem[]>(initialRequests);
+  const [items, setItems] = useState<RequestItem[]>(
+    () => {
+      const used = new Set<string>();
+      return initialRequests.map((r) => {
+        const id = generateRequestId(used);
+        used.add(id);
+        return { ...r, id };
+      });
+    }
+  );
 
   const getById = (id?: string) => items.find((r) => r.id === id);
 
