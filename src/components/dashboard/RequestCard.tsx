@@ -20,9 +20,9 @@ const RequestCard = ({ title, status, date, type }: RequestCardProps) => {
   const config = statusConfig[status];
 
   return (
-    <div className="bg-[#111111] border border-[#2A2A2A] rounded-2xl p-6 hover:border-[#B454FF]/30 transition-all group">
+    <div className="bg-[#111111] border border-white/10 rounded-2xl p-6 hover:border-[#B454FF]/35 hover:bg-white/[0.04] transition-all group">
       <div className="flex justify-between items-start mb-4">
-        <span className="text-[9px] font-black uppercase tracking-widest text-[#2A2A2A] bg-[#0D0D0D] px-3 py-1 rounded-full border border-[#2A2A2A]">
+        <span className="text-[9px] font-black uppercase tracking-widest text-[#F5F5F5]/55 bg-[#0D0D0D] px-3 py-1 rounded-full border border-white/10">
           {type}
         </span>
         <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full ${config.bg} ${config.color} text-[9px] font-black uppercase tracking-widest`}>
@@ -32,11 +32,11 @@ const RequestCard = ({ title, status, date, type }: RequestCardProps) => {
       </div>
       
       <h3 className="text-[#F5F5F5] font-bold text-lg mb-2 group-hover:text-[#B454FF] transition-colors">{title}</h3>
-      <p className="text-[#2A2A2A] text-[10px] font-bold uppercase tracking-widest">Solicitado el {date}</p>
+      <p className="text-[#F5F5F5]/55 text-[10px] font-bold uppercase tracking-widest">Solicitado el {date}</p>
       
       {status === 'in-progress' && (
         <div className="mt-6">
-          <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-[#2A2A2A] mb-2">
+          <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-[#F5F5F5]/55 mb-2">
             <span>Progreso</span>
             <span>75%</span>
           </div>
