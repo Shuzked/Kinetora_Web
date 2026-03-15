@@ -1,12 +1,20 @@
 "use client";
 
-import React from 'react';
+import React, { useRef } from 'react';
 
 const brands = ["VOLTA", "NEXUS", "AETHER", "ORBIT", "PRISM", "ZENITH"];
 
 const Brands = () => {
   // Duplicamos el contenido para bucle perfecto
   const items = [...brands, ...brands];
+  const trackRef = useRef<HTMLDivElement | null>(null);
+
+  const pauseTrack = () => {
+    if (trackRef.current) trackRef.current.style.animationPlayState = 'paused';
+  };
+  const resumeTrack = () => {
+    if (trackRef.current) trackRef.current.style.animationPlayState = 'running';
+  };
 
   return (
     <section className="py-14 sm:py-16 bg-[#0D0D0D] border-y border-[#2A2A2A] overflow-hidden">
@@ -24,12 +32,15 @@ const Brands = () => {
         {/* Wrapper con flag para animar siempre (incluso con reduced motion del SO) */}
         <div className="relative h-12 sm:h-14" data-animate="always">
           <div
+            ref={trackRef}
             className="marquee-track absolute inset-y-0 left-0 flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform"
             style={{ animationDuration: "55s" }}
           >
             {items.map((brand, i) => (
               <div
                 key={`brand-${i}-${brand}`}
+                onMouseEnter={pauseTrack}
+                onMouseLeave={resumeTrack}
                 className="text-2xl md:text-4xl font-black tracking-tighter text-[#F5F5F5] opacity-25 hover:opacity-100 hover:text-[#B454FF] transition-colors select-none"
                 aria-hidden={i >= brands.length}
               >
