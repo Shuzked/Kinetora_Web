@@ -40,13 +40,13 @@ const Navbar = () => {
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
         initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)", backgroundColor: "rgba(13,13,13,0)" }}
         animate={{
-          opacity: isScrolled ? 1 : 0,
-          backdropFilter: isScrolled ? "blur(24px)" : "blur(0px)",
-          WebkitBackdropFilter: isScrolled ? "blur(24px)" : "blur(0px)",
-          // Tinte muy sutil solo para legibilidad; sin saturación ni brillo
-          backgroundColor: isScrolled ? "rgba(13,13,13,0.35)" : "rgba(13,13,13,0)"
+          // Opacidad más baja y blur más sutil
+          opacity: isScrolled ? 0.9 : 0,
+          backdropFilter: isScrolled ? "blur(10px)" : "blur(0px)",
+          WebkitBackdropFilter: isScrolled ? "blur(10px)" : "blur(0px)",
+          backgroundColor: isScrolled ? "rgba(13,13,13,0.18)" : "rgba(13,13,13,0)"
         }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       />
       {/* Borde inferior */}
       <motion.div
@@ -54,7 +54,7 @@ const Navbar = () => {
         className="absolute inset-x-0 bottom-0 h-px bg-[#2A2A2A] pointer-events-none"
         initial={{ opacity: 0 }}
         animate={{ opacity: isScrolled ? 1 : 0 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
       />
 
       <motion.div
