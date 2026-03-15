@@ -100,7 +100,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-[#F5F5F5] h-10 w-10">
+                <Button variant="ghost" size="icon" className="text-[#F5F5F5] h-10 w-10 rounded-full">
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>

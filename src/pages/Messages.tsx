@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { Send, Menu, X, Paperclip, Smile } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 
@@ -106,10 +106,10 @@ const Messages = () => {
               <button className="hidden sm:block p-2 text-[#2A2A2A] hover:text-[#B454FF] transition-colors">
                 <Smile className="w-5 h-5" />
               </button>
-              <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-xl h-10 md:h-12 px-4 md:px-6 font-black text-[10px] uppercase tracking-widest">
+              <PremiumButton variant="primary" size="md" className="h-10 md:h-12 px-4 md:px-6 rounded-xl">
                 <Send className="w-4 h-4 sm:mr-2" />
                 <span className="hidden sm:inline">ENVIAR</span>
-              </Button>
+              </PremiumButton>
             </div>
           </div>
         </div>

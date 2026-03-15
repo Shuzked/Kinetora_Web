@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { CreditCard, Check, Menu, X, Zap } from 'lucide-react';
 
 const Billing = () => {
@@ -90,12 +90,8 @@ const Billing = () => {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-12 font-black text-xs tracking-widest">
-                  MEJORAR PLAN
-                </Button>
-                <Button variant="outline" className="border-[#2A2A2A] text-[#2A2A2A] hover:text-red-500 hover:border-red-500/30 rounded-full px-8 h-12 font-bold text-xs tracking-widest">
-                  PAUSAR SUSCRIPCIÓN
-                </Button>
+                <PremiumButton variant="primary" size="md">MEJORAR PLAN</PremiumButton>
+                <PremiumButton variant="glass" size="md" className="text-[#F5F5F5]">PAUSAR SUSCRIPCIÓN</PremiumButton>
               </div>
             </div>
 
@@ -136,9 +132,7 @@ const Billing = () => {
                 </div>
               ))}
             </div>
-            <Button variant="ghost" className="w-full mt-8 text-[10px] font-bold text-[#2A2A2A] hover:text-[#F5F5F5] uppercase tracking-widest">
-              VER TODO EL HISTORIAL
-            </Button>
+            <PremiumButton variant="glass" size="sm" className="w-full">VER TODO EL HISTORIAL</PremiumButton>
           </div>
         </div>
       </main>

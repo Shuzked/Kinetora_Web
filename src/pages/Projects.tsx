@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import RequestCard from '@/components/dashboard/RequestCard';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { Search, Filter, Menu, X, Plus } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 
@@ -73,10 +73,10 @@ const Projects = () => {
               <p className="text-[#2A2A2A] font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1">Gestiona tu cola de diseño</p>
             </div>
           </div>
-          <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-12 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full md:w-auto">
-            <Plus className="w-4 h-4 mr-2" />
-            NUEVA SOLICITUD
-          </Button>
+          <PremiumButton variant="primary" size="md" className="w-full md:w-auto">
+             <Plus className="w-4 h-4 mr-2" />
+             NUEVA SOLICITUD
+          </PremiumButton>
         </header>
 
         <div className="flex flex-col md:flex-row gap-4 mb-10">

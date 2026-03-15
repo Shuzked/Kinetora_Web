@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import RequestCard from '@/components/dashboard/RequestCard';
 import NewRequestModal from '@/components/dashboard/NewRequestModal';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { Plus, Zap, Layout, Users, Menu, X } from 'lucide-react';
 
 const Dashboard = () => {
@@ -62,13 +62,15 @@ const Dashboard = () => {
               <p className="text-[#2A2A2A] font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1">TechFlow Team</p>
             </div>
           </div>
-          <Button 
+          <PremiumButton 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-6 md:px-10 h-11 md:h-13 text-[10px] md:text-xs font-black tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full md:w-auto"
+            variant="primary"
+            size="md"
+            className="w-full md:w-auto"
           >
             <Plus className="w-4 h-4 mr-2" />
             NUEVA SOLICITUD
-          </Button>
+          </PremiumButton>
         </header>
 
         {/* Stats Grid */}
