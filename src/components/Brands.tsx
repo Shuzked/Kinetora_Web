@@ -2,7 +2,17 @@
 
 import React, { useRef } from 'react';
 
-const brands = ["VOLTA", "NEXUS", "AETHER", "ORBIT", "PRISM", "ZENITH"];
+const brands = [
+  { name: "Square Enix", src: "/assets/brands/square-enix.svg" },
+  { name: "Solana", src: "/assets/brands/solana.svg" },
+  { name: "Elixir Games", src: "/assets/brands/elixir-games.svg" },
+  { name: "Litlab Games", src: "/assets/brands/litlab-games.svg" },
+  { name: "Friends4Payment", src: "/assets/brands/friends4payment.svg" },
+  { name: "Hard Lock", src: "/assets/brands/hard-lock.svg" },
+  { name: "BUU AI", src: "/assets/brands/buu-ai.svg" },
+  { name: "Sphere Studios", src: "/assets/brands/sphere-studios.svg" },
+  { name: "A2AX", src: "/assets/brands/a2ax.svg" },
+];
 
 const Brands = () => {
   // Duplicamos para crear un loop perfecto en una sola línea
@@ -37,15 +47,21 @@ const Brands = () => {
           >
             {items.map((brand, i) => (
               <div
-                key={`brand-${i}-${brand}`}
+                key={`brand-${i}-${brand.name}`}
                 onMouseEnter={pauseTrack}
                 onMouseLeave={resumeTrack}
                 onTouchStart={pauseTrack}
                 onTouchEnd={resumeTrack}
-                className="text-2xl md:text-4xl font-black tracking-tighter text-[#F5F5F5] opacity-30 hover:opacity-100 hover:text-[#B454FF] transition-colors select-none"
+                className="flex items-center justify-center select-none"
                 aria-hidden={i >= brands.length}
               >
-                {brand}
+                <img
+                  src={brand.src}
+                  alt={brand.name}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-8 sm:h-9 md:h-10 w-auto opacity-60 grayscale contrast-125 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                />
               </div>
             ))}
           </div>
