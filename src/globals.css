@@ -65,6 +65,67 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
 /* Fallback: pausar al hover de la pista */
 .marquee-track:hover { animation-play-state: paused; }
 
+/* WordPress post content (sanitized) */
+.wp-post {
+  color: rgba(245, 245, 245, 0.78);
+  font-size: 15px;
+  line-height: 1.85;
+}
+@media (min-width: 640px) {
+  .wp-post { font-size: 16px; }
+}
+
+.wp-post h1,
+.wp-post h2,
+.wp-post h3 {
+  color: rgba(245, 245, 245, 0.95);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+}
+
+.wp-post h2 { font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; }
+@media (min-width: 640px) { .wp-post h2 { font-size: 20px; } }
+
+.wp-post p { margin: 0.9em 0; }
+
+.wp-post a {
+  color: #B454FF;
+  text-decoration: none;
+}
+.wp-post a:hover { text-decoration: underline; }
+
+.wp-post img,
+.wp-post video,
+.wp-post iframe {
+  max-width: 100%;
+}
+
+.wp-post figure,
+.wp-post .wp-block-image {
+  margin: 1.25rem 0;
+}
+
+.wp-post img {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.wp-post ul,
+.wp-post ol {
+  margin: 0.9em 0 0.9em 1.25em;
+}
+
+.wp-post li { margin: 0.4em 0; }
+
+.wp-post blockquote {
+  border-left: 2px solid rgba(180, 84, 255, 0.45);
+  padding-left: 1rem;
+  color: rgba(245, 245, 245, 0.75);
+  margin: 1.2rem 0;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none !important; }

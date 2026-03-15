@@ -6,11 +6,51 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PremiumButton from "@/components/PremiumButton";
 import { caseStudies } from "@/data/caseStudies";
-import { ArrowLeft, Check } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
+import WPPostContent from "@/components/WPPostContent";
+
+type WPPost = {
+  id: number;
+  title?: { rendered?: string };
+  content?: { rendered?: string };
+  _embedded?: {
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
+  };
+};
 
 const CaseStudy = () => {
   const { slug } = useParams();
   const cs = caseStudies.find((c) => c.slug === slug);
+
+  const [post, setPost] = React.useState<WPPost | null>(null);
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!cs) return;
+
+    let cancelled = false;
+    setLoading(true);
+
+    const url = new URL("/wp-json/wp/v2/posts", cs.sourceUrl);
+    url.searchParams.set("slug", cs.slug);
+    url.searchParams.set("_embed", "1");
+
+    fetch(url.toString())
+      .then((r) => r.json())
+      .then((arr) => {
+        if (cancelled) return;
+        const p = Array.isArray(arr) ? (arr[0] as WPPost | undefined) : undefined;
+        setPost(p ?? null);
+      })
+      .finally(() => {
+        if (cancelled) return;
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [cs]);
 
   if (!cs) {
     return (
@@ -35,12 +75,17 @@ const CaseStudy = () => {
     );
   }
 
+  const featured = post?._embedded?.["wp:featuredmedia"]?.[0];
+  const featuredUrl = featured?.source_url;
+  const featuredAlt = featured?.alt_text || cs.coverAlt;
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
       <main className="pt-[68px] md:pt-[88px]">
         <article className="py-12 sm:py-16 lg:py-20 relative overflow-hidden">
           <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
+
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
             <div className="flex items-center justify-between gap-4">
               <Link to="/casos" className="inline-flex">
@@ -51,26 +96,30 @@ const CaseStudy = () => {
                   </span>
                 </PremiumButton>
               </Link>
-              <div className="hidden sm:flex items-center gap-2">
-                {cs.tags.slice(0, 3).map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-black tracking-[0.24em] uppercase text-[#F5F5F5]/70"
-                  >
-                    {t}
+
+              <a
+                href={cs.sourceUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:inline-flex"
+              >
+                <PremiumButton variant="glass" size="sm" className="h-11 px-4">
+                  <span className="inline-flex items-center gap-2">
+                    VER ORIGINAL
+                    <ExternalLink className="h-4 w-4" />
                   </span>
-                ))}
-              </div>
+                </PremiumButton>
+              </a>
             </div>
 
             <header className="mt-8">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                  {cs.sector}
+                  {cs.category}
                 </div>
                 <div className="h-1 w-1 rounded-full bg-white/25" />
                 <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">
-                  {cs.metric}
+                  PORTFOLIO
                 </div>
               </div>
               <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
@@ -84,8 +133,8 @@ const CaseStudy = () => {
             <div className="mt-10 rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/[0.03]">
               <div className="aspect-[16/8] sm:aspect-[16/7] overflow-hidden">
                 <img
-                  src={cs.coverImage}
-                  alt={cs.title}
+                  src={featuredUrl || cs.coverImage}
+                  alt={featuredAlt}
                   className="h-full w-full object-cover"
                   loading="lazy"
                   decoding="async"
@@ -94,67 +143,39 @@ const CaseStudy = () => {
             </div>
 
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10">
-              <div className="space-y-10">
-                <section>
-                  <h2 className="text-sm font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                    El reto
-                  </h2>
-                  <p className="mt-3 text-[#F5F5F5]/70 leading-relaxed">
-                    {cs.challenge}
+              <div className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8">
+                {loading ? (
+                  <p className="text-[#F5F5F5]/70">Cargando contenido…</p>
+                ) : post?.content?.rendered ? (
+                  <WPPostContent html={post.content.rendered} />
+                ) : (
+                  <p className="text-[#F5F5F5]/70">
+                    No se pudo cargar el contenido automáticamente. Puedes verlo en el enlace
+                    original.
                   </p>
-                </section>
-
-                <section>
-                  <h2 className="text-sm font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                    La solución
-                  </h2>
-                  <p className="mt-3 text-[#F5F5F5]/70 leading-relaxed">
-                    {cs.solution}
-                  </p>
-                </section>
-
-                <section>
-                  <h2 className="text-sm font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                    Lo que hicimos
-                  </h2>
-                  <ul className="mt-4 space-y-3">
-                    {cs.whatWeDid.map((item) => (
-                      <li key={item} className="flex items-start gap-3">
-                        <span className="mt-0.5 inline-flex h-8 w-8 items-center justify-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25">
-                          <Check className="h-4 w-4 text-[#B454FF]" />
-                        </span>
-                        <span className="text-[#F5F5F5]/75 leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </section>
+                )}
               </div>
 
               <aside className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8 h-fit">
                 <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/70">
-                  Resultados
-                </div>
-                <div className="mt-5 grid grid-cols-3 lg:grid-cols-1 gap-3">
-                  {cs.results.map((r) => (
-                    <div
-                      key={r.label}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4"
-                    >
-                      <div className="text-[11px] font-black uppercase tracking-[0.22em] text-[#F5F5F5]/55">
-                        {r.label}
-                      </div>
-                      <div className="mt-1 text-lg font-black text-[#F5F5F5]">{r.value}</div>
-                    </div>
-                  ))}
+                  Acciones
                 </div>
 
-                <div className="mt-7 pt-7 border-t border-white/10">
+                <div className="mt-5 space-y-3">
+                  <a href={cs.sourceUrl} target="_blank" rel="noopener noreferrer">
+                    <PremiumButton variant="glass" size="md" className="w-full">
+                      VER POST COMPLETO
+                    </PremiumButton>
+                  </a>
                   <Link to="/login">
                     <PremiumButton variant="primary" size="md" className="w-full">
                       QUIERO ESTO
                     </PremiumButton>
                   </Link>
-                  <p className="mt-3 text-[12px] text-[#F5F5F5]/60 leading-relaxed">
+                </div>
+
+                <div className="mt-7 pt-7 border-t border-white/10">
+                  <p className="text-[12px] text-[#F5F5F5]/60 leading-relaxed">
                     Te montamos un sistema visual igual de sólido — con entregas en 48h.
                   </p>
                 </div>

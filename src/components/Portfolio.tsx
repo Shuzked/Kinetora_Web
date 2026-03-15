@@ -70,7 +70,7 @@ const Portfolio = () => {
                     <div className="aspect-[16/10] overflow-hidden">
                       <img
                         src={cs.coverImage}
-                        alt={cs.title}
+                        alt={cs.coverAlt}
                         loading="lazy"
                         decoding="async"
                         className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
@@ -79,10 +79,10 @@ const Portfolio = () => {
                     <div className="p-6 sm:p-7">
                       <div className="flex items-center justify-between gap-3">
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                          {cs.sector}
+                          {cs.category}
                         </div>
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">
-                          {cs.metric}
+                          VER
                         </div>
                       </div>
                       <h3 className="mt-3 text-lg sm:text-xl font-black tracking-tight">
