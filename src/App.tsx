@@ -10,6 +10,7 @@ import Projects from "./pages/Projects";
 import Messages from "./pages/Messages";
 import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
+import ScrollProgress from "./components/ScrollProgress";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <ScrollProgress />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />

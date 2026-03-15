@@ -1,16 +1,27 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from 'lucide-react';
 
 const Hero = () => {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+
+  // Parallax sutil
+  const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]); // fondo se mueve un poco
+  const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]); // contenido asciende suave
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0D0D0D]">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0D0D0D]">
       {/* Video Background with Cinematic Overlays */}
       <div className="absolute inset-0 z-0">
-        <video
+        <motion.video
+          style={{ y: yVideo }}
           autoPlay
           loop
           muted
@@ -21,7 +32,7 @@ const Hero = () => {
             src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-background-with-blue-and-purple-lights-31891-large.mp4"
             type="video/mp4"
           />
-        </video>
+        </motion.video>
 
         {/* Grain/Noise Texture Overlay */}
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
@@ -32,17 +43,20 @@ const Hero = () => {
       </div>
 
       {/* Dynamic Brand Glows */}
-      <motion.div
-        animate={{
+      <motion.div 
+        animate={{ 
           scale: [1, 1.1, 1],
-          opacity: [0.08, 0.12, 0.08],
+          opacity: [0.08, 0.12, 0.08] 
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[140px] z-0"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[140px] z-0" 
       />
 
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-3xl mx-auto text-center py-24 sm:py-28 lg:py-32">
+        <motion.div 
+          style={{ y: yContent }}
+          className="max-w-3xl mx-auto text-center py-24 sm:py-28 lg:py-32 will-change-transform"
+        >
           {/* Status Badge */}
           <motion.div
             initial={{ opacity: 0, y: -15 }}
@@ -60,7 +74,7 @@ const Hero = () => {
           </motion.div>
 
           {/* Main Headline */}
-          <motion.h1
+          <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -71,9 +85,9 @@ const Hero = () => {
               impulsa tu visión.
             </span>
           </motion.h1>
-
+          
           {/* Subheadline */}
-          <motion.p
+          <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
@@ -81,34 +95,34 @@ const Hero = () => {
           >
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto entregados en 48 horas.
           </motion.p>
-
+          
           {/* CTAs */}
-          <motion.div
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
             className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4"
           >
-            <Button
-              size="lg"
+            <Button 
+              size="lg" 
               className="group bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-9 sm:px-10 h-14 md:h-16 text-xs font-black tracking-widest shadow-[0_15px_40px_rgba(180,84,255,0.3)] w-full sm:w-auto transition-all hover:scale-[1.02] active:scale-95"
             >
               VER PLANES
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button
-              size="lg"
-              variant="outline"
+            <Button 
+              size="lg" 
+              variant="outline" 
               className="border-white/10 text-[#F5F5F5]/80 hover:bg-white/5 backdrop-blur-xl rounded-full px-9 sm:px-10 h-14 md:h-16 text-xs font-bold tracking-widest w-full sm:w-auto transition-all border-dashed"
             >
               PORTFOLIO
             </Button>
           </motion.div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Floating Trust Badges */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
@@ -123,7 +137,7 @@ const Hero = () => {
       </motion.div>
 
       {/* Scroll Indicator */}
-      <motion.div
+      <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}

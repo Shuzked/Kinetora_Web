@@ -13,6 +13,7 @@ import Testimonials from '@/components/Testimonials';
 import Pricing from '@/components/Pricing';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
+import ParallaxSection from '@/components/ParallaxSection';
 
 const Index = () => {
   return (
@@ -20,15 +21,33 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
-        <Brands />
-        <Stats />
-        <ValueProp />
-        <HowItWorks />
-        <Services />
-        <Portfolio />
-        <Testimonials />
-        <Pricing />
-        <FAQ />
+        <ParallaxSection intensity={10}>
+          <Brands />
+        </ParallaxSection>
+        <ParallaxSection intensity={12}>
+          <Stats />
+        </ParallaxSection>
+        <ParallaxSection intensity={18}>
+          <ValueProp />
+        </ParallaxSection>
+        <ParallaxSection intensity={16}>
+          <HowItWorks />
+        </ParallaxSection>
+        <ParallaxSection intensity={14}>
+          <Services />
+        </ParallaxSection>
+        <ParallaxSection intensity={20}>
+          <Portfolio />
+        </ParallaxSection>
+        <ParallaxSection intensity={16}>
+          <Testimonials />
+        </ParallaxSection>
+        <ParallaxSection intensity={14}>
+          <Pricing />
+        </ParallaxSection>
+        <ParallaxSection intensity={12}>
+          <FAQ />
+        </ParallaxSection>
       </main>
       <Footer />
     </div>
