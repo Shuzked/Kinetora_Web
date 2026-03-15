@@ -28,14 +28,6 @@ export type RequestItem = {
   activity: ActivityItem[];
 };
 
-// Generador simple de IDs únicas legibles (p. ej., REQ-8F3C2A)
-const generateRequestId = (existing = new Set<string>()) => {
-  const make = () => `REQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-  let id = make();
-  while (existing.has(id)) id = make();
-  return id;
-};
-
 type RequestsContextValue = {
   items: RequestItem[];
   getById: (id: string | undefined) => RequestItem | undefined;
@@ -45,6 +37,7 @@ type RequestsContextValue = {
   addComment: (id: string, comment: Comment) => void;
   deleteComment: (id: string, commentId: string) => void;
   addActivity: (id: string, activity: ActivityItem) => void;
+  createRequest: (data: { title: string; service: string; status: RequestStatus; date: string; priority: Priority; description: string }) => string;
 };
 
 const RequestsContext = createContext<RequestsContextValue | null>(null);
@@ -135,16 +128,7 @@ const initialRequests: RequestItem[] = [
 ];
 
 export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<RequestItem[]>(
-    () => {
-      const used = new Set<string>();
-      return initialRequests.map((r) => {
-        const id = generateRequestId(used);
-        used.add(id);
-        return { ...r, id };
-      });
-    }
-  );
+  const [items, setItems] = useState<RequestItem[]>(initialRequests);
 
   const getById = (id?: string) => items.find((r) => r.id === id);
 
@@ -161,9 +145,7 @@ export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const removeAttachment: RequestsContextValue["removeAttachment"] = (id, attId) => {
     setItems((prev) =>
-      prev.map((r) =>
-        r.id === id ? { ...r, attachments: r.attachments.filter((a) => a.id !== attId) } : r
-      )
+      prev.map((r) => (r.id === id ? { ...r, attachments: r.attachments.filter((a) => a.id !== attId) } : r))
     );
     addActivity(id, { type: "file", text: "Adjunto eliminado", time: nowLabel() });
   };
@@ -190,6 +172,30 @@ export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     );
   };
 
+  // Generador de ID aleatoria legible; respeta IDs existentes
+  const createRequest: RequestsContextValue["createRequest"] = (data) => {
+    const used = new Set(items.map((r) => r.id));
+    const make = () => `REQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+    let newId = make();
+    while (used.has(newId)) newId = make();
+
+    const newItem: RequestItem = {
+      id: newId,
+      title: data.title,
+      service: data.service,
+      status: data.status,
+      date: data.date,
+      priority: data.priority,
+      description: data.description,
+      attachments: [],
+      comments: [],
+      activity: [{ type: "progress", text: "Request creado", time: nowLabel() }],
+    };
+
+    setItems((prev) => [newItem, ...prev]);
+    return newId;
+  };
+
   const value: RequestsContextValue = useMemo(
     () => ({
       items,
@@ -200,6 +206,7 @@ export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       addComment,
       deleteComment,
       addActivity,
+      createRequest,
     }),
     [items]
   );

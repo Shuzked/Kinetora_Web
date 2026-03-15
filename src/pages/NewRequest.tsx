@@ -12,6 +12,7 @@ import { showSuccess } from "@/utils/toast";
 import { Briefcase, Palette, Film, Code2, MoreHorizontal, UploadCloud, Calendar as CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as DateCalendar } from "@/components/ui/calendar";
+import { useRequests } from "@/hooks/use-requests";
 
 type ServiceKey = "branding" | "uiux" | "web" | "motion" | "video" | "other";
 
@@ -48,14 +49,25 @@ const NewRequest = () => {
   const [message, setMessage] = useState("");
   const [priority, setPriority] = useState("media");
   const [dueDate, setDueDate] = useState("");
+  const { createRequest } = useRequests();
 
   const maxChars = 500;
   const charsLeft = maxChars - message.length;
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
-    showSuccess("¡Request enviado! Lo añadimos a la cola y empezamos.");
-    navigate("/dashboard/requests", { replace: true });
+    const sel = services.find((s) => s.key === service);
+    const serviceLabel = sel?.label ?? "Otro";
+    const newId = createRequest({
+      title: title.trim(),
+      service: serviceLabel,
+      status: "in-progress",
+      date: dueDate || "",
+      priority: priority as any,
+      description: message.trim(),
+    });
+    showSuccess("¡Request creado! Abriendo el detalle…");
+    navigate(`/dashboard/requests/${newId}`, { replace: true });
   };
 
   return (
