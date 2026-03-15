@@ -206,6 +206,10 @@ const Requests = () => {
                             }}
                             initialFocus
                             className="rounded-xl"
+                            classNames={{
+                              month_caption: "relative flex items-center justify-center px-10",
+                              caption_label: "text-sm font-medium mx-auto",
+                            }}
                           />
                         </PopoverContent>
                       </Popover>
