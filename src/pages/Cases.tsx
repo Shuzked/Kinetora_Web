@@ -139,7 +139,7 @@ const Cases = () => {
                     <div className="p-6 sm:p-7 flex-1 flex flex-col">
                       {/* Tema (hito) */}
                       <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">{hito}</div>
-                      <h2 className="mt-3 text-lg sm:text-xl font-black tracking-tight">
+                      <h2 className="mt-4 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
                         {cs.title}
                       </h2>
                       {/* Footer: métrica + CTA alineados al fondo */}

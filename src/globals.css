@@ -75,6 +75,20 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
   .wp-post { font-size: 16px; }
 }
 
+/* Title utilities: clamp to 3 lines and reserve space so footers align */
+.title-rows-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.title-rows-3-min {
+  min-height: 4.5rem;
+}
+@media (min-width: 640px) {
+  .title-rows-3-min { min-height: 5.25rem; }
+}
+
 /* Keep content aligned and readable inside the card */
 .wp-post > * {
   max-width: 72ch;
