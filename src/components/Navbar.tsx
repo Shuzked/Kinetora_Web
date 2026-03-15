@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
@@ -23,8 +23,17 @@ const Navbar = () => {
 
   const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
 
+  // Nuevo: detecta scroll para cambiar el fondo del navbar
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-[#2A2A2A] bg-[#0D0D0D]/80 backdrop-blur-xl">
+    <nav className={`fixed top-0 z-50 w-full border-b transition-colors duration-300 ${isScrolled ? 'border-[#2A2A2A] bg-[#0D0D0D]/80 backdrop-blur-xl' : 'border-transparent bg-transparent backdrop-blur-0'}`}>
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between">
         <Link to="/" className="hover:opacity-80 transition-opacity">
           <Logo className="h-6 md:h-8" />
