@@ -4,8 +4,8 @@
 
 @layer base {
   :root {
-    --background: 0 0% 5%; /* Void Black #0D0D0D */
-    --foreground: 0 0% 96%; /* Tech White #F5F5F5 */
+    --background: 0 0% 5%;
+    --foreground: 0 0% 96%;
     --card: 0 0% 7%;
     --card-foreground: 0 0% 96%;
     --popover: 0 0% 7%;
@@ -39,46 +39,37 @@
   }
 }
 
-/* Smooth scrolling base (navegadores que lo soportan) */
+/* Smooth scrolling base */
 html { scroll-behavior: smooth; }
 
-/* Compensación por navbar fijo (altura 64px móvil, 80px desktop) */
+/* Compensación por navbar fijo */
 html { scroll-padding-top: 64px; }
 @media (min-width: 768px) {
   html { scroll-padding-top: 80px; }
 }
 
-/* Evitar que el sheet abierto bloquee el scroll suave por polución del foco */
+/* Evitar que el sheet abierto bloquee el scroll suave */
 body[data-sheet-open="true"] {
   overscroll-behavior: contain;
 }
 
-/* Marquee continuo (sin saltos): dos pistas sincronizadas */
+/* Marquee continuo (una pista con contenido duplicado) */
 @keyframes marquee-scroll {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
+  100% { transform: translateX(-50%); } /* Se desplaza la mitad del ancho porque hay contenido duplicado */
 }
-.marquee { animation: marquee-scroll 22s linear infinite; }
-.marquee2 { animation: marquee-scroll 22s linear infinite; }
-
-/* Pausar marquee al hover del wrapper */
-.marquee-wrapper:hover .marquee,
-.marquee-wrapper:hover .marquee2 {
-  animation-play-state: paused;
+.marquee-track {
+  animation: marquee-scroll 22s linear infinite;
 }
 
-/* Reduced motion: ocultar vídeo del Hero */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .marquee, .marquee2 {
+  .marquee-track {
     animation: none !important;
   }
   .hero-bg-video {
     display: none !important;
   }
-}
-
-/* Respect reduced motion preferences */
-@media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   * {
     animation-duration: 0.001ms !important;
@@ -88,11 +79,11 @@ body[data-sheet-open="true"] {
   }
 }
 
-/* Utilidad: ocultar scrollbar (webkit y firefox) */
+/* Ocultar scrollbar utilitario */
 .no-scrollbar {
-  -ms-overflow-style: none;  /* IE y Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .no-scrollbar::-webkit-scrollbar {
-  display: none;             /* Safari y Chrome */
+  display: none;
 }
