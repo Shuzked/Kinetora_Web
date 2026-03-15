@@ -15,6 +15,7 @@ import Requests from "./pages/Requests";
 import NewRequest from "./pages/NewRequest";
 import Files from "./pages/Files";
 import Support from "./pages/Support";
+import RequestDetail from "./pages/RequestDetail";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
           {/* Portal */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/requests" element={<Requests />} />
+          <Route path="/dashboard/requests/:id" element={<RequestDetail />} />
           <Route path="/dashboard/new" element={<NewRequest />} />
           <Route path="/dashboard/files" element={<Files />} />
           <Route path="/dashboard/billing" element={<Billing />} />

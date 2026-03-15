@@ -163,7 +163,15 @@ const Requests = () => {
                 return (
                   <TableRow key={r.id} className="border-white/10 hover:bg-white/[0.03]">
                     <TableCell className="text-[#F5F5F5]/70 font-semibold">{r.id}</TableCell>
-                    <TableCell className="text-[#F5F5F5] font-semibold">{r.title}</TableCell>
+                    <TableCell className="text-[#F5F5F5] font-semibold">
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/dashboard/requests/${r.id}`)}
+                        className="hover:text-[#B454FF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
+                      >
+                        {r.title}
+                      </button>
+                    </TableCell>
                     <TableCell className="text-[#F5F5F5]/70">{r.service}</TableCell>
                     <TableCell>
                       <span className={"inline-flex items-center h-7 px-3 rounded-full border text-xs font-semibold " + status.className}>
@@ -181,6 +189,7 @@ const Requests = () => {
                       <button
                         type="button"
                         aria-label="Ver"
+                        onClick={() => navigate(`/dashboard/requests/${r.id}`)}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#B454FF] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                       >
                         <Eye className="w-4 h-4" />
