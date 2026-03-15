@@ -10,88 +10,130 @@ import { jsPDF } from "jspdf";
 const Billing = () => {
   const generateInvoicePdf = (inv: { id: string; date: string; plan: string; amount: string }) => {
     const doc = new jsPDF({ unit: "pt", format: "a4" });
-    const marginX = 56;
-    let y = 56;
+    const pageW = doc.internal.pageSize.getWidth();
+    const pageH = doc.internal.pageSize.getHeight();
+    const M = 56; // margen principal
+    const rightX = pageW - M;
+    const brand = { r: 180, g: 84, b: 255 }; // #B454FF
+    const gray = (v: number) => ({ r: v, g: v, b: v });
+    const drawRight = (text: string, x: number, y: number) => doc.text(text, x, y, { align: "right" as const });
 
-    // Header
+    // CABECERA KINETORA
     doc.setFillColor(13, 13, 13);
-    doc.rect(0, 0, doc.internal.pageSize.getWidth(), 120, "F");
+    doc.rect(0, 0, pageW, 120, "F");
+    // glow sutil morado
+    doc.setFillColor(brand.r, brand.g, brand.b);
+    doc.setGState(new (doc as any).GState({ opacity: 0.12 }));
+    doc.circle(pageW - 120, 40, 90, "F");
+    doc.setGState(new (doc as any).GState({ opacity: 1 }));
+    // marca
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(18);
-    doc.text("Kinetora Studio", marginX, y);
-    doc.setFont("helvetica", "normal");
+    doc.setFontSize(20);
+    doc.text("KINETORA", M, 54);
     doc.setFontSize(11);
     doc.setTextColor(230, 230, 230);
-    doc.text("hello@kinetora.com • kinetora.com", marginX, y + 20);
-
-    // Invoice meta (right)
-    const rightX = doc.internal.pageSize.getWidth() - marginX;
+    doc.text("hello@kinetora.com  •  kinetora.com", M, 74);
+    // meta factura (derecha)
     doc.setTextColor(255, 255, 255);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(16);
-    doc.text("FACTURA", rightX, y, { align: "right" });
+    drawRight("FACTURA", rightX, 50);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
     doc.setTextColor(230, 230, 230);
-    doc.text(`Nº: ${inv.id}`, rightX, y + 18, { align: "right" });
-    doc.text(`Fecha: ${inv.date}`, rightX, y + 34, { align: "right" });
+    drawRight(`Nº: ${inv.id}`, rightX, 68);
+    drawRight(`Fecha: ${inv.date}`, rightX, 84);
 
-    // Bill to
-    y = 160;
+    // INFO CLIENTE / EMPRESA (dos columnas)
+    let y = 150;
+    doc.setFontSize(12);
     doc.setTextColor(30, 30, 30);
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(12);
-    doc.text("Facturar a", marginX, y);
+    doc.text("Emisor", M, y);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(60, 60, 60);
-    doc.text("Juan Díaz", marginX, y + 18);
-    doc.text("cliente@empresa.com", marginX, y + 34);
-
-    // Details box
-    y += 70;
-    doc.setDrawColor(43, 43, 43);
-    doc.setFillColor(248, 248, 248);
-    doc.roundedRect(marginX - 6, y - 28, doc.internal.pageSize.getWidth() - marginX * 2 + 12, 120, 10, 10, "S");
-    doc.setTextColor(30, 30, 30);
-    doc.setFont("helvetica", "bold");
-    doc.text("Detalle", marginX, y - 8);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
-    doc.setTextColor(20, 20, 20);
-    doc.text("Concepto", marginX, y + 8);
-    doc.text("Periodo", marginX + 260, y + 8);
-    doc.text("Importe", rightX, y + 8, { align: "right" });
-    doc.setDrawColor(220, 220, 220);
-    doc.line(marginX - 6, y + 14, rightX + 6, y + 14);
-
-    // Row
-    const period = inv.date; // usamos la fecha de la factura como periodo de referencia
     doc.setTextColor(70, 70, 70);
-    doc.text(inv.plan, marginX, y + 34);
-    doc.text(period, marginX + 260, y + 34);
+    doc.text("Kinetora Studio", M, y + 18);
+    doc.text("CIF: B-00000000", M, y + 34);
+    doc.text("España", M, y + 50);
+
+    const col2X = M + 300;
+    doc.setTextColor(30, 30, 30);
+    doc.setFont("helvetica", "bold");
+    doc.text("Cliente", col2X, y);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(70, 70, 70);
+    doc.text("Juan Díaz", col2X, y + 18);
+    doc.text("cliente@empresa.com", col2X, y + 34);
+    doc.text("Madrid, España", col2X, y + 50);
+
+    // SEPARADOR
+    y += 86;
+    doc.setDrawColor(230, 230, 230);
+    doc.line(M, y, rightX, y);
+
+    // TABLA DETALLE
+    y += 24;
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(30, 30, 30);
+    doc.setFontSize(12);
+    doc.text("Detalle", M, y);
+    y += 12;
+
+    const tableY = y + 16;
+    const tableW = pageW - 2 * M;
+    const rowH = 28;
+    const colConceptX = M;
+    const colPeriodX = M + 360;
+    const colAmountX = rightX;
+    // header fondo claro y bordes
+    doc.setFillColor(248, 248, 248);
+    doc.setDrawColor(230, 230, 230);
+    doc.rect(M, tableY, tableW, rowH, "FD");
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(50, 50, 50);
+    doc.text("Concepto", colConceptX + 10, tableY + 18);
+    doc.text("Periodo", colPeriodX + 10, tableY + 18);
+    drawRight("Importe", colAmountX - 10, tableY + 18);
+
+    // fila única (el plan)
+    const row1Y = tableY + rowH;
+    doc.setDrawColor(235, 235, 235);
+    doc.rect(M, row1Y, tableW, rowH, "S");
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(70, 70, 70);
+    doc.text(inv.plan, colConceptX + 10, row1Y + 18);
+    doc.text(inv.date, colPeriodX + 10, row1Y + 18);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(0, 0, 0);
-    doc.text(inv.amount, rightX, y + 34, { align: "right" });
+    drawRight(inv.amount, colAmountX - 10, row1Y + 18);
 
-    // Total
-    y += 70;
-    doc.setDrawColor(220, 220, 220);
-    doc.line(marginX - 6, y, rightX + 6, y);
+    // TOTAL BOX (alineado a la derecha, con acento)
+    const totalBoxY = row1Y + rowH + 28;
+    const totalBoxW = 260;
+    const totalBoxX = rightX - totalBoxW;
+    doc.setDrawColor(brand.r, brand.g, brand.b);
+    doc.roundedRect(totalBoxX, totalBoxY, totalBoxW, 70, 10, 10, "S");
     doc.setFont("helvetica", "bold");
-    doc.setTextColor(20, 20, 20);
-    doc.text("TOTAL", marginX, y + 26);
-    doc.setTextColor(180, 84, 255); // #B454FF
-    doc.text(inv.amount, rightX, y + 26, { align: "right" });
-
-    // Footer
-    y = doc.internal.pageSize.getHeight() - 80;
+    doc.setTextColor(30, 30, 30);
+    doc.text("TOTAL", totalBoxX + 16, totalBoxY + 28);
+    doc.setTextColor(brand.r, brand.g, brand.b);
+    doc.text(inv.amount, totalBoxX + 16, totalBoxY + 50);
+    // línea guía visual a la izquierda
     doc.setDrawColor(235, 235, 235);
-    doc.line(marginX, y, rightX, y);
+    doc.line(M, totalBoxY - 16, rightX, totalBoxY - 16);
+
+    // NOTA / FOOTER
+    const footY = pageH - 84;
+    doc.setDrawColor(235, 235, 235);
+    doc.line(M, footY, rightX, footY);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
-    doc.setTextColor(110, 110, 110);
-    doc.text("Gracias por confiar en Kinetora. Esta factura ha sido generada automáticamente.", marginX, y + 22);
+    const t1 = "Gracias por confiar en Kinetora. Esta factura ha sido generada automáticamente para tu archivo.";
+    const t2 = "Si tienes dudas sobre el contenido o el importe, contáctanos en hello@kinetora.com.";
+    doc.setTextColor(gray(110).r, gray(110).g, gray(110).b);
+    doc.text(t1, M, footY + 22);
+    doc.text(t2, M, footY + 38);
 
     doc.save(`${inv.id}.pdf`);
   };
