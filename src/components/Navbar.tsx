@@ -77,13 +77,6 @@ const Navbar = () => {
                 >
                   {link.name}
                 </SmoothScrollLink>
-                {isActive && (
-                  <motion.span
-                    layoutId="nav-underline"
-                    className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#B454FF] rounded-full"
-                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
-                  />
-                )}
               </span>
             );
           })}
