@@ -177,8 +177,8 @@ const RequestDetail = () => {
                 className="bg-[#111111] border-white/10 rounded-xl h-12 text-[#F5F5F5] text-lg font-bold tracking-tight focus-visible:ring-2 focus-visible:ring-[#B454FF] min-w-0 w-full md:w-auto"
               />
               <div className="flex items-center gap-2 shrink-0 flex-wrap w-full md:w-auto">
-                <Select value={status} onValueChange={(v) => setStatus(v as any)}>
-                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 w-full sm:w-[160px] text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                <Select value={status} onValueChange={(v) => setStatus(v as RequestStatus)}>
+                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 w-full md:w-auto text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Estado" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -188,8 +188,8 @@ const RequestDetail = () => {
                   </SelectContent>
                 </Select>
 
-                <Select value={priority} onValueChange={(v) => setPriority(v as any)}>
-                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 w-full sm:w-[140px] text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                <Select value={priority} onValueChange={(v) => setPriority(v as Priority)}>
+                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 w-full md:w-auto text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Prioridad" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -199,20 +199,20 @@ const RequestDetail = () => {
                   </SelectContent>
                 </Select>
 
-                <div className="relative w-full sm:w-auto">
+                <div className="relative w-full md:w-auto">
                   <Input
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="bg-[#111111] border-white/10 rounded-full h-10 pl-10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF] w-full sm:w-[200px]"
+                    className="bg-[#111111] border-white/10 rounded-full h-10 pl-10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF] w-full md:w-auto"
                   />
-                  <Calendar className="w-4 h-4 text-[#F5F5F5]/60 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <Calendar className="w-4 h-4 text-white absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
 
                 <PremiumButton
                   variant="primary"
                   size="md"
-                  className="rounded-full w-full sm:w-auto"
+                  className="rounded-full w-full md:w-auto"
                   onClick={saveMeta}
                 >
                   Guardar cambios

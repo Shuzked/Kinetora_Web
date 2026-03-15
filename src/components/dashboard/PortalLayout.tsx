@@ -58,7 +58,9 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({ children }) => {
         />
 
         <div className="flex-1 min-w-0">
-          <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-10 max-w-[1400px] mx-auto w-full">{children}</div>
+          <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-10 max-w-[1400px] mx-auto w-full overflow-x-hidden">
+            {children}
+          </div>
         </div>
       </div>
     </div>

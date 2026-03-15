@@ -109,10 +109,10 @@ const Requests = () => {
 
       <div className="mt-6 rounded-2xl bg-[#111111] border border-white/10 overflow-hidden">
         <div className="overflow-x-auto">
-          <Table className="min-w-full">
+          <Table className="min-w-full table-fixed md:table-auto">
             <TableHeader>
               <TableRow className="hover:bg-transparent border-white/10">
-                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell">ID</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20">ID</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Título</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">Servicio</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Estado</TableHead>
@@ -127,21 +127,21 @@ const Requests = () => {
                 <TableRow key={r.id} className="border-white/10 hover:bg-white/[0.03] align-middle">
                   <TableCell className="text-[#F5F5F5]/70 font-semibold hidden md:table-cell">{r.id}</TableCell>
 
-                  <TableCell className="text-[#F5F5F5] font-semibold">
+                  <TableCell className="text-[#F5F5F5] font-semibold min-w-0">
                     <button
                       type="button"
                       onClick={() => navigate(`/dashboard/requests/${r.id}`)}
-                      className="hover:text-[#B454FF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
+                      className="hover:text-[#B454FF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded block truncate"
                     >
                       {r.title}
                     </button>
                   </TableCell>
 
-                  <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell">{r.service}</TableCell>
+                  <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
 
-                  <TableCell>
+                  <TableCell className="w-1/5 sm:w-auto">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-9 w-full sm:w-[170px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-9 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -152,19 +152,19 @@ const Requests = () => {
                     </Select>
                   </TableCell>
 
-                  <TableCell className="min-w-[160px]">
+                  <TableCell className="w-1/5 sm:w-auto">
                     <Input
                       name={r.id}
                       type="date"
                       value={r.date}
                       onChange={onChangeDate}
-                      className="h-9 w-full rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                      className="h-9 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                     />
                   </TableCell>
 
-                  <TableCell>
+                  <TableCell className="w-1/5 sm:w-auto">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-9 w-full sm:w-[150px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-9 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
