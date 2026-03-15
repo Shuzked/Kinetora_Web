@@ -16,6 +16,36 @@ const Hero = () => {
   const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
+  // Utilidad local para desplazamiento suave respetando la altura del navbar
+  const getNavbarOffset = () => {
+    const nav = document.querySelector("nav") as HTMLElement | null;
+    return (nav?.offsetHeight || 0) + 8;
+  };
+
+  const smoothScrollTo = (targetY: number, duration = 650) => {
+    const startY = window.scrollY;
+    const dist = targetY - startY;
+    let start: number | null = null;
+    const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    function step(ts: number) {
+      if (start === null) start = ts;
+      const elapsed = ts - start;
+      const progress = Math.min(1, elapsed / duration);
+      const y = startY + dist * ease(progress);
+      window.scrollTo(0, y);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  };
+
+  const handleScrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const absoluteY = rect.top + window.scrollY - getNavbarOffset();
+    smoothScrollTo(absoluteY);
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -106,6 +136,7 @@ const Hero = () => {
               size="lg"
               className="w-full sm:w-auto hover:scale-[1.02] active:scale-95"
               leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+              onClick={() => handleScrollTo("precios")}
             >
               VER PLANES
             </PremiumButton>
@@ -113,8 +144,9 @@ const Hero = () => {
               variant="glass"
               size="lg"
               className="w-full sm:w-auto"
+              onClick={() => handleScrollTo("casos")}
             >
-              PORTFOLIO
+              ÉXITOS
             </PremiumButton>
           </motion.div>
 
