@@ -2,7 +2,8 @@
 
 import React, { useMemo, useState } from "react";
 import PortalLayout from "@/components/dashboard/PortalLayout";
-import { Grid2X2, List, FileText, Film, Figma, Archive } from "lucide-react";
+import { Grid2X2, List, FileText, Film, Figma, Archive, ArrowRight, Download } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 
 type FileItem = {
   name: string;
@@ -11,9 +12,11 @@ type FileItem = {
   date: string;
   previewUrl: string;
   kind: "figma" | "video" | "pdf" | "zip";
+  requestId: string;
 };
 
 const Files = () => {
+  const navigate = useNavigate();
   const [view, setView] = useState<"grid" | "list">("grid");
 
   const items: FileItem[] = useMemo(
@@ -25,6 +28,7 @@ const Files = () => {
         date: "15 Ene 2025",
         previewUrl: "/assets/portfolio/elixir-token.webp",
         kind: "figma",
+        requestId: "REQ-001",
       },
       {
         name: "Instagram_AD_v2.mp4",
@@ -33,6 +37,7 @@ const Files = () => {
         date: "16 Ene 2025",
         previewUrl: "/assets/portfolio/cybertitans-clash.webp",
         kind: "video",
+        requestId: "REQ-002",
       },
       {
         name: "Pitch_Deck_Inversores.pdf",
@@ -41,6 +46,7 @@ const Files = () => {
         date: "17 Ene 2025",
         previewUrl: "/assets/portfolio/chronosworlds.webp",
         kind: "pdf",
+        requestId: "REQ-003",
       },
       {
         name: "Logo_Kinetora_Pack.zip",
@@ -49,6 +55,7 @@ const Files = () => {
         date: "10 Ene 2025",
         previewUrl: "/assets/portfolio/dunk-elixir.webp",
         kind: "zip",
+        requestId: "REQ-004",
       },
       {
         name: "Web_Ecommerce_Assets.zip",
@@ -57,6 +64,7 @@ const Files = () => {
         date: "10 Ene 2025",
         previewUrl: "/assets/portfolio/elixir-token.webp",
         kind: "zip",
+        requestId: "REQ-005",
       },
       {
         name: "Social_Media_Templates.fig",
@@ -65,6 +73,7 @@ const Files = () => {
         date: "12 Ene 2025",
         previewUrl: "/assets/portfolio/cybertitans-clash.webp",
         kind: "figma",
+        requestId: "REQ-003",
       },
     ],
     []
@@ -134,6 +143,15 @@ const Files = () => {
                 className="h-full w-full object-cover opacity-90"
               />
               <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute top-3 left-3">
+                <Link
+                  to={`/dashboard/requests/${it.requestId}`}
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#B454FF]/16 border border-[#B454FF]/30 text-[#D7B3FF] text-[11px] font-extrabold tracking-widest uppercase hover:bg-[#B454FF]/22 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                >
+                  {it.requestId}
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
             <div className="p-5">
               <div className="flex items-start justify-between gap-4">
@@ -148,6 +166,24 @@ const Files = () => {
               <div className="mt-4 flex items-center justify-between text-sm text-[#F5F5F5]/45">
                 <div>{it.size}</div>
                 <div>{it.date}</div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-end gap-2">
+                <a
+                  href={it.previewUrl}
+                  download={it.name}
+                  className="inline-flex h-9 items-center justify-center px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Descargar
+                </a>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/dashboard/requests/${it.requestId}`)}
+                  className="inline-flex h-9 items-center justify-center px-3 rounded-full bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                >
+                  Ver Request
+                </button>
               </div>
             </div>
           </div>

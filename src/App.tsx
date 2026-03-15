@@ -16,6 +16,9 @@ import NewRequest from "./pages/NewRequest";
 import Files from "./pages/Files";
 import Support from "./pages/Support";
 import RequestDetail from "./pages/RequestDetail";
+import Notifications from "./pages/Notifications";
+import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +42,9 @@ const App = () => (
           <Route path="/dashboard/files" element={<Files />} />
           <Route path="/dashboard/billing" element={<Billing />} />
           <Route path="/dashboard/support" element={<Support />} />
+          <Route path="/dashboard/notifications" element={<Notifications />} />
+          <Route path="/dashboard/profile" element={<Profile />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
 
           {/* Aliases to avoid breaking old links */}
           <Route path="/dashboard/projects" element={<Navigate to="/dashboard/requests" replace />} />
