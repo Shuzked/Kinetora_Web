@@ -9,11 +9,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
-import { Briefcase, Palette, Film, Code2, Presentation, UploadCloud, Calendar as CalendarIcon } from "lucide-react";
+import { Briefcase, Palette, Film, Code2, MoreHorizontal, UploadCloud, Calendar as CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as DateCalendar } from "@/components/ui/calendar";
 
-type ServiceKey = "branding" | "uiux" | "web" | "motion" | "video" | "pitch";
+type ServiceKey = "branding" | "uiux" | "web" | "motion" | "video" | "other";
 
 type ServiceOption = {
   key: ServiceKey;
@@ -38,7 +38,7 @@ const NewRequest = () => {
       { key: "web", label: "Desarrollo Web", icon: <Code2 className="w-4 h-4" /> },
       { key: "motion", label: "Motion Graphics", icon: <Film className="w-4 h-4" /> },
       { key: "video", label: "Edición de Video", icon: <Film className="w-4 h-4" /> },
-      { key: "pitch", label: "Pitch Deck", icon: <Presentation className="w-4 h-4" /> },
+      { key: "other", label: "Otro", icon: <MoreHorizontal className="w-4 h-4" /> },
     ],
     []
   );
