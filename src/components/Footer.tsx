@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Logo from './Logo';
-import { Facebook, Twitter, Instagram, Youtube, Tiktok, ArrowRight } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Youtube, Music2, ArrowRight } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
 import {
   Tooltip,
@@ -87,7 +87,7 @@ const Footer = () => {
             <h4 className="text-lg font-black text-[#F5F5F5] tracking-tight mb-4">Síguenos</h4>
             <div className="grid grid-cols-5 gap-2">
               {[
-                { Icon: Tiktok, label: "TikTok", href: "#" },
+                { Icon: Music2, label: "TikTok", href: "#" },
                 { Icon: Facebook, label: "Facebook", href: "#" },
                 { Icon: Twitter, label: "Twitter (X)", href: "#" },
                 { Icon: Youtube, label: "YouTube", href: "#" },
