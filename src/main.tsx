@@ -4,4 +4,8 @@ import App from './App'
 import './App.css'
 import './globals.css'
 
-createRoot(document.getElementById("root")!).render(<App />);
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
