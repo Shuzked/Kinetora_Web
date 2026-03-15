@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [inView, setInView] = useState(true);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -18,65 +16,52 @@ const Hero = () => {
   const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
-  // Observer nativo para detectar visibilidad del Hero
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const e = entries[0];
-        setInView(e.isIntersecting);
-      },
-      { root: null, threshold: 0.4 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  // Pausar/continuar vídeo según visibilidad
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    if (inView) {
-      el.play().catch(() => {});
-    } else {
-      el.pause();
-    }
-  }, [inView]);
-
   return (
     <section
       ref={sectionRef}
       className="relative overflow-hidden bg-[#0D0D0D]"
     >
-      <div className="absolute inset-0 z-0">
-        <motion.video
-          ref={videoRef}
+      {/* Fondo con YouTube */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div
           style={{ y: yVideo }}
-          autoPlay
-          loop
-          muted
-          playsInline
-          poster="/placeholder.svg"
-          className="hero-bg-video w-full h-full object-cover opacity-25 grayscale scale-105"
+          className="absolute inset-0 pointer-events-none will-change-transform"
         >
-          <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-background-with-blue-and-purple-lights-31891-large.mp4"
-            type="video/mp4"
-          />
-        </motion.video>
+          {/* Técnica de cover para iframes 16:9: asegura que el vídeo cubra todo el viewport */}
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: '100vw',
+              height: '56.25vw',       // 9/16 = 0.5625
+              minHeight: '100vh',
+              minWidth: '177.78vh',     // 16/9 = 1.7778
+            }}
+          >
+            <iframe
+              title="Kinetora Hero Background"
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=-niUBSx3PKQ"
+              frameBorder="0"
+              allow="autoplay; encrypted-media; picture-in-picture"
+              referrerPolicy="strict-origin-when-cross-origin"
+            />
+          </div>
+        </motion.div>
 
+        {/* Textura/grain y gradientes de legibilidad */}
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
       </div>
 
+      {/* Glow de marca */}
       <motion.div
         animate={{ scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[140px] z-0"
       />
 
+      {/* Contenido */}
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           style={{ y: yContent }}
