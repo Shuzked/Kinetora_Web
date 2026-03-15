@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
 import RequestCard from '@/components/dashboard/RequestCard';
+import NewRequestModal from '@/components/dashboard/NewRequestModal';
 import { Button } from "@/components/ui/button";
 import { Plus, Zap, Layout, Users, Menu, X } from 'lucide-react';
 
 const Dashboard = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] flex relative">
@@ -60,7 +62,10 @@ const Dashboard = () => {
               <p className="text-[#2A2A2A] font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1">TechFlow Team</p>
             </div>
           </div>
-          <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-12 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full md:w-auto">
+          <Button 
+            onClick={() => setIsModalOpen(true)}
+            className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-12 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full md:w-auto"
+          >
             <Plus className="w-4 h-4 mr-2" />
             NUEVA SOLICITUD
           </Button>
@@ -112,6 +117,8 @@ const Dashboard = () => {
             />
           </div>
         </section>
+
+        <NewRequestModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </main>
     </div>
   );
