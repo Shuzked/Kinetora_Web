@@ -163,7 +163,7 @@ const Requests = () => {
                           <SelectItem
                             key={s.value}
                             value={s.value}
-                            className="rounded-lg px-3 py-2.5 data-[state=checked]:bg-white/[0.06] data-[highlighted]:bg-white/[0.04]"
+                            className="rounded-lg pl-3 pr-3 py-2.5 data-[state=checked]:bg-white/[0.06] data-[highlighted]:bg-white/[0.04] [&>span.absolute]:hidden"
                           >
                             {s.label}
                           </SelectItem>
@@ -214,7 +214,7 @@ const Requests = () => {
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
                       <SelectTrigger
-                        className="relative h-10 px-2 w-[3rem] inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
+                        className="relative h-10 w-10 p-0 inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
                         aria-label="Cambiar prioridad"
                         title={priorityOptions.find((o) => o.value === r.priority)?.label}
                       >
@@ -225,7 +225,7 @@ const Requests = () => {
                           <SelectItem
                             key={p.value}
                             value={p.value}
-                            className="rounded-lg px-3 py-2.5 data-[state=checked]:bg-white/[0.06] data-[highlighted]:bg-white/[0.04]"
+                            className="rounded-lg pl-3 pr-3 py-2.5 data-[state=checked]:bg-white/[0.06] data-[highlighted]:bg-white/[0.04] [&>span.absolute]:hidden"
                           >
                             <span className={"inline-flex items-center gap-2 " + prioColor[p.value]}>
                               <Flag className="w-4 h-4" />
