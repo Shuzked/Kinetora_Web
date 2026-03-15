@@ -126,12 +126,17 @@ const Hero = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
-        className="absolute bottom-10 sm:bottom-12 left-0 w-full px-4 sm:px-6 lg:px-8 flex flex-wrap justify-center gap-8 sm:gap-10 md:gap-16 opacity-20 grayscale hover:opacity-40 transition-all duration-700"
+        className="absolute bottom-6 sm:bottom-8 left-0 w-full px-4 sm:px-6 lg:px-8 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 z-10"
       >
         {["48H DELIVERY", "UNLIMITED REVISIONS", "FIXED MONTHLY PRICE"].map((text, i) => (
-          <div key={i} className="flex items-center gap-2.5">
-            <Zap className="w-2.5 h-2.5 text-[#B454FF]" />
-            <span className="text-[8px] font-black text-[#F5F5F5] tracking-[0.4em] uppercase">{text}</span>
+          <div
+            key={i}
+            className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"
+          >
+            <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
+            <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.28em] uppercase">
+              {text}
+            </span>
           </div>
         ))}
       </motion.div>
