@@ -192,7 +192,7 @@ const Requests = () => {
                         </PopoverTrigger>
                         <PopoverContent
                           align="end"
-                          className="p-0 bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl"
+                          className="p-2 w-[340px] sm:w-[360px] bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl"
                         >
                           <DateCalendar
                             mode="single"
