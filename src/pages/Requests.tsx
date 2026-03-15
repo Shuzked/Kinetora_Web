@@ -119,15 +119,15 @@ const Requests = () => {
 
       <div className="mt-6 rounded-2xl bg-[#111111] border border-white/10 overflow-hidden">
         <div className="overflow-x-auto">
-          <Table className="min-w-full table-fixed md:table-auto">
+          <Table className="min-w-full table-auto">
             <TableHeader>
               <TableRow className="hover:bg-transparent border-white/10">
                 <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20">ID</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Título</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">Servicio</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold">Estado</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold">Fecha límite</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold">Prioridad</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Estado</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Fecha límite</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Prioridad</TableHead>
                 <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Acciones</TableHead>
               </TableRow>
             </TableHeader>
@@ -145,9 +145,9 @@ const Requests = () => {
                     </button>
                   </TableCell>
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
-                  <TableCell className="w-1/5 sm:w-auto">
+                  <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-10 pl-4 pr-12 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 pl-4 pr-9 sm:pr-10 min-w-[160px] w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -157,7 +157,7 @@ const Requests = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell className="w-1/5 sm:w-auto">
+                  <TableCell className="whitespace-nowrap">
                     <div className="w-full md:w-auto min-w-[220px]">
                       <div className="inline-flex items-center w-full rounded-full bg-white/[0.03] border border-white/10 focus-within:ring-2 focus-within:ring-[#B454FF]">
                         <Input
@@ -199,9 +199,9 @@ const Requests = () => {
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell className="w-1/5 sm:w-auto">
+                  <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-10 pl-4 pr-12 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 pl-4 pr-9 sm:pr-10 min-w-[150px] w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
