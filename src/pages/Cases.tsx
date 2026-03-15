@@ -110,10 +110,10 @@ const Cases = () => {
             <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
               {caseStudies.map((cs) => {
                 const m = meta[cs.slug];
-                const cover = m?.img || cs.coverImage;
+                const cover = cs.coverImage || m?.img;
                 const excerpt = m?.excerpt || cs.summaryFallback;
                 const hito = m?.hito || cs.highlightFallback;
-                const alt = m?.alt || cs.coverAlt;
+                const alt = cs.coverAlt || m?.alt;
                 const metricLabel = cs.metricLabel ?? m?.metricLabel;
                 const metricValue = cs.metricValue ?? m?.metricValue;
                 return (

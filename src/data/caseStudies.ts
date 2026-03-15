@@ -21,7 +21,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallback:
       "Landing, piezas audiovisuales y estrategia de marketing Web3 para un lanzamiento limitado con experiencia premium.",
     coverAlt: "Dunk Low Elixir Edition",
-    coverImage: "/assets/placeholder.svg",
+    coverImage: "/assets/portfolio/dunk-elixir.webp",
     highlightFallback: "Airdrop global",
     accent: "purple",
     metricLabel: "Ventas realizadas",
@@ -35,7 +35,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallback:
       "Dirección de arte, identidad del token, creatividades para RRSS y assets de marketing para un lanzamiento global.",
     coverAlt: "Elixir Token",
-    coverImage: "/assets/placeholder.svg",
+    coverImage: "/assets/portfolio/elixir-token.webp",
     highlightFallback: "Lanzamiento global",
     accent: "purple",
     metricLabel: "Ventas realizadas",
@@ -49,7 +49,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallback:
       "Rebranding, UX/UI y piezas clave (pitch deck + assets sociales) para transformar percepción y elevar calidad.",
     coverAlt: "ChronosWorlds",
-    coverImage: "/assets/placeholder.svg",
+    coverImage: "/assets/portfolio/chronosworlds.webp",
     highlightFallback: "Rebranding + UX/UI",
     accent: "teal",
     metricLabel: "Ventas realizadas",
@@ -63,7 +63,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallback:
       "Identidad visual, creatividades y contenido social para un torneo competitivo con narrativa clara y alto impacto.",
     coverAlt: "CyberTitans Pulse Series",
-    coverImage: "/assets/placeholder.svg",
+    coverImage: "/assets/portfolio/cybertitans-pulse.webp",
     highlightFallback: "Campaña eSports",
     accent: "teal",
     metricLabel: "Impacto orgánico",
@@ -78,7 +78,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallback:
       "Sistema visual y narrativa para lanzamiento: dirección de arte, mensaje y assets para conversión.",
     coverAlt: "CyberTitans Clash",
-    coverImage: "/assets/placeholder.svg",
+    coverImage: "/assets/portfolio/cybertitans-clash.webp",
     highlightFallback: "Lanzamiento Web3",
     accent: "purple",
     metricLabel: "Impacto orgánico",
@@ -92,7 +92,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallback:
       "Branding, UX/UI y ecosistema audiovisual para un lanzamiento Web3 con foco en retención y ventas.",
     coverAlt: "RoboKiden Token",
-    coverImage: "/assets/placeholder.svg",
+    coverImage: "/assets/portfolio/robokiden.webp",
     highlightFallback: "Foco en ventas",
     accent: "purple",
     metricLabel: "Ventas realizadas",
