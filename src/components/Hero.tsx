@@ -3,7 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight, Timer, Infinity, Euro } from 'lucide-react';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -127,12 +127,16 @@ const Hero = () => {
             transition={{ delay: 1.0 }}
             className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6"
           >
-            {["48H DELIVERY", "UNLIMITED REVISIONS", "FIXED MONTHLY PRICE"].map((text, i) => (
+            {[
+              { Icon: Timer, text: "48H DELIVERY" },
+              { Icon: Infinity, text: "UNLIMITED REVISIONS" },
+              { Icon: Euro, text: "FIXED MONTHLY PRICE" },
+            ].map(({ Icon, text }, i) => (
               <div
                 key={i}
                 className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"
               >
-                <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
                 <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.28em] uppercase">
                   {text}
                 </span>
