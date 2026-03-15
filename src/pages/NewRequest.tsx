@@ -9,7 +9,9 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
-import { Briefcase, Palette, Film, Code2, Presentation, UploadCloud } from "lucide-react";
+import { Briefcase, Palette, Film, Code2, Presentation, UploadCloud, Calendar as CalendarIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as DateCalendar } from "@/components/ui/calendar";
 
 type ServiceKey = "branding" | "uiux" | "web" | "motion" | "video" | "pitch";
 
@@ -17,6 +19,14 @@ type ServiceOption = {
   key: ServiceKey;
   label: string;
   icon: React.ReactNode;
+};
+
+// Helper to normalize a Date to YYYY-MM-DD (avoids TZ issues)
+const toISODate = (d: Date) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${dd}`;
 };
 
 const NewRequest = () => {
@@ -128,7 +138,7 @@ const NewRequest = () => {
               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#F5F5F5]/60">Prioridad</Label>
               <div className="mt-3">
                 <Select value={priority} onValueChange={setPriority}>
-                  <SelectTrigger className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                  <SelectTrigger className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 pl-4 pr-12 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Selecciona prioridad" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -142,12 +152,40 @@ const NewRequest = () => {
 
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <Label className="text-[11px] font-bold uppercase tracking-widest text-[#F5F5F5]/60">Fecha Límite (Opcional)</Label>
-              <Input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="mt-3 bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-              />
+              <div className="mt-3 relative w-full sm:w-[260px]">
+                <Input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 pl-4 pr-12 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF] kin-no-native-picker w-full"
+                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button
+                      type="button"
+                      aria-label="Abrir calendario"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-9 w-9 items-center justify-center rounded-lg bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                    >
+                      <CalendarIcon className="w-4 h-4 text-white" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    align="end"
+                    className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
+                  >
+                    <DateCalendar
+                      mode="single"
+                      selected={dueDate ? new Date(dueDate + "T00:00:00") : undefined}
+                      onSelect={(d) => {
+                        if (!d) return;
+                        setDueDate(toISODate(d));
+                      }}
+                      initialFocus
+                      className="rounded-xl"
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
             </section>
           </div>
 
