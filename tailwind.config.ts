@@ -49,10 +49,20 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "faq-in": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "faq-out": {
+          from: { opacity: "1", transform: "translateY(0)" },
+          to: { opacity: "0", transform: "translateY(-6px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 260ms cubic-bezier(0.22, 1, 0.36, 1)",
         "accordion-up": "accordion-up 220ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "faq-in": "faq-in 260ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "faq-out": "faq-out 200ms cubic-bezier(0.22, 1, 0.36, 1)",
       },
     },
   },

@@ -62,11 +62,13 @@ const FAQ = () => {
                 value={`item-${i}`}
                 className="border-white/10 bg-white/[0.04] px-5 sm:px-6 rounded-2xl hover:bg-white/[0.06] transition-colors"
               >
-                <AccordionTrigger className="text-[#F5F5F5] hover:text-[#B454FF] text-left font-bold uppercase tracking-tight py-5 sm:py-6">
+                <AccordionTrigger className="text-[#F5F5F5] hover:text-[#B454FF] data-[state=open]:text-[#B454FF] transition-colors text-left font-bold uppercase tracking-tight py-5 sm:py-6">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-[#F5F5F5]/70 leading-relaxed font-medium pb-5 sm:pb-6 overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up transition-opacity duration-200 data-[state=open]:opacity-100 data-[state=closed]:opacity-80">
-                  {faq.a}
+                <AccordionContent className="group/acc text-[#F5F5F5]/70 leading-relaxed font-medium pb-5 sm:pb-6 overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
+                  <div className="will-change-transform will-change-opacity group-data-[state=open]/acc:animate-faq-in group-data-[state=closed]/acc:animate-faq-out">
+                    {faq.a}
+                  </div>
                 </AccordionContent>
               </AccordionItem>
             ))}
