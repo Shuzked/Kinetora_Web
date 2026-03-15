@@ -90,9 +90,9 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
 }
 
 /* Metric block reserved height to align CTAs across cards */
-.metric-block-min { min-height: 3.5rem; }
+.metric-block-min { min-height: 2.75rem; }
 @media (min-width: 640px) {
-  .metric-block-min { min-height: 4rem; }
+  .metric-block-min { min-height: 3.25rem; }
 }
 
 /* Keep content aligned and readable inside the card */

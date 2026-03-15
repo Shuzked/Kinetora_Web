@@ -177,12 +177,12 @@ const Portfolio = () => {
                             {hito}
                           </div>
                           {/* Titular */}
-                          <h3 className="mt-4 mb-3 sm:mb-4 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                          <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
                             {cs.title}
                           </h3>
                           {/* Footer: métrica + CTA juntos y alineados al fondo */}
-                          <div className="mt-auto pt-6 sm:pt-7">
-                            <div className="metric-block-min mb-3">
+                          <div className="mt-auto pt-4 sm:pt-5">
+                            <div className="metric-block-min mb-2">
                               {metaReady ? (
                                 metricLabel && metricValue ? (
                                   <>

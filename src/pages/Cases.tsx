@@ -140,12 +140,12 @@ const Cases = () => {
                       <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
                         {hito}
                       </div>
-                      <h2 className="mt-4 mb-3 sm:mb-4 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                      <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
                         {cs.title}
                       </h2>
                       {/* Footer: métrica + CTA alineados al fondo */}
-                      <div className="mt-auto pt-6 sm:pt-7">
-                        <div className="metric-block-min mb-3">
+                      <div className="mt-auto pt-4 sm:pt-5">
+                        <div className="metric-block-min mb-2">
                           {metaReady ? (
                             metricLabel && metricValue ? (
                               <>
