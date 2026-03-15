@@ -206,6 +206,11 @@ const Portfolio = () => {
                               variant="glass"
                               size="sm"
                               className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.open(cs.sourceUrl, "_blank", "noopener,noreferrer");
+                              }}
                             >
                               LEER MÁS
                             </PremiumButton>
