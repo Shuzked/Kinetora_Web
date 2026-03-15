@@ -127,7 +127,7 @@ const Footer = () => {
               </div>
             </form>
 
-            <div className="w-full max-w-lg flex items-start gap-2 justify-start lg:justify-end">
+            <div className="w-full max-w-lg mt-4 sm:mt-5 flex items-start gap-2 justify-start lg:justify-end">
               <Checkbox
                 id="consent"
                 checked={consent}
