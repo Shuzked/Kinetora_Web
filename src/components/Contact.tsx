@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PremiumButton from "@/components/PremiumButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +26,53 @@ const Contact = () => {
       script.async = true;
       document.body.appendChild(script);
     }
+  }, []);
+
+  // Refs para igualar alturas y evitar scroll interno
+  const formCardRef = useRef<HTMLDivElement | null>(null);
+  const calendlyCardRef = useRef<HTMLDivElement | null>(null);
+  const calendlyWidgetRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
+
+    const syncHeights = () => {
+      const formEl = formCardRef.current;
+      const calEl = calendlyCardRef.current;
+      const widgetEl = calendlyWidgetRef.current;
+      if (!formEl || !calEl || !widgetEl) return;
+
+      if (isDesktop()) {
+        // Altura objetivo: la del formulario (sin scroll) o al menos 640px
+        const formHeight = formEl.getBoundingClientRect().height;
+        const target = Math.max(formHeight, 640);
+        formEl.style.minHeight = `${target}px`;
+        calEl.style.minHeight = `${target}px`;
+        widgetEl.style.height = `${target}px`;
+      } else {
+        // En móvil/tablet apilar natural, sin forzar alturas
+        formEl.style.minHeight = "";
+        calEl.style.minHeight = "";
+        widgetEl.style.height = "700px"; // altura cómoda sin scroll en mobile
+      }
+    };
+
+    // Observa cambios de tamaño del formulario para re-sincronizar
+    const ro = new ResizeObserver(() => syncHeights());
+    if (formCardRef.current) ro.observe(formCardRef.current);
+
+    // Recalcular en resize
+    const onResize = () => syncHeights();
+    window.addEventListener("resize", onResize);
+
+    // Primer cálculo (con pequeño retraso por carga del script)
+    const t = setTimeout(syncHeights, 200);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      ro.disconnect();
+      clearTimeout(t);
+    };
   }, []);
 
   const [name, setName] = useState("");
@@ -93,7 +140,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
           {/* Formulario */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full flex flex-col">
+          <div ref={formCardRef} className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full flex flex-col">
             <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -194,11 +241,12 @@ const Contact = () => {
           </div>
 
           {/* Calendly */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl overflow-hidden w-full h-full flex">
+          <div ref={calendlyCardRef} className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl overflow-hidden w-full flex">
             <div
-              className="calendly-inline-widget w-full h-full min-w-[320px]"
+              ref={calendlyWidgetRef}
+              className="calendly-inline-widget w-full min-w-[320px]"
               data-url="https://calendly.com/hello-kinetora/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0d0d0d&text_color=ffffff&primary_color=b454ff"
-              style={{ height: "100%" }}
+              style={{}}
             />
           </div>
         </div>
