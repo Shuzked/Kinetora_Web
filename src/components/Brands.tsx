@@ -13,7 +13,7 @@ const Brands = () => {
         </p>
       </div>
 
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden marquee-wrapper">
         {/* Fades laterales */}
         <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-[#0D0D0D] to-transparent z-10" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#0D0D0D] to-transparent z-10" />

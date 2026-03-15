@@ -57,17 +57,22 @@ body[data-sheet-open="true"] {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100%); }
 }
-.marquee {
-  animation: marquee-scroll 22s linear infinite;
-}
-.marquee2 {
-  animation: marquee-scroll 22s linear infinite;
+.marquee { animation: marquee-scroll 22s linear infinite; }
+.marquee2 { animation: marquee-scroll 22s linear infinite; }
+
+/* Pausar marquee al hover del wrapper */
+.marquee-wrapper:hover .marquee,
+.marquee-wrapper:hover .marquee2 {
+  animation-play-state: paused;
 }
 
-/* Reducir movimiento si el usuario lo prefiere */
+/* Reduced motion: ocultar vídeo del Hero */
 @media (prefers-reduced-motion: reduce) {
   .marquee, .marquee2 {
     animation: none !important;
+  }
+  .hero-bg-video {
+    display: none !important;
   }
 }
 

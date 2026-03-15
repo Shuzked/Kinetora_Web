@@ -1,12 +1,14 @@
 "use client";
 
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React, { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Timer, Infinity, Euro } from 'lucide-react';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const inView = useInView(sectionRef, { amount: 0.4 });
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"]
@@ -16,6 +18,17 @@ const Hero = () => {
   const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
+  // Pausar/continuar vídeo según visibilidad
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (inView) {
+      el.play().catch(() => {});
+    } else {
+      el.pause();
+    }
+  }, [inView]);
+
   return (
     <section
       ref={sectionRef}
@@ -24,12 +37,14 @@ const Hero = () => {
       {/* Video de fondo */}
       <div className="absolute inset-0 z-0">
         <motion.video
+          ref={videoRef}
           style={{ y: yVideo }}
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-25 grayscale scale-105"
+          poster="/placeholder.svg"
+          className="hero-bg-video w-full h-full object-cover opacity-25 grayscale scale-105"
         >
           <source
             src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-background-with-blue-and-purple-lights-31891-large.mp4"
@@ -52,7 +67,7 @@ const Hero = () => {
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[140px] z-0"
       />
 
-      {/* Contenedor centrado: ocupa viewport menos el navbar (4rem móviles, 5rem desktop) */}
+      {/* Contenedor centrado */}
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           style={{ y: yContent }}
@@ -104,7 +119,7 @@ const Hero = () => {
             </Button>
           </motion.div>
 
-          {/* Badges centrados bajo CTAs */}
+          {/* Badges centrados */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
