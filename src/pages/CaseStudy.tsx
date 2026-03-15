@@ -12,11 +12,30 @@ import WPPostContent from "@/components/WPPostContent";
 type WPPost = {
   id: number;
   title?: { rendered?: string };
+  excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
     "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
   };
 };
+
+function extractYouTubeIds(html: string) {
+  const ids = new Set<string>();
+
+  const embed = /youtube(?:-nocookie)?\.com\/embed\/([a-zA-Z0-9_-]{6,})/g;
+  const watch = /youtube\.com\/watch\?v=([a-zA-Z0-9_-]{6,})/g;
+  const short = /youtu\.be\/([a-zA-Z0-9_-]{6,})/g;
+
+  for (const re of [embed, watch, short]) {
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(html))) ids.add(m[1]);
+  }
+  return Array.from(ids);
+}
+
+function stripYouTubeIframes(html: string) {
+  return html.replace(/<iframe[^>]*?(youtube(?:-nocookie)?\.com|youtu\.be)[\s\S]*?<\/iframe>/gi, "");
+}
 
 const CaseStudy = () => {
   const { slug } = useParams();
@@ -79,6 +98,24 @@ const CaseStudy = () => {
   const featuredUrl = featured?.source_url;
   const featuredAlt = featured?.alt_text || cs.coverAlt;
 
+  const postTitle = post?.title?.rendered
+    ? post.title.rendered.replace(/<[^>]+>/g, "").trim()
+    : cs.title;
+
+  const postExcerpt = post?.excerpt?.rendered
+    ? post.excerpt.rendered.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim()
+    : cs.summaryFallback;
+
+  const ytIds = React.useMemo(
+    () => (post?.content?.rendered ? extractYouTubeIds(post.content.rendered) : []),
+    [post?.content?.rendered]
+  );
+
+  const cleanedHtml = React.useMemo(
+    () => (post?.content?.rendered ? stripYouTubeIframes(post.content.rendered) : ""),
+    [post?.content?.rendered]
+  );
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
@@ -115,7 +152,7 @@ const CaseStudy = () => {
             <header className="mt-8">
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
                 <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                  {cs.category}
+                  {cs.label}
                 </div>
                 <div className="h-1 w-1 rounded-full bg-white/25" />
                 <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">
@@ -123,10 +160,10 @@ const CaseStudy = () => {
                 </div>
               </div>
               <h1 className="mt-4 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                {cs.title}
+                {postTitle}
               </h1>
               <p className="mt-4 text-[#F5F5F5]/70 max-w-3xl text-sm sm:text-base leading-relaxed">
-                {cs.summary}
+                {postExcerpt}
               </p>
             </header>
 
@@ -143,17 +180,46 @@ const CaseStudy = () => {
             </div>
 
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10">
-              <div className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8">
-                {loading ? (
-                  <p className="text-[#F5F5F5]/70">Cargando contenido…</p>
-                ) : post?.content?.rendered ? (
-                  <WPPostContent html={post.content.rendered} />
-                ) : (
-                  <p className="text-[#F5F5F5]/70">
-                    No se pudo cargar el contenido automáticamente. Puedes verlo en el enlace
-                    original.
-                  </p>
+              <div className="space-y-6">
+                {ytIds.length > 0 && (
+                  <section className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8">
+                    <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/70">
+                      Vídeos
+                    </div>
+                    <div className="mt-5 grid grid-cols-1 gap-4">
+                      {ytIds.map((id) => (
+                        <div
+                          key={id}
+                          className="rounded-[1.75rem] overflow-hidden border border-white/10 bg-black/30"
+                        >
+                          <div className="aspect-video">
+                            <iframe
+                              title={`YouTube ${id}`}
+                              className="h-full w-full"
+                              src={`https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowFullScreen
+                              referrerPolicy="strict-origin-when-cross-origin"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
                 )}
+
+                <section className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8">
+                  {loading ? (
+                    <p className="text-[#F5F5F5]/70">Cargando contenido…</p>
+                  ) : cleanedHtml ? (
+                    <WPPostContent html={cleanedHtml} />
+                  ) : (
+                    <p className="text-[#F5F5F5]/70">
+                      No se pudo cargar el contenido automáticamente. Puedes verlo en el enlace
+                      original.
+                    </p>
+                  )}
+                </section>
               </div>
 
               <aside className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8 h-fit">

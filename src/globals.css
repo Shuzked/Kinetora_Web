@@ -75,6 +75,21 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
   .wp-post { font-size: 16px; }
 }
 
+/* Keep content aligned and readable inside the card */
+.wp-post > * {
+  max-width: 72ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.wp-post > figure,
+.wp-post > .wp-block-image,
+.wp-post > .wp-block-gallery,
+.wp-post > .wp-block-video,
+.wp-post > .wp-block-embed {
+  max-width: 100%;
+}
+
 .wp-post h1,
 .wp-post h2,
 .wp-post h3 {
@@ -112,9 +127,19 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
   border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
+.wp-post iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
 .wp-post ul,
 .wp-post ol {
-  margin: 0.9em 0 0.9em 1.25em;
+  max-width: 72ch;
+  margin: 0.9em auto 0.9em auto;
+  padding-left: 1.25em;
 }
 
 .wp-post li { margin: 0.4em 0; }
