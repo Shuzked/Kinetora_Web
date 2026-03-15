@@ -31,7 +31,7 @@ function extractHito(text: string) {
 }
 
 const Cases = () => {
-  const [meta, setMeta] = React.useState<Record<string, { img?: string; excerpt?: string; hito?: string }>>({});
+  const [meta, setMeta] = React.useState<Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string }>>({});
 
   React.useEffect(() => {
     let cancelled = false;
@@ -44,20 +44,23 @@ const Cases = () => {
         const res = await fetch(url.toString());
         const arr = (await res.json()) as WPListPost[];
         const p = arr?.[0];
-        const featured = p?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
+        const featuredMedia = p?._embedded?.["wp:featuredmedia"]?.[0];
+        const featured = featuredMedia?.source_url;
+        const alt = featuredMedia?.alt_text;
         const excerptText = p?.excerpt?.rendered ? stripHtml(p.excerpt.rendered) : "";
         return {
           slug: cs.slug,
           img: featured,
+          alt,
           excerpt: excerptText,
           hito: excerptText ? extractHito(excerptText) ?? undefined : undefined,
         };
       })
     ).then((items) => {
       if (cancelled) return;
-      const next: Record<string, { img?: string; excerpt?: string; hito?: string }> = {};
+      const next: Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string }> = {};
       items.forEach((it) => {
-        next[it.slug] = { img: it.img, excerpt: it.excerpt, hito: it.hito };
+        next[it.slug] = { img: it.img, alt: it.alt, excerpt: it.excerpt, hito: it.hito };
       });
       setMeta(next);
     });
@@ -92,6 +95,7 @@ const Cases = () => {
                 const cover = m?.img || cs.coverImage;
                 const excerpt = m?.excerpt || cs.summaryFallback;
                 const hito = m?.hito || cs.highlightFallback;
+                const alt = m?.alt || cs.coverAlt;
                 return (
                   <Link
                     key={cs.slug}
@@ -104,7 +108,7 @@ const Cases = () => {
                       ) : (
                         <img
                           src={cover}
-                          alt={cs.coverAlt}
+                          alt={alt}
                           loading="lazy"
                           decoding="async"
                           onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg"; }}
@@ -113,14 +117,7 @@ const Cases = () => {
                       )}
                     </div>
                     <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                          {cs.label}
-                        </div>
-                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">
-                          {hito}
-                        </div>
-                      </div>
+                      <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">{hito}</div>
                       <h2 className="mt-3 text-lg sm:text-xl font-black tracking-tight">
                         {cs.title}
                       </h2>
