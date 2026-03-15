@@ -22,7 +22,10 @@ const Brands = () => {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#0D0D0D] to-transparent z-10" />
 
         <div className="relative h-12 sm:h-14">
-          <div className="marquee-track absolute inset-y-0 left-0 flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform">
+          <div
+            className="marquee-track absolute inset-y-0 left-0 flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform"
+            style={{ animationDuration: "60s" }}
+          >
             {items.map((brand, i) => (
               <div
                 key={`brand-${i}-${brand}`}

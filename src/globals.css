@@ -59,7 +59,7 @@ body[data-sheet-open="true"] {
   100% { transform: translate3d(-50%,0,0); } /* La mitad porque el contenido está duplicado */
 }
 .marquee-track {
-  animation: marquee-scroll 36s linear infinite; /* velocidad más lenta y fluida */
+  animation: marquee-scroll 60s linear infinite; /* más lento */
   will-change: transform;
 }
 
