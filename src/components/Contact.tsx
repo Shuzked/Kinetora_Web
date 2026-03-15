@@ -91,9 +91,9 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
           {/* Formulario */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full flex flex-col">
             <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -194,11 +194,11 @@ const Contact = () => {
           </div>
 
           {/* Calendly */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-3 sm:p-4">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl overflow-hidden h-full min-h-[640px] sm:min-h-[700px] lg:min-h-[760px] flex">
             <div
-              className="calendly-inline-widget rounded-[1.5rem] overflow-hidden"
+              className="calendly-inline-widget w-full h-full"
               data-url="https://calendly.com/hello-kinetora/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0d0d0d&text_color=ffffff&primary_color=b454ff"
-              style={{ minWidth: "320px", height: "700px" }}
+              style={{ minWidth: "280px", height: "100%" }}
             />
           </div>
         </div>
