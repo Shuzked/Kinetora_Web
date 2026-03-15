@@ -137,30 +137,34 @@ const Cases = () => {
                       )}
                     </div>
                     <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                      {/* Tema (hito) */}
-                      <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">{hito}</div>
+                      {/* Tema (hito) como pill premium */}
+                      <div className="inline-flex items-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                        {hito}
+                      </div>
                       <h2 className="mt-4 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
                         {cs.title}
                       </h2>
                       {/* Footer: métrica + CTA alineados al fondo */}
                       <div className="mt-auto pt-5 border-t border-white/10">
-                        {metaReady ? (
-                          metricLabel && metricValue ? (
-                            <div className="mb-3">
-                              <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                                {metricLabel}
-                              </div>
-                              <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                                {metricValue}
-                              </div>
+                        <div className="metric-block-min mb-3">
+                          {metaReady ? (
+                            metricLabel && metricValue ? (
+                              <>
+                                <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                  {metricLabel}
+                                </div>
+                                <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                  {metricValue}
+                                </div>
+                              </>
+                            ) : null
+                          ) : (
+                            <div className="space-y-2">
+                              <Skeleton className="h-3 w-24" />
+                              <Skeleton className="h-7 w-36" />
                             </div>
-                          ) : null
-                        ) : (
-                          <div className="mb-3 space-y-2">
-                            <Skeleton className="h-3 w-24" />
-                            <Skeleton className="h-7 w-36" />
-                          </div>
-                        )}
+                          )}
+                        </div>
                         <PremiumButton
                           variant="glass"
                           size="sm"

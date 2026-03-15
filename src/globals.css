@@ -89,6 +89,12 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
   .title-rows-3-min { min-height: 5.25rem; }
 }
 
+/* Metric block reserved height to align CTAs across cards */
+.metric-block-min { min-height: 3.5rem; }
+@media (min-width: 640px) {
+  .metric-block-min { min-height: 4rem; }
+}
+
 /* Keep content aligned and readable inside the card */
 .wp-post > * {
   max-width: 72ch;
