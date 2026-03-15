@@ -90,114 +90,64 @@ const Footer = () => {
               No te pierdas ninguna noticia, promoción o descuentos de nuestros servicios. ¿A qué esperas?
             </p>
 
-            <form onSubmit={handleSubscribe} noValidate className="w-full max-w-lg flex flex-col gap-3" aria-live="polite">
-              <div className="flex gap-3">
-                <div className="relative flex-1">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
-                  <Input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Tu email"
-                    className={`h-12 w-full pl-11 pr-4 rounded-full bg-white/10 hover:bg-white/12 focus:bg-white/14 backdrop-blur-xl border ${err ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 focus-visible:ring-2 focus-visible:ring-[#B454FF]`}
-                    autoComplete="email"
-                    inputMode="email"
-                    aria-label="Introduce tu email para suscribirte"
-                    aria-invalid={!!err}
-                  />
-                </div>
-                <PremiumButton
-                  type="submit"
-                  variant="primary"
-                  size="md"
-                  className="h-12 px-6 rounded-full inline-flex items-center gap-2"
-                  aria-label="Suscribirse al newsletter"
-                  isLoading={loading}
-                >
-                  Suscribirse
-                  <ArrowRight className="w-4 h-4" />
-                </PremiumButton>
-              </div>
-
-              <div className="flex items-center gap-2 justify-start lg:justify-end">
-                <Checkbox
-                  id="consent"
-                  checked={consent}
-                  onCheckedChange={(v) => setConsent(!!v)}
-                  className="rounded-[6px] border-white/30 data-[state=checked]:bg-[#B454FF] data-[state=checked]:border-[#B454FF]"
-                  aria-describedby="consent-desc"
+            <form
+              onSubmit={handleSubscribe}
+              noValidate
+              className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-center"
+              aria-live="polite"
+            >
+              <div className="relative w-full">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
+                <Input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Tu email"
+                  className={`h-12 w-full pl-11 pr-4 rounded-full bg-white/10 hover:bg-white/12 focus:bg-white/14 backdrop-blur-xl border ${err ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus-visible:ring-2 focus-visible:ring-[#B454FF]`}
+                  autoComplete="email"
+                  inputMode="email"
+                  aria-label="Introduce tu email para suscribirte"
+                  aria-invalid={!!err}
                 />
-                <Label htmlFor="consent" className="text-[11px] text-[#F5F5F5]/70">
-                  Acepto recibir emails de Kinetora con descuentos, promociones y noticias. Podrás darte de baja en cualquier momento.
-                </Label>
               </div>
-
-              {/* Mensajes de error/success inline */}
-              {err && (
-                <p className="text-[12px] text-red-400" role="alert">
-                  {err}
-                </p>
-              )}
-              {subscribed && !err && (
-                <p className="text-[12px] text-green-400" role="status">
-                  ¡Listo! Revisa tu bandeja para confirmar la suscripción.
-                </p>
-              )}
+              <PremiumButton
+                type="submit"
+                variant="primary"
+                size="md"
+                className="h-12 px-6 rounded-full leading-none inline-flex items-center gap-2"
+                aria-label="Suscribirse al newsletter"
+                isLoading={loading}
+              >
+                Suscribirse
+                <ArrowRight className="w-4 h-4" />
+              </PremiumButton>
             </form>
 
-            <div className="mt-6 flex items-center gap-2 sm:gap-3">
-              <a
-                aria-label="TikTok"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                title="TikTok"
-              >
-                <SiTiktok className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a
-                aria-label="Facebook"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                title="Facebook"
-              >
-                <FaFacebookF className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a
-                aria-label="Twitter (X)"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                title="Twitter (X)"
-              >
-                <FaTwitter className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a
-                aria-label="YouTube"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                title="YouTube"
-              >
-                <FaYoutube className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a
-                aria-label="Instagram"
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                title="Instagram"
-              >
-                <FaInstagram className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
+            <div className="flex items-center gap-2 justify-start lg:justify-end">
+              <Checkbox
+                id="consent"
+                checked={consent}
+                onCheckedChange={(v) => setConsent(!!v)}
+                className="rounded-[6px] border-white/30 data-[state=checked]:bg-[#B454FF] data-[state=checked]:border-[#B454FF]"
+                aria-describedby="consent-desc"
+              />
+              <Label htmlFor="consent" className="text-[11px] text-[#F5F5F5]/70">
+                Acepto recibir emails de Kinetora con descuentos, promociones y noticias. Podrás darte de baja en cualquier momento.
+              </Label>
             </div>
+
+            {/* Mensajes de error/success inline */}
+            {err && (
+              <p className="text-[12px] text-red-400" role="alert">
+                {err}
+              </p>
+            )}
+            {subscribed && !err && (
+              <p className="text-[12px] text-green-400" role="status">
+                ¡Listo! Revisa tu bandeja para confirmar la suscripción.
+              </p>
+            )}
           </motion.div>
         </div>
       </div>
