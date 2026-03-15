@@ -34,20 +34,21 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-full">
-      {/* Fondo con blur animado y soporte WebKit */}
+      {/* Fondo con blur real (sin brillo) */}
       <motion.div
         aria-hidden
-        className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity] backdrop-saturate-150"
-        initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)" }}
+        className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
+        initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)", backgroundColor: "rgba(13,13,13,0)" }}
         animate={{
-          opacity: isScrolled ? 0.6 : 0,
+          opacity: isScrolled ? 1 : 0,
           backdropFilter: isScrolled ? "blur(24px)" : "blur(0px)",
           WebkitBackdropFilter: isScrolled ? "blur(24px)" : "blur(0px)",
-          backgroundColor: isScrolled ? "rgba(13,13,13,0.6)" : "rgba(13,13,13,0)"
+          // Tinte muy sutil solo para legibilidad; sin saturación ni brillo
+          backgroundColor: isScrolled ? "rgba(13,13,13,0.35)" : "rgba(13,13,13,0)"
         }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       />
-      {/* Borde inferior animado */}
+      {/* Borde inferior */}
       <motion.div
         aria-hidden
         className="absolute inset-x-0 bottom-0 h-px bg-[#2A2A2A] pointer-events-none"
@@ -56,7 +57,6 @@ const Navbar = () => {
         transition={{ duration: 0.25, ease: "easeOut" }}
       />
 
-      {/* Contenido */}
       <motion.div
         className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between relative"
         initial={{ y: -8, opacity: 0 }}
