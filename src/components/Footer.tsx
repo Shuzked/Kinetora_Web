@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Logo from './Logo';
 import PremiumButton from '@/components/PremiumButton';
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Mail } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { showSuccess } from '@/utils/toast';
@@ -123,7 +123,6 @@ const Footer = () => {
                   isLoading={loading}
                 >
                   Suscribirse
-                  <ArrowRight className="w-4 h-4" />
                 </PremiumButton>
               </div>
             </form>
