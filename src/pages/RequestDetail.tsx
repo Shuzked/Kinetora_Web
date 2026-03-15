@@ -14,6 +14,10 @@ import {
   UploadCloud,
   Download,
   Calendar,
+  FileText,
+  Film,
+  Figma,
+  Archive,
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
+import { deliverables as allDeliverables, type Deliverable } from "@/data/deliverables";
 
 type RequestStatus = "completed" | "in-progress" | "review";
 type Priority = "alta" | "media" | "baja";
@@ -208,6 +213,24 @@ const RequestDetail = () => {
     setActivity((prev) => [{ type: "note", text: "Nota eliminada", time: nowLabel() }, ...prev]);
   };
 
+  const myDeliverables: Deliverable[] = useMemo(
+    () => allDeliverables.filter((d) => d.requestId === base.id),
+    [base.id]
+  );
+
+  const iconForDeliverable = (k: Deliverable["kind"]) => {
+    switch (k) {
+      case "figma":
+        return <Figma className="w-4 h-4" />;
+      case "video":
+        return <Film className="w-4 h-4" />;
+      case "pdf":
+        return <FileText className="w-4 h-4" />;
+      default:
+        return <Archive className="w-4 h-4" />;
+    }
+  };
+
   return (
     <PortalLayout>
       <div className="max-w-6xl mx-auto">
@@ -304,10 +327,53 @@ const RequestDetail = () => {
               />
             </section>
 
+            {/* Entregables (Kinetora) */}
+            <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
+              <div className="text-[#F5F5F5] font-bold">Entregables</div>
+              <p className="text-[#F5F5F5]/60 text-sm mt-1">Trabajo entregado por Kinetora para esta request.</p>
+
+              {myDeliverables.length === 0 ? (
+                <div className="mt-4 text-[#F5F5F5]/60 text-sm">Todavía no hay entregables.</div>
+              ) : (
+                <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {myDeliverables.map((it) => (
+                    <div
+                      key={it.id}
+                      className="rounded-xl overflow-hidden border border-white/10 bg-[#0D0D0D]"
+                    >
+                      <div className="aspect-video relative">
+                        <img src={it.previewUrl} className="absolute inset-0 h-full w-full object-cover opacity-90" alt="" />
+                        <div className="absolute inset-0 bg-black/25" />
+                      </div>
+                      <div className="p-3 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="h-8 w-8 rounded-lg bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 flex items-center justify-center">
+                            {iconForDeliverable(it.kind)}
+                          </div>
+                          <div className="min-w-0">
+                            <div className="truncate text-[#F5F5F5]/85 text-sm">{it.name}</div>
+                            <div className="text-[#F5F5F5]/45 text-xs">{it.category}</div>
+                          </div>
+                        </div>
+                        <a
+                          href={it.previewUrl}
+                          download={it.name}
+                          className="inline-flex h-8 px-3 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/90 hover:bg-white/[0.06] transition-colors text-xs"
+                        >
+                          <Download className="w-4 h-4 mr-1" />
+                          Descargar
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+
             {/* Adjuntos */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="flex items-center justify-between">
-                <div className="text-[#F5F5F5] font-bold">Adjuntos</div>
+                <div className="text-[#F5F5F5] font-bold">Tus adjuntos</div>
                 <div className="flex items-center gap-2">
                   <input
                     ref={fileInputRef}

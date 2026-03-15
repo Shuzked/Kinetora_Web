@@ -4,82 +4,15 @@ import React, { useMemo, useState } from "react";
 import PortalLayout from "@/components/dashboard/PortalLayout";
 import { Grid2X2, List, FileText, Film, Figma, Archive, ArrowRight, Download } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-
-type FileItem = {
-  name: string;
-  category: string;
-  size: string;
-  date: string;
-  previewUrl: string;
-  kind: "figma" | "video" | "pdf" | "zip";
-  requestId: string;
-};
+import { deliverables, type Deliverable } from "@/data/deliverables";
 
 const Files = () => {
   const navigate = useNavigate();
   const [view, setView] = useState<"grid" | "list">("grid");
 
-  const items: FileItem[] = useMemo(
-    () => [
-      {
-        name: "Landing_Page_Final.fig",
-        category: "Landing Page",
-        size: "12.5 MB",
-        date: "15 Ene 2025",
-        previewUrl: "/assets/portfolio/elixir-token.webp",
-        kind: "figma",
-        requestId: "REQ-001",
-      },
-      {
-        name: "Instagram_AD_v2.mp4",
-        category: "Vídeo AD",
-        size: "45.2 MB",
-        date: "16 Ene 2025",
-        previewUrl: "/assets/portfolio/cybertitans-clash.webp",
-        kind: "video",
-        requestId: "REQ-002",
-      },
-      {
-        name: "Pitch_Deck_Inversores.pdf",
-        category: "Pitch Deck",
-        size: "8.7 MB",
-        date: "17 Ene 2025",
-        previewUrl: "/assets/portfolio/chronosworlds.webp",
-        kind: "pdf",
-        requestId: "REQ-003",
-      },
-      {
-        name: "Logo_Kinetora_Pack.zip",
-        category: "Branding",
-        size: "25.1 MB",
-        date: "10 Ene 2025",
-        previewUrl: "/assets/portfolio/dunk-elixir.webp",
-        kind: "zip",
-        requestId: "REQ-004",
-      },
-      {
-        name: "Web_Ecommerce_Assets.zip",
-        category: "Desarrollo Web",
-        size: "67.3 MB",
-        date: "10 Ene 2025",
-        previewUrl: "/assets/portfolio/elixir-token.webp",
-        kind: "zip",
-        requestId: "REQ-005",
-      },
-      {
-        name: "Social_Media_Templates.fig",
-        category: "Social Media",
-        size: "18.9 MB",
-        date: "12 Ene 2025",
-        previewUrl: "/assets/portfolio/cybertitans-clash.webp",
-        kind: "figma",
-        requestId: "REQ-003",
-      },
-    ],
-    []
-  );
+  const items: Deliverable[] = useMemo(() => deliverables, []);
 
-  const iconFor = (k: FileItem["kind"]) => {
+  const iconFor = (k: Deliverable["kind"]) => {
     switch (k) {
       case "figma":
         return <Figma className="w-4 h-4" />;
@@ -97,7 +30,7 @@ const Files = () => {
       <div className="flex items-start justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tight">Archivos</h1>
-          <p className="text-[#F5F5F5]/55 mt-1">Todos tus entregables en un solo lugar</p>
+          <p className="text-[#F5F5F5]/55 mt-1">Trabajo entregado por Kinetora (entregables por request)</p>
         </div>
 
         <div className="inline-flex rounded-xl bg-white/[0.03] border border-white/10 p-1">
@@ -133,7 +66,7 @@ const Files = () => {
       <div className={"mt-8 grid gap-6 " + (view === "grid" ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3" : "grid-cols-1")}>
         {items.map((it) => (
           <div
-            key={it.name}
+            key={it.id}
             className="rounded-2xl bg-[#111111] border border-white/10 overflow-hidden hover:border-[#B454FF]/25 transition-colors"
           >
             <div className="aspect-[16/9] bg-[#0D0D0D] relative">
