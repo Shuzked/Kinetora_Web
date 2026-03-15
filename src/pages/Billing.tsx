@@ -30,7 +30,7 @@ const Billing = () => {
                 </div>
 
                 <div className="mt-5 flex items-end gap-2">
-                  <div className="text-4xl font-black text-[#F5F5F5]">£2,995</div>
+                  <div className="text-4xl font-black text-[#F5F5F5]">2.995€</div>
                   <div className="text-[#F5F5F5]/55 mb-1">/mes</div>
                 </div>
 
@@ -103,10 +103,10 @@ const Billing = () => {
               </TableHeader>
               <TableBody>
                 {[
-                  { id: "INV-2025-01", date: "01 Ene 2025", plan: "Full-Stack Creativo", amount: "£2,995" },
-                  { id: "INV-2024-12", date: "01 Dic 2024", plan: "Full-Stack Creativo", amount: "£2,995" },
-                  { id: "INV-2024-11", date: "01 Nov 2024", plan: "Full-Stack Creativo", amount: "£2,995" },
-                  { id: "INV-2024-10", date: "01 Oct 2024", plan: "Diseño Esencial", amount: "£1,995" },
+                  { id: "INV-2025-01", date: "01 Ene 2025", plan: "Full-Stack Creativo", amount: "2.995€" },
+                  { id: "INV-2024-12", date: "01 Dic 2024", plan: "Full-Stack Creativo", amount: "2.995€" },
+                  { id: "INV-2024-11", date: "01 Nov 2024", plan: "Full-Stack Creativo", amount: "2.995€" },
+                  { id: "INV-2024-10", date: "01 Oct 2024", plan: "Diseño Esencial", amount: "1.995€" },
                 ].map((inv) => (
                   <TableRow key={inv.id} className="border-white/10 hover:bg-white/[0.03]">
                     <TableCell className="text-[#F5F5F5] font-semibold">{inv.id}</TableCell>
@@ -142,7 +142,7 @@ const Billing = () => {
           </div>
           <div className="text-right">
             <div className="text-[#F5F5F5]/55">Monto</div>
-            <div className="text-[#F5F5F5] font-black text-2xl mt-1">£2,995</div>
+            <div className="text-[#F5F5F5] font-black text-2xl mt-1">2.995€</div>
           </div>
         </div>
       </div>
