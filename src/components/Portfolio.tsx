@@ -19,9 +19,14 @@ const Portfolio = () => {
       id="casos"
       className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden"
     >
-      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
+      {/* ambient glow (soft, no hard cuts) */}
+      <div className="pointer-events-none absolute -top-32 -right-28 h-96 w-96 rounded-full bg-[#B454FF]/10 blur-[110px] z-0" />
+      <div className="pointer-events-none absolute -bottom-36 -left-28 h-[26rem] w-[26rem] rounded-full bg-[#B454FF]/6 blur-[120px] z-0" />
+      {/* edge fades to blend with adjacent sections */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(to_bottom,#0D0D0D,transparent)] z-[1]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(to_top,#0D0D0D,transparent)] z-[1]" />
 
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
           <div>
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
