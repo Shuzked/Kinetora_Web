@@ -70,7 +70,7 @@ const Navbar = () => {
           {navLinks.map((link) => {
             const isActive = activeId === link.href.replace('#','');
             return (
-              <span key={link.name} className="relative pb-2">
+              <span key={link.name} className="relative">
                 <SmoothScrollLink 
                   href={link.href}
                   className={`transition-colors hover:text-[#B454FF] ${isActive ? 'text-[#B454FF]' : ''}`}
@@ -85,12 +85,12 @@ const Navbar = () => {
         {/* Derecha: Acciones (alineado vertical y baseline consistente) */}
         <div className="h-full flex items-center justify-end gap-3 md:gap-6">
           <Link to="/login" className="hidden sm:block">
-            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[11px] md:text-[12px] leading-none font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors tracking-widest">
+            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[12px] leading-none font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors">
               LOGIN
             </button>
           </Link>
           <Link to="/login">
-            <Button className="inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-9 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full font-bold text-[10px] md:text-sm leading-none tracking-widest shadow-[0_0_20px_rgba(180,84,255,0.3)]">
+            <Button className="inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-9 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full font-bold text-[12px] md:text-sm leading-none tracking-[0.2em] shadow-[0_0_20px_rgba(180,84,255,0.3)]">
               EMPEZAR
             </Button>
           </Link>
