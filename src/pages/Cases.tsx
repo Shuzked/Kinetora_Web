@@ -144,7 +144,7 @@ const Cases = () => {
                         {cs.title}
                       </h2>
                       {/* Footer: métrica + CTA alineados al fondo */}
-                      <div className="mt-auto pt-6 sm:pt-7 border-t border-white/10">
+                      <div className="mt-auto pt-6 sm:pt-7">
                         <div className="metric-block-min mb-3">
                           {metaReady ? (
                             metricLabel && metricValue ? (
