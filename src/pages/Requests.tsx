@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
-import { Eye, Plus, Flag, Calendar as CalendarIcon } from "lucide-react";
+import { Plus, Flag, Calendar as CalendarIcon } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as DateCalendar } from "@/components/ui/calendar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -134,7 +134,7 @@ const Requests = () => {
                 <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Estado</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Fecha límite</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Prioridad</TableHead>
-                <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Acciones</TableHead>
+                <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Ver Request</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -153,9 +153,7 @@ const Requests = () => {
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger
-                        className={`relative h-10 pl-3 pr-9 w-[13ch] inline-flex rounded-full bg-white/[0.03] border-white/10 focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2 ${statusColor[r.status]}`}
-                      >
+                      <SelectTrigger className="relative h-10 pl-3 pr-9 w-[14ch] inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -229,11 +227,10 @@ const Requests = () => {
                   <TableCell className="text-right">
                     <button
                       type="button"
-                      aria-label="Ver"
                       onClick={() => navigate(`/dashboard/requests/${r.id}`)}
-                      className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#B454FF] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                      className="inline-flex h-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 px-4 text-sm font-semibold text-[#F5F5F5] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                     >
-                      <Eye className="w-4 h-4" />
+                      Ver Request
                     </button>
                   </TableCell>
                 </TableRow>
