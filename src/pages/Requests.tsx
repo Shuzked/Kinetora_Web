@@ -4,13 +4,23 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
-import { Eye, Plus, Flag, Calendar } from "lucide-react";
+import { Eye, Plus, Flag, Calendar as CalendarIcon } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as DateCalendar } from "@/components/ui/calendar";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { showSuccess } from "@/utils/toast";
 import { useRequests } from "@/hooks/use-requests";
 import type { RequestStatus, Priority } from "@/providers/RequestsProvider";
+
+// Utilidad simple para formatear fecha a YYYY-MM-DD sin problemas de zona horaria
+const toISODate = (d: Date) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${dd}`;
+};
 
 const statusOptions: { value: RequestStatus; label: string }[] = [
   { value: "in-progress", label: "En Progreso" },
@@ -149,14 +159,44 @@ const Requests = () => {
                   </TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
                     <div className="relative w-full md:w-auto">
+                      {/* Input sin icono a la izquierda; solo icono a la derecha */}
                       <Input
                         name={r.id}
                         type="date"
                         value={r.date}
                         onChange={onChangeDate}
-                        className="h-10 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] pl-10 pr-4 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                        className="h-10 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] pl-4 pr-10 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                       />
-                      <Calendar className="w-4 h-4 text-white absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label="Abrir calendario"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                          >
+                            <CalendarIcon className="w-4 h-4 text-white" />
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          align="end"
+                          className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
+                        >
+                          <DateCalendar
+                            mode="single"
+                            selected={r.date ? new Date(r.date + "T00:00:00") : undefined}
+                            onSelect={(d) => {
+                              if (!d) return;
+                              const iso = toISODate(d);
+                              // Reutilizamos los handlers existentes para persistir y registrar actividad
+                              updateFields(r.id, { date: iso });
+                              addActivity(r.id, { type: "update", text: "Fecha límite actualizada", time: new Date().toLocaleString() });
+                              showSuccess("Fecha actualizada.");
+                            }}
+                            initialFocus
+                            className="rounded-xl"
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </div>
                   </TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
