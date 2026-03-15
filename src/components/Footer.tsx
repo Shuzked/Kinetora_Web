@@ -4,7 +4,9 @@ import React, { useState } from 'react';
 import Logo from './Logo';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Facebook, Twitter, Instagram, Youtube, Music2, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { SiTiktok } from 'react-icons/si';
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { showSuccess } from '@/utils/toast';
 import { motion } from 'framer-motion';
 
@@ -87,25 +89,56 @@ const Footer = () => {
             </form>
 
             <div className="mt-6 flex items-center gap-2 sm:gap-3">
-              {[
-                { Icon: Music2, label: "TikTok", href: "#" },
-                { Icon: Facebook, label: "Facebook", href: "#" },
-                { Icon: Twitter, label: "Twitter (X)", href: "#" },
-                { Icon: Youtube, label: "YouTube", href: "#" },
-                { Icon: Instagram, label: "Instagram", href: "#" },
-              ].map(({ Icon, label, href }, i) => (
-                <a
-                  key={i}
-                  aria-label={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                  title={label}
-                >
-                  <Icon className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-                </a>
-              ))}
+              <a
+                aria-label="TikTok"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                title="TikTok"
+              >
+                <SiTiktok className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
+              </a>
+              <a
+                aria-label="Facebook"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                title="Facebook"
+              >
+                <FaFacebookF className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
+              </a>
+              <a
+                aria-label="Twitter (X)"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                title="Twitter (X)"
+              >
+                <FaTwitter className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
+              </a>
+              <a
+                aria-label="YouTube"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                title="YouTube"
+              >
+                <FaYoutube className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
+              </a>
+              <a
+                aria-label="Instagram"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                title="Instagram"
+              >
+                <FaInstagram className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
+              </a>
             </div>
           </motion.div>
         </div>
