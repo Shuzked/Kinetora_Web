@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Logo from './Logo';
 import PremiumButton from '@/components/PremiumButton';
 import { Input } from "@/components/ui/input";
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Mail } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { showSuccess } from '@/utils/toast';
@@ -67,22 +67,25 @@ const Footer = () => {
             </p>
 
             <form onSubmit={handleSubscribe} className="w-full max-w-lg flex gap-3">
-              <Input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                className="flex-1 h-12 bg-[#111111] border-[#2A2A2A] text-[#F5F5F5] rounded-xl focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                autoComplete="email"
-                inputMode="email"
-                aria-label="Introduce tu email para suscribirte"
-              />
+              <div className="relative flex-1">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
+                <Input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Tu email"
+                  className="h-12 w-full pl-11 pr-4 rounded-full bg-white/10 hover:bg-white/12 focus:bg-white/14 backdrop-blur-xl border border-white/15 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                  autoComplete="email"
+                  inputMode="email"
+                  aria-label="Introduce tu email para suscribirte"
+                />
+              </div>
               <PremiumButton
                 type="submit"
                 variant="primary"
                 size="md"
-                className="h-12 px-6 rounded-xl inline-flex items-center gap-2"
+                className="h-12 px-6 rounded-full inline-flex items-center gap-2"
                 aria-label="Suscribirse al newsletter"
               >
                 Suscribirse
