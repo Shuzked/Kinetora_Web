@@ -33,14 +33,14 @@ const Login = () => {
         animate={{ y: [0, -12, 0], opacity: [0.08, 0.12, 0.08] }}
         transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
       />
- 
-      <motion.div 
+
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10 mx-auto px-4 sm:px-6"
       >
         <div className="mb-8 flex flex-col items-center text-center">
-          <Link to="/" className="mb-6 hover:opacity-80 transition-opacity">
+          <Link to="/" className="mb-6 hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-full">
             <Logo className="h-8 md:h-10" />
           </Link>
           <h1 className="text-2xl md:text-3xl font-black text-[#F5F5F5] tracking-tighter uppercase">Accede a tu portal</h1>
@@ -56,13 +56,17 @@ const Login = () => {
 
             <TabsContent value="login" className="space-y-6">
               {/* Social Google - estilo blanco */}
-              <button
+              <PremiumButton
+                type="button"
                 onClick={() => handleSocialLogin('google')}
-                className="w-full inline-flex items-center justify-center gap-3 h-12 rounded-2xl bg-white text-[#0D0D0D] font-semibold hover:brightness-95 transition-all"
+                variant="white"
+                size="md"
+                isLoading={isLoading}
+                className="w-full tracking-[0.04em] font-semibold"
+                leftIcon={<Chrome className="w-4 h-4" />}
               >
-                <Chrome className="w-4 h-4" />
                 Continuar con Google
-              </button>
+              </PremiumButton>
 
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
@@ -88,7 +92,9 @@ const Login = () => {
                     <Input id="pass" type="password" placeholder="••••••••" className="bg-[#0D0D0D] border-white/15 rounded-full pl-12 h-12 text-[#F5F5F5] placeholder:text-[#F5F5F5]/40 focus-visible:ring-2 focus-visible:ring-[#B454FF]" />
                   </div>
                   <div className="text-right">
-                    <button className="text-[#F5F5F5]/60 hover:text-[#B454FF] text-[11px] font-semibold">¿Olvidaste tu contraseña?</button>
+                    <button className="text-[#F5F5F5]/60 hover:text-[#B454FF] text-[11px] font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
+                      ¿Olvidaste tu contraseña?
+                    </button>
                   </div>
                 </div>
               </div>
@@ -98,13 +104,17 @@ const Login = () => {
             </TabsContent>
 
             <TabsContent value="signup" className="space-y-6">
-              <button
+              <PremiumButton
+                type="button"
                 onClick={() => handleSocialLogin('google')}
-                className="w-full inline-flex items-center justify-center gap-3 h-12 rounded-2xl bg-white text-[#0D0D0D] font-semibold hover:brightness-95 transition-all"
+                variant="white"
+                size="md"
+                isLoading={isLoading}
+                className="w-full tracking-[0.04em] font-semibold"
+                leftIcon={<Chrome className="w-4 h-4" />}
               >
-                <Chrome className="w-4 h-4" />
                 Continuar con Google
-              </button>
+              </PremiumButton>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <div className="w-full border-t border-white/10"></div>
@@ -152,7 +162,10 @@ const Login = () => {
           </div>
         </div>
 
-        <Link to="/" className="mt-8 flex items-center justify-center gap-2 text-[#F5F5F5]/60 hover:text-[#B454FF] transition-colors text-[10px] font-bold uppercase tracking-widest">
+        <Link
+          to="/"
+          className="mt-8 flex items-center justify-center gap-2 text-[#F5F5F5]/60 hover:text-[#B454FF] transition-colors text-[10px] font-bold uppercase tracking-widest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-full"
+        >
           <ArrowLeft className="w-3 h-3" />
           Volver al inicio
         </Link>
@@ -160,9 +173,9 @@ const Login = () => {
         {/* Texto legal bajo el bloque */}
         <p className="mt-3 text-center text-[11px] text-[#F5F5F5]/55">
           Al continuar, aceptas nuestra{" "}
-          <a href="#privacy" className="underline hover:text-[#B454FF]">Política de Privacidad</a>{" "}
+          <a href="#privacy" className="underline hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">Política de Privacidad</a>{" "}
           y los{" "}
-          <a href="#terms" className="underline hover:text-[#B454FF]">Términos de Uso</a>.
+          <a href="#terms" className="underline hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">Términos de Uso</a>.
         </p>
       </motion.div>
     </div>

@@ -23,31 +23,31 @@ const NewRequestModal = ({ isOpen, onClose }: NewRequestModalProps) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#111111] border-[#2A2A2A] text-[#F5F5F5] sm:max-w-[500px] rounded-[2rem]">
+      <DialogContent className="bg-[#111111] border-white/10 text-[#F5F5F5] sm:max-w-[520px] rounded-[2rem]">
         <DialogHeader>
           <DialogTitle className="text-2xl font-black uppercase tracking-tighter">Nueva Solicitud</DialogTitle>
-          <DialogDescription className="text-[#2A2A2A] font-bold text-[10px] uppercase tracking-widest">
+          <DialogDescription className="text-[#F5F5F5]/60 font-semibold text-[10px] uppercase tracking-widest">
             Describe tu visión y nosotros la hacemos realidad en 48h.
           </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
           <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#2A2A2A]">Título del Proyecto</Label>
+            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#F5F5F5]/65">Título del Proyecto</Label>
             <Input 
               placeholder="Ej: Rediseño de Dashboard" 
-              className="bg-[#0D0D0D] border-[#2A2A2A] rounded-xl h-12 focus:ring-[#B454FF]"
+              className="bg-[#0D0D0D] border-white/10 rounded-full h-12 text-[#F5F5F5] placeholder:text-[#F5F5F5]/35 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#2A2A2A]">Tipo de Servicio</Label>
+            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#F5F5F5]/65">Tipo de Servicio</Label>
             <Select required>
-              <SelectTrigger className="bg-[#0D0D0D] border-[#2A2A2A] rounded-xl h-12">
+              <SelectTrigger className="bg-[#0D0D0D] border-white/10 rounded-full h-12 focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                 <SelectValue placeholder="Selecciona una categoría" />
               </SelectTrigger>
-              <SelectContent className="bg-[#111111] border-[#2A2A2A] text-[#F5F5F5]">
+              <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
                 <SelectItem value="uiux">UX/UI Design</SelectItem>
                 <SelectItem value="branding">Branding & Logo</SelectItem>
                 <SelectItem value="motion">Motion Graphics</SelectItem>
@@ -57,16 +57,16 @@ const NewRequestModal = ({ isOpen, onClose }: NewRequestModalProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#2A2A2A]">Brief / Descripción</Label>
+            <Label className="text-[10px] font-bold uppercase tracking-widest text-[#F5F5F5]/65">Brief / Descripción</Label>
             <Textarea 
               placeholder="Cuéntanos los detalles, objetivos y referencias..." 
-              className="bg-[#0D0D0D] border-[#2A2A2A] rounded-xl min-h-[120px] focus:ring-[#B454FF]"
+              className="bg-[#0D0D0D] border-white/10 rounded-2xl min-h-[120px] text-[#F5F5F5] placeholder:text-[#F5F5F5]/35 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
               required
             />
           </div>
 
-          <div className="pt-4">
-            <PremiumButton type="submit" variant="primary" size="md" className="w-full rounded-full">
+          <div className="pt-2">
+            <PremiumButton type="submit" variant="primary" size="md" className="w-full">
               ENVIAR A COLA DE DISEÑO
             </PremiumButton>
           </div>

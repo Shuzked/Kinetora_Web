@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 type PremiumButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "glass" | "outline";
+  variant?: "primary" | "glass" | "outline" | "white";
   size?: "sm" | "md" | "lg";
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
@@ -31,7 +31,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
 }) => {
   const base =
     // Esquinas pill unificadas, tipografía y microinteracciones consistentes
-    "relative inline-flex items-center justify-center rounded-full font-bold tracking-[0.2em] transition-all duration-200 group " +
+    "relative inline-flex items-center justify-center rounded-full font-bold tracking-[0.12em] transition-all duration-200 group " +
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-[#B454FF] " +
     "hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed";
 
@@ -42,8 +42,10 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
     glass:
       "text-[#F5F5F5] bg-white/10 border border-white/15 backdrop-blur-xl hover:bg-white/14 " +
       "shadow-[0_6px_24px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]",
-    outline:
-      "text-[#F5F5F5] border border-white/15 hover:bg-white/5",
+    outline: "text-[#F5F5F5] border border-white/15 hover:bg-white/5",
+    white:
+      "text-[#0D0D0D] bg-white border border-white/10 " +
+      "shadow-[0_12px_44px_rgba(255,255,255,0.12)] hover:bg-white/95 hover:shadow-[0_16px_54px_rgba(255,255,255,0.16)]",
   };
 
   return (
@@ -58,7 +60,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
       {isLoading && (
         <span
           aria-hidden
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-2 border-white/60 border-t-transparent h-4 w-4"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-2 border-current/70 border-t-transparent h-4 w-4"
         />
       )}
     </Button>
