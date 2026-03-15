@@ -56,9 +56,57 @@ const Footer = () => {
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
             <Logo className="h-6 mb-4" />
-            <p className="text-[#F5F5F5]/80 text-sm mb-6">
+            <p className="text-[#F5F5F5]/80 text-sm mb-3">
               © {new Date().getFullYear()} Kinetora Studio. All rights reserved.
             </p>
+            
+            <div className="flex items-center gap-3 mb-6">
+              <a
+                href="https://www.tiktok.com/@kinetora_studio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok de Kinetora"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+              >
+                <SiTiktok className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.facebook.com/profile.php?id=61585355507008"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook de Kinetora"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+              >
+                <FaFacebookF className="h-4 w-4" />
+              </a>
+              <a
+                href="https://x.com/Kinetora_Studio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter) de Kinetora"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+              >
+                <FaTwitter className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.youtube.com/@Kinetora_Studio"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="YouTube de Kinetora"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+              >
+                <FaYoutube className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.instagram.com/kinetora_studio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram de Kinetora"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+              >
+                <FaInstagram className="h-4 w-4" />
+              </a>
+            </div>
             <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm font-semibold text-[#F5F5F5]/80">
               <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
                 Terms And Conditions
