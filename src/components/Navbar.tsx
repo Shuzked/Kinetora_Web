@@ -10,6 +10,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import SmoothScrollLink from '@/components/SmoothScrollLink';
 
 const Navbar = () => {
   const navLinks = [
@@ -29,9 +30,9 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
           {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="hover:text-[#B454FF] transition-colors">
+            <SmoothScrollLink key={link.name} href={link.href} className="hover:text-[#B454FF] transition-colors">
               {link.name}
-            </a>
+            </SmoothScrollLink>
           ))}
         </div>
 
@@ -58,13 +59,13 @@ const Navbar = () => {
               <SheetContent side="right" className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5]">
                 <div className="flex flex-col gap-8 mt-12">
                   {navLinks.map((link) => (
-                    <a 
+                    <SmoothScrollLink 
                       key={link.name} 
                       href={link.href} 
                       className="text-xl font-black uppercase tracking-tighter hover:text-[#B454FF] transition-colors"
                     >
                       {link.name}
-                    </a>
+                    </SmoothScrollLink>
                   ))}
                   <hr className="border-[#2A2A2A]" />
                   <Link to="/login" className="text-xl font-black uppercase tracking-tighter hover:text-[#B454FF]">
