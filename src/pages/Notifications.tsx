@@ -45,8 +45,10 @@ const Notifications = () => {
               <div
                 key={n.id}
                 className={
-                  "flex items-center justify-between gap-4 rounded-2xl border px-4 py-4 " +
-                  (n.read ? "bg-white/[0.02] border-white/10" : "bg-[#111111] border-white/10")
+                  "flex items-center justify-between gap-4 rounded-2xl border px-4 py-4 transition-opacity " +
+                  (n.read
+                    ? "bg-white/[0.02] border-white/10 opacity-60 hover:opacity-100 focus-within:opacity-100"
+                    : "bg-[#111111] border-white/10 opacity-100")
                 }
               >
                 <div className="flex items-center gap-3 min-w-0">

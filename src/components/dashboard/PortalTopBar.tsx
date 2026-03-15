@@ -87,7 +87,13 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
                   <div className="p-4 text-[#F5F5F5]/60 text-sm">Sin notificaciones.</div>
                 ) : (
                   items.map((n) => (
-                    <div key={n.id} className="px-3 py-3 border-b border-white/10 last:border-0">
+                    <div
+                      key={n.id}
+                      className={
+                        "px-3 py-3 border-b border-white/10 last:border-0 transition-opacity " +
+                        (n.read ? "opacity-60 hover:opacity-100 focus-within:opacity-100" : "opacity-100")
+                      }
+                    >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className={"h-8 w-8 rounded-full border flex items-center justify-center shrink-0 " + tintFor(n.type)}>
