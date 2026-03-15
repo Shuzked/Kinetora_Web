@@ -14,6 +14,7 @@ import Pricing from '@/components/Pricing';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import ParallaxSection from '@/components/ParallaxSection';
+import FloatingCTA from '@/components/FloatingCTA';
 
 const Index = () => {
   return (
@@ -50,6 +51,7 @@ const Index = () => {
         </ParallaxSection>
       </main>
       <Footer />
+      <FloatingCTA />
     </div>
   );
 };

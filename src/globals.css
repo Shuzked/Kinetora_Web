@@ -55,13 +55,15 @@ body[data-sheet-open="true"] {
 
 /* Marquee continuo (una pista con contenido duplicado) */
 @keyframes marquee-scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); } /* Se desplaza la mitad del ancho porque hay contenido duplicado */
+  0% { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(-50%,0,0); } /* La mitad porque el contenido está duplicado */
 }
 .marquee-track {
-  animation: marquee-scroll 40s linear infinite; /* más lento */
+  animation: marquee-scroll 36s linear infinite; /* velocidad más lenta y fluida */
+  will-change: transform;
 }
-/* Pausar al pasar el cursor por encima de cualquier marca (o la pista) */
+
+/* Pausa al hover (también funciona cuando el cursor está sobre cualquier marca) */
 .marquee-track:hover {
   animation-play-state: paused;
 }
