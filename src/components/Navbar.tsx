@@ -53,17 +53,20 @@ const Navbar = () => {
 
       {/* Contenido del navbar con animación de aparición inicial */}
       <motion.div
-        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-[68px] md:h-[88px] items-center justify-between relative"
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 grid grid-cols-[1fr_auto_1fr] items-center h-[68px] md:h-[88px] relative"
         initial={{ y: -8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        <Link to="/" className="hover:opacity-80 transition-opacity">
-          <Logo className="h-6" />
-        </Link>
+        {/* Izquierda: Logo */}
+        <div className="flex items-center justify-start">
+          <Link to="/" className="hover:opacity-80 transition-opacity">
+            <Logo className="h-6" />
+          </Link>
+        </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-9 lg:gap-12 text-[12px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
+        {/* Centro: Desktop Nav centrado */}
+        <div className="hidden md:flex items-center justify-center gap-9 lg:gap-12 text-[12px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
           {navLinks.map((link) => {
             const isActive = activeId === link.href.replace('#','');
             return (
@@ -86,7 +89,8 @@ const Navbar = () => {
           })}
         </div>
 
-        <div className="flex items-center gap-3 md:gap-6">
+        {/* Derecha: Acciones */}
+        <div className="flex items-center justify-end gap-3 md:gap-6">
           <Link to="/login" className="hidden sm:block">
             <button className="text-[11px] md:text-[12px] font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors tracking-widest">
               LOGIN
