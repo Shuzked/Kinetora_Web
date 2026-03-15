@@ -55,7 +55,7 @@ const Footer = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            <Logo className="h-10 mb-4" />
+            <Logo className="h-6 mb-4" />
             <p className="text-[#F5F5F5]/80 text-sm mb-6">
               © {new Date().getFullYear()} Kinetora Studio. All rights reserved.
             </p>
