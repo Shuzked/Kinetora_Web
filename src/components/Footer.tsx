@@ -93,10 +93,14 @@ const Footer = () => {
             <form
               onSubmit={handleSubscribe}
               noValidate
-              className="w-full max-w-lg grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-center"
+              className="w-full max-w-lg space-y-2"
               aria-live="polite"
             >
-              <div className="relative w-full">
+              <div
+                className={`relative flex items-center rounded-full border backdrop-blur-xl transition-all p-1
+                ${err ? 'border-red-500/50' : 'border-white/15'}
+                bg-white/10 hover:bg-white/12 focus-within:bg-white/14 focus-within:ring-2 focus-within:ring-[#B454FF]`}
+              >
                 <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
                 <Input
                   type="email"
@@ -104,27 +108,27 @@ const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Tu email"
-                  className={`h-12 w-full pl-11 pr-4 rounded-full bg-white/10 hover:bg-white/12 focus:bg-white/14 backdrop-blur-xl border ${err ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus-visible:ring-2 focus-visible:ring-[#B454FF]`}
+                  className="min-w-0 flex-1 h-10 pl-11 pr-3 bg-transparent border-0 text-[#F5F5F5] placeholder:text-[#F5F5F5]/60 text-sm focus-visible:ring-0 focus-visible:outline-none"
                   autoComplete="email"
                   inputMode="email"
                   aria-label="Introduce tu email para suscribirte"
                   aria-invalid={!!err}
                 />
+                <PremiumButton
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  className="h-10 px-5 rounded-full leading-none inline-flex items-center gap-2 shrink-0"
+                  aria-label="Suscribirse al newsletter"
+                  isLoading={loading}
+                >
+                  Suscribirse
+                  <ArrowRight className="w-4 h-4" />
+                </PremiumButton>
               </div>
-              <PremiumButton
-                type="submit"
-                variant="primary"
-                size="md"
-                className="h-12 px-6 rounded-full leading-none inline-flex items-center gap-2"
-                aria-label="Suscribirse al newsletter"
-                isLoading={loading}
-              >
-                Suscribirse
-                <ArrowRight className="w-4 h-4" />
-              </PremiumButton>
             </form>
 
-            <div className="flex items-center gap-2 justify-start lg:justify-end">
+            <div className="w-full max-w-lg flex items-start gap-2 justify-start lg:justify-end">
               <Checkbox
                 id="consent"
                 checked={consent}
