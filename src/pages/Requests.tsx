@@ -207,11 +207,12 @@ const Requests = () => {
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="relative h-10 pl-3 pr-3 w-max inline-flex items-center gap-2 rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden">
+                      <SelectTrigger
+                        className="relative h-10 px-3 w-max inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
+                        aria-label="Cambiar prioridad"
+                        title={priorityOptions.find((o) => o.value === r.priority)?.label}
+                      >
                         <Flag className={"w-4 h-4 " + prioColor[r.priority]} />
-                        <span className="text-sm font-medium">
-                          {priorityOptions.find((o) => o.value === r.priority)?.label}
-                        </span>
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
                         {priorityOptions.map((p) => (
