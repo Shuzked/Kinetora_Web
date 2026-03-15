@@ -12,7 +12,6 @@ const Services = () => {
       <div className="pointer-events-none absolute -bottom-36 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/8 blur-[130px] z-0" />
       {/* subtle texture + blend */}
       <div className="pointer-events-none absolute inset-0 opacity-[0.35] z-[1] bg-[radial-gradient(circle_at_30%_20%,rgba(180,84,255,0.12),transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.16] z-[1] bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:56px_56px]" />
       {/* edge fades to blend with adjacent sections */}
       <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(to_bottom,#0D0D0D,transparent)] z-[2]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(to_top,#0D0D0D,transparent)] z-[2]" />
@@ -38,7 +37,6 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-white/15 hover:bg-white/[0.055] transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-[#B454FF]/40" />
               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Palette className="w-40 h-40 text-[#B454FF]" />
               </div>
@@ -60,7 +58,6 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="pointer-events-none absolute -top-20 -right-20 h-48 w-48 rounded-full bg-[#B454FF]/14 blur-[70px]" />
               <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 mb-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
                 <Globe className="w-6 h-6 text-[#B454FF]" />
               </div>
@@ -93,7 +90,6 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-white/15 hover:bg-white/[0.055] transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="pointer-events-none absolute inset-x-0 top-0 h-0.5 bg-white/10" />
               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                 <MessageSquare className="w-40 h-40 text-[#B454FF]" />
               </div>
