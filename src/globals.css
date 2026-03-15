@@ -4,35 +4,35 @@
 
 @layer base {
   :root {
-    --background: 0 0% 2%;
-    --foreground: 0 0% 98%;
+    --background: 0 0% 5%; /* Void Black #0D0D0D */
+    --foreground: 0 0% 96%; /* Tech White #F5F5F5 */
 
-    --card: 0 0% 3%;
-    --card-foreground: 0 0% 98%;
+    --card: 0 0% 7%; /* Tech Black #111111 */
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 3%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 217 100% 50%; /* Kinetora Electric Blue #0066FF */
+    --primary: 274 100% 66%; /* Kinetora Purple #B454FF */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 217 10% 10%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 0 0% 16%; /* System Grey #2A2A2A */
+    --secondary-foreground: 0 0% 96%;
 
-    --muted: 217 10% 15%;
-    --muted-foreground: 217 10% 65%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 190 100% 50%; /* Kinetora Cyan Accent */
-    --accent-foreground: 217 100% 50%;
+    --accent: 274 100% 66%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217 10% 12%;
-    --input: 217 10% 12%;
-    --ring: 217 100% 50%;
+    --border: 0 0% 16%;
+    --input: 0 0% 16%;
+    --ring: 274 100% 66%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
   }
 }
 
@@ -43,5 +43,6 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "ss01";
+    background-color: #0D0D0D;
   }
 }
