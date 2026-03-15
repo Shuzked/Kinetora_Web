@@ -78,7 +78,7 @@ const Requests = () => {
 
   return (
     <PortalLayout>
-      <div className="flex flex-col items-center text-center lg:flex-row lg:items-start lg:justify-between lg:text-left gap-6">
+      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
         <div>
           <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tight">Mis Requests</h1>
           <p className="text-[#F5F5F5]/55 mt-1">Gestiona todas tus solicitudes creativas</p>
@@ -95,7 +95,7 @@ const Requests = () => {
         </PremiumButton>
       </div>
 
-      <div className="mt-6 flex items-center justify-center gap-2 overflow-x-auto no-scrollbar pb-1 w-full">
+      <div className="mt-6 flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
         {(
           [
             { key: "all", label: "Todos" },
@@ -128,19 +128,21 @@ const Requests = () => {
           <Table className="min-w-full table-auto">
             <TableHeader>
               <TableRow className="hover:bg-transparent border-white/10">
-                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20 text-center">ID</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20">ID</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold min-w-[14rem]">Título</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell text-center">Servicio</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap text-center">Estado</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap text-center">Fecha límite</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap text-center">Prioridad</TableHead>
-                <TableHead className="text-right text-[#F5F5F5]/55 font-semibold"><span className="sr-only">Ver Request</span></TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">Servicio</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Estado</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Fecha límite</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Prioridad</TableHead>
+                <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">
+                  <span className="sr-only">Ver Request</span>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((r) => (
                 <TableRow key={r.id} className="border-white/10 hover:bg-white/[0.03] align-middle">
-                  <TableCell className="text-[#F5F5F5]/70 font-semibold hidden md:table-cell text-center">{r.id}</TableCell>
+                  <TableCell className="text-[#F5F5F5]/70 font-semibold hidden md:table-cell">{r.id}</TableCell>
                   <TableCell className="text-[#F5F5F5] font-semibold min-w-0">
                     <button
                       type="button"
@@ -150,8 +152,8 @@ const Requests = () => {
                       {r.title}
                     </button>
                   </TableCell>
-                  <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate text-center">{r.service}</TableCell>
-                  <TableCell className="whitespace-nowrap text-center">
+                  <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
+                  <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
                       <SelectTrigger className="relative h-10 pl-3 pr-9 w-[14ch] inline-flex items-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
                         <SelectValue placeholder="Estado" className="truncate" />
@@ -169,7 +171,7 @@ const Requests = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell className="whitespace-nowrap text-center">
+                  <TableCell className="whitespace-nowrap">
                     <div className="inline-flex items-center rounded-full bg-white/[0.03] border border-white/10 focus-within:ring-2 focus-within:ring-[#B454FF]">
                       <Input
                         name={r.id}
@@ -209,7 +211,7 @@ const Requests = () => {
                       </Popover>
                     </div>
                   </TableCell>
-                  <TableCell className="whitespace-nowrap text-center">
+                  <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
                       <SelectTrigger
                         className="relative h-10 w-10 p-0 inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
@@ -234,7 +236,7 @@ const Requests = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell className="text-center">
+                  <TableCell className="text-right">
                     <button
                       type="button"
                       onClick={() => navigate(`/dashboard/requests/${r.id}`)}
