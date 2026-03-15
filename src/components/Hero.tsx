@@ -3,11 +3,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden bg-black">
+    <section className="relative min-h-[80vh] flex items-center pt-20 overflow-hidden bg-black">
       {/* Background Glow */}
       <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px]" />
       <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]" />
@@ -59,24 +58,8 @@ const Hero = () => {
               <div className="h-24 bg-white/5 rounded-lg" />
             </div>
           </div>
-          {/* Decorative elements */}
           <div className="absolute -top-6 -right-6 w-24 h-24 bg-blue-500/20 rounded-full blur-2xl animate-pulse" />
         </motion.div>
-      </div>
-
-      {/* Social Proof */}
-      <div className="absolute bottom-10 w-full border-t border-white/5 pt-10">
-        <div className="container mx-auto px-4">
-          <p className="text-center text-xs font-medium text-gray-500 uppercase tracking-[0.2em] mb-8">
-            Respaldado por startups financiadas por ENISA y CDTI
-          </p>
-          <div className="flex justify-center items-center gap-12 opacity-30 grayscale">
-            <div className="h-8 w-24 bg-white/20 rounded" />
-            <div className="h-8 w-24 bg-white/20 rounded" />
-            <div className="h-8 w-24 bg-white/20 rounded" />
-            <div className="h-8 w-24 bg-white/20 rounded" />
-          </div>
-        </div>
       </div>
     </section>
   );

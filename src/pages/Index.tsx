@@ -3,6 +3,7 @@
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import Brands from '@/components/Brands';
 import ValueProp from '@/components/ValueProp';
 import HowItWorks from '@/components/HowItWorks';
 import Services from '@/components/Services';
@@ -17,6 +18,7 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
+        <Brands />
         <ValueProp />
         <HowItWorks />
         <Services />
