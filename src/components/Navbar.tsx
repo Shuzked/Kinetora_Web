@@ -64,15 +64,26 @@ const Navbar = () => {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
-          {navLinks.map((link) => (
-            <SmoothScrollLink
-              key={link.name}
-              href={link.href}
-              className={`transition-colors hover:text-[#B454FF] ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : ''}`}
-            >
-              {link.name}
-            </SmoothScrollLink>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = activeId === link.href.replace('#','');
+            return (
+              <span key={link.name} className="relative pb-2">
+                <SmoothScrollLink 
+                  href={link.href} 
+                  className={`transition-colors hover:text-[#B454FF] ${isActive ? 'text-[#B454FF]' : ''}`}
+                >
+                  {link.name}
+                </SmoothScrollLink>
+                {isActive && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute left-0 right-0 -bottom-0.5 h-0.5 bg-[#B454FF] rounded-full"
+                    transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                  />
+                )}
+              </span>
+            );
+          })}
         </div>
 
         <div className="flex items-center gap-3 md:gap-6">
