@@ -9,15 +9,39 @@ import { SiTiktok } from 'react-icons/si';
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import { showSuccess } from '@/utils/toast';
 import { motion } from 'framer-motion';
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [subscribed, setSubscribed] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
-    showSuccess("¡Gracias por suscribirte! Te enviaremos descuentos y novedades de Kinetora.");
-    setEmail("");
+    setErr(null);
+
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    if (!emailValid) {
+      setErr("Introduce un email válido.");
+      return;
+    }
+    if (!consent) {
+      setErr("Debes aceptar el consentimiento para suscribirte.");
+      return;
+    }
+
+    setLoading(true);
+    // Simulación de envío (aquí se conectaría tu backend o proveedor de email)
+    setTimeout(() => {
+      setLoading(false);
+      setSubscribed(true);
+      showSuccess("¡Gracias por suscribirte! Te enviaremos descuentos y novedades de Kinetora.");
+      setEmail("");
+      setConsent(false);
+    }, 900);
   };
 
   return (
@@ -66,31 +90,60 @@ const Footer = () => {
               No te pierdas ninguna noticia, promoción o descuentos de nuestros servicios. ¿A qué esperas?
             </p>
 
-            <form onSubmit={handleSubscribe} className="w-full max-w-lg flex gap-3">
-              <div className="relative flex-1">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
-                <Input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Tu email"
-                  className="h-12 w-full pl-11 pr-4 rounded-full bg-white/10 hover:bg-white/12 focus:bg-white/14 backdrop-blur-xl border border-white/15 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                  autoComplete="email"
-                  inputMode="email"
-                  aria-label="Introduce tu email para suscribirte"
-                />
+            <form onSubmit={handleSubscribe} noValidate className="w-full max-w-lg flex flex-col gap-3" aria-live="polite">
+              <div className="flex gap-3">
+                <div className="relative flex-1">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
+                  <Input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Tu email"
+                    className={`h-12 w-full pl-11 pr-4 rounded-full bg-white/10 hover:bg-white/12 focus:bg-white/14 backdrop-blur-xl border ${err ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 focus-visible:ring-2 focus-visible:ring-[#B454FF]`}
+                    autoComplete="email"
+                    inputMode="email"
+                    aria-label="Introduce tu email para suscribirte"
+                    aria-invalid={!!err}
+                  />
+                </div>
+                <PremiumButton
+                  type="submit"
+                  variant="primary"
+                  size="md"
+                  className="h-12 px-6 rounded-full inline-flex items-center gap-2"
+                  aria-label="Suscribirse al newsletter"
+                  isLoading={loading}
+                >
+                  Suscribirse
+                  <ArrowRight className="w-4 h-4" />
+                </PremiumButton>
               </div>
-              <PremiumButton
-                type="submit"
-                variant="primary"
-                size="md"
-                className="h-12 px-6 rounded-full inline-flex items-center gap-2"
-                aria-label="Suscribirse al newsletter"
-              >
-                Suscribirse
-                <ArrowRight className="w-4 h-4" />
-              </PremiumButton>
+
+              <div className="flex items-center gap-2 justify-start lg:justify-end">
+                <Checkbox
+                  id="consent"
+                  checked={consent}
+                  onCheckedChange={(v) => setConsent(!!v)}
+                  className="rounded-[6px] border-white/30 data-[state=checked]:bg-[#B454FF] data-[state=checked]:border-[#B454FF]"
+                  aria-describedby="consent-desc"
+                />
+                <Label htmlFor="consent" className="text-[11px] text-[#F5F5F5]/70">
+                  Acepto recibir emails de Kinetora con descuentos, promociones y noticias. Podrás darte de baja en cualquier momento.
+                </Label>
+              </div>
+
+              {/* Mensajes de error/success inline */}
+              {err && (
+                <p className="text-[12px] text-red-400" role="alert">
+                  {err}
+                </p>
+              )}
+              {subscribed && !err && (
+                <p className="text-[12px] text-green-400" role="status">
+                  ¡Listo! Revisa tu bandeja para confirmar la suscripción.
+                </p>
+              )}
             </form>
 
             <div className="mt-6 flex items-center gap-2 sm:gap-3">
