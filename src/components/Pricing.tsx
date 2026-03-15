@@ -8,20 +8,20 @@ import { Button } from "@/components/ui/button";
 const plans = [
   {
     name: "Plan Diseño Esencial",
-    price: "£1,995",
+    price: "1.995€",
     description: "Ideal para startups en fase inicial.",
     features: ["Un diseño a la vez", "Revisiones ilimitadas", "Entregas en 48h", "Cancela cuando quieras"]
   },
   {
     name: "Plan Full-Stack Creativo",
-    price: "£3,495",
+    price: "3.495€",
     description: "Tu equipo creativo completo bajo demanda.",
     features: ["Dos diseños a la vez", "Web + Motion + Branding", "Revisiones ilimitadas", "Entregas en 48h", "Soporte prioritario"],
     featured: true
   },
   {
     name: "Proyectos / Pitch Decks",
-    price: "Desde £995",
+    price: "Desde 995€",
     description: "Para necesidades puntuales de alto impacto.",
     features: ["Diseño de Pitch Deck", "Consultoría estratégica", "Entrega en 5-7 días", "Revisiones incluidas"]
   }

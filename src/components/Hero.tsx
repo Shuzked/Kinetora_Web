@@ -35,7 +35,7 @@ const Hero = () => {
               Ver Portafolio
             </Button>
           </div>
-          <p className="text-sm text-gray-500 italic">Facturación plana en £. Cancela cuando quieras.</p>
+          <p className="text-sm text-gray-500 italic">Facturación plana en €. Cancela cuando quieras.</p>
         </motion.div>
 
         <motion.div 
