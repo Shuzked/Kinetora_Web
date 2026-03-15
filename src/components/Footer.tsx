@@ -6,6 +6,11 @@ import { Input } from "@/components/ui/input";
 import Logo from './Logo';
 import { Facebook, Twitter, Instagram, Youtube, Tiktok, ArrowRight } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +18,7 @@ const Footer = () => {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) return;
+    // Validación simple; el input HTML5 ya valida formato
     showSuccess("¡Gracias por suscribirte! Te enviaremos descuentos y novedades de Kinetora.");
     setEmail("");
   };
@@ -56,6 +62,8 @@ const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
+                  autoComplete="email"
+                  inputMode="email"
                   className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5] rounded-xl h-12 sm:h-12"
                   required
                 />
@@ -85,14 +93,23 @@ const Footer = () => {
                 { Icon: Youtube, label: "YouTube", href: "#" },
                 { Icon: Instagram, label: "Instagram", href: "#" },
               ].map(({ Icon, label, href }, i) => (
-                <a
-                  key={i}
-                  href={href}
-                  aria-label={label}
-                  className="group inline-flex items-center justify-center h-12 rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-colors"
-                >
-                  <Icon className="w-5 h-5 text-[#F5F5F5] group-hover:text-[#B454FF] transition-colors" />
-                </a>
+                <Tooltip key={i}>
+                  <TooltipTrigger asChild>
+                    <a
+                      href={href}
+                      aria-label={label}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex items-center justify-center h-12 rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] transition-colors"
+                    >
+                      <Icon className="w-5 h-5 text-[#F5F5F5] group-hover:text-[#B454FF] transition-colors" />
+                      <span className="sr-only">{label}</span>
+                    </a>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-[#111111] border-[#2A2A2A] text-[#F5F5F5]">
+                    {label}
+                  </TooltipContent>
+                </Tooltip>
               ))}
             </div>
           </div>
