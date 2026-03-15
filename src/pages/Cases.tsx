@@ -114,8 +114,8 @@ const Cases = () => {
                 const excerpt = m?.excerpt || cs.summaryFallback;
                 const hito = m?.hito || cs.highlightFallback;
                 const alt = m?.alt || cs.coverAlt;
-                const metricLabel = m?.metricLabel;
-                const metricValue = m?.metricValue;
+                const metricLabel = cs.metricLabel ?? m?.metricLabel;
+                const metricValue = cs.metricValue ?? m?.metricValue;
                 return (
                   <Link
                     key={cs.slug}

@@ -8,6 +8,8 @@ export type CaseStudy = {
   coverImage: string;
   highlightFallback: string;
   accent: "purple" | "teal";
+  metricLabel?: string;
+  metricValue?: string;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -22,6 +24,8 @@ export const caseStudies: CaseStudy[] = [
     coverImage: "/assets/placeholder.svg",
     highlightFallback: "Airdrop global",
     accent: "purple",
+    metricLabel: "Ventas realizadas",
+    metricValue: "$29.900",
   },
   {
     slug: "elixir-token",
@@ -34,6 +38,8 @@ export const caseStudies: CaseStudy[] = [
     coverImage: "/assets/placeholder.svg",
     highlightFallback: "Lanzamiento global",
     accent: "purple",
+    metricLabel: "Ventas realizadas",
+    metricValue: "+$14,2M",
   },
   {
     slug: "chronosworlds",
@@ -46,6 +52,8 @@ export const caseStudies: CaseStudy[] = [
     coverImage: "/assets/placeholder.svg",
     highlightFallback: "Rebranding + UX/UI",
     accent: "teal",
+    metricLabel: "Ventas realizadas",
+    metricValue: "+$12M",
   },
   {
     slug: "cybertitans-pulse-series",
@@ -58,6 +66,8 @@ export const caseStudies: CaseStudy[] = [
     coverImage: "/assets/placeholder.svg",
     highlightFallback: "Campaña eSports",
     accent: "teal",
+    metricLabel: "Impacto orgánico",
+    metricValue: "+1,4M",
   },
   {
     slug: "cybertitans-clash-impacto-brutal-y-evolucion-web3",
@@ -71,6 +81,8 @@ export const caseStudies: CaseStudy[] = [
     coverImage: "/assets/placeholder.svg",
     highlightFallback: "Lanzamiento Web3",
     accent: "purple",
+    metricLabel: "Impacto orgánico",
+    metricValue: "+1,5M",
   },
   {
     slug: "robokiden-token",
@@ -83,5 +95,7 @@ export const caseStudies: CaseStudy[] = [
     coverImage: "/assets/placeholder.svg",
     highlightFallback: "Foco en ventas",
     accent: "purple",
+    metricLabel: "Ventas realizadas",
+    metricValue: "+$1,15M",
   },
 ];
