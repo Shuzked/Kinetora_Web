@@ -15,34 +15,33 @@ const Login = () => {
 
   const handleSocialLogin = (provider: string) => {
     setIsLoading(true);
-    // Aquí iría la lógica de Supabase: supabase.auth.signInWithOAuth({ provider })
     console.log(`Logging in with ${provider}`);
   };
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0D0D0D] flex flex-col items-center justify-center p-4 md:p-6 relative overflow-hidden">
       {/* Background Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-[#B454FF]/10 rounded-full blur-[140px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#B454FF]/5 rounded-full blur-[120px]" />
+      <div className="absolute top-[-10%] left-[-10%] w-[100%] md:w-[60%] h-[60%] bg-[#B454FF]/10 rounded-full blur-[80px] md:blur-[140px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[80%] md:w-[40%] h-[40%] bg-[#B454FF]/5 rounded-full blur-[60px] md:blur-[120px]" />
 
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10"
       >
-        <div className="mb-8 flex flex-col items-center">
-          <Link to="/" className="mb-8 hover:opacity-80 transition-opacity">
-            <Logo className="h-10" />
+        <div className="mb-8 flex flex-col items-center text-center">
+          <Link to="/" className="mb-6 hover:opacity-80 transition-opacity">
+            <Logo className="h-8 md:h-10" />
           </Link>
-          <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tighter uppercase">Bienvenido a Kinetora</h1>
-          <p className="text-[#2A2A2A] font-bold text-xs uppercase tracking-widest mt-2">Tu sistema operativo creativo</p>
+          <h1 className="text-2xl md:text-3xl font-black text-[#F5F5F5] tracking-tighter uppercase">Bienvenido a Kinetora</h1>
+          <p className="text-[#2A2A2A] font-bold text-[10px] md:text-xs uppercase tracking-widest mt-2">Tu sistema operativo creativo</p>
         </div>
 
-        <div className="bg-[#111111] border border-[#2A2A2A] rounded-[2.5rem] p-8 shadow-2xl">
+        <div className="bg-[#111111] border border-[#2A2A2A] rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-2xl">
           <Tabs defaultValue="login" className="w-full">
-            <TabsList className="grid w-full grid-cols-2 bg-[#0D0D0D] border border-[#2A2A2A] rounded-full p-1 mb-8">
-              <TabsTrigger value="login" className="rounded-full data-[state=active]:bg-[#B454FF] data-[state=active]:text-white font-bold text-xs uppercase tracking-widest">Entrar</TabsTrigger>
-              <TabsTrigger value="signup" className="rounded-full data-[state=active]:bg-[#B454FF] data-[state=active]:text-white font-bold text-xs uppercase tracking-widest">Registro</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-[#0D0D0D] border border-[#2A2A2A] rounded-full p-1 mb-6 md:mb-8">
+              <TabsTrigger value="login" className="rounded-full data-[state=active]:bg-[#B454FF] data-[state=active]:text-white font-bold text-[10px] md:text-xs uppercase tracking-widest">Entrar</TabsTrigger>
+              <TabsTrigger value="signup" className="rounded-full data-[state=active]:bg-[#B454FF] data-[state=active]:text-white font-bold text-[10px] md:text-xs uppercase tracking-widest">Registro</TabsTrigger>
             </TabsList>
 
             <TabsContent value="login" className="space-y-6">
@@ -90,7 +89,7 @@ const Login = () => {
             </TabsContent>
           </Tabs>
 
-          <div className="relative my-8">
+          <div className="relative my-6 md:my-8">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-[#2A2A2A]"></div>
             </div>

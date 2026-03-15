@@ -7,10 +7,10 @@ import { Zap, Rocket, Layers } from 'lucide-react';
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-24 pb-12 overflow-hidden bg-[#0D0D0D]">
+    <section className="relative min-h-[90vh] md:min-h-screen flex items-center pt-20 md:pt-24 pb-12 overflow-hidden bg-[#0D0D0D]">
       {/* Brand Glows */}
-      <div className="absolute top-[-10%] left-[-10%] w-[80%] md:w-[60%] h-[60%] bg-[#B454FF]/10 rounded-full blur-[100px] md:blur-[140px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[60%] md:w-[40%] h-[40%] bg-[#B454FF]/5 rounded-full blur-[80px] md:blur-[120px]" />
+      <div className="absolute top-[-10%] left-[-10%] w-[100%] md:w-[60%] h-[60%] bg-[#B454FF]/10 rounded-full blur-[80px] md:blur-[140px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[80%] md:w-[40%] h-[40%] bg-[#B454FF]/5 rounded-full blur-[60px] md:blur-[120px]" />
 
       <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
         <motion.div 
@@ -23,18 +23,18 @@ const Hero = () => {
             <Zap className="w-3 h-3 fill-[#B454FF]" />
             Creative Subscription
           </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-[#F5F5F5] leading-[0.9] mb-6 md:mb-8 tracking-tighter">
-            DISEÑO QUE <br/>
+          <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black text-[#F5F5F5] leading-[1] md:leading-[0.9] mb-6 md:mb-8 tracking-tighter">
+            DISEÑO QUE <br className="hidden md:block"/>
             <span className="text-[#B454FF]">IMPULSA.</span>
           </h1>
-          <p className="text-base md:text-lg text-[#2A2A2A] mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
+          <p className="text-sm md:text-lg text-[#2A2A2A] mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto en 48h.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 md:gap-5">
-            <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-10 h-14 md:h-16 text-base md:text-lg font-black shadow-[0_10px_40px_rgba(180,84,255,0.3)]">
+            <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-10 h-14 md:h-16 text-base md:text-lg font-black shadow-[0_10px_40px_rgba(180,84,255,0.3)] w-full sm:w-auto">
               VER PLANES
             </Button>
-            <Button size="lg" variant="outline" className="border-[#2A2A2A] text-[#F5F5F5] hover:bg-[#111111] rounded-full px-10 h-14 md:h-16 text-base md:text-lg font-bold">
+            <Button size="lg" variant="outline" className="border-[#2A2A2A] text-[#F5F5F5] hover:bg-[#111111] rounded-full px-10 h-14 md:h-16 text-base md:text-lg font-bold w-full sm:w-auto">
               PORTFOLIO
             </Button>
           </div>
@@ -44,31 +44,31 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="relative hidden sm:block"
+          className="relative hidden lg:block"
         >
-          <div className="relative z-10 bg-[#111111] border border-[#2A2A2A] rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 shadow-2xl">
-            <div className="flex items-center justify-between mb-8 md:mb-12">
+          <div className="relative z-10 bg-[#111111] border border-[#2A2A2A] rounded-[2.5rem] p-8 shadow-2xl">
+            <div className="flex items-center justify-between mb-12">
               <div className="flex gap-2">
-                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#B454FF]/30" />
-                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#2A2A2A]" />
-                <div className="w-2 h-2 md:w-2.5 md:h-2.5 rounded-full bg-[#2A2A2A]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#B454FF]/30" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#2A2A2A]" />
+                <div className="w-2.5 h-2.5 rounded-full bg-[#2A2A2A]" />
               </div>
-              <div className="text-[8px] md:text-[9px] text-[#B454FF] font-bold tracking-[0.4em] uppercase">Kinetora OS</div>
+              <div className="text-[9px] text-[#B454FF] font-bold tracking-[0.4em] uppercase">Kinetora OS</div>
             </div>
             
-            <div className="space-y-6 md:space-y-8">
-              <div className="bg-[#0D0D0D] rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#2A2A2A]">
-                <div className="flex items-center justify-between mb-4 md:mb-6">
-                  <div className="flex items-center gap-3 md:gap-4">
-                    <div className="w-10 h-10 md:w-12 md:h-12 bg-[#B454FF]/10 rounded-lg md:rounded-xl flex items-center justify-center">
-                      <Rocket className="w-5 h-5 md:w-6 md:h-6 text-[#B454FF]" />
+            <div className="space-y-8">
+              <div className="bg-[#0D0D0D] rounded-2xl p-6 border border-[#2A2A2A]">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-[#B454FF]/10 rounded-xl flex items-center justify-center">
+                      <Rocket className="w-6 h-6 text-[#B454FF]" />
                     </div>
                     <div>
-                      <div className="text-xs md:text-sm font-bold text-[#F5F5F5] uppercase tracking-tight">SaaS Interface</div>
-                      <div className="text-[9px] md:text-[10px] text-[#2A2A2A] font-bold">ENTREGA: MAÑANA</div>
+                      <div className="text-sm font-bold text-[#F5F5F5] uppercase tracking-tight">SaaS Interface</div>
+                      <div className="text-[10px] text-[#2A2A2A] font-bold">ENTREGA: MAÑANA</div>
                     </div>
                   </div>
-                  <div className="text-[8px] md:text-[9px] font-bold text-[#B454FF] bg-[#B454FF]/10 px-2 md:px-3 py-1 rounded-full border border-[#B454FF]/20">ACTIVE</div>
+                  <div className="text-[9px] font-bold text-[#B454FF] bg-[#B454FF]/10 px-3 py-1 rounded-full border border-[#B454FF]/20">ACTIVE</div>
                 </div>
                 <div className="h-1.5 w-full bg-[#111111] rounded-full overflow-hidden">
                   <motion.div 
@@ -79,16 +79,16 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4 md:gap-6">
-                <div className="bg-[#0D0D0D] rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#2A2A2A]">
-                  <Layers className="w-4 h-4 md:w-5 md:h-5 text-[#B454FF] mb-2 md:mb-3" />
-                  <div className="text-xl md:text-2xl font-black text-[#F5F5F5]">∞</div>
-                  <div className="text-[8px] md:text-[9px] text-[#2A2A2A] font-bold uppercase tracking-widest">Revisiones</div>
+              <div className="grid grid-cols-2 gap-6">
+                <div className="bg-[#0D0D0D] rounded-2xl p-6 border border-[#2A2A2A]">
+                  <Layers className="w-5 h-5 text-[#B454FF] mb-3" />
+                  <div className="text-2xl font-black text-[#F5F5F5]">∞</div>
+                  <div className="text-[9px] text-[#2A2A2A] font-bold uppercase tracking-widest">Revisiones</div>
                 </div>
-                <div className="bg-[#0D0D0D] rounded-xl md:rounded-2xl p-4 md:p-6 border border-[#2A2A2A]">
-                  <Zap className="w-4 h-4 md:w-5 md:h-5 text-[#B454FF] mb-2 md:mb-3" />
-                  <div className="text-xl md:text-2xl font-black text-[#F5F5F5]">48h</div>
-                  <div className="text-[8px] md:text-[9px] text-[#2A2A2A] font-bold uppercase tracking-widest">Velocidad</div>
+                <div className="bg-[#0D0D0D] rounded-2xl p-6 border border-[#2A2A2A]">
+                  <Zap className="w-5 h-5 text-[#B454FF] mb-3" />
+                  <div className="text-2xl font-black text-[#F5F5F5]">48h</div>
+                  <div className="text-[9px] text-[#2A2A2A] font-bold uppercase tracking-widest">Velocidad</div>
                 </div>
               </div>
             </div>
