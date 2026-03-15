@@ -59,10 +59,9 @@ body[data-sheet-open="true"] {
   100% { transform: translate3d(-50%,0,0); } /* La mitad porque el contenido está duplicado */
 }
 .marquee-track {
-  animation: marquee-scroll 60s linear infinite; /* más lento */
+  animation: marquee-scroll 60s linear infinite; /* velocidad por defecto */
   will-change: transform;
 }
-
 /* Pausa al hover (también funciona cuando el cursor está sobre cualquier marca) */
 .marquee-track:hover {
   animation-play-state: paused;
@@ -72,6 +71,10 @@ body[data-sheet-open="true"] {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none !important;
+  }
+  /* Override: si el contenedor tiene data-animate="always", se fuerza la animación igualmente */
+  [data-animate="always"] .marquee-track {
+    animation: marquee-scroll 60s linear infinite !important;
   }
   .hero-bg-video {
     display: none !important;
