@@ -13,7 +13,7 @@ import {
   Trash2,
   UploadCloud,
   Download,
-  Calendar,
+  Calendar as CalendarIcon,
   FileText,
   Film,
   Figma,
@@ -33,6 +33,8 @@ import { showSuccess } from "@/utils/toast";
 import { deliverables as allDeliverables, type Deliverable } from "@/data/deliverables";
 import { useRequests } from "@/hooks/use-requests";
 import type { RequestStatus, Priority, Attachment, Comment, ActivityItem } from "@/providers/RequestsProvider";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar as DateCalendar } from "@/components/ui/calendar";
 
 const prioColor: Record<Priority, string> = {
   alta: "text-red-300",
@@ -63,6 +65,13 @@ const nowLabel = () => {
   const hh = String(d.getHours()).padStart(2, "0");
   const mm = String(d.getMinutes()).padStart(2, "0");
   return `Hoy, ${hh}:${mm}`;
+};
+
+const toISODate = (d: Date) => {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${dd}`;
 };
 
 const RequestDetail = () => {
@@ -178,7 +187,7 @@ const RequestDetail = () => {
               />
               <div className="flex items-center gap-3 shrink-0 flex-wrap w-full md:w-auto">
                 <Select value={status} onValueChange={(v) => setStatus(v as RequestStatus)}>
-                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 px-4 w-full md:w-auto text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 pl-4 pr-12 w-full md:w-auto text-[#F5F5F5] tracking-wide focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Estado" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -189,7 +198,7 @@ const RequestDetail = () => {
                 </Select>
 
                 <Select value={priority} onValueChange={(v) => setPriority(v as Priority)}>
-                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 px-4 w-full md:w-auto text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                  <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 pl-4 pr-12 w-full md:w-auto text-[#F5F5F5] tracking-wide focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Prioridad" />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -204,9 +213,35 @@ const RequestDetail = () => {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="bg-[#111111] border-white/10 rounded-full h-10 pl-11 pr-4 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF] w-full md:w-auto"
+                    className="bg-[#111111] border-white/10 rounded-full h-10 pl-4 pr-11 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF] w-full md:w-auto kin-no-native-picker"
                   />
-                  <Calendar className="w-4 h-4 text-white absolute left-3 top-1/2 -translate-y-1/2" />
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <button
+                        type="button"
+                        aria-label="Abrir calendario"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                      >
+                        <CalendarIcon className="w-4 h-4 text-white" />
+                      </button>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="end"
+                      className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
+                    >
+                      <DateCalendar
+                        mode="single"
+                        selected={dueDate ? new Date(dueDate + "T00:00:00") : undefined}
+                        onSelect={(d) => {
+                          if (!d) return;
+                          const iso = toISODate(d);
+                          setDueDate(iso);
+                        }}
+                        initialFocus
+                        className="rounded-xl"
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 <PremiumButton
