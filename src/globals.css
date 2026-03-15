@@ -47,24 +47,22 @@ html { scroll-padding-top: 64px; }
 /* Evitar que el sheet abierto bloquee el scroll suave */
 body[data-sheet-open="true"] { overscroll-behavior: contain; }
 
-/* Marquee continuo con contenido duplicado: normal e inverso */
+/* Marquee continuo con contenido duplicado */
 @keyframes marquee-scroll {
   0% { transform: translate3d(0,0,0); }
   100% { transform: translate3d(-50%,0,0); }
-}
-@keyframes marquee-scroll-reverse {
-  0% { transform: translate3d(-50%,0,0); }
-  100% { transform: translate3d(0,0,0); }
 }
 .marquee-track {
   animation: marquee-scroll 55s linear infinite;
   will-change: transform;
 }
-.marquee-track--reverse {
-  animation-name: marquee-scroll-reverse;
+
+/* Pausa robusta: cuando el wrapper tiene data-paused */
+[data-paused="true"] .marquee-track {
+  animation-play-state: paused !important;
 }
 
-/* Pausa al hover sobre la pista (fallback) */
+/* Fallback: pausar al hover de la pista */
 .marquee-track:hover { animation-play-state: paused; }
 
 /* Reduced motion */

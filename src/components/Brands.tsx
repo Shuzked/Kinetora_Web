@@ -8,12 +8,15 @@ const Brands = () => {
   // Duplicamos para crear un loop perfecto en una sola línea
   const items = [...brands, ...brands];
   const trackRef = useRef<HTMLDivElement | null>(null);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
 
   const pauseTrack = () => {
     if (trackRef.current) trackRef.current.style.animationPlayState = 'paused';
+    if (wrapperRef.current) wrapperRef.current.setAttribute('data-paused', 'true');
   };
   const resumeTrack = () => {
     if (trackRef.current) trackRef.current.style.animationPlayState = 'running';
+    if (wrapperRef.current) wrapperRef.current.removeAttribute('data-paused');
   };
 
   return (
@@ -30,7 +33,7 @@ const Brands = () => {
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-[#0D0D0D] to-transparent z-10" />
 
         {/* Pista única con loop infinito perfecto (contenido duplicado) */}
-        <div className="relative h-12 sm:h-14" data-animate="always">
+        <div className="relative h-12 sm:h-14" data-animate="always" ref={wrapperRef}>
           <div
             ref={trackRef}
             className="marquee-track absolute inset-y-0 left-0 flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform"
