@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
-import { Eye, Plus, Flag } from "lucide-react";
+import { Eye, Plus, Flag, Calendar } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -121,12 +121,10 @@ const Requests = () => {
                 <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Acciones</TableHead>
               </TableRow>
             </TableHeader>
-
             <TableBody>
               {filtered.map((r) => (
                 <TableRow key={r.id} className="border-white/10 hover:bg-white/[0.03] align-middle">
                   <TableCell className="text-[#F5F5F5]/70 font-semibold hidden md:table-cell">{r.id}</TableCell>
-
                   <TableCell className="text-[#F5F5F5] font-semibold min-w-0">
                     <button
                       type="button"
@@ -136,12 +134,10 @@ const Requests = () => {
                       {r.title}
                     </button>
                   </TableCell>
-
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
-
                   <TableCell className="w-1/5 sm:w-auto">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-9 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 px-4 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -151,20 +147,21 @@ const Requests = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-
                   <TableCell className="w-1/5 sm:w-auto">
-                    <Input
-                      name={r.id}
-                      type="date"
-                      value={r.date}
-                      onChange={onChangeDate}
-                      className="h-9 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                    />
+                    <div className="relative w-full md:w-auto">
+                      <Input
+                        name={r.id}
+                        type="date"
+                        value={r.date}
+                        onChange={onChangeDate}
+                        className="h-10 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] pl-10 pr-4 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                      />
+                      <Calendar className="w-4 h-4 text-white absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    </div>
                   </TableCell>
-
                   <TableCell className="w-1/5 sm:w-auto">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-9 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 px-4 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -179,7 +176,6 @@ const Requests = () => {
                       </SelectContent>
                     </Select>
                   </TableCell>
-
                   <TableCell className="text-right">
                     <button
                       type="button"
