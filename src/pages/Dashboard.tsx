@@ -48,7 +48,7 @@ const Dashboard = () => {
         )}
       </AnimatePresence>
       
-      <main className="flex-1 p-6 md:p-12 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto py-6 md:py-12 px-4 sm:px-6 lg:px-8">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
           <div className="flex items-center gap-4 w-full md:w-auto">
             <button 

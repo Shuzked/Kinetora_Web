@@ -53,7 +53,7 @@ const Messages = () => {
       </AnimatePresence>
       
       <main className="flex-1 flex flex-col h-screen">
-        <header className="p-6 md:p-8 border-b border-[#2A2A2A] flex items-center justify-between bg-[#0D0D0D]">
+        <header className="py-6 md:py-8 px-4 sm:px-6 lg:px-8 border-b border-[#2A2A2A] flex items-center justify-between bg-[#0D0D0D]">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(true)}
@@ -71,7 +71,7 @@ const Messages = () => {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-6 space-y-8">
           {chatMessages.map((msg, i) => (
             <div key={i} className={`flex flex-col ${msg.isMe ? 'items-end' : 'items-start'}`}>
               <div className="flex items-center gap-2 mb-2">
@@ -89,7 +89,7 @@ const Messages = () => {
           ))}
         </div>
 
-        <div className="p-6 md:p-8 bg-[#0D0D0D] border-t border-[#2A2A2A]">
+        <div className="py-6 md:py-8 px-4 sm:px-6 lg:px-8 bg-[#0D0D0D] border-t border-[#2A2A2A]">
           <div className="max-w-4xl mx-auto relative">
             <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
               <button className="p-2 text-[#2A2A2A] hover:text-[#B454FF] transition-colors">

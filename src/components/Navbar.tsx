@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-[#2A2A2A] bg-[#0D0D0D]/80 backdrop-blur-xl">
-      <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4 md:px-6">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between">
         <Link to="/" className="hover:opacity-80 transition-opacity">
           <Logo className="h-6 md:h-8" />
         </Link>

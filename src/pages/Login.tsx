@@ -27,7 +27,7 @@ const Login = () => {
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md relative z-10"
+        className="w-full max-w-md relative z-10 mx-auto px-4 sm:px-6"
       >
         <div className="mb-8 flex flex-col items-center text-center">
           <Link to="/" className="mb-6 hover:opacity-80 transition-opacity">
