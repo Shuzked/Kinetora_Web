@@ -194,7 +194,7 @@ const Contact = () => {
           </div>
 
           {/* Calendly */}
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl overflow-hidden w-full h-[clamp(640px,80vh,900px)]">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl overflow-hidden w-full h-full flex">
             <div
               className="calendly-inline-widget w-full h-full min-w-[320px]"
               data-url="https://calendly.com/hello-kinetora/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0d0d0d&text_color=ffffff&primary_color=b454ff"
