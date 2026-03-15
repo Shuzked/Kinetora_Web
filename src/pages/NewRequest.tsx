@@ -13,6 +13,7 @@ import { Briefcase, Palette, Film, Code2, MoreHorizontal, UploadCloud, Calendar 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as DateCalendar } from "@/components/ui/calendar";
 import { useRequests } from "@/hooks/use-requests";
+import { useNotifications } from "@/hooks/use-notifications";
 
 type ServiceKey = "branding" | "uiux" | "web" | "motion" | "video" | "other";
 
@@ -50,6 +51,7 @@ const NewRequest = () => {
   const [priority, setPriority] = useState("media");
   const [dueDate, setDueDate] = useState("");
   const { createRequest } = useRequests();
+  const { add: addNotification } = useNotifications();
 
   const maxChars = 500;
   const charsLeft = maxChars - message.length;
@@ -65,6 +67,14 @@ const NewRequest = () => {
       date: dueDate || "",
       priority: priority as any,
       description: message.trim(),
+    });
+    addNotification({
+      id: `N-${Date.now()}`,
+      title: `Nuevo request creado: ${title.trim() || serviceLabel}`,
+      time: "ahora",
+      read: false,
+      type: "message",
+      requestId: newId,
     });
     showSuccess("¡Request creado! Abriendo el detalle…");
     navigate(`/dashboard/requests/${newId}`, { replace: true });
