@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import SmoothScrollLink from '@/components/SmoothScrollLink';
 import useScrollSpy from '@/hooks/use-scroll-spy';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
   const navLinks = [
@@ -23,7 +24,7 @@ const Navbar = () => {
 
   const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
 
-  // Nuevo: detecta scroll para cambiar el fondo del navbar
+  // Detecta scroll para cambiar el fondo del navbar
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
@@ -33,8 +34,31 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 z-50 w-full border-b transition-colors duration-300 ${isScrolled ? 'border-[#2A2A2A] bg-[#0D0D0D]/80 backdrop-blur-xl' : 'border-transparent bg-transparent backdrop-blur-0'}`}>
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between">
+    <nav className="fixed top-0 z-50 w-full">
+      {/* Capa de fondo animada */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none bg-[#0D0D0D] backdrop-blur-xl"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isScrolled ? 0.8 : 0 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+      />
+      {/* Borde inferior animado */}
+      <motion.div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-px bg-[#2A2A2A] pointer-events-none"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isScrolled ? 1 : 0 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+      />
+
+      {/* Contenido del navbar con animación de aparición */}
+      <motion.div
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between relative"
+        initial={{ y: -8, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      >
         <Link to="/" className="hover:opacity-80 transition-opacity">
           <Logo className="h-6 md:h-8" />
         </Link>
@@ -75,19 +99,15 @@ const Navbar = () => {
               <SheetContent
                 side="right"
                 className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5]"
-                onOpenAutoFocus={(e) => {
-                  document.body.setAttribute("data-sheet-open", "true");
-                }}
-                onCloseAutoFocus={(e) => {
-                  document.body.removeAttribute("data-sheet-open");
-                }}
+                onOpenAutoFocus={() => document.body.setAttribute("data-sheet-open", "true")}
+                onCloseAutoFocus={() => document.body.removeAttribute("data-sheet-open")}
               >
                 <div className="flex flex-col gap-8 mt-12">
                   {navLinks.map((link) => (
                     <SmoothScrollLink 
                       key={link.name} 
                       href={link.href} 
-                      className={`text-xl font-black uppercase tracking-titter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
+                      className={`text-xl font-black uppercase tracking-tighter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
                     >
                       {link.name}
                     </SmoothScrollLink>
@@ -101,7 +121,7 @@ const Navbar = () => {
             </Sheet>
           </div>
         </div>
-      </div>
+      </motion.div>
     </nav>
   );
 };
