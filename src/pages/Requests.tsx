@@ -129,12 +129,14 @@ const Requests = () => {
             <TableHeader>
               <TableRow className="hover:bg-transparent border-white/10">
                 <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20">ID</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold">Título</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold min-w-[14rem]">Título</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">Servicio</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Estado</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Fecha límite</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Prioridad</TableHead>
-                <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Ver Request</TableHead>
+                <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">
+                  <span className="sr-only">Ver Request</span>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -145,7 +147,7 @@ const Requests = () => {
                     <button
                       type="button"
                       onClick={() => navigate(`/dashboard/requests/${r.id}`)}
-                      className="hover:text-[#B454FF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded block truncate"
+                      className="hover:text-[#B454FF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded block truncate max-w-[60vw] sm:max-w-none"
                     >
                       {r.title}
                     </button>
@@ -153,12 +155,18 @@ const Requests = () => {
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="relative h-10 pl-3 pr-9 w-[14ch] inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
-                        <SelectValue placeholder="Estado" />
+                      <SelectTrigger className="relative h-10 pl-3 pr-9 w-[14ch] inline-flex items-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
+                        <SelectValue placeholder="Estado" className="truncate" />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
+                      <SelectContent className="bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl min-w-[12rem]">
                         {statusOptions.map((s) => (
-                          <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
+                          <SelectItem
+                            key={s.value}
+                            value={s.value}
+                            className="rounded-lg px-3 py-2.5 data-[state=checked]:bg-white/[0.06] data-[highlighted]:bg-white/[0.04]"
+                          >
+                            {s.label}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -184,7 +192,7 @@ const Requests = () => {
                         </PopoverTrigger>
                         <PopoverContent
                           align="end"
-                          className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
+                          className="p-0 bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl"
                         >
                           <DateCalendar
                             mode="single"
@@ -206,15 +214,19 @@ const Requests = () => {
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
                       <SelectTrigger
-                        className="relative h-10 px-3 w-max inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
+                        className="relative h-10 px-2 w-[3rem] inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
                         aria-label="Cambiar prioridad"
                         title={priorityOptions.find((o) => o.value === r.priority)?.label}
                       >
                         <Flag className={"w-4 h-4 " + prioColor[r.priority]} />
                       </SelectTrigger>
-                      <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
+                      <SelectContent className="bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl min-w-[12rem]">
                         {priorityOptions.map((p) => (
-                          <SelectItem key={p.value} value={p.value}>
+                          <SelectItem
+                            key={p.value}
+                            value={p.value}
+                            className="rounded-lg px-3 py-2.5 data-[state=checked]:bg-white/[0.06] data-[highlighted]:bg-white/[0.04]"
+                          >
                             <span className={"inline-flex items-center gap-2 " + prioColor[p.value]}>
                               <Flag className="w-4 h-4" />
                               {p.label}
@@ -228,7 +240,7 @@ const Requests = () => {
                     <button
                       type="button"
                       onClick={() => navigate(`/dashboard/requests/${r.id}`)}
-                      className="inline-flex h-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 px-4 text-sm font-semibold text-[#F5F5F5] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                      className="inline-flex h-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 px-4 text-sm font-semibold text-[#F5F5F5] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] whitespace-nowrap"
                     >
                       Ver Request
                     </button>
