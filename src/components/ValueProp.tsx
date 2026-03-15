@@ -6,92 +6,143 @@ import { X, Check, AlertCircle, Zap } from 'lucide-react';
 
 const ValueProp = () => {
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
+      {/* ambient glow */}
+      <div className="pointer-events-none absolute -top-28 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
+      <div className="pointer-events-none absolute -bottom-28 -right-24 h-72 w-72 rounded-full bg-[#5EEAD4]/6 blur-[90px]" />
+
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-14 sm:mb-16 lg:mb-20">
-          <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] mb-5 sm:mb-6 tracking-tighter uppercase">
-            EL FIN DE LA <br />
-            <span className="text-[#2A2A2A]">FRICCIÓN CREATIVA.</span>
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+            Por qué las startups eligen Kinetora
+          </div>
+          <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] mb-4 tracking-tighter uppercase">
+            El fin de la <br className="hidden sm:block" />
+            <span className="text-[#B454FF]">fricción creativa</span>
           </h2>
-          <p className="text-[#2A2A2A] font-bold uppercase tracking-widest text-xs">
-            ¿Por qué las startups eligen Kinetora?
+          <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            Un modelo pensado para velocidad, claridad y consistencia visual — sin la complejidad de una agencia tradicional.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
           {/* Tradicional */}
           <motion.div
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16 }}
             viewport={{ once: true }}
-            className="bg-[#111111]/50 border border-[#2A2A2A] rounded-[3rem] p-8 sm:p-10 md:p-12 relative group grayscale hover:grayscale-0 transition-all duration-700"
+            transition={{ duration: 0.45, ease: 'easeOut' }}
+            className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative"
           >
-            <div className="flex items-center gap-3 mb-8 sm:mb-10">
-              <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center">
-                <AlertCircle className="w-5 h-5 text-red-900/40" />
+            <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5 text-red-300/70" />
+                </div>
+                <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
+                  Agencias tradicionales
+                </h3>
               </div>
-              <h3 className="text-lg font-bold text-[#2A2A2A] uppercase tracking-widest">
-                Agencias Tradicionales
-              </h3>
+              <span className="hidden sm:inline-flex rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#F5F5F5]/60">
+                Fricción
+              </span>
             </div>
 
-            <ul className="space-y-7 sm:space-y-8">
+            <ul className="space-y-6 sm:space-y-7">
               {[
-                { t: "Presupuestos sorpresa", d: "Costes que escalan sin previo aviso." },
-                { t: "Burocracia paralizante", d: "Semanas perdidas en contratos y reuniones." },
-                { t: "Entregas lentas", d: "Procesos de 2 a 4 semanas por tarea." },
-                { t: "Falta de transparencia", d: "No sabes quién está trabajando en tu proyecto." },
+                { t: 'Presupuestos sorpresa', d: 'Costes que escalan sin previo aviso.' },
+                { t: 'Burocracia paralizante', d: 'Semanas perdidas en contratos y reuniones.' },
+                { t: 'Entregas lentas', d: 'Procesos de 2 a 4 semanas por tarea.' },
+                { t: 'Poca visibilidad', d: 'No siempre sabes quién está ejecutando cada pieza.' },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
-                  <X className="w-5 h-5 text-red-900/20 mt-1 shrink-0" />
+                  <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                    <X className="w-4 h-4 text-red-300/70" />
+                  </span>
                   <div>
-                    <div className="text-[#2A2A2A] font-bold text-sm uppercase tracking-tight mb-1">
+                    <div className="text-[#F5F5F5] font-extrabold text-sm uppercase tracking-tight">
                       {item.t}
                     </div>
-                    <div className="text-[#2A2A2A]/40 text-xs font-medium">{item.d}</div>
+                    <div className="text-[#F5F5F5]/60 text-sm leading-snug mt-1">{item.d}</div>
                   </div>
                 </li>
               ))}
             </ul>
+
+            <div className="mt-10 pt-7 border-t border-white/10">
+              <div className="grid grid-cols-3 gap-3">
+                {[{ k: 'Ritmo', v: 'Lento' }, { k: 'Reuniones', v: 'Muchas' }, { k: 'Coste', v: 'Variable' }].map(
+                  (m) => (
+                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                      <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                        {m.k}
+                      </div>
+                      <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                    </div>
+                  )
+                )}
+              </div>
+            </div>
           </motion.div>
 
           {/* Kinetora */}
           <motion.div
-            whileInView={{ opacity: 1, x: 0 }}
-            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 16 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-b from-[#111111] to-[#0D0D0D] border border-[#B454FF]/30 rounded-[3rem] p-8 sm:p-10 md:p-12 relative overflow-hidden shadow-[0_0_50px_rgba(180,84,255,0.05)]"
+            transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+            className="rounded-[2.5rem] border border-[#B454FF]/30 bg-white/[0.05] p-8 sm:p-10 md:p-12 relative overflow-hidden shadow-[0_18px_90px_rgba(180,84,255,0.10)]"
           >
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#B454FF]/10 rounded-full blur-[80px]" />
+            <div className="pointer-events-none absolute -top-28 -right-28 w-72 h-72 bg-[#B454FF]/18 rounded-full blur-[90px]" />
 
-            <div className="flex items-center gap-3 mb-8 sm:mb-10 relative z-10">
-              <div className="w-10 h-10 rounded-full bg-[#B454FF]/20 flex items-center justify-center">
-                <Zap className="w-5 h-5 text-[#B454FF]" />
+            <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10 relative z-10">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-[#B454FF]" />
+                </div>
+                <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
+                  Kinetora OS
+                </h3>
               </div>
-              <h3 className="text-lg font-bold text-[#F5F5F5] uppercase tracking-widest">Kinetora OS</h3>
+              <span className="inline-flex rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#B454FF]">
+                Premium
+              </span>
             </div>
 
-            <ul className="space-y-7 sm:space-y-8 relative z-10">
+            <ul className="space-y-6 sm:space-y-7 relative z-10">
               {[
-                { t: "Cuota plana mensual", d: "Sin sorpresas. Un solo pago, todo incluido." },
-                { t: "Colaboración asíncrona", d: "Cero reuniones. Todo fluye por tu tablero." },
-                { t: "Entregas en 48h", d: "Velocidad real para startups que no esperan." },
-                { t: "Socio de crecimiento", d: "Acceso directo a directores creativos senior." },
+                { t: 'Cuota plana mensual', d: 'Sin sorpresas: un solo pago, todo incluido.' },
+                { t: 'Colaboración asíncrona', d: 'Cero reuniones. Todo fluye por tu tablero.' },
+                { t: 'Entregas en 48h', d: 'Velocidad real para equipos que no esperan.' },
+                { t: 'Dirección senior', d: 'Acceso directo a criterio creativo con experiencia.' },
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
-                  <Check className="w-5 h-5 text-[#B454FF] mt-1 shrink-0" />
+                  <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/20">
+                    <Check className="w-4 h-4 text-[#B454FF]" />
+                  </span>
                   <div>
-                    <div className="text-[#F5F5F5] font-bold text-sm uppercase tracking-tight mb-1">
+                    <div className="text-[#F5F5F5] font-extrabold text-sm uppercase tracking-tight">
                       {item.t}
                     </div>
-                    <div className="text-[#2A2A2A] text-xs font-medium">{item.d}</div>
+                    <div className="text-[#F5F5F5]/65 text-sm leading-snug mt-1">{item.d}</div>
                   </div>
                 </li>
               ))}
             </ul>
 
-            <div className="mt-10 sm:mt-12 pt-7 sm:pt-8 border-t border-[#2A2A2A]">
-              <div className="text-[10px] font-black text-[#B454FF] uppercase tracking-[0.3em]">
+            <div className="mt-10 pt-7 border-t border-white/10 relative z-10">
+              <div className="grid grid-cols-3 gap-3">
+                {[{ k: 'Ritmo', v: '48h' }, { k: 'Reuniones', v: '0' }, { k: 'Coste', v: 'Fijo' }].map((m) => (
+                  <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                    <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                      {m.k}
+                    </div>
+                    <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#B454FF]">
                 Recomendado para Series A/B
               </div>
             </div>
