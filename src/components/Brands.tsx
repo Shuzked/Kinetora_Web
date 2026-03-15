@@ -33,7 +33,8 @@ const Brands = () => {
 
           {/* Pista 2 desfasada al 100% */}
           <div
-            className="marq-lane2 absolute inset-y-0 left-full flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform"
+            className="marq-lane2 absolute inset-y-0 left-0 flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform"
+            style={{ transform: "translate3d(100%,0,0)" }}
           >
             {brands.map((brand, i) => (
               <div
