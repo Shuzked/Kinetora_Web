@@ -197,6 +197,24 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
   }
 }
 
+/* Oculta el icono nativo del date input y spinners cuando se use la clase */
+.kin-no-native-picker {
+  -webkit-appearance: none;
+  appearance: none;
+}
+.kin-no-native-picker::-webkit-calendar-picker-indicator {
+  opacity: 0 !important;
+  display: none !important;
+  -webkit-appearance: none;
+}
+.kin-no-native-picker::-webkit-clear-button,
+.kin-no-native-picker::-webkit-inner-spin-button,
+.kin-no-native-picker::-webkit-outer-spin-button {
+  display: none !important;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 /* Ocultar scrollbar utilitario */
 .no-scrollbar {
   -ms-overflow-style: none;

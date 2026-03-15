@@ -147,7 +147,7 @@ const Requests = () => {
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-10 px-4 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 pl-4 pr-12 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wide focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -159,13 +159,12 @@ const Requests = () => {
                   </TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
                     <div className="relative w-full md:w-auto">
-                      {/* Input sin icono a la izquierda; solo icono a la derecha */}
                       <Input
                         name={r.id}
                         type="date"
                         value={r.date}
                         onChange={onChangeDate}
-                        className="h-10 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] pl-4 pr-10 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                        className="h-10 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] pl-4 pr-10 focus-visible:ring-2 focus-visible:ring-[#B454FF] kin-no-native-picker"
                       />
                       <Popover>
                         <PopoverTrigger asChild>
@@ -201,7 +200,7 @@ const Requests = () => {
                   </TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-10 px-4 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 pl-4 pr-12 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wide focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
