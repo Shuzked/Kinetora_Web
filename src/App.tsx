@@ -11,6 +11,7 @@ import Messages from "./pages/Messages";
 import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 import ScrollProgress from "./components/ScrollProgress";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <ScrollToTop />
     </TooltipProvider>
   </QueryClientProvider>
 );

@@ -43,10 +43,16 @@ const Portfolio = () => {
               className="group relative overflow-hidden rounded-[2rem] bg-[#111111] border border-[#2A2A2A]"
             >
               <div className="aspect-video overflow-hidden">
-                <img
+                <motion.img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100"
+                  loading="lazy"
+                  decoding="async"
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                 />
               </div>
               <div className="p-6 sm:p-8">

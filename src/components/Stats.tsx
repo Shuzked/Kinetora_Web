@@ -2,12 +2,13 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import CountUp from '@/components/CountUp';
 
 const stats = [
-  { label: "Proyectos Completados", value: "450", suffix: "+" },
-  { label: "Capital Levantado", value: "12", suffix: "M€+" },
-  { label: "Tiempo de Entrega", value: "48", suffix: "h" },
-  { label: "Tasa de Éxito", value: "99", suffix: "%" },
+  { label: "Proyectos Completados", value: 450, suffix: "+" },
+  { label: "Capital Levantado", value: 12, suffix: "M€+" },
+  { label: "Tiempo de Entrega", value: 48, suffix: "h" },
+  { label: "Tasa de Éxito", value: 99, suffix: "%" },
 ];
 
 const Stats = () => {
@@ -29,7 +30,7 @@ const Stats = () => {
             >
               <div className="relative inline-block mb-3 sm:mb-4">
                 <div className="text-5xl md:text-7xl font-black text-[#F5F5F5] tracking-tighter flex items-baseline justify-center">
-                  {stat.value}
+                  <CountUp end={stat.value} />
                   <span className="text-[#B454FF] text-2xl md:text-4xl ml-1">{stat.suffix}</span>
                 </div>
                 <div className="absolute -inset-4 bg-[#B454FF]/0 group-hover:bg-[#B454FF]/5 rounded-full blur-xl transition-all duration-500" />
