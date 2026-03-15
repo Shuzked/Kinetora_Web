@@ -153,7 +153,9 @@ const Requests = () => {
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className={`relative h-10 pl-3 pr-9 w-[11ch] inline-flex rounded-full bg-white/[0.03] border-white/10 focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2 ${statusColor[r.status]}`}>
+                      <SelectTrigger
+                        className={`relative h-10 pl-3 pr-9 w-[13ch] inline-flex rounded-full bg-white/[0.03] border-white/10 focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2 ${statusColor[r.status]}`}
+                      >
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -205,8 +207,11 @@ const Requests = () => {
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="relative h-10 pl-3 pr-9 w-[7ch] inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
-                        <SelectValue placeholder="Prioridad" />
+                      <SelectTrigger className="relative h-10 pl-3 pr-3 w-max inline-flex items-center gap-2 rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden">
+                        <Flag className={"w-4 h-4 " + prioColor[r.priority]} />
+                        <span className="text-sm font-medium">
+                          {priorityOptions.find((o) => o.value === r.priority)?.label}
+                        </span>
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
                         {priorityOptions.map((p) => (
