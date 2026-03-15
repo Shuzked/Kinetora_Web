@@ -173,7 +173,7 @@ const Portfolio = () => {
                         </div>
                         <div className="p-6 sm:p-7 flex-1 flex flex-col">
                           {/* Tema (hito) como pill premium */}
-                          <div className="inline-flex items-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                          <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
                             {hito}
                           </div>
                           {/* Titular */}
