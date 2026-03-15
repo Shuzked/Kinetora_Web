@@ -24,7 +24,6 @@ const Navbar = () => {
 
   const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
 
-  // Detecta scroll para cambiar el fondo del navbar
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 8);
@@ -35,12 +34,17 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-full">
-      {/* Capa de fondo animada */}
+      {/* Fondo con blur animado y soporte WebKit */}
       <motion.div
         aria-hidden
-        className="absolute inset-0 pointer-events-none bg-[#0D0D0D]"
+        className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity] backdrop-saturate-150"
         initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)" }}
-        animate={{ opacity: isScrolled ? 0.8 : 0, backdropFilter: isScrolled ? "blur(12px)" : "blur(0px)", WebkitBackdropFilter: isScrolled ? "blur(12px)" : "blur(0px)" }}
+        animate={{
+          opacity: isScrolled ? 0.6 : 0,
+          backdropFilter: isScrolled ? "blur(16px)" : "blur(0px)",
+          WebkitBackdropFilter: isScrolled ? "blur(16px)" : "blur(0px)",
+          backgroundColor: isScrolled ? "rgba(13,13,13,0.6)" : "rgba(13,13,13,0)"
+        }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       />
       {/* Borde inferior animado */}
@@ -52,7 +56,7 @@ const Navbar = () => {
         transition={{ duration: 0.25, ease: "easeOut" }}
       />
 
-      {/* Contenido del navbar con animación de aparición */}
+      {/* Contenido */}
       <motion.div
         className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between relative"
         initial={{ y: -8, opacity: 0 }}
@@ -62,13 +66,13 @@ const Navbar = () => {
         <Link to="/" className="hover:opacity-80 transition-opacity">
           <Logo className="h-6 md:h-8" />
         </Link>
-        
+
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
           {navLinks.map((link) => (
-            <SmoothScrollLink 
-              key={link.name} 
-              href={link.href} 
+            <SmoothScrollLink
+              key={link.name}
+              href={link.href}
               className={`transition-colors hover:text-[#B454FF] ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : ''}`}
             >
               {link.name}
@@ -104,9 +108,9 @@ const Navbar = () => {
               >
                 <div className="flex flex-col gap-8 mt-12">
                   {navLinks.map((link) => (
-                    <SmoothScrollLink 
-                      key={link.name} 
-                      href={link.href} 
+                    <SmoothScrollLink
+                      key={link.name}
+                      href={link.href}
                       className={`text-xl font-black uppercase tracking-tighter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
                     >
                       {link.name}
