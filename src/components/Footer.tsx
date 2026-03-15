@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Facebook, Twitter, Instagram, Youtube, Music2, ArrowRight } from 'lucide-react';
 import { showSuccess } from '@/utils/toast';
+import { motion } from 'framer-motion';
 
 const Footer = () => {
   const [email, setEmail] = useState("");
@@ -22,20 +23,40 @@ const Footer = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Columna izquierda: Logo + legales */}
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
             <Logo className="h-10 mb-4" />
             <p className="text-[#F5F5F5]/80 text-sm mb-6">
               © {new Date().getFullYear()} Kinetora Studio. All rights reserved.
             </p>
             <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm font-semibold text-[#F5F5F5]/80">
-              <a href="#" className="hover:text-[#B454FF] transition-colors">Terms And Conditions</a>
-              <a href="#" className="hover:text-[#B454FF] transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-[#B454FF] transition-colors">Cookies Settings</a>
+              <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
+                Terms And Conditions
+              </a>
+              <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
+                Cookies Settings
+              </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* Columna derecha: Newsletter + redes */}
-          <div className="flex flex-col items-start lg:items-end text-center lg:text-right">
+          <motion.div
+            className="flex flex-col items-start lg:items-end text-center lg:text-right"
+            initial={{ opacity: 0, y: 8 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+          >
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B454FF]/10 border border-[#B454FF]/30 text-[#B454FF] text-[11px] font-extrabold tracking-widest uppercase mb-3">
+              -10% primer mes • Promos y noticias
+            </div>
             <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F5F5F5] uppercase">
               Suscríbete a nuestro<br className="hidden sm:block" /> newsletter
             </h3>
@@ -50,37 +71,43 @@ const Footer = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email"
-                className="flex-1 h-12 bg-[#111111] border-[#2A2A2A] text-[#F5F5F5] rounded-xl"
+                className="flex-1 h-12 bg-[#111111] border-[#2A2A2A] text-[#F5F5F5] rounded-xl focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                 autoComplete="email"
                 inputMode="email"
+                aria-label="Introduce tu email para suscribirte"
               />
               <Button
                 type="submit"
-                className="h-12 px-6 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white font-bold rounded-xl inline-flex items-center gap-2"
+                className="h-12 px-6 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white font-bold rounded-xl inline-flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-[#B454FF]"
+                aria-label="Suscribirse al newsletter"
               >
                 Suscribirse
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </form>
 
-            <div className="mt-6 flex items-center gap-5">
-              <a aria-label="TikTok" href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                <Music2 className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a aria-label="Facebook" href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                <Facebook className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a aria-label="Twitter (X)" href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                <Twitter className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a aria-label="YouTube" href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                <Youtube className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
-              <a aria-label="Instagram" href="#" className="p-2 rounded-full hover:bg-white/5 transition-colors">
-                <Instagram className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
-              </a>
+            <div className="mt-6 flex items-center gap-2 sm:gap-3">
+              {[
+                { Icon: Music2, label: "TikTok", href: "#" },
+                { Icon: Facebook, label: "Facebook", href: "#" },
+                { Icon: Twitter, label: "Twitter (X)", href: "#" },
+                { Icon: Youtube, label: "YouTube", href: "#" },
+                { Icon: Instagram, label: "Instagram", href: "#" },
+              ].map(({ Icon, label, href }, i) => (
+                <a
+                  key={i}
+                  aria-label={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-xl hover:bg-white/5 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                  title={label}
+                >
+                  <Icon className="w-5 h-5 text-[#F5F5F5] hover:text-[#B454FF] transition-colors" />
+                </a>
+              ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </footer>
