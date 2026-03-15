@@ -21,9 +21,10 @@ const Navbar = () => {
     { name: "Método", href: "#como-funciona" },
     { name: "ÉXITOS", href: "#casos" },
     { name: "Planes", href: "#precios" },
+    { name: "Contacto", href: "#contacto" },
   ];
 
-  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
+  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios", "contacto"]);
 
   // Progreso de scroll para calcular blur/opacidad de manera continua
   const { scrollY } = useScroll();
