@@ -6,7 +6,7 @@ import { Palette, Globe, Video, MessageSquare } from 'lucide-react';
 
 const Services = () => {
   return (
-    <section id="servicios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D]">
+    <section id="servicios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24">
           <div className="text-[#B454FF] text-[10px] font-black uppercase tracking-[0.3em] mb-4">

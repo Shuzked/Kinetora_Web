@@ -11,6 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import SmoothScrollLink from '@/components/SmoothScrollLink';
+import useScrollSpy from '@/hooks/use-scroll-spy';
 
 const Navbar = () => {
   const navLinks = [
@@ -19,6 +20,8 @@ const Navbar = () => {
     { name: "Portfolio", href: "#casos" },
     { name: "Planes", href: "#precios" },
   ];
+
+  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-[#2A2A2A] bg-[#0D0D0D]/80 backdrop-blur-xl">
@@ -30,7 +33,11 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
           {navLinks.map((link) => (
-            <SmoothScrollLink key={link.name} href={link.href} className="hover:text-[#B454FF] transition-colors">
+            <SmoothScrollLink 
+              key={link.name} 
+              href={link.href} 
+              className={`transition-colors hover:text-[#B454FF] ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : ''}`}
+            >
               {link.name}
             </SmoothScrollLink>
           ))}
@@ -62,7 +69,7 @@ const Navbar = () => {
                     <SmoothScrollLink 
                       key={link.name} 
                       href={link.href} 
-                      className="text-xl font-black uppercase tracking-tighter hover:text-[#B454FF] transition-colors"
+                      className={`text-xl font-black uppercase tracking-tighter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
                     >
                       {link.name}
                     </SmoothScrollLink>

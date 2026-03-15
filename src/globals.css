@@ -6,32 +6,23 @@
   :root {
     --background: 0 0% 5%; /* Void Black #0D0D0D */
     --foreground: 0 0% 96%; /* Tech White #F5F5F5 */
-
-    --card: 0 0% 7%; /* Tech Black #111111 */
+    --card: 0 0% 7%;
     --card-foreground: 0 0% 96%;
-
     --popover: 0 0% 7%;
     --popover-foreground: 0 0% 96%;
-
-    --primary: 274 100% 66%; /* Kinetora Purple #B454FF */
+    --primary: 274 100% 66%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 0 0% 16%; /* System Grey #2A2A2A */
+    --secondary: 0 0% 16%;
     --secondary-foreground: 0 0% 96%;
-
     --muted: 0 0% 16%;
     --muted-foreground: 0 0% 65%;
-
     --accent: 274 100% 66%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 0 0% 16%;
     --input: 0 0% 16%;
     --ring: 274 100% 66%;
-
     --radius: 0.75rem;
   }
 }
@@ -49,6 +40,12 @@
 
 /* Smooth scrolling */
 html { scroll-behavior: smooth; }
+
+/* Compensación por navbar fijo (altura 64px móvil, 80px desktop) */
+html { scroll-padding-top: 64px; }
+@media (min-width: 768px) {
+  html { scroll-padding-top: 80px; }
+}
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {

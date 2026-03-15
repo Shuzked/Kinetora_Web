@@ -26,7 +26,7 @@ const projects = [
 
 const Portfolio = () => {
   return (
-    <section id="casos" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D]">
+    <section id="casos" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">

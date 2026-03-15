@@ -25,7 +25,7 @@ const HowItWorks = () => {
   return (
     <section
       id="como-funciona"
-      className="py-20 sm:py-24 lg:py-28 bg-[#0D0D0D] border-y border-[#2A2A2A]"
+      className="py-20 sm:py-24 lg:py-28 bg-[#0D0D0D] border-y border-[#2A2A2A] scroll-mt-24 md:scroll-mt-28"
     >
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14 sm:mb-16 lg:mb-20">
