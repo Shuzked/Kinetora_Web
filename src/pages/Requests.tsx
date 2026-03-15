@@ -192,7 +192,7 @@ const Requests = () => {
                         </PopoverTrigger>
                         <PopoverContent
                           align="end"
-                          className="p-2 w-[340px] sm:w-[360px] bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl"
+                          className="p-1 w-auto bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl"
                         >
                           <DateCalendar
                             mode="single"
@@ -205,9 +205,9 @@ const Requests = () => {
                               showSuccess('Fecha actualizada.');
                             }}
                             initialFocus
-                            className="rounded-xl"
+                            className="p-2 rounded-xl"
                             classNames={{
-                              month_caption: "relative flex items-center justify-center px-12",
+                              month_caption: "relative flex items-center justify-center px-8",
                               caption_label: "absolute left-1/2 -translate-x-1/2 text-sm font-medium",
                             }}
                           />
