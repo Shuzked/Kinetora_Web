@@ -53,17 +53,18 @@ body[data-sheet-open="true"] {
   overscroll-behavior: contain;
 }
 
-/* Marquee continuo (una pista con contenido duplicado) */
-@keyframes marquee-scroll {
-  0% { transform: translate3d(0,0,0); }
-  100% { transform: translate3d(-50%,0,0); } /* La mitad porque el contenido está duplicado */
+/* Marquee continuo con dos pistas sincronizadas (loop sin saltos) */
+@keyframes marquee-left-100 {
+  0%   { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(-100%,0,0); }
 }
-.marquee-track {
-  animation: marquee-scroll 60s linear infinite; /* velocidad por defecto */
+.marq-lane, .marq-lane2 {
+  animation: marquee-left-100 50s linear infinite;
   will-change: transform;
 }
-/* Pausa al hover (también funciona cuando el cursor está sobre cualquier marca) */
-.marquee-track:hover {
+/* Pausa al pasar el cursor por la zona de marcas (cualquier marca) */
+.marquee-wrapper:hover .marq-lane,
+.marquee-wrapper:hover .marq-lane2 {
   animation-play-state: paused;
 }
 
