@@ -6,6 +6,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import Projects from "./pages/Projects";
+import Messages from "./pages/Messages";
 import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 
@@ -21,6 +23,8 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/projects" element={<Projects />} />
+          <Route path="/dashboard/messages" element={<Messages />} />
           <Route path="/dashboard/billing" element={<Billing />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
