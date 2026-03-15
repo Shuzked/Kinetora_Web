@@ -28,9 +28,7 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
+  * { @apply border-border; }
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "cv02", "cv03", "cv04", "ss01";
@@ -44,41 +42,41 @@ html { scroll-behavior: smooth; }
 
 /* Compensación por navbar fijo */
 html { scroll-padding-top: 64px; }
-@media (min-width: 768px) {
-  html { scroll-padding-top: 80px; }
-}
+@media (min-width: 768px) { html { scroll-padding-top: 80px; } }
 
 /* Evitar que el sheet abierto bloquee el scroll suave */
-body[data-sheet-open="true"] {
-  overscroll-behavior: contain;
-}
+body[data-sheet-open="true"] { overscroll-behavior: contain; }
 
-/* Marquee continuo (una pista con contenido duplicado) */
+/* Marquee continuo con contenido duplicado: normal e inverso */
 @keyframes marquee-scroll {
   0% { transform: translate3d(0,0,0); }
-  100% { transform: translate3d(-50%,0,0); } /* La mitad porque el contenido está duplicado */
+  100% { transform: translate3d(-50%,0,0); }
+}
+@keyframes marquee-scroll-reverse {
+  0% { transform: translate3d(-50%,0,0); }
+  100% { transform: translate3d(0,0,0); }
 }
 .marquee-track {
-  animation: marquee-scroll 60s linear infinite; /* velocidad por defecto */
+  animation: marquee-scroll 55s linear infinite;
   will-change: transform;
 }
-/* Pausa al hover (también funciona cuando el cursor está sobre cualquier marca) */
-.marquee-track:hover {
-  animation-play-state: paused;
+.marquee-track--reverse {
+  animation-name: marquee-scroll-reverse;
 }
+
+/* Pausa al hover sobre la pista (fallback) */
+.marquee-track:hover { animation-play-state: paused; }
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none !important;
-  }
-  /* Override: si el contenedor tiene data-animate="always", se fuerza la animación igualmente */
+  .marquee-track { animation: none !important; }
   [data-animate="always"] .marquee-track {
-    animation: marquee-scroll 60s linear infinite !important;
+    animation: marquee-scroll 55s linear infinite !important;
   }
-  .hero-bg-video {
-    display: none !important;
+  [data-animate="always"] .marquee-track--reverse {
+    animation: marquee-scroll-reverse 62s linear infinite !important;
   }
+  .hero-bg-video { display: none !important; }
   html { scroll-behavior: auto; }
   * {
     animation-duration: 0.001ms !important;
@@ -93,6 +91,4 @@ body[data-sheet-open="true"] {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
+.no-scrollbar::-webkit-scrollbar { display: none; }
