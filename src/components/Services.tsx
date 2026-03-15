@@ -38,7 +38,7 @@ const Services = () => {
           >
             <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/branding.svg')] bg-cover bg-center" />
             <div className="relative mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 bg-[url('/assets/service-icons/branding.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
@@ -59,7 +59,7 @@ const Services = () => {
           >
             <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/digital.svg')] bg-cover bg-center" />
             <div className="relative mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 bg-[url('/assets/service-icons/digital.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30">
+              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30">
                 <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
@@ -78,7 +78,7 @@ const Services = () => {
           >
             <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/multimedia.svg')] bg-cover bg-center" />
             <div className="relative mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 bg-[url('/assets/service-icons/multimedia.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
@@ -97,7 +97,7 @@ const Services = () => {
           >
             <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/communication.svg')] bg-cover bg-center" />
             <div className="relative mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 bg-[url('/assets/service-icons/communication.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
