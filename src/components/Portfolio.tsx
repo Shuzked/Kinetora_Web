@@ -154,8 +154,7 @@ const Portfolio = () => {
                     const metricLabel = cs.metricLabel ?? m?.metricLabel;
                     const metricValue = cs.metricValue ?? m?.metricValue;
                     return (
-                      <Link
-                        to={`/casos/${cs.slug}`}
+                      <div
                         className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors"
                       >
                         <div className="aspect-[16/10] overflow-hidden">
@@ -216,7 +215,7 @@ const Portfolio = () => {
                             </PremiumButton>
                           </div>
                         </div>
-                      </Link>
+                      </div>
                     );
                   })()}
                 </motion.div>

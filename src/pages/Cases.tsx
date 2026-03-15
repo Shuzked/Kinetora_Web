@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PremiumButton from "@/components/PremiumButton";
@@ -117,9 +117,8 @@ const Cases = () => {
                 const metricLabel = cs.metricLabel ?? m?.metricLabel;
                 const metricValue = cs.metricValue ?? m?.metricValue;
                 return (
-                  <Link
+                  <div
                     key={cs.slug}
-                    to={`/casos/${cs.slug}`}
                     className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors"
                   >
                     <div className="aspect-[16/10] overflow-hidden">
@@ -179,7 +178,7 @@ const Cases = () => {
                         </PremiumButton>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 );
               })}
             </div>
