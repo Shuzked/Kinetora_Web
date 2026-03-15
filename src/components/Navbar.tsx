@@ -21,13 +21,13 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-full border-b border-[#2A2A2A] bg-[#0D0D0D]/80 backdrop-blur-xl">
-      <div className="container mx-auto flex h-20 items-center justify-between px-6">
+      <div className="container mx-auto flex h-16 md:h-20 items-center justify-between px-4 md:px-6">
         <Link to="/" className="hover:opacity-80 transition-opacity">
-          <Logo className="h-7 md:h-8" />
+          <Logo className="h-6 md:h-8" />
         </Link>
         
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
+        <div className="hidden md:flex items-center gap-8 lg:gap-10 text-[11px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
           {navLinks.map((link) => (
             <a key={link.name} href={link.href} className="hover:text-[#B454FF] transition-colors">
               {link.name}
@@ -35,14 +35,14 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-4 md:gap-6">
+        <div className="flex items-center gap-3 md:gap-6">
           <Link to="/login" className="hidden sm:block">
-            <button className="text-[11px] font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors tracking-widest">
+            <button className="text-[10px] md:text-[11px] font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors tracking-widest">
               LOGIN
             </button>
           </Link>
           <Link to="/login">
-            <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-6 md:px-8 h-10 font-bold text-[10px] md:text-xs tracking-widest shadow-[0_0_20px_rgba(180,84,255,0.3)]">
+            <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-5 md:px-8 h-9 md:h-11 font-bold text-[9px] md:text-xs tracking-widest shadow-[0_0_20px_rgba(180,84,255,0.3)]">
               EMPEZAR
             </Button>
           </Link>
@@ -51,8 +51,8 @@ const Navbar = () => {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-[#F5F5F5]">
-                  <Menu className="w-6 h-6" />
+                <Button variant="ghost" size="icon" className="text-[#F5F5F5] h-9 w-9">
+                  <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
               <SheetContent side="right" className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5]">

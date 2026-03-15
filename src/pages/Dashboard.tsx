@@ -64,7 +64,7 @@ const Dashboard = () => {
           </div>
           <Button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-12 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full md:w-auto"
+            className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-6 md:px-10 h-11 md:h-13 text-[10px] md:text-xs font-black tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full md:w-auto"
           >
             <Plus className="w-4 h-4 mr-2" />
             NUEVA SOLICITUD

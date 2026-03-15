@@ -31,10 +31,10 @@ const Hero = () => {
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto en 48h.
           </p>
           <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 md:gap-5">
-            <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-10 h-14 md:h-16 text-base md:text-lg font-black shadow-[0_10px_40px_rgba(180,84,255,0.3)] w-full sm:w-auto">
+            <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 md:px-12 h-13 md:h-16 text-sm md:text-lg font-black shadow-[0_10px_40px_rgba(180,84,255,0.3)] w-full sm:w-auto">
               VER PLANES
             </Button>
-            <Button size="lg" variant="outline" className="border-[#2A2A2A] text-[#F5F5F5] hover:bg-[#111111] rounded-full px-10 h-14 md:h-16 text-base md:text-lg font-bold w-full sm:w-auto">
+            <Button size="lg" variant="outline" className="border-[#2A2A2A] text-[#F5F5F5] hover:bg-[#111111] rounded-full px-8 md:px-12 h-13 md:h-16 text-sm md:text-lg font-bold w-full sm:w-auto">
               PORTFOLIO
             </Button>
           </div>
