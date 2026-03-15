@@ -7,9 +7,12 @@ import { X, Check, AlertCircle, Zap } from 'lucide-react';
 const ValueProp = () => {
   return (
     <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
-      {/* ambient glow */}
-      <div className="pointer-events-none absolute -top-28 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
-      <div className="pointer-events-none absolute -bottom-28 -right-24 h-72 w-72 rounded-full bg-[#5EEAD4]/6 blur-[90px]" />
+      {/* ambient glow (soft, no hard cuts) */}
+      <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/10 blur-[110px] z-0" />
+      <div className="pointer-events-none absolute -bottom-36 -right-28 h-[26rem] w-[26rem] rounded-full bg-[#5EEAD4]/5 blur-[120px] z-0" />
+      {/* edge fades to blend with adjacent sections */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(to_bottom,#0D0D0D,transparent)] z-[1]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(to_top,#0D0D0D,transparent)] z-[1]" />
 
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-14 sm:mb-16 lg:mb-20">
