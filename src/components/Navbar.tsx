@@ -58,21 +58,21 @@ const Navbar = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
-        {/* Izquierda: Logo */}
-        <div className="flex items-center justify-start">
+        {/* Izquierda: Logo (alineado verticalmente) */}
+        <div className="h-full flex items-center justify-start">
           <Link to="/" className="hover:opacity-80 transition-opacity">
             <Logo className="h-6" />
           </Link>
         </div>
 
-        {/* Centro: Desktop Nav centrado */}
-        <div className="hidden md:flex items-center justify-center gap-9 lg:gap-12 text-[12px] font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
+        {/* Centro: Desktop Nav centrado y alineado verticalmente */}
+        <div className="hidden md:flex h-full items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
           {navLinks.map((link) => {
             const isActive = activeId === link.href.replace('#','');
             return (
               <span key={link.name} className="relative pb-2">
                 <SmoothScrollLink 
-                  href={link.href} 
+                  href={link.href}
                   className={`transition-colors hover:text-[#B454FF] ${isActive ? 'text-[#B454FF]' : ''}`}
                 >
                   {link.name}
@@ -89,15 +89,15 @@ const Navbar = () => {
           })}
         </div>
 
-        {/* Derecha: Acciones */}
-        <div className="flex items-center justify-end gap-3 md:gap-6">
+        {/* Derecha: Acciones (alineado vertical y baseline consistente) */}
+        <div className="h-full flex items-center justify-end gap-3 md:gap-6">
           <Link to="/login" className="hidden sm:block">
-            <button className="text-[11px] md:text-[12px] font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors tracking-widest">
+            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[11px] md:text-[12px] leading-none font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors tracking-widest">
               LOGIN
             </button>
           </Link>
           <Link to="/login">
-            <Button className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-6 md:px-9 h-10 md:h-12 font-bold text-[10px] md:text-sm tracking-widest shadow-[0_0_20px_rgba(180,84,255,0.3)]">
+            <Button className="inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-9 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full font-bold text-[10px] md:text-sm leading-none tracking-widest shadow-[0_0_20px_rgba(180,84,255,0.3)]">
               EMPEZAR
             </Button>
           </Link>
@@ -118,16 +118,16 @@ const Navbar = () => {
               >
                 <div className="flex flex-col gap-8 mt-12">
                   {navLinks.map((link) => (
-                    <SmoothScrollLink
-                      key={link.name}
-                      href={link.href}
-                      className={`text-xl font-black uppercase tracking-tighter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
+                    <SmoothScrollLink 
+                      key={link.name} 
+                      href={link.href} 
+                      className={`text-xl font-black uppercase tracking-titter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
                     >
                       {link.name}
                     </SmoothScrollLink>
                   ))}
                   <hr className="border-[#2A2A2A]" />
-                  <Link to="/login" className="text-xl font-black uppercase tracking-tighter hover:text-[#B454FF]">
+                  <Link to="/login" className="text-xl font-black uppercase tracking-titter hover:text-[#B454FF]">
                     LOGIN
                   </Link>
                 </div>
