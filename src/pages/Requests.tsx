@@ -158,44 +158,45 @@ const Requests = () => {
                     </Select>
                   </TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
-                    <div className="relative w-full md:w-auto">
-                      <Input
-                        name={r.id}
-                        type="date"
-                        value={r.date}
-                        onChange={onChangeDate}
-                        className="h-10 w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] pl-4 pr-10 focus-visible:ring-2 focus-visible:ring-[#B454FF] kin-no-native-picker"
-                      />
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <button
-                            type="button"
-                            aria-label="Abrir calendario"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                    <div className="w-full md:w-auto min-w-[220px]">
+                      <div className="inline-flex items-center w-full rounded-full bg-white/[0.03] border border-white/10 focus-within:ring-2 focus-within:ring-[#B454FF]">
+                        <Input
+                          name={r.id}
+                          type="date"
+                          value={r.date}
+                          onChange={onChangeDate}
+                          className="h-10 flex-1 min-w-0 bg-transparent border-0 text-[#F5F5F5] pl-4 pr-2 focus-visible:ring-0 focus-visible:outline-none kin-no-native-picker"
+                        />
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <button
+                              type="button"
+                              aria-label="Abrir calendario"
+                              className="mr-1.5 my-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                            >
+                              <CalendarIcon className="w-4 h-4 text-white" />
+                            </button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            align="end"
+                            className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
                           >
-                            <CalendarIcon className="w-4 h-4 text-white" />
-                          </button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                          align="end"
-                          className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
-                        >
-                          <DateCalendar
-                            mode="single"
-                            selected={r.date ? new Date(r.date + "T00:00:00") : undefined}
-                            onSelect={(d) => {
-                              if (!d) return;
-                              const iso = toISODate(d);
-                              // Reutilizamos los handlers existentes para persistir y registrar actividad
-                              updateFields(r.id, { date: iso });
-                              addActivity(r.id, { type: "update", text: "Fecha límite actualizada", time: new Date().toLocaleString() });
-                              showSuccess("Fecha actualizada.");
-                            }}
-                            initialFocus
-                            className="rounded-xl"
-                          />
-                        </PopoverContent>
-                      </Popover>
+                            <DateCalendar
+                              mode="single"
+                              selected={r.date ? new Date(r.date + 'T00:00:00') : undefined}
+                              onSelect={(d) => {
+                                if (!d) return;
+                                const iso = toISODate(d);
+                                updateFields(r.id, { date: iso });
+                                addActivity(r.id, { type: 'update', text: 'Fecha límite actualizada', time: new Date().toLocaleString() });
+                                showSuccess('Fecha actualizada.');
+                              }}
+                              initialFocus
+                              className="rounded-xl"
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell className="w-1/5 sm:w-auto">
