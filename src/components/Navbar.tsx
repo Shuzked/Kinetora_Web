@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import SmoothScrollLink from '@/components/SmoothScrollLink';
 import useScrollSpy from '@/hooks/use-scroll-spy';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const Navbar = () => {
   const navLinks = [
@@ -24,39 +24,34 @@ const Navbar = () => {
 
   const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
 
-  const [isScrolled, setIsScrolled] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 8);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Progreso de scroll para calcular blur/opacidad de manera continua
+  const { scrollY } = useScroll();
+  const progress = useTransform(scrollY, [0, 140], [0, 1]); // 0 a 140px de scroll
+  const blurMV = useTransform(progress, (v) => `blur(${14 * v}px)`); // blur medio y sutil
+  const bgMV = useTransform(progress, (v) => `rgba(13,13,13,${0.12 * v})`); // tinte muy ligero
+  const borderOpacity = progress;
 
   return (
     <nav className="fixed top-0 z-50 w-full">
-      {/* Fondo con blur real (sin brillo) */}
+      {/* Fondo con blur progresivo (sin brillo) */}
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
-        initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)", backgroundColor: "rgba(13,13,13,0)" }}
-        animate={{
-          // desenfoque sutil, sin brillo
-          opacity: isScrolled ? 1 : 0,
-          backdropFilter: isScrolled ? "blur(14px)" : "blur(0px)",
-          WebkitBackdropFilter: isScrolled ? "blur(14px)" : "blur(0px)",
-          backgroundColor: isScrolled ? "rgba(13,13,13,0.12)" : "rgba(13,13,13,0)"
+        style={{
+          opacity: progress,
+          backdropFilter: blurMV as any,
+          WebkitBackdropFilter: blurMV as any,
+          backgroundColor: bgMV as any,
         }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       />
-      {/* Borde inferior */}
+      {/* Borde inferior con opacidad progresiva */}
       <motion.div
         aria-hidden
         className="absolute inset-x-0 bottom-0 h-px bg-[#2A2A2A] pointer-events-none"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isScrolled ? 1 : 0 }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        style={{ opacity: borderOpacity }}
       />
 
+      {/* Contenido del navbar con animación de aparición inicial */}
       <motion.div
         className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 flex h-16 md:h-20 items-center justify-between relative"
         initial={{ y: -8, opacity: 0 }}
