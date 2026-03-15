@@ -109,12 +109,12 @@ const Requests = () => {
 
       <div className="mt-6 rounded-2xl bg-[#111111] border border-white/10 overflow-hidden">
         <div className="overflow-x-auto">
-          <Table>
+          <Table className="min-w-full">
             <TableHeader>
               <TableRow className="hover:bg-transparent border-white/10">
-                <TableHead className="text-[#F5F5F5]/55 font-semibold">ID</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell">ID</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Título</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold">Servicio</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">Servicio</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Estado</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Fecha límite</TableHead>
                 <TableHead className="text-[#F5F5F5]/55 font-semibold">Prioridad</TableHead>
@@ -124,8 +124,8 @@ const Requests = () => {
 
             <TableBody>
               {filtered.map((r) => (
-                <TableRow key={r.id} className="border-white/10 hover:bg-white/[0.03]">
-                  <TableCell className="text-[#F5F5F5]/70 font-semibold">{r.id}</TableCell>
+                <TableRow key={r.id} className="border-white/10 hover:bg-white/[0.03] align-middle">
+                  <TableCell className="text-[#F5F5F5]/70 font-semibold hidden md:table-cell">{r.id}</TableCell>
 
                   <TableCell className="text-[#F5F5F5] font-semibold">
                     <button
@@ -137,11 +137,11 @@ const Requests = () => {
                     </button>
                   </TableCell>
 
-                  <TableCell className="text-[#F5F5F5]/70">{r.service}</TableCell>
+                  <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell">{r.service}</TableCell>
 
                   <TableCell>
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-9 w-[170px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-9 w-full sm:w-[170px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -152,19 +152,19 @@ const Requests = () => {
                     </Select>
                   </TableCell>
 
-                  <TableCell className="min-w-[180px]">
+                  <TableCell className="min-w-[160px]">
                     <Input
                       name={r.id}
                       type="date"
                       value={r.date}
                       onChange={onChangeDate}
-                      className="h-9 rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                      className="h-9 w-full rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                     />
                   </TableCell>
 
                   <TableCell>
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-9 w-[150px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-9 w-full sm:w-[150px] rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">

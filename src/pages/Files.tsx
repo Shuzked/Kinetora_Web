@@ -88,8 +88,8 @@ const Files = () => {
             </div>
             <div className="p-5">
               <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <div className="text-[#F5F5F5] font-semibold truncate">{it.name}</div>
+                <div className="min-w-0 max-w-full">
+                  <div className="text-[#F5F5F5] font-semibold truncate" title={it.name}>{it.name}</div>
                   <div className="text-[#F5F5F5]/55 text-sm mt-0.5">{it.category}</div>
                 </div>
                 <div className="shrink-0 h-9 w-9 rounded-xl bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 flex items-center justify-center">

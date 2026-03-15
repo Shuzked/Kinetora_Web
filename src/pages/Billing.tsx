@@ -89,15 +89,15 @@ const Billing = () => {
             <h2 className="text-xl font-black text-[#F5F5F5] tracking-tight">Historial de Facturas</h2>
           </div>
 
-          <div className="overflow-x-auto">
-            <Table>
+          <div className="overflow-x-hidden">
+            <Table className="min-w-full">
               <TableHeader>
                 <TableRow className="hover:bg-transparent border-white/10">
                   <TableHead className="text-[#F5F5F5]/55 font-semibold">Factura</TableHead>
                   <TableHead className="text-[#F5F5F5]/55 font-semibold">Fecha</TableHead>
-                  <TableHead className="text-[#F5F5F5]/55 font-semibold">Plan</TableHead>
+                  <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell">Plan</TableHead>
                   <TableHead className="text-[#F5F5F5]/55 font-semibold">Monto</TableHead>
-                  <TableHead className="text-[#F5F5F5]/55 font-semibold">Estado</TableHead>
+                  <TableHead className="text-[#F5F5F5]/55 font-semibold hidden sm:table-cell">Estado</TableHead>
                   <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
@@ -111,9 +111,9 @@ const Billing = () => {
                   <TableRow key={inv.id} className="border-white/10 hover:bg-white/[0.03]">
                     <TableCell className="text-[#F5F5F5] font-semibold">{inv.id}</TableCell>
                     <TableCell className="text-[#F5F5F5]/70">{inv.date}</TableCell>
-                    <TableCell className="text-[#F5F5F5]/70">{inv.plan}</TableCell>
+                    <TableCell className="text-[#F5F5F5]/70 hidden md:table-cell">{inv.plan}</TableCell>
                     <TableCell className="text-[#F5F5F5] font-semibold">{inv.amount}</TableCell>
-                    <TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <span className="inline-flex items-center h-7 px-3 rounded-full border text-xs font-semibold bg-green-500/15 text-green-300 border-green-500/20">
                         Pagado
                       </span>

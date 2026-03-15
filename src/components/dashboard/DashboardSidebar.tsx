@@ -38,7 +38,7 @@ const DashboardSidebar = () => {
         </Link>
       </div>
 
-      <nav className="flex-1 px-4 pb-4 space-y-1">
+      <nav className="flex-1 px-4 pb-4 space-y-1 min-w-0">
         {menuItems.map((item) => {
           const active = location.pathname === item.path;
           return (
@@ -46,7 +46,7 @@ const DashboardSidebar = () => {
               key={item.path}
               to={item.path}
               className={
-                "group flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-semibold transition-colors border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] " +
+                "group flex items-center gap-3 px-4 py-3 rounded-xl text-[13px] font-semibold transition-colors border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] min-w-0 " +
                 (active
                   ? "bg-[#B454FF]/18 border-[#B454FF]/28 text-[#F5F5F5] shadow-[0_10px_30px_rgba(180,84,255,0.12)]"
                   : "bg-transparent border-transparent text-[#F5F5F5]/70 hover:text-[#F5F5F5] hover:bg-white/[0.04] hover:border-white/10")
@@ -58,7 +58,7 @@ const DashboardSidebar = () => {
                   (active ? "text-[#B454FF]" : "text-[#F5F5F5]/55 group-hover:text-[#F5F5F5]")
                 }
               />
-              {item.label}
+              <span className="truncate">{item.label}</span>
             </Link>
           );
         })}

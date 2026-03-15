@@ -69,7 +69,7 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
                 )}
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-[#111111] border-white/10 text-[#F5F5F5] w-[360px] p-0 overflow-hidden">
+            <DropdownMenuContent align="end" className="bg-[#111111] border-white/10 text-[#F5F5F5] w-[86vw] max-w-[360px] p-0 overflow-hidden">
               <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
                 <DropdownMenuLabel className="p-0 text-[#F5F5F5]">Notificaciones</DropdownMenuLabel>
                 <button
@@ -87,20 +87,14 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
                   <div className="p-4 text-[#F5F5F5]/60 text-sm">Sin notificaciones.</div>
                 ) : (
                   items.map((n) => (
-                    <div
-                      key={n.id}
-                      className={
-                        "px-3 py-3 border-b border-white/10 last:border-0 transition-opacity " +
-                        (n.read ? "opacity-60 hover:opacity-100 focus-within:opacity-100" : "opacity-100")
-                      }
-                    >
+                    <div key={n.id} className={"px-3 py-3 border-b border-white/10 last:border-0 transition-opacity " + (n.read ? "opacity-60 hover:opacity-100 focus-within:opacity-100" : "opacity-100")}>
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className={"h-8 w-8 rounded-full border flex items-center justify-center shrink-0 " + tintFor(n.type)}>
                             {iconFor(n.type)}
                           </div>
                           <div className="min-w-0">
-                            <div className={"text-sm font-semibold truncate " + (n.read ? "text-[#F5F5F5]/85" : "text-[#F5F5F5]")}>
+                            <div className={"text-sm font-semibold break-words " + (n.read ? "text-[#F5F5F5]/85" : "text-[#F5F5F5]")}>
                               {n.title}
                             </div>
                             <div className="text-[11px] text-[#F5F5F5]/50 mt-0.5">{n.time}</div>
