@@ -5,8 +5,97 @@ import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
 import { Check, CreditCard, Download } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { jsPDF } from "jspdf";
 
 const Billing = () => {
+  const generateInvoicePdf = (inv: { id: string; date: string; plan: string; amount: string }) => {
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    const marginX = 56;
+    let y = 56;
+
+    // Header
+    doc.setFillColor(13, 13, 13);
+    doc.rect(0, 0, doc.internal.pageSize.getWidth(), 120, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.text("Kinetora Studio", marginX, y);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(230, 230, 230);
+    doc.text("hello@kinetora.com • kinetora.com", marginX, y + 20);
+
+    // Invoice meta (right)
+    const rightX = doc.internal.pageSize.getWidth() - marginX;
+    doc.setTextColor(255, 255, 255);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.text("FACTURA", rightX, y, { align: "right" });
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(11);
+    doc.setTextColor(230, 230, 230);
+    doc.text(`Nº: ${inv.id}`, rightX, y + 18, { align: "right" });
+    doc.text(`Fecha: ${inv.date}`, rightX, y + 34, { align: "right" });
+
+    // Bill to
+    y = 160;
+    doc.setTextColor(30, 30, 30);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.text("Facturar a", marginX, y);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(60, 60, 60);
+    doc.text("Juan Díaz", marginX, y + 18);
+    doc.text("cliente@empresa.com", marginX, y + 34);
+
+    // Details box
+    y += 70;
+    doc.setDrawColor(43, 43, 43);
+    doc.setFillColor(248, 248, 248);
+    doc.roundedRect(marginX - 6, y - 28, doc.internal.pageSize.getWidth() - marginX * 2 + 12, 120, 10, 10, "S");
+    doc.setTextColor(30, 30, 30);
+    doc.setFont("helvetica", "bold");
+    doc.text("Detalle", marginX, y - 8);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.setTextColor(20, 20, 20);
+    doc.text("Concepto", marginX, y + 8);
+    doc.text("Periodo", marginX + 260, y + 8);
+    doc.text("Importe", rightX, y + 8, { align: "right" });
+    doc.setDrawColor(220, 220, 220);
+    doc.line(marginX - 6, y + 14, rightX + 6, y + 14);
+
+    // Row
+    const period = inv.date; // usamos la fecha de la factura como periodo de referencia
+    doc.setTextColor(70, 70, 70);
+    doc.text(inv.plan, marginX, y + 34);
+    doc.text(period, marginX + 260, y + 34);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(0, 0, 0);
+    doc.text(inv.amount, rightX, y + 34, { align: "right" });
+
+    // Total
+    y += 70;
+    doc.setDrawColor(220, 220, 220);
+    doc.line(marginX - 6, y, rightX + 6, y);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(20, 20, 20);
+    doc.text("TOTAL", marginX, y + 26);
+    doc.setTextColor(180, 84, 255); // #B454FF
+    doc.text(inv.amount, rightX, y + 26, { align: "right" });
+
+    // Footer
+    y = doc.internal.pageSize.getHeight() - 80;
+    doc.setDrawColor(235, 235, 235);
+    doc.line(marginX, y, rightX, y);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(110, 110, 110);
+    doc.text("Gracias por confiar en Kinetora. Esta factura ha sido generada automáticamente.", marginX, y + 22);
+
+    doc.save(`${inv.id}.pdf`);
+  };
+
   return (
     <PortalLayout>
       <div>
@@ -98,7 +187,9 @@ const Billing = () => {
                   <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell">Plan</TableHead>
                   <TableHead className="text-[#F5F5F5]/55 font-semibold">Monto</TableHead>
                   <TableHead className="text-[#F5F5F5]/55 font-semibold hidden sm:table-cell">Estado</TableHead>
-                  <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">Acciones</TableHead>
+                  <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">
+                    <span className="sr-only">Descargar</span>
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -122,6 +213,7 @@ const Billing = () => {
                       <button
                         type="button"
                         aria-label="Descargar"
+                        onClick={() => generateInvoicePdf(inv)}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#B454FF] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                       >
                         <Download className="w-4 h-4" />
