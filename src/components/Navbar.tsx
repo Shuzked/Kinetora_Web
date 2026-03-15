@@ -40,13 +40,13 @@ const Navbar = () => {
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
         initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)", backgroundColor: "rgba(13,13,13,0)" }}
         animate={{
-          // Opacidad más baja y blur más sutil
-          opacity: isScrolled ? 0.9 : 0,
-          backdropFilter: isScrolled ? "blur(10px)" : "blur(0px)",
-          WebkitBackdropFilter: isScrolled ? "blur(10px)" : "blur(0px)",
-          backgroundColor: isScrolled ? "rgba(13,13,13,0.18)" : "rgba(13,13,13,0)"
+          // desenfoque sutil, sin brillo
+          opacity: isScrolled ? 1 : 0,
+          backdropFilter: isScrolled ? "blur(14px)" : "blur(0px)",
+          WebkitBackdropFilter: isScrolled ? "blur(14px)" : "blur(0px)",
+          backgroundColor: isScrolled ? "rgba(13,13,13,0.12)" : "rgba(13,13,13,0)"
         }}
-        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
       />
       {/* Borde inferior */}
       <motion.div
