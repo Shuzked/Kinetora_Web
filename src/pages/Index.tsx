@@ -15,6 +15,7 @@ import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import ParallaxSection from '@/components/ParallaxSection';
 import FloatingCTA from '@/components/FloatingCTA';
+import Contact from '@/components/Contact';
 
 const Index = () => {
   return (
@@ -45,6 +46,9 @@ const Index = () => {
         </ParallaxSection>
         <ParallaxSection intensity={14}>
           <Pricing />
+        </ParallaxSection>
+        <ParallaxSection intensity={12}>
+          <Contact />
         </ParallaxSection>
         <ParallaxSection intensity={12}>
           <FAQ />
