@@ -52,6 +52,25 @@ body[data-sheet-open="true"] {
   overscroll-behavior: contain;
 }
 
+/* Marquee continuo (sin saltos): dos pistas sincronizadas */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+.marquee {
+  animation: marquee-scroll 22s linear infinite;
+}
+.marquee2 {
+  animation: marquee-scroll 22s linear infinite;
+}
+
+/* Reducir movimiento si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  .marquee, .marquee2 {
+    animation: none !important;
+  }
+}
+
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
