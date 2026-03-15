@@ -8,7 +8,6 @@ import {
   ArrowLeft,
   CheckCircle2,
   Clock3,
-  Flag,
   Image as ImageIcon,
   MessageSquare,
   Trash2,
@@ -40,21 +39,6 @@ type ActivityItem = {
 type Attachment = { id: string; name: string; url: string; kind: "image" | "file" };
 
 type Comment = { id: string; author: string; text: string; time: string };
-
-const statusPill: Record<RequestStatus, { label: string; className: string }> = {
-  completed: {
-    label: "Completado",
-    className: "bg-green-500/15 text-green-300 border-green-500/20",
-  },
-  review: {
-    label: "En Revisión",
-    className: "bg-blue-500/15 text-blue-300 border-blue-500/20",
-  },
-  "in-progress": {
-    label: "En Progreso",
-    className: "bg-[#B454FF]/18 text-[#D7B3FF] border-[#B454FF]/25",
-  },
-};
 
 const prioColor: Record<Priority, string> = {
   alta: "text-red-300",
@@ -92,7 +76,6 @@ const RequestDetail = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Datos base (demo) — normalmente vendría de una API
   const base = useMemo(() => {
     const items = [
       {
@@ -150,11 +133,10 @@ const RequestDetail = () => {
     return items.find((r) => r.id === id) ?? items[0];
   }, [id]);
 
-  // Estados editables (estilo ClickUp)
   const [title, setTitle] = useState(base.title);
   const [status, setStatus] = useState<RequestStatus>(base.status);
   const [priority, setPriority] = useState<Priority>(base.priority);
-  const [dueDate, setDueDate] = useState<string>(base.date); // yyyy-mm-dd
+  const [dueDate, setDueDate] = useState<string>(base.date);
   const [description, setDescription] = useState(base.description);
 
   const [attachments, setAttachments] = useState<Attachment[]>(base.attachments);
@@ -195,7 +177,6 @@ const RequestDetail = () => {
       ...prev,
     ]);
     showSuccess("Adjuntos añadidos.");
-    // Limpia el input para permitir volver a subir el mismo archivo si se quiere
     e.currentTarget.value = "";
   };
 
@@ -228,7 +209,6 @@ const RequestDetail = () => {
   return (
     <PortalLayout>
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex items-start justify-between gap-6">
           <div className="min-w-0">
             <button
@@ -247,7 +227,7 @@ const RequestDetail = () => {
                 className="bg-[#111111] border-white/10 rounded-xl h-12 text-[#F5F5F5] text-lg font-bold tracking-tight focus-visible:ring-2 focus-visible:ring-[#B454FF] min-w-0"
               />
               <div className="flex items-center gap-2 shrink-0">
-                <Select value={status} onValueChange={(v: RequestStatus) => setStatus(v)}>
+                <Select value={status} onValueChange={(v) => setStatus(v as RequestStatus)}>
                   <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 w-[160px] text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Estado" />
                   </SelectTrigger>
@@ -258,7 +238,7 @@ const RequestDetail = () => {
                   </SelectContent>
                 </Select>
 
-                <Select value={priority} onValueChange={(v: Priority) => setPriority(v)}>
+                <Select value={priority} onValueChange={(v) => setPriority(v as Priority)}>
                   <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 w-[140px] text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                     <SelectValue placeholder="Prioridad" />
                   </SelectTrigger>
@@ -290,15 +270,14 @@ const RequestDetail = () => {
               </div>
             </div>
 
-            <div className="mt-1 text-[#F5F5F5]/55">ID {base.id} · {base.service} · <span className={prioColor[priority]}>Prioridad {priority}</span></div>
+            <div className="mt-1 text-[#F5F5F5]/55">
+              ID {base.id} · {base.service} · <span className={prioColor[priority]}>Prioridad {priority}</span>
+            </div>
           </div>
         </div>
 
-        {/* Layout principal: detalles + actividad */}
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Columna principal */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Descripción editable */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="flex items-center justify-between">
                 <div className="text-[#F5F5F5] font-bold">Descripción</div>
@@ -319,7 +298,6 @@ const RequestDetail = () => {
               />
             </section>
 
-            {/* Adjuntos: ver, descargar, subir y eliminar */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="flex items-center justify-between">
                 <div className="text-[#F5F5F5] font-bold">Adjuntos</div>
@@ -402,7 +380,6 @@ const RequestDetail = () => {
               )}
             </section>
 
-            {/* Notas / comentarios (tipo ClickUp) */}
             <section id="notes" className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="text-[#F5F5F5] font-bold">Notas</div>
               <p className="text-[#F5F5F5]/60 text-sm mt-1">
@@ -440,16 +417,7 @@ const RequestDetail = () => {
                         </div>
                         {c.author === "Yo" && (
                           <button
-                            type<dyad-read path="src/pages/RequestDetail.tsx"></dyad-read>
-<dyad-chat-summary>Checking current RequestDetail to finish ClickUp-like editing, attachments, and notes</dyad-chat-summary>Para cumplir “como ClickUp” en el detalle de la request, voy a:
-- Convertir el detalle en un editor en vivo: título editable, estado, prioridad y fecha límite con guardado rápido.
-- Añadir gestor de adjuntos: subir (múltiple), previsualizar/descargar y eliminar.
-- Añadir notas/comentarios con posibilidad de borrar los propios.
-- Registrar actividad automáticamente por cada acción importante.
-
-A continuación sustituyo el archivo del detalle por una versión completa con todas estas funciones.
-
-<dyad-write path="src/pages/RequestDetail.tsx" description="Detalle de Request estilo ClickUp: edición inline (título/estado/prioridad/fecha), adjuntos (subir/eliminar/descargar), notas/comentarios y timeline de actividad con toasts.">
+                            type<dyad-write path="src/pages/RequestDetail.tsx" description="Fix syntax error and finalize ClickUp-like Request detail page with inline editing, attachments management, notes, and activity timeline.">
 "use client";
 
 import React, { useMemo, useRef, useState } from "react";
@@ -460,7 +428,6 @@ import {
   ArrowLeft,
   CheckCircle2,
   Clock3,
-  Flag,
   Image as ImageIcon,
   MessageSquare,
   Trash2,
@@ -529,7 +496,7 @@ const RequestDetail = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Datos base (demo) — normalmente vendrían de API
+  // Datos base (demo)
   const base = useMemo(() => {
     const items = [
       {
@@ -587,7 +554,7 @@ const RequestDetail = () => {
     return items.find((r) => r.id === id) ?? items[0];
   }, [id]);
 
-  // Estados editables (estilo ClickUp)
+  // Estados editables
   const [title, setTitle] = useState(base.title);
   const [status, setStatus] = useState<RequestStatus>(base.status);
   const [priority, setPriority] = useState<Priority>(base.priority);
@@ -840,7 +807,7 @@ const RequestDetail = () => {
               )}
             </section>
 
-            {/* Notas / comentarios (tipo ClickUp) */}
+            {/* Notas / comentarios */}
             <section id="notes" className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="text-[#F5F5F5] font-bold">Notas</div>
               <p className="text-[#F5F5F5]/60 text-sm mt-1">
