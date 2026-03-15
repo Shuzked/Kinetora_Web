@@ -52,6 +52,8 @@ const Hero = () => {
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
+        {/* Capa extra oscura para aumentar contraste del texto */}
+        <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
       </div>
 
       {/* Glow de marca */}
@@ -83,7 +85,7 @@ const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-base md:text-lg text-[#F5F5F5]/50 max-w-xl leading-relaxed font-medium mb-8 sm:mb-10"
+            className="text-base md:text-lg text-[#F5F5F5]/80 max-w-xl leading-relaxed font-medium mb-8 sm:mb-10"
           >
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto entregados en 48 horas.
           </motion.p>
