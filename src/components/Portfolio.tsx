@@ -19,7 +19,7 @@ type WPListPost = {
   excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }> ;
   };
 };
 
@@ -155,7 +155,7 @@ const Portfolio = () => {
                     const metricValue = cs.metricValue ?? m?.metricValue;
                     return (
                       <div
-                        className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors"
+                        className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0"
                       >
                         <div className="aspect-[16/10] overflow-hidden">
                           {!metaReady ? (
@@ -210,6 +210,7 @@ const Portfolio = () => {
                                 e.stopPropagation();
                                 window.open(cs.sourceUrl, "_blank", "noopener,noreferrer");
                               }}
+                              aria-label={`Leer más: ${cs.title}`}
                             >
                               LEER MÁS
                             </PremiumButton>
