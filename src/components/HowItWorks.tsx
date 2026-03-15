@@ -23,12 +23,12 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section id="como-funciona" className="py-24 bg-black border-y border-white/5">
+    <section id="como-funciona" className="py-24 bg-[#0D0D0D] border-y border-[#2A2A2A]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
-            Tu nuevo flujo de trabajo creativo. <br/>
-            <span className="text-blue-500">Simple y sin reuniones.</span>
+          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
+            TU NUEVO FLUJO CREATIVO. <br/>
+            <span className="text-[#B454FF]">SIMPLE Y SIN REUNIONES.</span>
           </h2>
         </div>
 
@@ -42,12 +42,12 @@ const HowItWorks = () => {
               transition={{ delay: i * 0.2 }}
               className="relative group"
             >
-              <div className="text-6xl font-black text-white/5 absolute -top-10 -left-4 group-hover:text-blue-500/10 transition-colors">
+              <div className="text-7xl font-black text-[#111111] absolute -top-10 -left-4 group-hover:text-[#B454FF]/10 transition-colors">
                 {step.number}
               </div>
               <div className="relative z-10">
-                <h3 className="text-2xl font-bold text-white mb-4">{step.title}</h3>
-                <p className="text-gray-400 leading-relaxed">
+                <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tight">{step.title}</h3>
+                <p className="text-[#2A2A2A] leading-relaxed font-medium">
                   {step.description}
                 </p>
               </div>

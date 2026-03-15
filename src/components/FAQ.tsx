@@ -29,16 +29,16 @@ const faqs = [
 
 const FAQ = () => {
   return (
-    <section className="py-24 bg-black border-t border-white/5">
+    <section className="py-24 bg-[#0D0D0D] border-t border-[#2A2A2A]">
       <div className="container mx-auto px-4 max-w-3xl">
-        <h2 className="text-3xl font-bold text-white text-center mb-12">Preguntas Frecuentes</h2>
-        <Accordion type="single" collapsible className="w-full">
+        <h2 className="text-3xl font-black text-[#F5F5F5] text-center mb-16 tracking-tighter uppercase">Preguntas Frecuentes</h2>
+        <Accordion type="single" collapsible className="w-full space-y-4">
           {faqs.map((faq, i) => (
-            <AccordionItem key={i} value={`item-${i}`} className="border-white/10">
-              <AccordionTrigger className="text-white hover:text-blue-400 text-left">
+            <AccordionItem key={i} value={`item-${i}`} className="border-[#2A2A2A] bg-[#111111] px-6 rounded-2xl">
+              <AccordionTrigger className="text-[#F5F5F5] hover:text-[#B454FF] text-left font-bold uppercase tracking-tight py-6">
                 {faq.q}
               </AccordionTrigger>
-              <AccordionContent className="text-gray-400 leading-relaxed">
+              <AccordionContent className="text-[#2A2A2A] leading-relaxed font-medium pb-6">
                 {faq.a}
               </AccordionContent>
             </AccordionItem>
