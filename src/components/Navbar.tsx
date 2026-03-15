@@ -63,13 +63,22 @@ const Navbar = () => {
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5]">
+              <SheetContent
+                side="right"
+                className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5]"
+                onOpenAutoFocus={(e) => {
+                  document.body.setAttribute("data-sheet-open", "true");
+                }}
+                onCloseAutoFocus={(e) => {
+                  document.body.removeAttribute("data-sheet-open");
+                }}
+              >
                 <div className="flex flex-col gap-8 mt-12">
                   {navLinks.map((link) => (
                     <SmoothScrollLink 
                       key={link.name} 
                       href={link.href} 
-                      className={`text-xl font-black uppercase tracking-tighter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
+                      className={`text-xl font-black uppercase tracking-titter transition-colors ${activeId === link.href.replace('#','') ? 'text-[#B454FF]' : 'hover:text-[#B454FF]'}`}
                     >
                       {link.name}
                     </SmoothScrollLink>

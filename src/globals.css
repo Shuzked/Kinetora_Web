@@ -38,13 +38,18 @@
   }
 }
 
-/* Smooth scrolling */
+/* Smooth scrolling base (navegadores que lo soportan) */
 html { scroll-behavior: smooth; }
 
 /* Compensación por navbar fijo (altura 64px móvil, 80px desktop) */
 html { scroll-padding-top: 64px; }
 @media (min-width: 768px) {
   html { scroll-padding-top: 80px; }
+}
+
+/* Evitar que el sheet abierto bloquee el scroll suave por polución del foco */
+body[data-sheet-open="true"] {
+  overscroll-behavior: contain;
 }
 
 /* Respect reduced motion preferences */
