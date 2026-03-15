@@ -147,7 +147,7 @@ const Requests = () => {
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-10 pl-4 pr-9 sm:pr-10 min-w-[160px] w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 pl-3 pr-8 w-max inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -158,50 +158,48 @@ const Requests = () => {
                     </Select>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
-                    <div className="w-full md:w-auto min-w-[220px]">
-                      <div className="inline-flex items-center w-full rounded-full bg-white/[0.03] border border-white/10 focus-within:ring-2 focus-within:ring-[#B454FF]">
-                        <Input
-                          name={r.id}
-                          type="date"
-                          value={r.date}
-                          onChange={onChangeDate}
-                          className="h-10 flex-1 min-w-0 bg-transparent border-0 text-[#F5F5F5] pl-4 pr-2 focus-visible:ring-0 focus-visible:outline-none kin-no-native-picker"
-                        />
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <button
-                              type="button"
-                              aria-label="Abrir calendario"
-                              className="mr-1.5 my-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                            >
-                              <CalendarIcon className="w-4 h-4 text-white" />
-                            </button>
-                          </PopoverTrigger>
-                          <PopoverContent
-                            align="end"
-                            className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
+                    <div className="inline-flex items-center rounded-full bg-white/[0.03] border border-white/10 focus-within:ring-2 focus-within:ring-[#B454FF]">
+                      <Input
+                        name={r.id}
+                        type="date"
+                        value={r.date}
+                        onChange={onChangeDate}
+                        className="h-10 w-[11ch] bg-transparent border-0 text-[#F5F5F5] pl-3 pr-2 focus-visible:ring-0 focus-visible:outline-none kin-no-native-picker"
+                      />
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button
+                            type="button"
+                            aria-label="Abrir calendario"
+                            className="mx-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                           >
-                            <DateCalendar
-                              mode="single"
-                              selected={r.date ? new Date(r.date + 'T00:00:00') : undefined}
-                              onSelect={(d) => {
-                                if (!d) return;
-                                const iso = toISODate(d);
-                                updateFields(r.id, { date: iso });
-                                addActivity(r.id, { type: 'update', text: 'Fecha límite actualizada', time: new Date().toLocaleString() });
-                                showSuccess('Fecha actualizada.');
-                              }}
-                              initialFocus
-                              className="rounded-xl"
-                            />
-                          </PopoverContent>
-                        </Popover>
-                      </div>
+                            <CalendarIcon className="w-4 h-4 text-white" />
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          align="end"
+                          className="p-0 bg-[#111111] border-white/10 text-[#F5F5F5] rounded-xl shadow-xl"
+                        >
+                          <DateCalendar
+                            mode="single"
+                            selected={r.date ? new Date(r.date + 'T00:00:00') : undefined}
+                            onSelect={(d) => {
+                              if (!d) return;
+                              const iso = toISODate(d);
+                              updateFields(r.id, { date: iso });
+                              addActivity(r.id, { type: 'update', text: 'Fecha límite actualizada', time: new Date().toLocaleString() });
+                              showSuccess('Fecha actualizada.');
+                            }}
+                            initialFocus
+                            className="rounded-xl"
+                          />
+                        </PopoverContent>
+                      </Popover>
                     </div>
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-10 pl-4 pr-9 sm:pr-10 min-w-[150px] w-full md:w-auto rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] tracking-wider focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="h-10 pl-3 pr-8 w-max inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
