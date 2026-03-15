@@ -2,11 +2,10 @@
 
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/button";
+import PremiumButton from "@/components/PremiumButton";
 
 const FloatingCTA: React.FC = () => {
   const { scrollY } = useScroll();
-  // Muestra el CTA a partir de ~240px de scroll
   const visible = useTransform(scrollY, [0, 240, 300], [0, 0, 1]);
 
   const handlePlanClick = (e: React.MouseEvent) => {
@@ -36,19 +35,22 @@ const FloatingCTA: React.FC = () => {
     >
       <div className="mx-auto max-w-6xl">
         <div className="backdrop-blur-xl bg-[#0D0D0D]/70 border border-[#2A2A2A] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] p-2 flex items-center gap-2">
-          <Button
+          <PremiumButton
             onClick={handlePlanClick}
-            className="flex-1 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-xl h-11 text-[11px] font-bold tracking-widest"
+            variant="primary"
+            size="sm"
+            className="flex-1 rounded-xl"
           >
             Ver Planes
-          </Button>
-          <Button
-            variant="outline"
+          </PremiumButton>
+          <PremiumButton
+            variant="glass"
+            size="sm"
             onClick={handleServiciosClick}
-            className="flex-1 border-white/10 text-[#F5F5F5] hover:bg-white/5 rounded-xl h-11 text-[11px] font-bold tracking-widest"
+            className="flex-1 rounded-xl"
           >
             Servicios
-          </Button>
+          </PremiumButton>
         </div>
       </div>
     </motion.div>

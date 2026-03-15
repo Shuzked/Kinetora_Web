@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Logo from './Logo';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { Input } from "@/components/ui/input";
 import { ArrowRight } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
@@ -78,14 +78,16 @@ const Footer = () => {
                 inputMode="email"
                 aria-label="Introduce tu email para suscribirte"
               />
-              <Button
+              <PremiumButton
                 type="submit"
-                className="h-12 px-6 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white font-bold rounded-xl inline-flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-[#B454FF]"
+                variant="primary"
+                size="md"
+                className="h-12 px-6 rounded-xl inline-flex items-center gap-2"
                 aria-label="Suscribirse al newsletter"
               >
                 Suscribirse
                 <ArrowRight className="w-4 h-4" />
-              </Button>
+              </PremiumButton>
             </form>
 
             <div className="mt-6 flex items-center gap-2 sm:gap-3">

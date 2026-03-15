@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -61,9 +61,9 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              <Button className="w-full bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full h-12 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)]">
+              <PremiumButton variant="primary" size="md" className="w-full">
                 INICIAR SESIÓN
-              </Button>
+              </PremiumButton>
             </TabsContent>
 
             <TabsContent value="signup" className="space-y-6">
@@ -83,9 +83,9 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              <Button className="w-full bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full h-12 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)]">
+              <PremiumButton variant="primary" size="md" className="w-full">
                 CREAR CUENTA
-              </Button>
+              </PremiumButton>
             </TabsContent>
           </Tabs>
 
@@ -98,14 +98,15 @@ const Login = () => {
             </div>
           </div>
 
-          <Button 
-            variant="outline" 
+          <PremiumButton 
+            variant="glass"
+            size="md"
             onClick={() => handleSocialLogin('google')}
-            className="w-full border-[#2A2A2A] bg-transparent hover:bg-[#0D0D0D] text-[#F5F5F5] rounded-full h-12 font-bold text-xs tracking-widest flex items-center justify-center gap-3"
+            className="w-full flex items-center justify-center gap-3"
           >
             <Chrome className="w-4 h-4" />
             GOOGLE
-          </Button>
+          </PremiumButton>
         </div>
 
         <Link to="/" className="mt-8 flex items-center justify-center gap-2 text-[#2A2A2A] hover:text-[#B454FF] transition-colors text-[10px] font-bold uppercase tracking-widest">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
+import PremiumButton from '@/components/PremiumButton';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
 import { Link } from 'react-router-dom';
@@ -90,9 +91,9 @@ const Navbar = () => {
             </button>
           </Link>
           <Link to="/login">
-            <Button className="inline-flex items-center justify-center h-10 md:h-12 px-6 md:px-9 bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full font-bold text-[12px] md:text-sm leading-none tracking-[0.2em] shadow-[0_0_20px_rgba(180,84,255,0.3)]">
+            <PremiumButton variant="primary" size="md" className="leading-none">
               EMPEZAR
-            </Button>
+            </PremiumButton>
           </Link>
 
           {/* Mobile Menu */}

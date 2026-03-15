@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -66,9 +66,9 @@ const NewRequestModal = ({ isOpen, onClose }: NewRequestModalProps) => {
           </div>
 
           <div className="pt-4">
-            <Button type="submit" className="w-full bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full h-14 font-black text-xs tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)]">
+            <PremiumButton type="submit" variant="primary" size="md" className="w-full rounded-full">
               ENVIAR A COLA DE DISEÑO
-            </Button>
+            </PremiumButton>
           </div>
         </form>
       </DialogContent>

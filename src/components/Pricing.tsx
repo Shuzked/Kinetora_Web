@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 
 const plans = [
   {
@@ -76,15 +76,13 @@ const Pricing = () => {
                 ))}
               </ul>
 
-              <Button
-                className={`w-full rounded-full h-12 font-bold text-xs tracking-widest ${
-                  plan.featured
-                    ? 'bg-[#B454FF] hover:bg-[#B454FF]/90 text-white'
-                    : 'bg-[#2A2A2A] hover:bg-[#2A2A2A]/80 text-[#F5F5F5]'
-                }`}
+              <PremiumButton
+                variant={plan.featured ? "primary" : "glass"}
+                size="md"
+                className="w-full rounded-full"
               >
                 EMPEZAR AHORA
-              </Button>
+              </PremiumButton>
             </motion.div>
           ))}
         </div>
