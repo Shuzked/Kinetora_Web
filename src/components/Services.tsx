@@ -37,11 +37,11 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-white/15 hover:bg-white/[0.055] transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Palette className="w-40 h-40 text-[#B454FF]" />
-              </div>
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 mb-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
-                <Palette className="w-6 h-6 text-[#B454FF]" />
+              <div className="relative mb-8">
+                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                  <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                </div>
               </div>
               <div>
                 <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
@@ -58,8 +58,11 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 mb-8 relative shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
-                <Globe className="w-6 h-6 text-[#B454FF]" />
+              <div className="relative mb-8">
+                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                  <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                </div>
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">Digital</h3>
@@ -74,8 +77,11 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] hover:border-white/15 hover:bg-white/[0.055] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 mb-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
-                <Video className="w-6 h-6 text-[#B454FF]" />
+              <div className="relative mb-8">
+                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                  <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                </div>
               </div>
               <div>
                 <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">Multimedia</h3>
@@ -90,11 +96,11 @@ const Services = () => {
               whileHover={{ y: -5 }}
               className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-white/15 hover:bg-white/[0.055] transition-[transform,background-color,border-color] duration-300"
             >
-              <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                <MessageSquare className="w-40 h-40 text-[#B454FF]" />
-              </div>
-              <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 mb-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)]">
-                <MessageSquare className="w-6 h-6 text-[#B454FF]" />
+              <div className="relative mb-8">
+                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                  <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                </div>
               </div>
               <div>
                 <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
