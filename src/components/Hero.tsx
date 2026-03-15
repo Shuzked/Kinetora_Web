@@ -42,8 +42,11 @@ const Hero = () => {
               className="w-full h-full"
               src="https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=-niUBSx3PKQ"
               frameBorder="0"
-              allow="autoplay; encrypted-media; picture-in-picture"
+              loading="lazy"
+              allow="autoplay; encrypted-media; picture-in-picture; web-share"
+              allowFullScreen
               referrerPolicy="strict-origin-when-cross-origin"
+              style={{ pointerEvents: 'none' }}
             />
           </div>
         </motion.div>
@@ -54,6 +57,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
         {/* Capa extra oscura para aumentar contraste del texto */}
         <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
+        {/* Vignette sutil para reforzar la lectura sin aplanar el fondo */}
+        <div className="absolute inset-0 pointer-events-none opacity-70 bg-[radial-gradient(ellipse_at_center,transparent_45%,#0D0D0D_90%)]" />
       </div>
 
       {/* Glow de marca */}
