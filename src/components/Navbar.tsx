@@ -41,8 +41,8 @@ const Navbar = () => {
         initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)" }}
         animate={{
           opacity: isScrolled ? 0.6 : 0,
-          backdropFilter: isScrolled ? "blur(16px)" : "blur(0px)",
-          WebkitBackdropFilter: isScrolled ? "blur(16px)" : "blur(0px)",
+          backdropFilter: isScrolled ? "blur(24px)" : "blur(0px)",
+          WebkitBackdropFilter: isScrolled ? "blur(24px)" : "blur(0px)",
           backgroundColor: isScrolled ? "rgba(13,13,13,0.6)" : "rgba(13,13,13,0)"
         }}
         transition={{ duration: 0.25, ease: "easeOut" }}
