@@ -147,7 +147,7 @@ const Requests = () => {
                   <TableCell className="text-[#F5F5F5]/70 hidden lg:table-cell truncate">{r.service}</TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
-                      <SelectTrigger className="h-10 pl-3 pr-8 w-max inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="relative h-10 pl-3 pr-9 w-max inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
                         <SelectValue placeholder="Estado" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
@@ -199,7 +199,7 @@ const Requests = () => {
                   </TableCell>
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
-                      <SelectTrigger className="h-10 pl-3 pr-8 w-max inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
+                      <SelectTrigger className="relative h-10 pl-3 pr-9 w-max inline-flex rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
                         <SelectValue placeholder="Prioridad" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
