@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'pramer-motion';
 import { Button } from "@/components/ui/button";
 import { Zap, Rocket, Layers } from 'lucide-react';
 
@@ -30,11 +30,13 @@ const Hero = () => {
           <p className="text-sm md:text-lg text-[#2A2A2A] mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed font-medium">
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto en 48h.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 md:gap-5">
-            <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 md:px-12 h-13 md:h-16 text-sm md:text-lg font-black shadow-[0_10px_40px_rgba(180,84,255,0.3)] w-full sm:w-auto">
+          
+          {/* Botones Optimizados */}
+          <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-3 md:gap-5 max-w-sm mx-auto lg:mx-0">
+            <Button size="lg" className="bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-8 h-14 md:h-16 text-[13px] md:text-base font-black tracking-widest shadow-[0_10px_30px_rgba(180,84,255,0.2)] w-full sm:w-auto">
               VER PLANES
             </Button>
-            <Button size="lg" variant="outline" className="border-[#2A2A2A] text-[#F5F5F5] hover:bg-[#111111] rounded-full px-8 md:px-12 h-13 md:h-16 text-sm md:text-lg font-bold w-full sm:w-auto">
+            <Button size="lg" variant="outline" className="border-[#2A2A2A] text-[#F5F5F5] hover:bg-[#111111] rounded-full px-8 h-14 md:h-16 text-[13px] md:text-base font-bold tracking-widest w-full sm:w-auto">
               PORTFOLIO
             </Button>
           </div>
