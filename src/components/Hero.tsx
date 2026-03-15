@@ -80,7 +80,7 @@ const Hero = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           style={{ y: yContent }}
-          className="min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center"
+          className="min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"
         >
           <motion.h1
             initial={{ opacity: 0, y: 30 }}

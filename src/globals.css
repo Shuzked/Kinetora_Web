@@ -40,9 +40,9 @@
 /* Smooth scrolling base */
 html { scroll-behavior: smooth; }
 
-/* Compensación por navbar fijo */
-html { scroll-padding-top: 64px; }
-@media (min-width: 768px) { html { scroll-padding-top: 80px; } }
+/* Compensación por navbar fijo (nueva altura) */
+html { scroll-padding-top: 68px; }
+@media (min-width: 768px) { html { scroll-padding-top: 88px; } }
 
 /* Evitar que el sheet abierto bloquee el scroll suave */
 body[data-sheet-open="true"] { overscroll-behavior: contain; }
