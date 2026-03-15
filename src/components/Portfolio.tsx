@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Carousel,
   CarouselContent,
@@ -37,6 +38,7 @@ function extractHito(text: string) {
 
 const Portfolio = () => {
   const [meta, setMeta] = React.useState<Record<string, { img?: string; excerpt?: string; hito?: string }>>({});
+  const metaReady = Object.keys(meta).length > 0;
 
   React.useEffect(() => {
     let cancelled = false;
@@ -132,15 +134,20 @@ const Portfolio = () => {
                         className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors"
                       >
                         <div className="aspect-[16/10] overflow-hidden">
-                          <img
-                            src={cover}
-                            alt={cs.coverAlt}
-                            loading="lazy"
-                            decoding="async"
-                            className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                          />
+                          {!metaReady ? (
+                            <Skeleton className="w-full h-full rounded-none" />
+                          ) : (
+                            <img
+                              src={cover}
+                              alt={cs.coverAlt}
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg"; }}
+                              className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                            />
+                          )}
                         </div>
-                        <div className="p-6 sm:p-7">
+                        <div className="p-6 sm:p-7 flex-1 flex flex-col">
                           <div className="flex items-center justify-between gap-3">
                             <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
                               {cs.label}
@@ -152,12 +159,17 @@ const Portfolio = () => {
                           <h3 className="mt-3 text-lg sm:text-xl font-black tracking-tight">
                             {cs.title}
                           </h3>
-                          <p className="mt-2 text-sm text-[#F5F5F5]/65 leading-relaxed">
-                            {excerpt}
-                          </p>
+                          {metaReady ? (
+                            <p className="mt-2 text-sm text-[#F5F5F5]/65 leading-relaxed">{excerpt}</p>
+                          ) : (
+                            <div className="mt-2 space-y-2">
+                              <Skeleton className="h-4 w-full" />
+                              <Skeleton className="h-4 w-3/4" />
+                            </div>
+                          )}
 
                           <div className="mt-5 h-px w-full bg-white/10" />
-                          <div className="mt-5 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.24em] uppercase text-[#B454FF]">
+                          <div className="mt-auto pt-5 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.24em] uppercase text-[#B454FF]">
                             VER POST
                           </div>
                         </div>

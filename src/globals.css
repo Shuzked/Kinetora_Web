@@ -127,6 +127,13 @@ body[data-sheet-open="true"] { overscroll-behavior: contain; }
   border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
+.wp-post figure figcaption {
+  color: rgba(245, 245, 245, 0.65);
+  font-size: 0.9em;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 .wp-post iframe {
   width: 100%;
   aspect-ratio: 16 / 9;

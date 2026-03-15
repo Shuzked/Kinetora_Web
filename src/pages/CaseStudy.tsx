@@ -167,7 +167,7 @@ const CaseStudy = () => {
               </p>
             </header>
 
-            <div className="mt-10 rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/[0.03]">
+            <div className="mt-10 rounded-[2.5rem] overflow-hidden border border-white/10 bg-white/[0.03] max-w-5xl mx-auto">
               <div className="aspect-[16/8] sm:aspect-[16/7] overflow-hidden">
                 <img
                   src={featuredUrl || cs.coverImage}
@@ -182,7 +182,7 @@ const CaseStudy = () => {
             <div className="mt-10 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-10">
               <div className="space-y-6">
                 {ytIds.length > 0 && (
-                  <section className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8">
+                  <section className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8 max-w-3xl mx-auto">
                     <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/70">
                       Vídeos
                     </div>
@@ -208,7 +208,7 @@ const CaseStudy = () => {
                   </section>
                 )}
 
-                <section className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8">
+                <section className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:p-8 max-w-3xl mx-auto">
                   {loading ? (
                     <p className="text-[#F5F5F5]/70">Cargando contenido…</p>
                   ) : cleanedHtml ? (
