@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Button } from "@/components/ui/button";
+import PremiumButton from '@/components/PremiumButton';
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 
 const Hero = () => {
@@ -101,20 +101,21 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.7 }}
             className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4"
           >
-            <Button
+            <PremiumButton
+              variant="primary"
               size="lg"
-              className="group bg-[#B454FF] hover:bg-[#B454FF]/90 text-white rounded-full px-9 sm:px-10 h-14 md:h-16 text-xs font-black tracking-widest shadow-[0_15px_40px_rgba(180,84,255,0.3)] w-full sm:w-auto transition-all hover:scale-[1.02] active:scale-95"
+              className="w-full sm:w-auto hover:scale-[1.02] active:scale-95"
+              leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
             >
               VER PLANES
-              <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button
+            </PremiumButton>
+            <PremiumButton
+              variant="glass"
               size="lg"
-              variant="outline"
-              className="border-white/10 text-[#F5F5F5]/80 hover:bg-white/5 backdrop-blur-xl rounded-full px-9 sm:px-10 h-14 md:h-16 text-xs font-bold tracking-widest w-full sm:w-auto transition-all border-dashed"
+              className="w-full sm:w-auto"
             >
               PORTFOLIO
-            </Button>
+            </PremiumButton>
           </motion.div>
 
           <motion.div
