@@ -58,22 +58,6 @@ const Hero = () => {
           style={{ y: yContent }}
           className="min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center"
         >
-          {/* Distintivo de disponibilidad */}
-          <motion.div
-            initial={{ opacity: 0, y: -15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.06] border border-white/10 backdrop-blur-xl mb-8 sm:mb-10"
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-green-500"></span>
-            </span>
-            <span className="text-[9px] font-bold text-[#F5F5F5]/70 uppercase tracking-[0.35em]">
-              2 Plazas disponibles para Noviembre
-            </span>
-          </motion.div>
-
           {/* Título centralizado */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
