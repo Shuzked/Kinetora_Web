@@ -1,22 +1,37 @@
 "use client";
 
-import React, { useRef, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import React, { useRef, useEffect, useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Timer, Infinity, Euro } from 'lucide-react';
+import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const inView = useInView(sectionRef, { amount: 0.4 });
+  const [inView, setInView] = useState(true);
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"]
   });
 
-  // Parallax sutil
   const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
+
+  // Observer nativo para detectar visibilidad del Hero
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const e = entries[0];
+        setInView(e.isIntersecting);
+      },
+      { root: null, threshold: 0.4 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   // Pausar/continuar vídeo según visibilidad
   useEffect(() => {
@@ -34,7 +49,6 @@ const Hero = () => {
       ref={sectionRef}
       className="relative overflow-hidden bg-[#0D0D0D]"
     >
-      {/* Video de fondo */}
       <div className="absolute inset-0 z-0">
         <motion.video
           ref={videoRef}
@@ -52,28 +66,22 @@ const Hero = () => {
           />
         </motion.video>
 
-        {/* Textura grain */}
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
-
-        {/* Gradientes de lectura */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
       </div>
 
-      {/* Glow de marca */}
       <motion.div
         animate={{ scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[140px] z-0"
       />
 
-      {/* Contenedor centrado */}
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           style={{ y: yContent }}
           className="min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] flex flex-col items-center justify-center text-center"
         >
-          {/* Título centralizado */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,7 +94,6 @@ const Hero = () => {
             </span>
           </motion.h1>
 
-          {/* Subtítulo centralizado */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -96,7 +103,6 @@ const Hero = () => {
             Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto entregados en 48 horas.
           </motion.p>
 
-          {/* CTAs centrados */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -119,7 +125,6 @@ const Hero = () => {
             </Button>
           </motion.div>
 
-          {/* Badges centrados */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -128,7 +133,7 @@ const Hero = () => {
           >
             {[
               { Icon: Timer, text: "48H DELIVERY" },
-              { Icon: Infinity, text: "UNLIMITED REVISIONS" },
+              { Icon: RefreshCw, text: "UNLIMITED REVISIONS" },
               { Icon: Euro, text: "FIXED MONTHLY PRICE" },
             ].map(({ Icon, text }, i) => (
               <div
