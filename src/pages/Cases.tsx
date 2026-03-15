@@ -140,9 +140,29 @@ const Cases = () => {
                       <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
                         {hito}
                       </div>
-                      <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                        {cs.title}
-                      </h2>
+                      {(() => {
+                        const lowerTitle = cs.title.toLowerCase();
+                        const lowerLabel = cs.label.toLowerCase();
+                        let base = cs.title;
+                        const colonIdx = lowerTitle.indexOf(":");
+                        if (lowerTitle.startsWith(lowerLabel) && colonIdx !== -1) {
+                          base = cs.title.slice(colonIdx + 1).trim();
+                        }
+                        const metricPart =
+                          (cs.metricLabel && cs.metricValue
+                            ? `${cs.metricLabel} ${cs.metricValue}`
+                            : (metricLabel && metricValue
+                                ? `${metricLabel} ${metricValue}`
+                                : hito || "")) || "";
+                        const seoTitle = `${cs.label} — ${base}${
+                          metricPart ? ` · ${metricPart}` : ""
+                        }`;
+                        return (
+                          <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                            {seoTitle}
+                          </h2>
+                        );
+                      })()}
                       {/* Footer: métrica + CTA alineados al fondo */}
                       <div className="mt-auto pt-4 sm:pt-5">
                         <div className="metric-block-min mb-2">
