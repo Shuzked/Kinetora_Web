@@ -35,11 +35,10 @@ const Services = () => {
             {/* Bloque 1: Branding */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-white/15 hover:bg-white/[0.055] transition-[transform,background-color,border-color] duration-300"
+              className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-[transform,background-color,border-color] duration-300"
             >
               <div className="relative mb-8">
-                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 bg-[url('/assets/service-icons/branding.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                   <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                 </div>
               </div>
@@ -56,11 +55,10 @@ const Services = () => {
             {/* Bloque 2: Digital */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300"
+              className="bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/40"
             >
               <div className="relative mb-8">
-                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 bg-[url('/assets/service-icons/digital.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30">
                   <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                 </div>
               </div>
@@ -75,11 +73,10 @@ const Services = () => {
             {/* Bloque 3: Multimedia */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] hover:border-white/15 hover:bg-white/[0.055] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300"
+              className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
             >
               <div className="relative mb-8">
-                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 bg-[url('/assets/service-icons/multimedia.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                   <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                 </div>
               </div>
@@ -94,11 +91,10 @@ const Services = () => {
             {/* Bloque 4: Comunicación */}
             <motion.div
               whileHover={{ y: -5 }}
-              className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-white/15 hover:bg-white/[0.055] transition-[transform,background-color,border-color] duration-300"
+              className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
             >
               <div className="relative mb-8">
-                <span className="absolute -inset-1 rounded-2xl bg-[#B454FF]/15 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30 group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_0_0_6px_rgba(180,84,255,0.12)]">
+                <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 bg-[url('/assets/service-icons/communication.svg')] bg-center bg-cover shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                   <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                 </div>
               </div>
