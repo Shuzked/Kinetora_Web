@@ -122,7 +122,7 @@ const Hero = () => {
       </div>
 
       {/* Floating Trust Badges */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.2 }}
@@ -134,16 +134,6 @@ const Hero = () => {
             <span className="text-[8px] font-black text-[#F5F5F5] tracking-[0.4em] uppercase">{text}</span>
           </div>
         ))}
-      </motion.div>
-
-      {/* Scroll Indicator */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 right-10 hidden lg:flex flex-col items-center gap-4"
-      >
-        <div className="h-16 w-px bg-gradient-to-b from-transparent via-[#B454FF]/40 to-transparent" />
       </motion.div>
     </section>
   );

@@ -62,3 +62,12 @@ body[data-sheet-open="true"] {
     scroll-behavior: auto !important;
   }
 }
+
+/* Utilidad: ocultar scrollbar (webkit y firefox) */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE y Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;             /* Safari y Chrome */
+}
