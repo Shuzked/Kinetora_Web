@@ -59,7 +59,7 @@ const Navbar = () => {
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <Link to="/" className="hover:opacity-80 transition-opacity">
-          <Logo className="h-6 md:h-8" />
+          <Logo className="h-5 md:h-7" />
         </Link>
 
         {/* Desktop Nav */}
