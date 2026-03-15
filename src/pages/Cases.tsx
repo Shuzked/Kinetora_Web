@@ -11,6 +11,7 @@ import { caseStudies } from "@/data/caseStudies";
 type WPListPost = {
   slug?: string;
   excerpt?: { rendered?: string };
+  content?: { rendered?: string };
   _embedded?: {
     "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
   };
@@ -30,8 +31,22 @@ function extractHito(text: string) {
   return m ? m[0].trim() : null;
 }
 
+function extractMetric(html: string): { label: string; value: string } | null {
+  const text = stripHtml(html).toLowerCase();
+  const valueMatch =
+    html.match(/[\+\-]?\s?\d[\d.,]*\s?(?:m€|m\$|m|k€|k\$|k|€|\$|%)/i) ||
+    html.match(/\b\d{2,}\s?(?:usuarios|users|participantes|winners|views|impresiones|impressions|alcance|reach)\b/i);
+  if (!valueMatch) return null;
+  const rawValue = valueMatch[0].trim();
+  let label = "Hito";
+  if (/(venta|ventas|sales)/i.test(text)) label = "Ventas realizadas";
+  else if (/(impacto|org[aá]nico|organic|reach|views|impresiones|impressions|alcance)/i.test(text)) label = "Impacto orgánico";
+  else if (/(recaud|inversi|raised|funding)/i.test(text)) label = "Recaudación";
+  return { label, value: rawValue };
+}
+
 const Cases = () => {
-  const [meta, setMeta] = React.useState<Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string }>>({});
+  const [meta, setMeta] = React.useState<Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string; metricLabel?: string; metricValue?: string }>>({});
 
   React.useEffect(() => {
     let cancelled = false;
@@ -40,27 +55,30 @@ const Cases = () => {
         const url = new URL("/wp-json/wp/v2/posts", cs.sourceUrl);
         url.searchParams.set("slug", cs.slug);
         url.searchParams.set("_embed", "1");
-        url.searchParams.set("_fields", "slug,excerpt,_embedded");
+        url.searchParams.set("_fields", "slug,excerpt,content,_embedded");
         const res = await fetch(url.toString());
         const arr = (await res.json()) as WPListPost[];
         const p = arr?.[0];
-        const featuredMedia = p?._embedded?.["wp:featuredmedia"]?.[0];
-        const featured = featuredMedia?.source_url;
-        const alt = featuredMedia?.alt_text;
+        const fm = p?._embedded?.["wp:featuredmedia"]?.[0];
+        const featured = fm?.source_url;
+        const alt = fm?.alt_text;
         const excerptText = p?.excerpt?.rendered ? stripHtml(p.excerpt.rendered) : "";
+        const metric = p?.content?.rendered ? extractMetric(p.content.rendered) : null;
         return {
           slug: cs.slug,
           img: featured,
           alt,
           excerpt: excerptText,
           hito: excerptText ? extractHito(excerptText) ?? undefined : undefined,
+          metricLabel: metric?.label,
+          metricValue: metric?.value,
         };
       })
     ).then((items) => {
       if (cancelled) return;
-      const next: Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string }> = {};
+      const next: Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string; metricLabel?: string; metricValue?: string }> = {};
       items.forEach((it) => {
-        next[it.slug] = { img: it.img, alt: it.alt, excerpt: it.excerpt, hito: it.hito };
+        next[it.slug] = { img: it.img, alt: it.alt, excerpt: it.excerpt, hito: it.hito, metricLabel: it.metricLabel, metricValue: it.metricValue };
       });
       setMeta(next);
     });
@@ -96,6 +114,8 @@ const Cases = () => {
                 const excerpt = m?.excerpt || cs.summaryFallback;
                 const hito = m?.hito || cs.highlightFallback;
                 const alt = m?.alt || cs.coverAlt;
+                const metricLabel = m?.metricLabel;
+                const metricValue = m?.metricValue;
                 return (
                   <Link
                     key={cs.slug}
@@ -117,16 +137,27 @@ const Cases = () => {
                       )}
                     </div>
                     <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                      {/* Tema (hito) */}
                       <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">{hito}</div>
                       <h2 className="mt-3 text-lg sm:text-xl font-black tracking-tight">
                         {cs.title}
                       </h2>
+                      {/* Métrica exacta (ventas / impacto) */}
                       {metaReady ? (
-                        <p className="mt-2 text-sm text-[#F5F5F5]/65 leading-relaxed">{excerpt}</p>
+                        metricLabel && metricValue ? (
+                          <div className="mt-4">
+                            <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                              {metricLabel}
+                            </div>
+                            <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                              {metricValue}
+                            </div>
+                          </div>
+                        ) : null
                       ) : (
-                        <div className="mt-2 space-y-2">
-                          <Skeleton className="h-4 w-full" />
-                          <Skeleton className="h-4 w-3/4" />
+                        <div className="mt-4 space-y-2">
+                          <Skeleton className="h-3 w-24" />
+                          <Skeleton className="h-7 w-36" />
                         </div>
                       )}
                       <div className="mt-5 h-px w-full bg-white/10" />
@@ -136,7 +167,7 @@ const Cases = () => {
                           size="sm"
                           className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
                         >
-                          VER CASO
+                          LEER MÁS
                         </PremiumButton>
                       </div>
                     </div>
