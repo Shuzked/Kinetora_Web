@@ -59,7 +59,11 @@ body[data-sheet-open="true"] {
   100% { transform: translateX(-50%); } /* Se desplaza la mitad del ancho porque hay contenido duplicado */
 }
 .marquee-track {
-  animation: marquee-scroll 22s linear infinite;
+  animation: marquee-scroll 40s linear infinite; /* más lento */
+}
+/* Pausar al pasar el cursor por encima de cualquier marca (o la pista) */
+.marquee-track:hover {
+  animation-play-state: paused;
 }
 
 /* Reduced motion */
