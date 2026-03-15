@@ -38,9 +38,9 @@ const Navbar = () => {
       {/* Capa de fondo animada */}
       <motion.div
         aria-hidden
-        className="absolute inset-0 pointer-events-none bg-[#0D0D0D] backdrop-blur-xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: isScrolled ? 0.8 : 0 }}
+        className="absolute inset-0 pointer-events-none bg-[#0D0D0D]"
+        initial={{ opacity: 0, backdropFilter: "blur(0px)", WebkitBackdropFilter: "blur(0px)" }}
+        animate={{ opacity: isScrolled ? 0.8 : 0, backdropFilter: isScrolled ? "blur(12px)" : "blur(0px)", WebkitBackdropFilter: isScrolled ? "blur(12px)" : "blur(0px)" }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       />
       {/* Borde inferior animado */}
