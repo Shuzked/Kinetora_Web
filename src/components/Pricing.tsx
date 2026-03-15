@@ -41,7 +41,7 @@ const Pricing = () => {
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
             INVIERTE EN CRECIMIENTO.
           </h2>
-          <p className="text-[#2A2A2A] font-bold uppercase tracking-widest text-xs">Sin costes ocultos. Sin sorpresas.</p>
+          <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">Sin costes ocultos. Sin sorpresas.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -51,21 +51,21 @@ const Pricing = () => {
               whileHover={{ y: -5 }}
               className={`relative p-7 sm:p-8 rounded-[2rem] border ${
                 plan.featured
-                  ? 'border-[#B454FF] bg-[#B454FF]/5 shadow-[0_0_40px_rgba(180,84,255,0.1)]'
-                  : 'border-[#2A2A2A] bg-[#111111]'
+                  ? 'border-[#B454FF]/45 bg-white/[0.05] shadow-[0_22px_90px_rgba(180,84,255,0.12)]'
+                  : 'border-white/10 bg-white/[0.04] hover:border-white/15 hover:bg-white/[0.06]'
               }`}
             >
               {plan.featured && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#B454FF] text-white text-[10px] font-bold px-4 py-1 rounded-full uppercase tracking-widest">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#B454FF] text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-[0.28em]">
                   Más Popular
                 </div>
               )}
               <h3 className="text-xl font-bold text-[#F5F5F5] mb-2">{plan.name}</h3>
               <div className="text-4xl font-black text-[#F5F5F5] mb-4">
                 {plan.price}
-                <span className="text-sm text-[#2A2A2A] font-normal">/mes</span>
+                <span className="text-sm text-[#F5F5F5]/60 font-bold">/mes</span>
               </div>
-              <p className="text-[#2A2A2A] text-sm mb-8 font-medium">{plan.description}</p>
+              <p className="text-[#F5F5F5]/70 text-sm mb-8 font-medium leading-relaxed">{plan.description}</p>
 
               <ul className="space-y-4 mb-8">
                 {plan.features.map((feature, j) => (

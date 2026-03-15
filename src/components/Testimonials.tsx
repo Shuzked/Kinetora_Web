@@ -36,7 +36,7 @@ const Testimonials = () => {
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
             LO QUE DICEN LOS FUNDADORES.
           </h2>
-          <p className="text-[#2A2A2A] font-bold uppercase tracking-widest text-xs">Startups que escalan con nosotros.</p>
+          <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">Startups que escalan con nosotros.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -47,7 +47,7 @@ const Testimonials = () => {
               initial={{ opacity: 0, y: 20 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-[#111111] border border-[#2A2A2A] p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-[#B454FF]/30 transition-colors"
+              className="bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors"
             >
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
@@ -61,11 +61,11 @@ const Testimonials = () => {
                 <img
                   src={t.avatar}
                   alt={t.name}
-                  className="w-12 h-12 rounded-full border border-[#2A2A2A] grayscale group-hover:grayscale-0 transition-all"
+                  className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
                 />
                 <div>
                   <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
-                  <div className="text-[#2A2A2A] text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+                  <div className="text-[#F5F5F5]/60 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
                 </div>
               </div>
             </motion.div>

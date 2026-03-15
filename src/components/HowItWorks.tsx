@@ -25,14 +25,18 @@ const HowItWorks = () => {
   return (
     <section
       id="como-funciona"
-      className="py-20 sm:py-24 lg:py-28 bg-[#0D0D0D] border-y border-[#2A2A2A] scroll-mt-24 md:scroll-mt-28"
+      className="py-20 sm:py-24 lg:py-28 bg-[#0D0D0D] border-y border-white/10 scroll-mt-24 md:scroll-mt-28 relative overflow-hidden"
     >
+      <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14 sm:mb-16 lg:mb-20">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-0 tracking-tighter">
             TU NUEVO FLUJO CREATIVO. <br />
             <span className="text-[#B454FF]">SIMPLE Y SIN REUNIONES.</span>
           </h2>
+          <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Un proceso diseñado para mantener velocidad, claridad y control sin sacrificar calidad.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-10 md:gap-12">
@@ -45,14 +49,14 @@ const HowItWorks = () => {
               transition={{ delay: i * 0.2 }}
               className="relative group"
             >
-              <div className="text-7xl font-black text-[#111111] absolute -top-10 -left-2 sm:-left-4 group-hover:text-[#B454FF]/10 transition-colors">
+              <div className="text-7xl font-black text-white/5 absolute -top-10 -left-2 sm:-left-4 group-hover:text-[#B454FF]/10 transition-colors">
                 {step.number}
               </div>
               <div className="relative z-10 pl-2 sm:pl-0">
                 <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tight">
                   {step.title}
                 </h3>
-                <p className="text-[#2A2A2A] leading-relaxed font-medium">{step.description}</p>
+                <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>
               </div>
             </motion.div>
           ))}

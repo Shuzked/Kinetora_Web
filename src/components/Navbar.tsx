@@ -67,7 +67,7 @@ const Navbar = () => {
         </div>
 
         {/* Centro: Desktop Nav centrado y alineado verticalmente */}
-        <div className="hidden md:flex h-full items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#2A2A2A]">
+        <div className="hidden md:flex h-full items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70">
           {navLinks.map((link) => {
             const isActive = activeId === link.href.replace('#','');
             return (
@@ -86,7 +86,7 @@ const Navbar = () => {
         {/* Derecha: Acciones (alineado vertical y baseline consistente) */}
         <div className="h-full flex items-center justify-end gap-3 md:gap-6">
           <Link to="/login" className="hidden sm:block">
-            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[12px] leading-none font-bold text-[#2A2A2A] hover:text-[#F5F5F5] transition-colors">
+            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[12px] leading-none font-bold text-[#F5F5F5]/70 hover:text-[#F5F5F5] transition-colors">
               LOGIN
             </button>
           </Link>

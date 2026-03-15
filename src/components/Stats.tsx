@@ -15,7 +15,7 @@ const Stats = () => {
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-[#0D0D0D] relative overflow-hidden">
       {/* Background Accents */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#2A2A2A] to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-white/10" />
 
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 sm:gap-12 md:gap-8">
@@ -35,7 +35,7 @@ const Stats = () => {
                 </div>
                 <div className="absolute -inset-4 bg-[#B454FF]/0 group-hover:bg-[#B454FF]/5 rounded-full blur-xl transition-all duration-500" />
               </div>
-              <div className="text-[#2A2A2A] group-hover:text-[#B454FF]/60 transition-colors text-[10px] font-bold uppercase tracking-[0.3em] max-w-[140px] mx-auto leading-relaxed">
+              <div className="text-[#F5F5F5]/65 group-hover:text-[#B454FF]/80 transition-colors text-[10px] font-bold uppercase tracking-[0.3em] max-w-[140px] mx-auto leading-relaxed">
                 {stat.label}
               </div>
             </motion.div>

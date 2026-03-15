@@ -1,5 +1,8 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PremiumButton from "@/components/PremiumButton";
 
 const NotFound = () => {
   const location = useLocation();
@@ -12,14 +15,40 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">404</h1>
-        <p className="text-xl text-gray-600 mb-4">Oops! Page not found</p>
-        <a href="/" className="text-blue-500 hover:text-blue-700 underline">
-          Return to Home
-        </a>
-      </div>
+    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+      <Navbar />
+      <main className="pt-[68px] md:pt-[88px]">
+        <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
+          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
+          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
+            <div className="max-w-xl">
+              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+                404
+              </div>
+              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
+                Esta página no existe.
+              </h1>
+              <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
+                La ruta <span className="text-[#F5F5F5] font-semibold">{location.pathname}</span> no está disponible.
+              </p>
+
+              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+                <Link to="/">
+                  <PremiumButton variant="primary" size="md" className="w-full sm:w-auto">
+                    VOLVER AL INICIO
+                  </PremiumButton>
+                </Link>
+                <Link to="/casos">
+                  <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
+                    VER CASOS
+                  </PremiumButton>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
     </div>
   );
 };

@@ -37,8 +37,8 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
 
   const variants: Record<NonNullable<PremiumButtonProps["variant"]>, string> = {
     primary:
-      "text-white bg-gradient-to-r from-[#B454FF] to-[#8A2BE2] " +
-      "shadow-[0_10px_40px_rgba(180,84,255,0.22)] hover:shadow-[0_14px_46px_rgba(180,84,255,0.30)]",
+      "text-white bg-[#B454FF] border border-white/10 " +
+      "shadow-[0_12px_44px_rgba(180,84,255,0.22)] hover:bg-[#A74CFF] hover:shadow-[0_16px_54px_rgba(180,84,255,0.30)]",
     glass:
       "text-[#F5F5F5] bg-white/10 border border-white/15 backdrop-blur-xl hover:bg-white/14 " +
       "shadow-[0_6px_24px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]",

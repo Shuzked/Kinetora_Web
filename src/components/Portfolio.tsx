@@ -1,76 +1,115 @@
 "use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-
-const projects = [
-  {
-    title: "Fintech SaaS",
-    metric: "+40% retención",
-    image:
-      "https://images.unsplash.com/photo-1551288049-bbb652167014?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    title: "HealthTech App",
-    metric: "200.000€ levantados",
-    image:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    title: "E-commerce Brand",
-    metric: "x3 en ventas",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800",
-  },
-];
+import React from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import PremiumButton from "@/components/PremiumButton";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { caseStudies } from "@/data/caseStudies";
 
 const Portfolio = () => {
   return (
-    <section id="casos" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12 sm:mb-16">
-          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
-            DISEÑO CREADO PARA CONVERTIR.
-          </h2>
-          <p className="text-[#2A2A2A] font-bold uppercase tracking-widest text-xs">Casos de éxito reales.</p>
+    <section
+      id="casos"
+      className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden"
+    >
+      <div className="pointer-events-none absolute -top-24 -right-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
+
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-10 sm:mb-12">
+          <div>
+            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+              Casos de éxito
+            </div>
+            <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase">
+              Diseño creado para
+              <span className="text-[#B454FF]"> convertir</span>.
+            </h2>
+            <p className="mt-3 text-[#F5F5F5]/70 text-sm sm:text-base max-w-2xl leading-relaxed">
+              Proyectos reales con impacto medible. Desliza para ver más y entra al post para conocer el proceso.
+            </p>
+          </div>
+
+          <Link to="/casos" className="shrink-0">
+            <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
+              VER TODOS
+            </PremiumButton>
+          </Link>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-          {projects.map((project, i) => (
-            <motion.div
-              key={i}
-              whileHover={{ y: -10 }}
-              className="group relative overflow-hidden rounded-[2rem] bg-[#111111] border border-[#2A2A2A]"
-            >
-              <div className="aspect-video overflow-hidden">
-                <motion.img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy"
-                  decoding="async"
-                  initial={{ opacity: 0, scale: 1.05 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                />
-              </div>
-              <div className="p-6 sm:p-8">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-xl font-black text-[#F5F5F5] uppercase tracking-tight">{project.title}</h3>
-                  <span className="text-[#B454FF] font-black text-xs uppercase tracking-widest">{project.metric}</span>
-                </div>
-                <div className="h-1 w-full bg-[#2A2A2A] rounded-full overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileInView={{ width: "100%" }}
-                    transition={{ duration: 1.5, delay: 0.5 }}
-                    className="h-full bg-[#B454FF]"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        <Carousel
+          opts={{ align: "start", loop: true }}
+          className="relative"
+        >
+          <CarouselContent className="-ml-4">
+            {caseStudies.map((cs) => (
+              <CarouselItem
+                key={cs.slug}
+                className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
+              >
+                <motion.div
+                  whileHover={{ y: -6 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="h-full"
+                >
+                  <Link
+                    to={`/casos/${cs.slug}`}
+                    className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors"
+                  >
+                    <div className="aspect-[16/10] overflow-hidden">
+                      <img
+                        src={cs.coverImage}
+                        alt={cs.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                      />
+                    </div>
+                    <div className="p-6 sm:p-7">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                          {cs.sector}
+                        </div>
+                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#B454FF]">
+                          {cs.metric}
+                        </div>
+                      </div>
+                      <h3 className="mt-3 text-lg sm:text-xl font-black tracking-tight">
+                        {cs.title}
+                      </h3>
+                      <p className="mt-2 text-sm text-[#F5F5F5]/65 leading-relaxed">
+                        {cs.summary}
+                      </p>
+
+                      <div className="mt-5 h-px w-full bg-white/10" />
+                      <div className="mt-5 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.24em] uppercase text-[#B454FF]">
+                        VER POST
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+
+          <CarouselPrevious
+            className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
+          />
+          <CarouselNext
+            className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
+          />
+        </Carousel>
+
+        <div className="mt-6 sm:hidden">
+          <p className="text-center text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/55">
+            Desliza para ver más
+          </p>
         </div>
       </div>
     </section>
