@@ -5,9 +5,51 @@ import { useNavigate } from "react-router-dom";
 import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
 import { ArrowRight, CalendarClock, CheckCircle2, Clock3, Plus, Sparkles, Wand2 } from "lucide-react";
+import { useRequests } from "@/hooks/use-requests";
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const { items } = useRequests();
+  const findByTitle = (needle: string) =>
+    items.find((r) => r.title.toLowerCase().includes(needle.toLowerCase()))?.id;
+
+  const activities = [
+    {
+      title: "Diseño de Landing Page completado",
+      time: "2 horas atrás",
+      type: "done" as const,
+      requestId: findByTitle("Landing Page"),
+    },
+    {
+      title: "Vídeo AD en revisión",
+      time: "5 horas atrás",
+      type: "review" as const,
+      requestId: findByTitle("Vídeo AD"),
+    },
+    {
+      title: "Nuevo request: Pitch Deck",
+      time: "1 día atrás",
+      type: "progress" as const,
+      requestId: findByTitle("Pitch Deck"),
+    },
+  ];
+
+  const typeToIcon = {
+    done: <CheckCircle2 className="w-5 h-5" />,
+    review: <Clock3 className="w-5 h-5" />,
+    progress: <Clock3 className="w-5 h-5" />,
+  } as const;
+
+  const typeToTint = {
+    done: "bg-green-500/15 text-green-300 border-green-500/20",
+    review: "bg-blue-500/15 text-blue-300 border-blue-500/20",
+    progress: "bg-[#B454FF]/15 text-[#D7B3FF] border-[#B454FF]/25",
+  } as const;
+
+  const goTo = (requestId?: string) => {
+    if (requestId) navigate(`/dashboard/requests/${requestId}`);
+    else navigate("/dashboard/requests");
+  };
 
   return (
     <PortalLayout>
@@ -17,22 +59,26 @@ const Dashboard = () => {
 
         {/* Stats */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[{
-            label: "Requests Activos",
-            value: "3",
-            icon: <Wand2 className="w-5 h-5" />,
-            tint: "text-[#B454FF] bg-[#B454FF]/15 border-[#B454FF]/25",
-          }, {
-            label: "Entregas Pendientes",
-            value: "2",
-            icon: <CalendarClock className="w-5 h-5" />,
-            tint: "text-blue-300 bg-blue-500/15 border-blue-500/20",
-          }, {
-            label: "Revisiones Disponibles",
-            value: "Ilimitadas",
-            icon: <Sparkles className="w-5 h-5" />,
-            tint: "text-green-300 bg-green-500/15 border-green-500/20",
-          }].map((s) => (
+          {[
+            {
+              label: "Requests Activos",
+              value: "3",
+              icon: <Wand2 className="w-5 h-5" />,
+              tint: "text-[#B454FF] bg-[#B454FF]/15 border-[#B454FF]/25",
+            },
+            {
+              label: "Entregas Pendientes",
+              value: "2",
+              icon: <CalendarClock className="w-5 h-5" />,
+              tint: "text-blue-300 bg-blue-500/15 border-blue-500/20",
+            },
+            {
+              label: "Revisiones Disponibles",
+              value: "Ilimitadas",
+              icon: <Sparkles className="w-5 h-5" />,
+              tint: "text-green-300 bg-green-500/15 border-green-500/20",
+            }
+          ].map((s) => (
             <div key={s.label} className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className={"h-11 w-11 rounded-2xl border flex items-center justify-center " + s.tint}>
                 {s.icon}
@@ -50,34 +96,16 @@ const Dashboard = () => {
           </div>
 
           <div className="space-y-2">
-            {[
-              {
-                icon: <CheckCircle2 className="w-5 h-5" />,
-                tint: "bg-green-500/15 text-green-300 border-green-500/20",
-                title: "Diseño de Landing Page completado",
-                time: "2 horas atrás",
-              },
-              {
-                icon: <Clock3 className="w-5 h-5" />,
-                tint: "bg-blue-500/15 text-blue-300 border-blue-500/20",
-                title: "Vídeo AD en revisión",
-                time: "5 horas atrás",
-              },
-              {
-                icon: <Clock3 className="w-5 h-5" />,
-                tint: "bg-[#B454FF]/15 text-[#D7B3FF] border-[#B454FF]/25",
-                title: "Nuevo request: Pitch Deck",
-                time: "1 día atrás",
-              },
-            ].map((a) => (
+            {activities.map((a) => (
               <button
                 key={a.title}
                 type="button"
+                onClick={() => goTo(a.requestId)}
                 className="w-full flex items-center justify-between gap-4 rounded-xl bg-white/[0.02] border border-white/10 px-4 py-4 hover:bg-white/[0.04] transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className={"h-10 w-10 rounded-full border flex items-center justify-center shrink-0 " + a.tint}>
-                    {a.icon}
+                  <div className={"h-10 w-10 rounded-full border flex items-center justify-center shrink-0 " + typeToTint[a.type]}>
+                    {typeToIcon[a.type]}
                   </div>
                   <div className="min-w-0">
                     <div className="text-[#F5F5F5] font-semibold truncate">{a.title}</div>
@@ -85,9 +113,17 @@ const Dashboard = () => {
                   </div>
                 </div>
 
-                <div className="shrink-0 h-10 w-10 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/75 flex items-center justify-center">
+                <button
+                  type="button"
+                  aria-label="Ver request"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    goTo(a.requestId);
+                  }}
+                  className="shrink-0 h-10 w-10 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/75 flex items-center justify-center hover:bg-white/[0.06] transition-colors"
+                >
                   <ArrowRight className="w-4 h-4" />
-                </div>
+                </button>
               </button>
             ))}
           </div>
