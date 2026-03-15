@@ -118,7 +118,7 @@ const Footer = () => {
                   type="submit"
                   variant="primary"
                   size="md"
-                  className="h-10 px-5 rounded-full leading-none inline-flex items-center gap-2 shrink-0"
+                  className="h-10 px-5 rounded-full shrink-0 text-center"
                   aria-label="Suscribirse al newsletter"
                   isLoading={loading}
                 >

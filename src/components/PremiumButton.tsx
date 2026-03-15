@@ -31,7 +31,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
 }) => {
   const base =
     // Esquinas pill unificadas, tipografía y microinteracciones consistentes
-    "inline-flex items-center justify-center rounded-full font-bold tracking-[0.2em] transition-all duration-200 group " +
+    "relative inline-flex items-center justify-center rounded-full font-bold tracking-[0.2em] transition-all duration-200 group " +
     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-[#B454FF] " +
     "hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed";
 
@@ -58,7 +58,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
       {isLoading && (
         <span
           aria-hidden
-          className="absolute inline-flex animate-spin rounded-full border-2 border-white/60 border-t-transparent h-4 w-4"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-2 border-white/60 border-t-transparent h-4 w-4"
         />
       )}
     </Button>
