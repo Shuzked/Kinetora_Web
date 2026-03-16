@@ -97,7 +97,7 @@ export async function generateInvoicePdf(
 
   // Márgenes y grid
   const M = 64;                   // margen exterior
-  const innerGap = 14;            // separación vertical estándar
+  const innerGap = 16;            // separación vertical estándar
   const rightX = pageW - M;
 
   const drawRight = (text: string, x: number, y: number, size = 11, bold = false, color = textLight) => {
@@ -155,36 +155,54 @@ export async function generateInvoicePdf(
   // Espacio antes del detalle
   y -= innerGap * 1.5;
 
-  // Panel contenedor del detalle (para aspecto premium y márgenes perfectos)
+  // Panel contenedor del detalle (altura dinámica y columnas equilibradas)
   const panelX = M;
   const panelW = rightX - M;
   const panelTop = y;
-  const panelHeight = 150; // altura suficiente para 1-2 filas y total; ajustada para no solapar
+  const P = 16; // padding interno del panel
+  // Definir anchuras proporcionales de columnas
+  const conceptW = Math.floor(panelW * 0.56) - P; // 56% aprox
+  const periodW = Math.floor(panelW * 0.24) - P;  // 24% aprox
+  // Amount usa el resto a la derecha
+  const colConceptX = panelX + P;
+  const colPeriodX = colConceptX + conceptW + P;
+  const colAmountRightX = panelX + panelW - P;
+
+  // Calcular posiciones internas sin dibujar aún
+  const detailTitleY = panelTop - P;
+  const headerRowY = detailTitleY - 20;
+  const rowY = headerRowY - 22;
+  const totalY = rowY - 28;
+  let panelBottom = totalY - 28;
+  // Respetar margen de pie y altura mínima del panel
+  const minPanelBottom = panelTop - 120;
+  if (panelBottom < minPanelBottom) panelBottom = minPanelBottom;
+  const footSafeY = M + 64; // espacio de seguridad sobre el pie
+  if (panelBottom < footSafeY) panelBottom = footSafeY;
+
+  // Dibujar panel ahora que conocemos top/bottom
   page.drawRectangle({
-    x: panelX, y: panelTop - panelHeight,
-    width: panelW, height: panelHeight,
-    color: panel, borderColor: stroke, borderWidth: 1
+    x: panelX,
+    y: panelBottom,
+    width: panelW,
+    height: panelTop - panelBottom,
+    color: panel,
+    borderColor: stroke,
+    borderWidth: 1
   });
 
   // Título detalle
-  const detailTitleY = panelTop - innerGap;
-  draw("Detalle", panelX + 16, detailTitleY, 12, true, textLight);
+  draw("Detalle", panelX + P, detailTitleY, 12, true, textLight);
 
   // Cabecera columnas
-  const colConceptX = panelX + 16;
-  const colPeriodX = panelX + Math.min(340, panelW * 0.55);
-  const colAmountRightX = panelX + panelW - 16;
-
-  const headerRowY = detailTitleY - innerGap - 2;
   draw("Concepto", colConceptX, headerRowY, 11, true, textLight);
   draw("Periodo", colPeriodX, headerRowY, 11, true, textLight);
   drawRight("Importe", colAmountRightX, headerRowY, 11, true, textLight);
-  line(panelX + 12, headerRowY - 8, panelW - 24);
+  line(panelX + P, headerRowY - 8, panelW - P * 2);
 
   // Fila (con truncado para evitar desbordes y respetar márgenes)
-  const rowY = headerRowY - innerGap - 2;
-  const conceptMaxW = (colPeriodX - 24) - colConceptX;
-  const periodMaxW = (colAmountRightX - 24) - colPeriodX;
+  const conceptMaxW = conceptW;
+  const periodMaxW = periodW;
   const concept = truncateToWidth(invoice.plan, conceptMaxW, fontRegular, 11);
   const period = truncateToWidth(invoice.period || invoice.date, periodMaxW, fontRegular, 11);
 
@@ -193,10 +211,9 @@ export async function generateInvoicePdf(
   drawRight(invoice.amount, colAmountRightX, rowY, 11, true, textLight);
 
   // Línea bajo fila
-  line(panelX + 12, rowY - 10, panelW - 24);
+  line(panelX + P, rowY - 10, panelW - P * 2);
 
   // Total alineado a la derecha dentro del panel
-  const totalY = rowY - innerGap - 2;
   draw("TOTAL", colAmountRightX - 140, totalY, 11, true, textLight);
   drawRight(invoice.amount, colAmountRightX, totalY, 16, true, brand);
 
