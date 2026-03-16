@@ -95,6 +95,10 @@ const ValueProp = () => {
         <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/10 blur-[110px] z-0" />
         <div className="pointer-events-none absolute -bottom-36 -right-28 h-[26rem] w-[26rem] rounded-full bg-[#5EEAD4]/5 blur-[120px] z-0" />
         
+        {/* edge fades to blend with adjacent sections (long, subtle) */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-48 z-[1] bg-[linear-gradient(to_bottom,#0D0D0D_0%,rgba(13,13,13,0.6)_25%,rgba(13,13,13,0.2)_55%,transparent_100%)]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-48 z-[1] bg-[linear-gradient(to_top,#0D0D0D_0%,rgba(13,13,13,0.6)_25%,rgba(13,13,13,0.2)_55%,transparent_100%)]" />
+        
         {/* content */}
         <div className="relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-14 sm:mb-16 lg:mb-20">
