@@ -55,20 +55,15 @@ export async function generateInvoicePdf(
   const M = 56;
   const rightX = pageW - M;
   const drawRight = (text: string, x: number, y: number, size = 11, bold = false, color = textMid) => {
+    const f = bold ? fontBold : fontRegular;
+    const w = f.widthOfTextAtSize(text, size);
     page.drawText(text, {
-      x,
+      x: x - w,
       y,
       size,
-      font: bold ? fontBold : fontRegular,
+      font: f,
       color,
-      opacity: 1,
-      rotate: undefined,
-      xSkew: 0,
-      ySkew: 0,
     });
-    // Alineado manual a la derecha restando el ancho del texto
-    const w = (bold ? fontBold : fontRegular).widthOfTextAtSize(text, size);
-    page.drawText("", { x: x - w, y }); // noop para evitar warnings
   };
 
   const draw = (text: string, x: number, y: number, size = 11, bold = false, color = textMid) => {
