@@ -240,6 +240,11 @@ const sanitizeWpHtml = (html: string) => {
   return doc.body.innerHTML;
 };
 
+const canScroll = (el: HTMLElement, deltaY: number) => {
+  if (deltaY > 0) return el.scrollTop + el.clientHeight < el.scrollHeight - 1;
+  return el.scrollTop > 0;
+};
+
 const CaseStudyPost = () => {
   const { lang } = useI18n();
   const { slug } = useParams();
@@ -251,6 +256,10 @@ const CaseStudyPost = () => {
 
   const [post, setPost] = React.useState<WPPost | null>(null);
   const [loading, setLoading] = React.useState(true);
+
+  const textColRef = React.useRef<HTMLDivElement | null>(null);
+  const mediaColRef = React.useRef<HTMLDivElement | null>(null);
+  const dualColRef = React.useRef<HTMLDivElement | null>(null);
 
   const [meta, setMeta] = React.useState<
     Record<
@@ -323,6 +332,42 @@ const CaseStudyPost = () => {
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as any });
   }, [slug]);
+
+  React.useEffect(() => {
+    const root = dualColRef.current;
+    if (!root) return;
+
+    const onWheel = (e: WheelEvent) => {
+      // Only intercept when the 2-col section is active on desktop.
+      if (window.matchMedia("(min-width: 1024px)").matches === false) return;
+
+      const textEl = textColRef.current;
+      const mediaEl = mediaColRef.current;
+      if (!textEl || !mediaEl) return;
+
+      const dy = e.deltaY;
+      if (dy === 0) return;
+
+      const textCan = canScroll(textEl, dy);
+      const mediaCan = canScroll(mediaEl, dy);
+
+      // Priority: keep reading flow in text first, then media.
+      if (textCan) {
+        e.preventDefault();
+        textEl.scrollTop += dy;
+        return;
+      }
+      if (mediaCan) {
+        e.preventDefault();
+        mediaEl.scrollTop += dy;
+        return;
+      }
+      // If neither can scroll further, allow page scroll.
+    };
+
+    root.addEventListener("wheel", onWheel, { passive: false });
+    return () => root.removeEventListener("wheel", onWheel as any);
+  }, []);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -438,7 +483,7 @@ const CaseStudyPost = () => {
                 </Link>
               </div>
 
-              <div className="max-w-3xl">
+              <div className="max-w-4xl mx-auto text-center">
                 <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
                   {caseTag}
                 </div>
@@ -470,48 +515,59 @@ const CaseStudyPost = () => {
                 </div>
               ) : (
                 <div className="space-y-8">
-                  <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8">
-                    <article className="wp-post">
+                  <section
+                    ref={dualColRef}
+                    className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 lg:h-[calc(100vh-220px)] lg:overflow-hidden"
+                  >
+                    <article className="wp-post lg:h-full">
                       <div className="flex items-center justify-between gap-4 mb-5">
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
                           {ui.textCol}
                         </div>
                       </div>
 
-                      {loading ? (
-                        <div className="space-y-4">
-                          <Skeleton className="h-4 w-4/5" />
-                          <Skeleton className="h-4 w-3/5" />
-                          <Skeleton className="h-4 w-4/6" />
-                          <Skeleton className="h-48 w-full rounded-2xl" />
-                          <Skeleton className="h-4 w-5/6" />
-                          <Skeleton className="h-4 w-3/4" />
-                        </div>
-                      ) : (
-                        <div
-                          className="wp-post__content"
-                          dangerouslySetInnerHTML={{ __html: textHtml }}
-                        />
-                      )}
-                    </article>
-
-                    <aside className="lg:sticky lg:top-[108px] self-start">
-                      <div className="wp-media">
-                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
-                          {ui.mediaCol}
-                        </div>
+                      <div
+                        ref={textColRef}
+                        className="lg:h-[calc(100%-1.75rem)] lg:overflow-auto no-scrollbar"
+                      >
                         {loading ? (
                           <div className="space-y-4">
+                            <Skeleton className="h-4 w-4/5" />
+                            <Skeleton className="h-4 w-3/5" />
+                            <Skeleton className="h-4 w-4/6" />
                             <Skeleton className="h-48 w-full rounded-2xl" />
-                            <Skeleton className="h-48 w-full rounded-2xl" />
-                            <Skeleton className="h-48 w-full rounded-2xl" />
+                            <Skeleton className="h-4 w-5/6" />
+                            <Skeleton className="h-4 w-3/4" />
                           </div>
                         ) : (
                           <div
-                            className="wp-post__content wp-post__media"
-                            dangerouslySetInnerHTML={{ __html: mediaHtml }}
+                            className="wp-post__content"
+                            dangerouslySetInnerHTML={{ __html: textHtml }}
                           />
                         )}
+                      </div>
+                    </article>
+
+                    <aside className="lg:h-full">
+                      <div className="wp-media h-full">
+                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
+                          {ui.mediaCol}
+                        </div>
+
+                        <div ref={mediaColRef} className="lg:h-[calc(100%-1.75rem)] lg:overflow-auto no-scrollbar">
+                          {loading ? (
+                            <div className="space-y-4">
+                              <Skeleton className="h-48 w-full rounded-2xl" />
+                              <Skeleton className="h-48 w-full rounded-2xl" />
+                              <Skeleton className="h-48 w-full rounded-2xl" />
+                            </div>
+                          ) : (
+                            <div
+                              className="wp-post__content wp-post__media"
+                              dangerouslySetInnerHTML={{ __html: mediaHtml }}
+                            />
+                          )}
+                        </div>
                       </div>
                     </aside>
                   </section>
