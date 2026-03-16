@@ -343,8 +343,11 @@ const CaseStudyPost = () => {
       return;
     }
 
-    const url = new URL("/wp-json/wp/v2/posts", cs.sourceUrl);
-    url.searchParams.set("slug", cs.slug);
+    // Si estamos en EN y hay fuente inglesa, cargar desde allí; si no, usar ES.
+    const baseUrl = lang === "en" && cs.sourceUrlEn ? cs.sourceUrlEn : cs.sourceUrl;
+    const slugParam = lang === "en" && cs.slugEn ? cs.slugEn : cs.slug;
+    const url = new URL("/wp-json/wp/v2/posts", baseUrl);
+    url.searchParams.set("slug", slugParam);
     url.searchParams.set("_embed", "1");
     url.searchParams.set("_fields", "slug,title,excerpt,content,_embedded");
 
@@ -365,15 +368,17 @@ const CaseStudyPost = () => {
     return () => {
       cancelled = true;
     };
-  }, [cs]);
+  }, [cs, lang]);
 
   React.useEffect(() => {
     let cancelled = false;
 
     Promise.all(
       otherCases.map(async (it) => {
-        const url = new URL("/wp-json/wp/v2/posts", it.sourceUrl);
-        url.searchParams.set("slug", it.slug);
+        const baseUrl = lang === "en" && it.sourceUrlEn ? it.sourceUrlEn : it.sourceUrl;
+        const slugParam = lang === "en" && it.slugEn ? it.slugEn : it.slug;
+        const url = new URL("/wp-json/wp/v2/posts", baseUrl);
+        url.searchParams.set("slug", slugParam);
         url.searchParams.set("_embed", "1");
         url.searchParams.set("_fields", "slug,excerpt,content,_embedded");
         const res = await fetch(url.toString());
@@ -411,7 +416,7 @@ const CaseStudyPost = () => {
     return () => {
       cancelled = true;
     };
-  }, [slug]);
+  }, [slug, lang]);
 
   const title = React.useMemo(() => {
     const wpTitle = post?.title?.rendered ? stripHtml(post.title.rendered) : undefined;

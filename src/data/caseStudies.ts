@@ -1,6 +1,8 @@
 export type CaseStudy = {
   slug: string;
   sourceUrl: string;
+  slugEn?: string;
+  sourceUrlEn?: string;
   label: string;
   labelEn?: string;
   title: string;
