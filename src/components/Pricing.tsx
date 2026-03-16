@@ -88,6 +88,20 @@ const Pricing = () => {
           ],
         };
 
+  // Add smooth scroll helper for Contact section
+  const getNavbarOffset = () => {
+    const nav = document.querySelector("nav") as HTMLElement | null;
+    return (nav?.offsetHeight || 0) + 8;
+  };
+
+  const scrollToContact = () => {
+    const el = document.getElementById("contacto");
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const y = rect.top + window.scrollY - getNavbarOffset();
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
+
   return (
     <section id="precios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -138,6 +152,7 @@ const Pricing = () => {
                 variant={plan.featured ? "primary" : "glass"}
                 size="md"
                 className="w-full rounded-full mt-8"
+                onClick={plan.perMonth === false ? scrollToContact : undefined}
               >
                 {(plan as any).cta ? (plan as any).cta : copy.cta.toUpperCase()}
               </PremiumButton>
