@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/carousel";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
+import { translateHtmlEsToEn, isLikelySpanish } from "@/utils/translate";
 
 type WPPost = {
   slug?: string;
@@ -23,7 +24,7 @@ type WPPost = {
   excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }> ;
   };
 };
 
@@ -420,8 +421,11 @@ const CaseStudyPost = () => {
   const { textHtml, mediaHtml } = React.useMemo(() => {
     const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
     const withEmbeds = cs?.embeds?.length ? injectEmbedsAtPoints(base, cs.embeds) : base;
-    return splitWpContentIntoTextAndMedia(withEmbeds);
-  }, [post?.content?.rendered, cs]);
+    // Si el usuario está en EN y el contenido parece español, traducimos automáticamente
+    const maybeTranslated =
+      lang === "en" && isLikelySpanish(stripHtml(withEmbeds)) ? translateHtmlEsToEn(withEmbeds) : withEmbeds;
+    return splitWpContentIntoTextAndMedia(maybeTranslated);
+  }, [post?.content?.rendered, cs, lang]);
 
   React.useEffect(() => {
     if (typeof window === "undefined") return;
@@ -599,8 +603,8 @@ const CaseStudyPost = () => {
                             (lang === "es" ? it.coverAlt : it.coverAltEn ?? it.coverAlt) || it.coverAlt || m?.alt;
 
                           const metricLabel =
-                            (lang === "es" ? it.metricLabel : it.metricLabelEn ?? it.metricLabel) ??
-                            metricLabelFor(m?.metricKind) ??
+                            (lang === "es" ? it.metricLabel : it.metricLabelEn ?? it.metricLabel) ?? 
+                            metricLabelFor(m?.metricKind) ?? 
                             null;
                           const metricValue = it.metricValue ?? m?.metricValue;
 
