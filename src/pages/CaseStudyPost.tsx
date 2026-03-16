@@ -508,7 +508,7 @@ const CaseStudyPost = () => {
                   <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 items-start">
                     <article
                       ref={textWrapRef}
-                      className={`wp-post self-start ${stickySide === "left" ? "lg:sticky lg:top-[108px]" : ""}`}
+                      className={`wp-post self-start ${stickySide === "left" ? "lg:sticky lg:bottom-8" : ""}`}
                     >
                       <div className="flex items-center justify-between gap-4 mb-5">
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
@@ -536,7 +536,7 @@ const CaseStudyPost = () => {
                     <aside className="self-start">
                       <div
                         ref={mediaWrapRef}
-                        className={`wp-media ${stickySide === "right" ? "lg:sticky lg:top-[108px]" : ""}`}
+                        className={`wp-media ${stickySide === "right" ? "lg:sticky lg:bottom-8" : ""}`}
                       >
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
                           {ui.mediaCol}
