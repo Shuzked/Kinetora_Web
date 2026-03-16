@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
 import { useI18n } from "@/i18n/I18nProvider";
+import { FlagIcon } from "@/components/LanguageSwitcher";
 
 const Settings = () => {
-  const { lang, setLang } = useI18n();
+  const { lang, setLang, t } = useI18n();
   const [timezone, setTimezone] = useState("Europe/Madrid");
   const [current, setCurrent] = useState("");
   const [password, setPassword] = useState("");
@@ -84,8 +85,18 @@ const Settings = () => {
                     <SelectValue placeholder={copy.selectLang} />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
-                    <SelectItem value="es">Español</SelectItem>
-                    <SelectItem value="en">English</SelectItem>
+                    <SelectItem value="es">
+                      <div className="flex items-center gap-2">
+                        <FlagIcon lang="es" />
+                        <span className="font-semibold">{t("lang.es")}</span>
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="en">
+                      <div className="flex items-center gap-2">
+                        <FlagIcon lang="en" />
+                        <span className="font-semibold">{t("lang.en")}</span>
+                      </div>
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>

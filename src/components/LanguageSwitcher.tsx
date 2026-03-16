@@ -1,0 +1,168 @@
+"use client";
+
+import React from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
+import { cn } from "@/lib/utils";
+
+type FlagProps = {
+  lang: "es" | "en";
+  className?: string;
+};
+
+export const FlagIcon: React.FC<FlagProps> = ({ lang, className }) => {
+  if (lang === "es") {
+    return (
+      <span
+        className={cn(
+          "inline-flex h-5 w-5 overflow-hidden rounded-full ring-1 ring-white/15",
+          className
+        )}
+        aria-hidden
+      >
+        <svg viewBox="0 0 24 24" className="h-full w-full">
+          <rect width="24" height="24" fill="#AA151B" />
+          <rect y="6" width="24" height="12" fill="#F1BF00" />
+        </svg>
+      </span>
+    );
+  }
+
+  // English (UK-style) flag, simplified
+  return (
+    <span
+      className={cn(
+        "inline-flex h-5 w-5 overflow-hidden rounded-full ring-1 ring-white/15",
+        className
+      )}
+      aria-hidden
+    >
+      <svg viewBox="0 0 24 24" className="h-full w-full">
+        <rect width="24" height="24" fill="#012169" />
+        {/* white diagonals */}
+        <path d="M0 0 L10 0 L24 14 L24 24 L14 24 L0 10 Z" fill="#FFFFFF" opacity="0.9" />
+        <path d="M24 0 L14 0 L0 14 L0 24 L10 24 L24 10 Z" fill="#FFFFFF" opacity="0.9" />
+        {/* red diagonals */}
+        <path d="M0 0 L7 0 L24 17 L24 24 L17 24 L0 7 Z" fill="#C8102E" opacity="0.95" />
+        <path d="M24 0 L17 0 L0 17 L0 24 L7 24 L24 7 Z" fill="#C8102E" opacity="0.95" />
+        {/* white cross */}
+        <rect x="0" y="9" width="24" height="6" fill="#FFFFFF" />
+        <rect x="9" y="0" width="6" height="24" fill="#FFFFFF" />
+        {/* red cross */}
+        <rect x="0" y="10.5" width="24" height="3" fill="#C8102E" />
+        <rect x="10.5" y="0" width="3" height="24" fill="#C8102E" />
+      </svg>
+    </span>
+  );
+};
+
+type LanguageSwitcherProps = {
+  triggerClassName?: string;
+  contentClassName?: string;
+  hideOnSmall?: boolean;
+};
+
+const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
+  triggerClassName,
+  contentClassName,
+  hideOnSmall,
+}) => {
+  const { lang, setLang, t } = useI18n();
+
+  const currentLabel = lang === "es" ? t("lang.es") : t("lang.en");
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label={t("lang.switch")}
+          className={cn(
+            "inline-flex h-10 items-center gap-2 rounded-full border px-3 text-[11px] font-black tracking-[0.18em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]",
+            "bg-white/[0.03] border-white/10 text-[#F5F5F5]/80 hover:text-[#F5F5F5] hover:bg-white/[0.06] hover:border-white/20",
+            hideOnSmall && "hidden sm:inline-flex",
+            triggerClassName
+          )}
+        >
+          <FlagIcon lang={lang} />
+          <span className="leading-none">{currentLabel}</span>
+          <ChevronDown className="w-4 h-4 text-[#F5F5F5]/55" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        className={cn(
+          "bg-[#111111] border-white/10 text-[#F5F5F5] rounded-2xl p-1 min-w-[190px]",
+          contentClassName
+        )}
+      >
+        <DropdownMenuItem
+          onClick={() => setLang("es")}
+          className="rounded-xl focus:bg-white/[0.06] cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            <FlagIcon lang="es" />
+            <span className="font-semibold">{t("lang.es")}</span>
+          </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => setLang("en")}
+          className="rounded-xl focus:bg-white/[0.06] cursor-pointer"
+        >
+          <div className="flex items-center gap-2">
+            <FlagIcon lang="en" />
+            <span className="font-semibold">{t("lang.en")}</span>
+          </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export const LanguagePills: React.FC<{ className?: string }> = ({ className }) => {
+  const { lang, setLang, t } = useI18n();
+
+  const pillBase =
+    "h-11 px-4 rounded-full border text-[11px] font-black tracking-[0.18em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]";
+
+  return (
+    <div className={cn("flex items-center gap-2", className)}>
+      <button
+        type="button"
+        onClick={() => setLang("es")}
+        className={cn(
+          pillBase,
+          "inline-flex items-center gap-2",
+          lang === "es"
+            ? "bg-[#B454FF]/18 border-[#B454FF]/30 text-[#F5F5F5]"
+            : "bg-white/[0.03] border-white/10 text-[#F5F5F5]/75 hover:bg-white/[0.06] hover:text-[#F5F5F5]"
+        )}
+      >
+        <FlagIcon lang="es" className="h-[18px] w-[18px]" />
+        {t("lang.es")}
+      </button>
+      <button
+        type="button"
+        onClick={() => setLang("en")}
+        className={cn(
+          pillBase,
+          "inline-flex items-center gap-2",
+          lang === "en"
+            ? "bg-[#B454FF]/18 border-[#B454FF]/30 text-[#F5F5F5]"
+            : "bg-white/[0.03] border-white/10 text-[#F5F5F5]/75 hover:bg-white/[0.06] hover:text-[#F5F5F5]"
+        )}
+      >
+        <FlagIcon lang="en" className="h-[18px] w-[18px]" />
+        {t("lang.en")}
+      </button>
+    </div>
+  );
+};
+
+export default LanguageSwitcher;

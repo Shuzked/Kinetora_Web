@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useNotifications } from "@/hooks/use-notifications";
 import { useI18n } from "@/i18n/I18nProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 type PortalTopBarProps = {
   onOpenMobileMenu?: () => void;
@@ -25,7 +26,7 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
 }) => {
   const navigate = useNavigate();
   const { items, unreadCount, markAllRead, remove } = useNotifications();
-  const { lang, setLang, t } = useI18n();
+  const { lang, t } = useI18n();
 
   const ui =
     lang === "es"
@@ -84,25 +85,7 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
 
         <div className="flex items-center gap-3">
           {/* Language */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
-                type="button"
-                aria-label={t("lang.switch")}
-                className="hidden sm:inline-flex h-10 px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:text-[#F5F5F5] hover:bg-white/[0.06] transition-colors text-[11px] font-black tracking-[0.22em] uppercase"
-              >
-                {lang.toUpperCase()}
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-[#111111] border-white/10 text-[#F5F5F5] rounded-2xl p-1 min-w-[160px]">
-              <DropdownMenuItem onClick={() => setLang("es")} className="rounded-xl focus:bg-white/[0.06] cursor-pointer">
-                {t("lang.es")}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setLang("en")} className="rounded-xl focus:bg-white/[0.06] cursor-pointer">
-                {t("lang.en")}
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <LanguageSwitcher hideOnSmall />
 
           {/* Notifications dropdown */}
           <DropdownMenu>
