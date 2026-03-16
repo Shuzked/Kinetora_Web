@@ -16,6 +16,7 @@ export type CaseStudy = {
   metricLabel?: string;
   metricLabelEn?: string;
   metricValue?: string;
+  embeds?: Array<{ point: number; src: string }>;
 };
 
 export const caseStudies: CaseStudy[] = [
@@ -39,6 +40,16 @@ export const caseStudies: CaseStudy[] = [
     metricLabel: "Ventas realizadas",
     metricLabelEn: "Sales",
     metricValue: "$29.900",
+    embeds: [
+      {
+        point: 1,
+        src: "https://www.youtube.com/embed/SmxMZZUsqIo?si=waoMk9O97NIoHM6a",
+      },
+      {
+        point: 3,
+        src: "https://www.youtube.com/embed/6FQVlBRWU-Y?si=XcaTft1ptmHXEQV-",
+      },
+    ],
   },
   {
     slug: "elixir-token",

@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { motion } from "framer-motion";
 import DOMPurify from "dompurify";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -77,8 +76,9 @@ const youtubeEmbedHtml = (src: string) => {
   `.trim();
 };
 
-const injectEmbedsForDunkLowElixir = (html: string) => {
+const injectEmbedsAtPoints = (html: string, embeds: Array<{ point: number; src: string }>) => {
   if (typeof window === "undefined") return html;
+  if (!embeds.length) return html;
 
   const doc = new DOMParser().parseFromString(html, "text/html");
 
@@ -115,8 +115,9 @@ const injectEmbedsForDunkLowElixir = (html: string) => {
     }
   };
 
-  insertBeforeNextPoint(1, youtubeEmbedHtml("https://www.youtube.com/embed/SmxMZZUsqIo?si=waoMk9O97NIoHM6a"));
-  insertBeforeNextPoint(3, youtubeEmbedHtml("https://www.youtube.com/embed/6FQVlBRWU-Y?si=XcaTft1ptmHXEQV-"));
+  embeds.forEach((e) => {
+    insertBeforeNextPoint(e.point, youtubeEmbedHtml(e.src));
+  });
 
   return doc.body.innerHTML;
 };
@@ -144,7 +145,9 @@ const splitWpContentIntoTextAndMedia = (html: string) => {
   const mediaHtml = mediaEls
     .map((el) => {
       // Prefer the wrapping block if available.
-      const wrapper = el.closest("figure, .wp-block-embed, .wp-block-image, .wp-block-video, .wp-block-gallery, .blocks-gallery-grid");
+      const wrapper = el.closest(
+        "figure, .wp-block-embed, .wp-block-image, .wp-block-video, .wp-block-gallery, .blocks-gallery-grid"
+      );
       return (wrapper || el).outerHTML;
     })
     // Deduplicate adjacent duplicates from nested selections
@@ -153,7 +156,9 @@ const splitWpContentIntoTextAndMedia = (html: string) => {
 
   // Remove media from the text version.
   mediaEls.forEach((el) => {
-    const wrapper = el.closest("figure, .wp-block-embed, .wp-block-image, .wp-block-video, .wp-block-gallery, .blocks-gallery-grid");
+    const wrapper = el.closest(
+      "figure, .wp-block-embed, .wp-block-image, .wp-block-video, .wp-block-gallery, .blocks-gallery-grid"
+    );
     (wrapper || el).remove();
   });
 
@@ -240,15 +245,9 @@ const CaseStudyPost = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
 
-  const cs = React.useMemo(
-    () => caseStudies.find((c) => c.slug === slug),
-    [slug]
-  );
+  const cs = React.useMemo(() => caseStudies.find((c) => c.slug === slug), [slug]);
 
-  const otherCases = React.useMemo(
-    () => caseStudies.filter((c) => c.slug !== slug),
-    [slug]
-  );
+  const otherCases = React.useMemo(() => caseStudies.filter((c) => c.slug !== slug), [slug]);
 
   const [post, setPost] = React.useState<WPPost | null>(null);
   const [loading, setLoading] = React.useState(true);
@@ -291,7 +290,8 @@ const CaseStudyPost = () => {
           readOriginal: "Ver original",
           notFound: "No encontramos este caso.",
           readyTitle: "¿Listo para un caso así?",
-          readyBody: "Cuéntanos qué estás lanzando y te proponemos el mejor enfoque en menos de 24h.",
+          readyBody:
+            "Cuéntanos qué estás lanzando y te proponemos el mejor enfoque en menos de 24h.",
           moreResults: "Más resultados",
           viewAll: "Ver todos",
           readMore: "Leer más",
@@ -304,7 +304,8 @@ const CaseStudyPost = () => {
           readOriginal: "View original",
           notFound: "We couldn't find this case study.",
           readyTitle: "Want results like this?",
-          readyBody: "Tell us what you're launching and we'll propose the best approach within 24h.",
+          readyBody:
+            "Tell us what you're launching and we'll propose the best approach within 24h.",
           moreResults: "More results",
           viewAll: "View all",
           readMore: "Read more",
@@ -402,17 +403,14 @@ const CaseStudyPost = () => {
         ? cs?.title
         : cs?.titleEn ?? cs?.title;
 
-  const excerpt = post?.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "";
-
-  const featured = post?._embedded?.["wp:featuredmedia"]?.[0]?.source_url;
-  const featuredAlt = post?._embedded?.["wp:featuredmedia"]?.[0]?.alt_text;
-  const cover = featured || cs?.coverImage;
+  const cover = cs?.coverImage;
+  const coverAlt = lang === "es" ? cs?.coverAlt : cs?.coverAltEn ?? cs?.coverAlt;
 
   const { textHtml, mediaHtml } = React.useMemo(() => {
     const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
-    const withDunkEmbeds = slug === "dunk-low-elixir-edition" ? injectEmbedsForDunkLowElixir(base) : base;
-    return splitWpContentIntoTextAndMedia(withDunkEmbeds);
-  }, [post?.content?.rendered, slug]);
+    const withEmbeds = cs?.embeds?.length ? injectEmbedsAtPoints(base, cs.embeds) : base;
+    return splitWpContentIntoTextAndMedia(withEmbeds);
+  }, [post?.content?.rendered, cs]);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -424,12 +422,7 @@ const CaseStudyPost = () => {
           <div className="pointer-events-none absolute -bottom-44 -left-44 h-[32rem] w-[32rem] rounded-full bg-[#33C3F0]/[0.07] blur-[140px]" />
 
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-              className="flex flex-col gap-7"
-            >
+            <div className="flex flex-col gap-7">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <Link to="/casos" className="inline-flex">
                   <PremiumButton variant="glass" size="sm" className="h-11 rounded-full">
@@ -467,46 +460,30 @@ const CaseStudyPost = () => {
                 <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
                   {title}
                 </h1>
-
-                {excerpt ? (
-                  <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-                    {excerpt}
-                  </p>
-                ) : null}
               </div>
 
-              <motion.div
-                initial={{ opacity: 0, scale: 0.985 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.55, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-                className="rounded-[2.25rem] border border-white/10 bg-white/[0.03] overflow-hidden shadow-[0_24px_110px_rgba(0,0,0,0.35)]"
-              >
+              <div className="rounded-[2.25rem] border border-white/10 bg-white/[0.03] overflow-hidden shadow-[0_24px_110px_rgba(0,0,0,0.35)]">
                 <div className="aspect-[16/9] bg-white/[0.04]">
                   {loading ? (
                     <Skeleton className="h-full w-full rounded-none" />
                   ) : cover ? (
                     <img
                       src={cover}
-                      alt={featuredAlt || cs?.coverAlt || ""}
+                      alt={coverAlt || ""}
                       className="h-full w-full object-cover"
                       loading="lazy"
                       decoding="async"
                     />
                   ) : null}
                 </div>
-              </motion.div>
+              </div>
 
               {!cs ? (
                 <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-7">
                   <p className="text-[#F5F5F5]/80 font-bold">{ui.notFound}</p>
                 </div>
               ) : (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
-                  className="space-y-8"
-                >
+                <div className="space-y-8">
                   <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8">
                     <article className="wp-post">
                       <div className="flex items-center justify-between gap-4 mb-5">
@@ -553,13 +530,7 @@ const CaseStudyPost = () => {
                     </aside>
                   </section>
 
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-120px" }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8"
-                  >
+                  <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
                       <div>
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
@@ -575,16 +546,9 @@ const CaseStudyPost = () => {
                         </PremiumButton>
                       </Link>
                     </div>
-                  </motion.div>
+                  </div>
 
-                  <motion.section
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-120px" }}
-                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative overflow-hidden"
-                    aria-label={ui.moreResults}
-                  >
+                  <div className="relative overflow-hidden" aria-label={ui.moreResults}>
                     <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-7">
                       <div>
                         <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
@@ -622,67 +586,61 @@ const CaseStudyPost = () => {
                               key={it.slug}
                               className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
                             >
-                              <motion.div
-                                whileHover={{ y: -6 }}
-                                transition={{ duration: 0.25, ease: "easeOut" }}
-                                className="h-full"
-                              >
-                                <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform hover:-translate-y-0.5">
-                                  <div className="aspect-[16/10] overflow-hidden">
-                                    {!metaReady ? (
-                                      <Skeleton className="w-full h-full rounded-none" />
-                                    ) : (
-                                      <img
-                                        src={coverImg}
-                                        alt={alt}
-                                        loading="lazy"
-                                        decoding="async"
-                                        onError={(e) => {
-                                          (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                                        }}
-                                        className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                                      />
-                                    )}
+                              <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform hover:-translate-y-0.5">
+                                <div className="aspect-[16/10] overflow-hidden">
+                                  {!metaReady ? (
+                                    <Skeleton className="w-full h-full rounded-none" />
+                                  ) : (
+                                    <img
+                                      src={coverImg}
+                                      alt={alt}
+                                      loading="lazy"
+                                      decoding="async"
+                                      onError={(e) => {
+                                        (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                                      }}
+                                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    />
+                                  )}
+                                </div>
+                                <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                                  <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                                    {hito}
                                   </div>
-                                  <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                                    <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
-                                      {hito}
+                                  <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                                    {cardTitle}
+                                  </h3>
+                                  <div className="mt-auto pt-4 sm:pt-5">
+                                    <div className="metric-block-min mb-2">
+                                      {metaReady ? (
+                                        metricLabel && metricValue ? (
+                                          <>
+                                            <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                              {metricLabel}
+                                            </div>
+                                            <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                              {metricValue}
+                                            </div>
+                                          </>
+                                        ) : null
+                                      ) : (
+                                        <div className="space-y-2">
+                                          <Skeleton className="h-3 w-24" />
+                                          <Skeleton className="h-7 w-36" />
+                                        </div>
+                                      )}
                                     </div>
-                                    <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                                      {cardTitle}
-                                    </h3>
-                                    <div className="mt-auto pt-4 sm:pt-5">
-                                      <div className="metric-block-min mb-2">
-                                        {metaReady ? (
-                                          metricLabel && metricValue ? (
-                                            <>
-                                              <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                                                {metricLabel}
-                                              </div>
-                                              <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                                                {metricValue}
-                                              </div>
-                                            </>
-                                          ) : null
-                                        ) : (
-                                          <div className="space-y-2">
-                                            <Skeleton className="h-3 w-24" />
-                                            <Skeleton className="h-7 w-36" />
-                                          </div>
-                                        )}
-                                      </div>
-                                      <PremiumButton
-                                        variant="glass"
-                                        size="sm"
-                                        className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
-                                        onClick={() => navigate(`/casos/${it.slug}`)}
-                                      >
-                                        {ui.readMore.toUpperCase()}
-                                      </PremiumButton>
-                                    </div>
+                                    <PremiumButton
+                                      variant="glass"
+                                      size="sm"
+                                      className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
+                                      onClick={() => navigate(`/casos/${it.slug}`)}
+                                    >
+                                      {ui.readMore.toUpperCase()}
+                                    </PremiumButton>
                                   </div>
                                 </div>
-                              </motion.div>
+                              </div>
                             </CarouselItem>
                           );
                         })}
@@ -697,10 +655,10 @@ const CaseStudyPost = () => {
                         {lang === "es" ? "Desliza para ver más" : "Swipe to see more"}
                       </p>
                     </div>
-                  </motion.section>
-                </motion.div>
+                  </div>
+                </div>
               )}
-            </motion.div>
+            </div>
           </div>
         </section>
       </main>
