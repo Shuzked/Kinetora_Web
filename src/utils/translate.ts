@@ -132,3 +132,13 @@ export function translateHtmlEsToEn(html: string) {
 
   return doc.body.innerHTML;
 }
+
+export function translateTextEsToEn(text: string) {
+  if (!text) return text;
+  if (!isLikelySpanish(text)) return text;
+  let out = text;
+  PAIRS.forEach(([re, en]) => {
+    out = out.replace(re, (m) => preserveCaseLike(m, en));
+  });
+  return out;
+}

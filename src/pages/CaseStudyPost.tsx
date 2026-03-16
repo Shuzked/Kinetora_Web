@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/carousel";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
-import { translateHtmlEsToEn, isLikelySpanish } from "@/utils/translate";
+import { translateHtmlEsToEn, isLikelySpanish, translateTextEsToEn } from "@/utils/translate";
 
 type WPPost = {
   slug?: string;
@@ -320,8 +320,13 @@ const CaseStudyPost = () => {
     if (!cs) return lang === "es" ? "Caso de éxito" : "Case study";
     const excerptText = post?.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "";
     const extracted = excerptText ? extractHito(excerptText) : null;
-    const fallback =
-      lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback;
+    const fallback = lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback;
+    if (lang === "en") {
+      if (extracted) {
+        return isLikelySpanish(extracted) ? translateTextEsToEn(extracted) : extracted;
+      }
+      return fallback;
+    }
     return extracted || fallback;
   }, [cs, lang, post?.excerpt?.rendered]);
 
@@ -408,12 +413,16 @@ const CaseStudyPost = () => {
     };
   }, [slug]);
 
-  const title =
-    post?.title?.rendered
-      ? stripHtml(post.title.rendered)
-      : lang === "es"
-        ? cs?.title
-        : cs?.titleEn ?? cs?.title;
+  const title = React.useMemo(() => {
+    const wpTitle = post?.title?.rendered ? stripHtml(post.title.rendered) : undefined;
+    if (lang === "en") {
+      if (wpTitle) {
+        return isLikelySpanish(wpTitle) ? translateTextEsToEn(wpTitle) : wpTitle;
+      }
+      return cs?.titleEn ?? cs?.title;
+    }
+    return wpTitle ?? cs?.title;
+  }, [post?.title?.rendered, cs?.title, cs?.titleEn, lang]);
 
   const cover = cs?.coverImage;
   const coverAlt = lang === "es" ? cs?.coverAlt : cs?.coverAltEn ?? cs?.coverAlt;
