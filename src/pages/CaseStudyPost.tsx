@@ -18,6 +18,7 @@ import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import { translateHtmlEsToEn, isLikelySpanish, translateTextEsToEn } from "@/utils/translate";
 import { caseContentOverrides } from "@/data/caseOverrides";
+import { useEqualizeHeights } from "@/hooks/use-equalize";
 
 type WPPost = {
   slug?: string;
@@ -257,6 +258,7 @@ const CaseStudyPost = () => {
   const textWrapRef = React.useRef<HTMLElement | null>(null);
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
   const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
+  const eqMoreRef = React.useRef<HTMLDivElement | null>(null);
 
   const [meta, setMeta] = React.useState<
     Record<
@@ -480,6 +482,10 @@ const CaseStudyPost = () => {
     };
   }, [textHtml, mediaHtml]);
 
+  // Activar equalización como en el home (depende de idioma y meta cargado)
+  const metaReady = React.useMemo(() => Object.keys(meta).length > 0, [meta]);
+  useEqualizeHeights(eqMoreRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang, metaReady]);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
@@ -599,7 +605,7 @@ const CaseStudyPost = () => {
                   </div>
 
                   <div className="relative" aria-label={ui.moreResults}>
-                    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-7">
+                    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-7" ref={eqMoreRef}>
                       <div>
                         <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
                           {ui.moreResults}
@@ -639,7 +645,7 @@ const CaseStudyPost = () => {
                               <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform transform-gpu hover:-translate-y-0.5">
                                 <div className="aspect-[16/10] overflow-hidden">
                                   {!metaReady ? (
-                                    <Skeleton className="w-full h-full rounded-[2rem]" />
+                                    <Skeleton className="w-full h-full rounded-none" />
                                   ) : (
                                     <img
                                       src={coverImg}
@@ -649,17 +655,19 @@ const CaseStudyPost = () => {
                                       onError={(e) => {
                                         (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
                                       }}
-                                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 rounded-[2rem]"
+                                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                                     />
                                   )}
                                 </div>
                                 <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                                  <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
-                                    {hito}
+                                  <div className="js-eq-header">
+                                    <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                                      {hito}
+                                    </div>
+                                    <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                                      {cardTitle}
+                                    </h3>
                                   </div>
-                                  <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                                    {cardTitle}
-                                  </h3>
                                   <div className="mt-auto pt-4 sm:pt-5">
                                     <div className="metric-block-min mb-2">
                                       {metaReady ? (
