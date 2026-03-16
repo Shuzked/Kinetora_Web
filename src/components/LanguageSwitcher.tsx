@@ -33,7 +33,7 @@ export const FlagIcon: React.FC<FlagProps> = ({ lang, className }) => {
     );
   }
 
-  // English = UK flag (Union Jack), simplified
+  // English = US flag, simplified
   return (
     <span
       className={cn(
@@ -43,23 +43,33 @@ export const FlagIcon: React.FC<FlagProps> = ({ lang, className }) => {
       aria-hidden
     >
       <svg viewBox="0 0 24 24" className="h-full w-full">
-        <rect width="24" height="24" fill="#012169" />
+        <rect width="24" height="24" fill="#FFFFFF" />
 
-        {/* white diagonals */}
-        <path d="M0 0 L9 0 L24 15 L24 24 L15 24 L0 9 Z" fill="#FFFFFF" />
-        <path d="M24 0 L15 0 L0 15 L0 24 L9 24 L24 9 Z" fill="#FFFFFF" />
+        {/* stripes */}
+        {Array.from({ length: 13 }).map((_, i) => {
+          const y = (24 / 13) * i;
+          const h = 24 / 13;
+          const isRed = i % 2 === 0;
+          return isRed ? (
+            <rect key={i} x="0" y={y} width="24" height={h} fill="#B22234" />
+          ) : null;
+        })}
 
-        {/* red diagonals */}
-        <path d="M0 0 L6 0 L24 18 L24 24 L18 24 L0 6 Z" fill="#C8102E" />
-        <path d="M24 0 L18 0 L0 18 L0 24 L6 24 L24 6 Z" fill="#C8102E" />
+        {/* canton */}
+        <rect x="0" y="0" width="11.2" height="9.2" fill="#3C3B6E" />
 
-        {/* white cross */}
-        <rect x="0" y="9" width="24" height="6" fill="#FFFFFF" />
-        <rect x="9" y="0" width="6" height="24" fill="#FFFFFF" />
-
-        {/* red cross */}
-        <rect x="0" y="10.5" width="24" height="3" fill="#C8102E" />
-        <rect x="10.5" y="0" width="3" height="24" fill="#C8102E" />
+        {/* stars (dots) */}
+        {Array.from({ length: 12 }).map((_, i) => {
+          const cols = 4;
+          const r = 0.55;
+          const padX = 1.2;
+          const padY = 1.1;
+          const gapX = 2.4;
+          const gapY = 2.2;
+          const cx = padX + (i % cols) * gapX;
+          const cy = padY + Math.floor(i / cols) * gapY;
+          return <circle key={i} cx={cx} cy={cy} r={r} fill="#FFFFFF" opacity="0.95" />;
+        })}
       </svg>
     </span>
   );
