@@ -186,8 +186,8 @@ const Cases = () => {
                     m?.alt;
 
                   const metricLabel =
-                    (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ??
-                    metricLabelFor(m?.metricKind) ??
+                    (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ?? 
+                    metricLabelFor(m?.metricKind) ?? 
                     null;
                   const metricValue = cs.metricValue ?? m?.metricValue;
 

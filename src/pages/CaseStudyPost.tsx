@@ -25,7 +25,7 @@ type WPPost = {
   excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }> ;
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
   };
 };
 
@@ -258,6 +258,11 @@ const CaseStudyPost = () => {
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
   const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
 
+  // NUEVO: refs para parallax entre columnas y CTA
+  const gridRef = React.useRef<HTMLElement | null>(null);
+  const readyRef = React.useRef<HTMLDivElement | null>(null);
+  const [parallaxActive, setParallaxActive] = React.useState(false);
+
   const [meta, setMeta] = React.useState<
     Record<
       string,
@@ -480,6 +485,81 @@ const CaseStudyPost = () => {
     };
   }, [textHtml, mediaHtml]);
 
+  // NUEVO: activar/desactivar parallax en escritorio
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const update = () => setParallaxActive(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  // NUEVO: animación parallax con dos velocidades, alineado al llegar al CTA
+  React.useEffect(() => {
+    if (!parallaxActive) {
+      // Quitar transform si no hay parallax
+      if (textWrapRef.current) textWrapRef.current.style.transform = "";
+      if (mediaWrapRef.current) mediaWrapRef.current.style.transform = "";
+      return;
+    }
+
+    const textEl = textWrapRef.current;
+    const mediaEl = mediaWrapRef.current;
+    const gridEl = gridRef.current;
+    const readyEl = readyRef.current;
+    if (!textEl || !mediaEl || !gridEl || !readyEl) return;
+
+    let raf = 0;
+
+    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+    const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+
+    const tick = () => {
+      const start = gridEl.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.2;
+      const end = readyEl.getBoundingClientRect().top + window.scrollY - 108;
+      const dist = Math.max(1, end - start);
+      const y = window.scrollY;
+      const p = clamp((y - start) / dist, 0, 1);
+      const t = easeOutCubic(p);
+
+      const leftInit = 80;
+      const rightInit = 140;
+
+      const yLeft = (1 - t) * leftInit;
+      const yRight = (1 - t) * rightInit;
+
+      textEl.style.transform = `translateY(${yLeft}px)`;
+      mediaEl.style.transform = `translateY(${yRight}px)`;
+
+      raf = requestAnimationFrame(tick);
+    };
+
+    textEl.style.willChange = "transform";
+    mediaEl.style.willChange = "transform";
+
+    raf = requestAnimationFrame(tick);
+
+    const onResize = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+      if (textEl) {
+        textEl.style.transform = "";
+        textEl.style.willChange = "";
+      }
+      if (mediaEl) {
+        mediaEl.style.transform = "";
+        mediaEl.style.willChange = "";
+      }
+    };
+  }, [parallaxActive]);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
@@ -531,10 +611,10 @@ const CaseStudyPost = () => {
                 </div>
               ) : (
                 <div className="space-y-8">
-                  <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 items-start">
+                  <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 items-start" ref={gridRef}>
                     <article
                       ref={textWrapRef}
-                      className={`wp-post self-start ${stickySide === "left" ? "lg:sticky lg:top-[108px]" : ""}`}
+                      className={`wp-post self-start will-change-transform ${stickySide === "left" && !parallaxActive ? "lg:sticky lg:top-[108px]" : ""}`}
                     >
                       <div className="flex items-center justify-between gap-4 mb-5">
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
@@ -562,8 +642,7 @@ const CaseStudyPost = () => {
                     <aside className="self-start">
                       <div
                         ref={mediaWrapRef}
-                        className={`wp-media ${stickySide === "right" ? "lg:sticky lg:top-[108px]" : ""}`}
-
+                        className={`wp-media will-change-transform ${stickySide === "right" && !parallaxActive ? "lg:sticky lg:top-[108px]" : ""}`}
                       >
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
                           {ui.mediaCol}
@@ -585,7 +664,7 @@ const CaseStudyPost = () => {
                     </aside>
                   </section>
 
-                  <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
+                  <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8" ref={readyRef}>
                     <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
                       {ui.readyTitle}
                     </div>
