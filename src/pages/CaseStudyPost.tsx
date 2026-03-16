@@ -286,8 +286,6 @@ const CaseStudyPost = () => {
     lang === "es"
       ? {
           back: "Volver a casos",
-          contact: "¿Contactamos?",
-          readOriginal: "Ver original",
           notFound: "No encontramos este caso.",
           readyTitle: "¿Listo para un caso así?",
           readyBody:
@@ -296,12 +294,11 @@ const CaseStudyPost = () => {
           viewAll: "Ver todos",
           readMore: "Leer más",
           textCol: "Lo que hicimos",
-          mediaCol: "Entregables",
+          mediaCol: "Algunos entregables",
+          swipe: "Desliza para ver más",
         }
       : {
           back: "Back to cases",
-          contact: "Let's talk",
-          readOriginal: "View original",
           notFound: "We couldn't find this case study.",
           readyTitle: "Want results like this?",
           readyBody:
@@ -310,8 +307,14 @@ const CaseStudyPost = () => {
           viewAll: "View all",
           readMore: "Read more",
           textCol: "What we did",
-          mediaCol: "Deliverables",
+          mediaCol: "Some deliverables",
+          swipe: "Swipe to see more",
         };
+
+  const caseTag = React.useMemo(() => {
+    if (!cs) return lang === "es" ? "Caso de éxito" : "Case study";
+    return lang === "es" ? cs.label : cs.labelEn ?? cs.label;
+  }, [cs, lang]);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as any });
@@ -423,38 +426,17 @@ const CaseStudyPost = () => {
 
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
             <div className="flex flex-col gap-7">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex items-center justify-between gap-4">
                 <Link to="/casos" className="inline-flex">
                   <PremiumButton variant="glass" size="sm" className="h-11 rounded-full">
                     {ui.back.toUpperCase()}
                   </PremiumButton>
                 </Link>
-
-                <div className="flex items-center gap-3">
-                  {cs?.sourceUrl ? (
-                    <a
-                      href={cs.sourceUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex"
-                    >
-                      <PremiumButton variant="outline" size="sm" className="h-11 rounded-full">
-                        {ui.readOriginal.toUpperCase()}
-                      </PremiumButton>
-                    </a>
-                  ) : null}
-
-                  <Link to="/#contacto" className="inline-flex">
-                    <PremiumButton variant="primary" size="sm" className="h-11 rounded-full">
-                      {ui.contact.toUpperCase()}
-                    </PremiumButton>
-                  </Link>
-                </div>
               </div>
 
               <div className="max-w-3xl">
                 <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                  {lang === "es" ? "Caso de éxito" : "Case study"}
+                  {caseTag}
                 </div>
 
                 <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
@@ -531,24 +513,20 @@ const CaseStudyPost = () => {
                   </section>
 
                   <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-                    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
-                      <div>
-                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                          {ui.readyTitle}
-                        </div>
-                        <p className="mt-3 text-sm sm:text-base text-[#F5F5F5]/75 leading-relaxed max-w-2xl">
-                          {ui.readyBody}
-                        </p>
-                      </div>
-                      <Link to="/#contacto" className="inline-flex md:shrink-0">
-                        <PremiumButton variant="primary" size="md" className="w-full md:w-auto">
-                          {ui.contact.toUpperCase()}
-                        </PremiumButton>
-                      </Link>
+                    <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                      {ui.readyTitle}
                     </div>
+                    <p className="mt-3 text-sm sm:text-base text-[#F5F5F5]/75 leading-relaxed max-w-2xl">
+                      {ui.readyBody}
+                    </p>
+                    <Link to="/#contacto" className="inline-flex mt-5">
+                      <PremiumButton variant="primary" size="md" className="w-full sm:w-auto">
+                        {(lang === "es" ? "¿Contactamos?" : "Let's talk").toUpperCase()}
+                      </PremiumButton>
+                    </Link>
                   </div>
 
-                  <div className="relative overflow-hidden" aria-label={ui.moreResults}>
+                  <div className="relative" aria-label={ui.moreResults}>
                     <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-7">
                       <div>
                         <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
@@ -562,7 +540,7 @@ const CaseStudyPost = () => {
                       </Link>
                     </div>
 
-                    <Carousel opts={{ align: "start", loop: true }} className="relative">
+                    <Carousel opts={{ align: "start", loop: true }} className="relative sm:px-6">
                       <CarouselContent className="-ml-4">
                         {otherCases.map((it) => {
                           const m = meta[it.slug];
@@ -646,13 +624,13 @@ const CaseStudyPost = () => {
                         })}
                       </CarouselContent>
 
-                      <CarouselPrevious className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
-                      <CarouselNext className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
+                      <CarouselPrevious className="hidden sm:inline-flex left-0 -translate-x-1/2 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
+                      <CarouselNext className="hidden sm:inline-flex right-0 translate-x-1/2 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
                     </Carousel>
 
                     <div className="mt-6 sm:hidden">
                       <p className="text-center text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/55">
-                        {lang === "es" ? "Desliza para ver más" : "Swipe to see more"}
+                        {ui.swipe}
                       </p>
                     </div>
                   </div>
