@@ -227,23 +227,16 @@ const Cases = () => {
                           </div>
                           <div className="mt-auto pt-4 sm:pt-5">
                             <div className="metric-block-min mb-2">
-                              {metaReady ? (
-                                metricLabel && metricValue ? (
-                                  <>
-                                    <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                                      {metricLabel}
-                                    </div>
-                                    <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                                      {metricValue}
-                                    </div>
-                                  </>
-                                ) : null
-                              ) : (
-                                <div className="space-y-2">
-                                  <Skeleton className="h-3 w-24" />
-                                  <Skeleton className="h-7 w-36" />
-                                </div>
-                              )}
+                              {metricLabel && metricValue ? (
+                                <>
+                                  <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                    {metricLabel}
+                                  </div>
+                                  <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                    {metricValue}
+                                  </div>
+                                </>
+                              ) : null}
                             </div>
                             <PremiumButton
                               variant="glass"
