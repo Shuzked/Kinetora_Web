@@ -23,6 +23,7 @@ import { NotificationsProvider } from "./providers/NotificationsProvider";
 import { RequestsProvider } from "./providers/RequestsProvider";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import Checkout from "./pages/Checkout";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const queryClient = new QueryClient();
 
@@ -42,39 +43,41 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <I18nProvider>
-        <Toaster />
-        <Sonner />
-        <NotificationsProvider>
-          <RequestsProvider>
-            <BrowserRouter>
-              <ConditionalScrollUI />
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/casos" element={<Cases />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/checkout" element={<Checkout />} />
+        <AuthProvider>
+          <Toaster />
+          <Sonner />
+          <NotificationsProvider>
+            <RequestsProvider>
+              <BrowserRouter>
+                <ConditionalScrollUI />
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/casos" element={<Cases />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/checkout" element={<Checkout />} />
 
-                {/* Portal */}
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/dashboard/requests" element={<Requests />} />
-                <Route path="/dashboard/requests/:id" element={<RequestDetail />} />
-                <Route path="/dashboard/new" element={<NewRequest />} />
-                <Route path="/dashboard/files" element={<Files />} />
-                <Route path="/dashboard/billing" element={<Billing />} />
-                <Route path="/dashboard/support" element={<Support />} />
-                <Route path="/dashboard/notifications" element={<Notifications />} />
-                <Route path="/dashboard/profile" element={<Profile />} />
-                <Route path="/dashboard/settings" element={<Settings />} />
+                  {/* Portal */}
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/dashboard/requests" element={<Requests />} />
+                  <Route path="/dashboard/requests/:id" element={<RequestDetail />} />
+                  <Route path="/dashboard/new" element={<NewRequest />} />
+                  <Route path="/dashboard/files" element={<Files />} />
+                  <Route path="/dashboard/billing" element={<Billing />} />
+                  <Route path="/dashboard/support" element={<Support />} />
+                  <Route path="/dashboard/notifications" element={<Notifications />} />
+                  <Route path="/dashboard/profile" element={<Profile />} />
+                  <Route path="/dashboard/settings" element={<Settings />} />
 
-                {/* Aliases */}
-                <Route path="/dashboard/projects" element={<Navigate to="/dashboard/requests" replace />} />
-                <Route path="/dashboard/messages" element={<Navigate to="/dashboard/support" replace />} />
+                  {/* Aliases */}
+                  <Route path="/dashboard/projects" element={<Navigate to="/dashboard/requests" replace />} />
+                  <Route path="/dashboard/messages" element={<Navigate to="/dashboard/support" replace />} />
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </BrowserRouter>
-          </RequestsProvider>
-        </NotificationsProvider>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </BrowserRouter>
+            </RequestsProvider>
+          </NotificationsProvider>
+        </AuthProvider>
       </I18nProvider>
     </TooltipProvider>
   </QueryClientProvider>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import PremiumButton from "@/components/PremiumButton";
 import { Input } from "@/components/ui/input";
@@ -9,13 +9,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { showSuccess } from "@/utils/toast";
 import { useI18n } from "@/i18n/I18nProvider";
-import { ShieldCheck, Zap, Lock, CreditCard } from "lucide-react";
+import { ShieldCheck, Zap, Lock, CreditCard, Wallet } from "lucide-react";
+import { useAuth } from "@/providers/AuthProvider";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 type PlanKey = "essential" | "fullstack";
 
-const plans: Record<PlanKey, { nameES: string; nameEN: string; price: number }> = {
-  essential: { nameES: "Diseño Esencial", nameEN: "Essential Design", price: 1995 },
-  fullstack: { nameES: "Full-Stack Creativo", nameEN: "Creative Full-Stack", price: 3495 },
+const plans: Record<
+  PlanKey,
+  { nameES: string; nameEN: string; price: number; featuresES: string[]; featuresEN: string[] }
+> = {
+  essential: {
+    nameES: "Diseño Esencial",
+    nameEN: "Essential Design",
+    price: 1995,
+    featuresES: ["Un diseño a la vez", "Revisiones ilimitadas", "Entregas en 48h", "Cancela cuando quieras"],
+    featuresEN: ["One request at a time", "Unlimited revisions", "48h delivery", "Cancel anytime"],
+  },
+  fullstack: {
+    nameES: "Full-Stack Creativo",
+    nameEN: "Creative Full-Stack",
+    price: 3495,
+    featuresES: ["Dos diseños a la vez", "Web + Motion + Branding", "Revisiones ilimitadas", "Soporte prioritario"],
+    featuresEN: ["Two requests at a time", "Web + Motion + Brand", "Unlimited revisions", "Priority support"],
+  },
 };
 
 const currency = "€";
@@ -24,9 +41,17 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { lang } = useI18n();
+  const { isAuthenticated } = useAuth();
 
   const planKey = (params.get("plan") as PlanKey) || "essential";
   const selected = plans[planKey] || plans.essential;
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      const url = `/login?next=/checkout&plan=${encodeURIComponent(planKey)}`;
+      navigate(url, { replace: true });
+    }
+  }, [isAuthenticated, navigate, planKey]);
 
   const [loading, setLoading] = useState(false);
 
@@ -39,6 +64,7 @@ const Checkout: React.FC = () => {
   const [card, setCard] = useState("");
   const [exp, setExp] = useState("");
   const [cvc, setCvc] = useState("");
+  const [method, setMethod] = useState<"card" | "stripe" | "paypal" | "gpay">("card");
 
   const copy =
     lang === "es"
@@ -55,7 +81,7 @@ const Checkout: React.FC = () => {
           vat: "CIF/NIF (opcional)",
           country: "País",
           payment: "Método de pago",
-          card: "Tarjeta",
+          methods: { card: "Tarjeta", stripe: "Stripe", paypal: "PayPal", gpay: "Google Pay" },
           number: "Número",
           exp: "Caducidad",
           cvc: "CVC",
@@ -66,11 +92,12 @@ const Checkout: React.FC = () => {
           summary: "Resumen",
           total: "Total hoy",
           renews: "Renovación mensual",
+          processing: "Procesando pago…",
           success: "Pago realizado. ¡Bienvenido! Redirigiendo al portal...",
         }
       : {
           title: "Complete your subscription",
-          sub: "Secure, fast checkout. You’ll be in within a minute.",
+          sub: "Secure, fast checkout. You'll be in within a minute.",
           plan: "Plan",
           perMonth: "/mo",
           contact: "Contact",
@@ -81,7 +108,7 @@ const Checkout: React.FC = () => {
           vat: "VAT/Tax ID (optional)",
           country: "Country",
           payment: "Payment method",
-          card: "Card",
+          methods: { card: "Card", stripe: "Stripe", paypal: "PayPal", gpay: "Google Pay" },
           number: "Number",
           exp: "Expiry",
           cvc: "CVC",
@@ -92,10 +119,13 @@ const Checkout: React.FC = () => {
           summary: "Summary",
           total: "Total today",
           renews: "Renews monthly",
+          processing: "Processing payment…",
           success: "Payment successful. Welcome! Redirecting to portal...",
         };
 
   const planName = lang === "es" ? selected.nameES : selected.nameEN;
+  const planFeatures = lang === "es" ? selected.featuresES : selected.featuresEN;
+
   const priceFormatted = useMemo(
     () =>
       lang === "es"
@@ -104,12 +134,17 @@ const Checkout: React.FC = () => {
     [selected.price, lang]
   );
 
-  const validate = () => {
-    if (!name.trim()) return false;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return false;
+  const validateCard = () => {
     if (!/^\d{12,19}$/.test(card.replace(/\s+/g, ""))) return false;
     if (!/^\d{2}\/\d{2}$/.test(exp.trim())) return false;
     if (!/^\d{3,4}$/.test(cvc.trim())) return false;
+    return true;
+  };
+
+  const validate = () => {
+    if (!name.trim()) return false;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return false;
+    if (method === "card" && !validateCard()) return false;
     return true;
   };
 
@@ -206,54 +241,103 @@ const Checkout: React.FC = () => {
             {/* Payment */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
               <div className="text-[#F5F5F5] font-bold">{copy.payment}</div>
+
               <div className="mt-4">
-                <Label className="text-[11px] uppercase tracking-widest text-[#F5F5F5]/60">{copy.card}</Label>
-                <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="sm:col-span-3">
+                <RadioGroup
+                  value={method}
+                  onValueChange={(v) => setMethod(v as any)}
+                  className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+                >
+                  <label className={"inline-flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer " + (method === "card" ? "border-[#B454FF]/40 bg-[#B454FF]/10" : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]")}>
+                    <RadioGroupItem value="card" id="m-card" className="sr-only" />
+                    <CreditCard className="w-4 h-4 text-[#B454FF]" />
+                    <span className="text-sm">{copy.methods.card}</span>
+                  </label>
+                  <label className={"inline-flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer " + (method === "stripe" ? "border-[#B454FF]/40 bg-[#B454FF]/10" : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]")}>
+                    <RadioGroupItem value="stripe" id="m-stripe" className="sr-only" />
+                    <Wallet className="w-4 h-4 text-[#B454FF]" />
+                    <span className="text-sm">Stripe</span>
+                  </label>
+                  <label className={"inline-flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer " + (method === "paypal" ? "border-[#B454FF]/40 bg-[#B454FF]/10" : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]")}>
+                    <RadioGroupItem value="paypal" id="m-paypal" className="sr-only" />
+                    <span className="inline-block w-4 h-4 rounded bg-[#0070BA]" />
+                    <span className="text-sm">PayPal</span>
+                  </label>
+                  <label className={"inline-flex items-center gap-2 rounded-xl border px-3 py-2 cursor-pointer " + (method === "gpay" ? "border-[#B454FF]/40 bg-[#B454FF]/10" : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]")}>
+                    <RadioGroupItem value="gpay" id="m-gpay" className="sr-only" />
+                    <span className="inline-block w-4 h-4 rounded bg-black" />
+                    <span className="text-sm">{copy.methods.gpay}</span>
+                  </label>
+                </RadioGroup>
+              </div>
+
+              {/* Card form only when card method */}
+              {method === "card" && (
+                <div className="mt-4">
+                  <Label className="text-[11px] uppercase tracking-widest text-[#F5F5F5]/60">{copy.methods.card}</Label>
+                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div className="sm:col-span-3">
+                      <Input
+                        value={card}
+                        onChange={(e) => setCard(e.target.value.replace(/[^\d\s]/g, ""))}
+                        inputMode="numeric"
+                        autoComplete="cc-number"
+                        placeholder={`${copy.number} •••• •••• •••• ••••`}
+                        className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5]"
+                        maxLength={23}
+                        required
+                      />
+                    </div>
                     <Input
-                      value={card}
-                      onChange={(e) => setCard(e.target.value.replace(/[^\d\s]/g, ""))}
+                      value={exp}
+                      onChange={(e) => setExp(e.target.value.replace(/[^\d/]/g, "").slice(0, 5))}
                       inputMode="numeric"
-                      autoComplete="cc-number"
-                      placeholder={`${copy.number} •••• •••• •••• ••••`}
+                      autoComplete="cc-exp"
+                      placeholder={`${copy.exp} MM/YY`}
                       className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5]"
-                      maxLength={23}
+                      required
+                    />
+                    <Input
+                      value={cvc}
+                      onChange={(e) => setCvc(e.target.value.replace(/[^\d]/g, "").slice(0, 4))}
+                      inputMode="numeric"
+                      autoComplete="cc-csc"
+                      placeholder={copy.cvc}
+                      className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5]"
                       required
                     />
                   </div>
-                  <Input
-                    value={exp}
-                    onChange={(e) => setExp(e.target.value.replace(/[^\d/]/g, "").slice(0, 5))}
-                    inputMode="numeric"
-                    autoComplete="cc-exp"
-                    placeholder={`${copy.exp} MM/YY`}
-                    className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5]"
-                    required
-                  />
-                  <Input
-                    value={cvc}
-                    onChange={(e) => setCvc(e.target.value.replace(/[^\d]/g, "").slice(0, 4))}
-                    inputMode="numeric"
-                    autoComplete="cc-csc"
-                    placeholder={copy.cvc}
-                    className="bg-[#0D0D0D] border-white/10 rounded-xl h-12 text-[#F5F5F5]"
-                    required
-                  />
                 </div>
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-[#F5F5F5]/55">
-                  <span className="inline-flex items-center gap-1.5">
-                    <Lock className="w-4 h-4 text-[#B454FF]" />
-                    {copy.secureA}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Zap className="w-4 h-4 text-[#B454FF]" />
-                    {copy.secureB}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <ShieldCheck className="w-4 h-4 text-[#B454FF]" />
-                    {copy.secureC}
-                  </span>
+              )}
+
+              {/* One-click simulated for other methods */}
+              {method !== "card" && (
+                <div className="mt-4">
+                  <PremiumButton
+                    type="button"
+                    variant="white"
+                    size="md"
+                    className="w-full rounded-xl"
+                    onClick={() => onSubmit(new Event("submit") as any)}
+                  >
+                    {copy.payNow}
+                  </PremiumButton>
                 </div>
+              )}
+
+              <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] font-bold uppercase tracking-widest text-[#F5F5F5]/55">
+                <span className="inline-flex items-center gap-1.5">
+                  <Lock className="w-4 h-4 text-[#B454FF]" />
+                  {copy.secureA}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Zap className="w-4 h-4 text-[#B454FF]" />
+                  {copy.secureB}
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-[#B454FF]" />
+                  {copy.secureC}
+                </span>
               </div>
             </section>
 
@@ -266,7 +350,7 @@ const Checkout: React.FC = () => {
                 className="rounded-xl"
                 leftIcon={<CreditCard className="w-4 h-4" />}
               >
-                {copy.payNow}
+                {loading ? (lang === "es" ? copy.processing : copy.processing) : copy.payNow}
               </PremiumButton>
             </div>
           </form>
@@ -284,6 +368,16 @@ const Checkout: React.FC = () => {
                 <span className="text-[#F5F5F5]/60 text-sm"> {copy.perMonth}</span>
               </div>
             </div>
+
+            <div className="mt-4">
+              <div className="text-[#F5F5F5]/60 text-sm mb-2">{lang === "es" ? "Incluye" : "Includes"}</div>
+              <ul className="space-y-2">
+                {planFeatures.map((f, i) => (
+                  <li key={i} className="text-sm text-[#F5F5F5]">• {f}</li>
+                ))}
+              </ul>
+            </div>
+
             <Separator className="my-4 bg-white/10" />
             <div className="flex items-center justify-between">
               <div className="text-[#F5F5F5]/75">{copy.total}</div>

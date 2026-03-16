@@ -6,10 +6,12 @@ import { Check } from 'lucide-react';
 import PremiumButton from '@/components/PremiumButton';
 import { useI18n } from "@/i18n/I18nProvider";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/providers/AuthProvider";
 
 const Pricing = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const copy =
     lang === "es"
@@ -113,7 +115,11 @@ const Pricing = () => {
     if (perMonth === false || key === "custom") {
       scrollToContact();
     } else {
-      navigate(`/checkout?plan=${encodeURIComponent(key)}`);
+      if (isAuthenticated) {
+        navigate(`/checkout?plan=${encodeURIComponent(key)}`);
+      } else {
+        navigate(`/login?next=/checkout&plan=${encodeURIComponent(key)}`);
+      }
     }
   };
 

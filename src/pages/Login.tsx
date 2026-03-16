@@ -8,12 +8,21 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Logo from '@/components/Logo';
 import { Chrome, Mail, Lock, ArrowLeft, ShieldCheck, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useI18n } from "@/i18n/I18nProvider";
+import { useAuth } from "@/providers/AuthProvider";
 
 const Login = () => {
   const { lang } = useI18n();
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const next = params.get("next") || "/dashboard";
+  const plan = params.get("plan") || undefined;
+
   const [isLoading, setIsLoading] = useState(false);
+  const [emailLogin, setEmailLogin] = useState("");
+  const [emailSignup, setEmailSignup] = useState("");
 
   const copy =
     lang === "es"
@@ -66,9 +75,24 @@ const Login = () => {
           terms: "Terms of Use",
         };
 
+  const handleComplete = (email: string) => {
+    setIsLoading(true);
+    // Simulated auth
+    setTimeout(() => {
+      signIn(email);
+      // Build redirect preserving plan
+      const url = new URL(next, window.location.origin);
+      if (plan) {
+        url.searchParams.set("plan", plan);
+      }
+      navigate(url.pathname + url.search, { replace: true });
+    }, 500);
+  };
+
   const handleSocialLogin = (provider: string) => {
     setIsLoading(true);
-    console.log(`Logging in with ${provider}`);
+    // Simulate success with placeholder email
+    handleComplete(`${provider.toLowerCase()}_user@example.com`);
   };
 
   return (
@@ -113,7 +137,7 @@ const Login = () => {
             <TabsContent value="login" className="space-y-6">
               <PremiumButton
                 type="button"
-                onClick={() => handleSocialLogin('google')}
+                onClick={() => handleSocialLogin('Google')}
                 variant="white"
                 size="md"
                 isLoading={isLoading}
@@ -139,7 +163,14 @@ const Login = () => {
                   </Label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/50" />
-                    <Input id="email" type="email" placeholder={copy.emailPh} className="bg-[#0D0D0D] border-white/15 rounded-full pl-12 h-12 text-[#F5F5F5] placeholder:text-[#F5F5F5]/40 focus-visible:ring-2 focus-visible:ring-[#B454FF]" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder={copy.emailPh}
+                      value={emailLogin}
+                      onChange={(e) => setEmailLogin(e.target.value)}
+                      className="bg-[#0D0D0D] border-white/15 rounded-full pl-12 h-12 text-[#F5F5F5] placeholder:text-[#F5F5F5]/40 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                    />
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -157,7 +188,13 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              <PremiumButton variant="primary" size="md" className="w-full" isLoading={isLoading} onClick={() => setIsLoading(true)}>
+              <PremiumButton
+                variant="primary"
+                size="md"
+                className="w-full"
+                isLoading={isLoading}
+                onClick={() => handleComplete(emailLogin || "user@example.com")}
+              >
                 {copy.ctaLogin.toUpperCase()}
               </PremiumButton>
             </TabsContent>
@@ -165,7 +202,7 @@ const Login = () => {
             <TabsContent value="signup" className="space-y-6">
               <PremiumButton
                 type="button"
-                onClick={() => handleSocialLogin('google')}
+                onClick={() => handleSocialLogin('Google')}
                 variant="white"
                 size="md"
                 isLoading={isLoading}
@@ -189,7 +226,14 @@ const Login = () => {
                   </Label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/50" />
-                    <Input id="new-email" type="email" placeholder={copy.emailPh} className="bg-[#0D0D0D] border-white/15 rounded-full pl-12 h-12 text-[#F5F5F5] placeholder:text-[#F5F5F5]/40 focus-visible:ring-2 focus-visible:ring-[#B454FF]" />
+                    <Input
+                      id="new-email"
+                      type="email"
+                      placeholder={copy.emailPh}
+                      value={emailSignup}
+                      onChange={(e) => setEmailSignup(e.target.value)}
+                      className="bg-[#0D0D0D] border-white/15 rounded-full pl-12 h-12 text-[#F5F5F5] placeholder:text-[#F5F5F5]/40 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+                    />
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -202,7 +246,13 @@ const Login = () => {
                   </div>
                 </div>
               </div>
-              <PremiumButton variant="primary" size="md" className="w-full" isLoading={isLoading} onClick={() => setIsLoading(true)}>
+              <PremiumButton
+                variant="primary"
+                size="md"
+                className="w-full"
+                isLoading={isLoading}
+                onClick={() => handleComplete(emailSignup || "new_user@example.com")}
+              >
                 {copy.ctaSignup.toUpperCase()}
               </PremiumButton>
             </TabsContent>
