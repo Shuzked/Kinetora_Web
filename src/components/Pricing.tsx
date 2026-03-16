@@ -23,6 +23,7 @@ const Pricing = () => {
               price: "1.995€",
               description: "Ideal para startups en fase inicial.",
               features: ["Un diseño a la vez", "Revisiones ilimitadas", "Entregas en 48h", "Cancela cuando quieras"],
+              perMonth: true,
             },
             {
               name: "Full-Stack Creativo",
@@ -36,12 +37,15 @@ const Pricing = () => {
                 "Soporte prioritario",
               ],
               featured: true,
+              perMonth: true,
             },
             {
-              name: "Proyectos / Pitch Decks",
-              price: "Desde 995€",
-              description: "Para necesidades puntuales de alto impacto.",
-              features: ["Diseño de Pitch Deck", "Consultoría estratégica", "Entrega en 5-7 días", "Revisiones incluidas"],
+              name: "Custom",
+              price: "A medida",
+              description: "Para necesidades a medida y proyectos especiales.",
+              features: ["Workshop de alcance", "Entrega por hitos", "Presupuesto bajo propuesta"],
+              perMonth: false,
+              cta: "Solicitar presupuesto",
             },
           ],
         }
@@ -57,6 +61,7 @@ const Pricing = () => {
               price: "€1,995",
               description: "Perfect for early-stage startups.",
               features: ["One request at a time", "Unlimited revisions", "48h delivery", "Cancel anytime"],
+              perMonth: true,
             },
             {
               name: "Creative Full-Stack",
@@ -70,12 +75,15 @@ const Pricing = () => {
                 "Priority support",
               ],
               featured: true,
+              perMonth: true,
             },
             {
-              name: "Projects / Pitch Decks",
-              price: "From €995",
-              description: "For one-off, high-impact needs.",
-              features: ["Pitch deck design", "Strategic consulting", "Delivery in 5–7 days", "Revisions included"],
+              name: "Custom",
+              price: "On request",
+              description: "For tailored, one-off or special projects.",
+              features: ["Scoping workshop", "Milestone-based delivery", "Budget on request"],
+              perMonth: false,
+              cta: "Request quote",
             },
           ],
         };
@@ -110,12 +118,14 @@ const Pricing = () => {
                 <h3 className="text-xl font-bold text-[#F5F5F5] mb-2">{plan.name}</h3>
                 <div className="text-4xl font-black text-[#F5F5F5] mb-4">
                   {plan.price}
-                  <span className="text-sm text-[#F5F5F5]/60 font-bold">{copy.perMonth}</span>
+                  {plan.perMonth !== false && (
+                    <span className="text-sm text-[#F5F5F5]/60 font-bold"> {copy.perMonth}</span>
+                  )}
                 </div>
                 <p className="text-[#F5F5F5]/70 text-sm mb-8 font-medium leading-relaxed">{plan.description}</p>
                 
                 <ul className="space-y-4">
-                  {plan.features.map((feature, j) => (
+                  {plan.features.map((feature: string, j: number) => (
                     <li key={j} className="flex items-center gap-3 text-sm text-[#F5F5F5]">
                       <Check className="w-4 h-4 text-[#B454FF]" />
                       {feature}
@@ -129,7 +139,7 @@ const Pricing = () => {
                 size="md"
                 className="w-full rounded-full mt-8"
               >
-                {copy.cta.toUpperCase()}
+                {(plan as any).cta ? (plan as any).cta : copy.cta.toUpperCase()}
               </PremiumButton>
             </motion.div>
           ))}
