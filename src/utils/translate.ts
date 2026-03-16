@@ -1,4 +1,4 @@
-EN de HTML: detecta español y reemplaza texto en nodos preservando mayúsculas.">
+EN preservando HTML y mayúsculas.">
 "use client";
 
 export function isLikelySpanish(text: string) {
@@ -19,16 +19,24 @@ type Pair = [RegExp, string];
 
 function buildPairs(): Pair[] {
   const entries: Array<[string, string]> = [
-    // frecuentes
+    ["campaña de lanzamiento", "launch campaign"],
+    ["lanzamiento global", "global launch"],
+    ["sistema visual", "visual system"],
+    ["sistema de diseño", "design system"],
+    ["alto impacto", "high-impact"],
+    ["impacto orgánico", "organic reach"],
+    ["piezas audiovisuales", "audiovisual assets"],
+    ["identidad visual", "visual identity"],
+    ["redes sociales", "social media"],
+
+    // términos frecuentes (individuales)
     ["campaña", "campaign"],
     ["lanzamiento", "launch"],
     ["global", "global"],
     ["ventas", "sales"],
-    ["impacto orgánico", "organic reach"],
     ["impacto", "impact"],
     ["recaudación", "funding"],
     ["rebranding", "rebrand"],
-    ["identidad visual", "visual identity"],
     ["identidad", "identity"],
     ["dirección de arte", "art direction"],
     ["narrativa", "narrative"],
@@ -43,12 +51,9 @@ function buildPairs(): Pair[] {
     ["contenido", "content"],
     ["creatividades", "creatives"],
     ["piezas", "assets"],
-    ["piezas audiovisuales", "audiovisual assets"],
     ["web", "web"],
     ["sitio web", "website"],
-    ["redes sociales", "social media"],
     ["torneo", "tournament"],
-    ["eSports", "eSports"],
     ["UX/UI", "UX/UI"],
     ["experiencia", "experience"],
     ["usuarios", "users"],
@@ -61,6 +66,8 @@ function buildPairs(): Pair[] {
     ["airdrop", "airdrop"],
     ["serie", "series"],
     ["series", "series"],
+    ["eSports", "eSports"],
+
     // conectores
     ["con", "with"],
     ["sin", "without"],
@@ -68,15 +75,9 @@ function buildPairs(): Pair[] {
     ["y", "and"],
     ["o", "or"],
     ["pero", "but"],
-    // frases comunes
-    ["campaña de lanzamiento", "launch campaign"],
-    ["lanzamiento global", "global launch"],
-    ["sistema visual", "visual system"],
-    ["sistema de diseño", "design system"],
-    ["alto impacto", "high-impact"],
   ];
 
-  // Orden: más largas primero para evitar solapamientos
+  // Ordenar por longitud descendente para evitar solapamientos
   entries.sort((a, b) => b[0].length - a[0].length);
 
   return entries.map(([es, en]) => [new RegExp(`\\b${escapeRegExp(es)}\\b`, "gi"), en]);
@@ -87,12 +88,9 @@ function escapeRegExp(s: string) {
 }
 
 function preserveCaseLike(source: string, target: string) {
-  // Si la fuente es mayoritariamente mayúsculas, devolver en mayúsculas.
-  const letters = source.replace(/[^a-zA-Z]/g, "");
-  const upperRatio = letters ? letters.replace(/[^A-Z]/g, "").length / letters.length : 0;
+  const letters = source.replace(/[^a-zA-ZÁÉÍÓÚÜÑáéíóúüñ]/g, "");
+  const upperRatio = letters ? letters.replace(/[^A-ZÁÉÍÓÚÜÑ]/g, "").length / letters.length : 0;
   if (upperRatio > 0.6) return target.toUpperCase();
-
-  // Si empieza en mayúscula, capitaliza la traducción
   if (/^[A-ZÁÉÍÓÚÜÑ]/.test(source.trim())) {
     return target.charAt(0).toUpperCase() + target.slice(1);
   }
@@ -105,20 +103,24 @@ export function translateHtmlEsToEn(html: string) {
   if (typeof window === "undefined") return html;
   const doc = new DOMParser().parseFromString(html, "text/html");
 
-  const walker = doc.createTreeWalker(doc.body, NodeFilter.SHOW_TEXT, {
-    acceptNode: (node: any) => {
-      // omitir textos vacíos o sólo espacios
-      if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-      // omitir code/pre
-      const p = (node.parentElement || node.parentNode) as HTMLElement | null;
-      if (!p) return NodeFilter.FILTER_ACCEPT;
-      const tag = p.tagName?.toLowerCase();
-      if (tag === "code" || tag === "pre" || tag === "script" || tag === "style") {
-        return NodeFilter.FILTER_REJECT;
-      }
-      return NodeFilter.FILTER_ACCEPT;
-    },
-  } as any);
+  const walker = doc.createTreeWalker(
+    doc.body,
+    // @ts-ignore: NodeFilter está disponible en DOM
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode: (node: any) => {
+        const val = node.nodeValue as string | null;
+        if (!val || !val.trim()) return NodeFilter.FILTER_REJECT;
+        const p = (node.parentElement || node.parentNode) as HTMLElement | null;
+        if (!p) return NodeFilter.FILTER_ACCEPT;
+        const tag = p.tagName?.toLowerCase();
+        if (tag === "code" || tag === "pre" || tag === "script" || tag === "style") {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      },
+    } as any
+  );
 
   const nodes: Text[] = [];
   while (walker.nextNode()) {
