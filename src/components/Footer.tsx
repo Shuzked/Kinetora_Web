@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
 
 const Footer = () => {
   const { lang } = useI18n();
@@ -162,6 +163,7 @@ const Footer = () => {
             </div>
           </motion.div>
 
+          <MouseParallax intensity={8} rotate={3} className="will-change-transform">
           <motion.div
             className="flex flex-col items-start lg:items-end text-center lg:text-right"
             initial={{ opacity: 0, y: 8 }}
@@ -240,6 +242,7 @@ const Footer = () => {
               </p>
             )}
           </motion.div>
+          </MouseParallax>
         </div>
       </div>
     </footer>

@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import BackgroundParallax from "@/components/BackgroundParallax";
 
 const queryClient = new QueryClient();
 
@@ -20,14 +21,17 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <ScrollProgress />
-          <ScrollToTop />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/casos" element={<Cases />} />
-            <Route path="/casos/:slug" element={<CaseStudyPost />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <BackgroundParallax />
+          <div className="relative z-10">
+            <ScrollProgress />
+            <ScrollToTop />
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/casos" element={<Cases />} />
+              <Route path="/casos/:slug" element={<CaseStudyPost />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </BrowserRouter>
       </I18nProvider>
     </TooltipProvider>

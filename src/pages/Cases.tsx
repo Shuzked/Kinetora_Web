@@ -8,13 +8,14 @@ import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
 
 type WPListPost = {
   slug?: string;
   excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>
   };
 };
 
@@ -189,65 +190,66 @@ const Cases = () => {
                   const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 
                   return (
-                    <div
-                      key={cs.slug}
-                      className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0"
-                    >
-                      <div className="aspect-[16/10] overflow-hidden">
-                        {!metaReady ? (
-                          <Skeleton className="w-full h-full rounded-none" />
-                        ) : (
-                          <img
-                            src={cover}
-                            alt={alt}
-                            loading="lazy"
-                            decoding="async"
-                            onError={(e) => {
-                              (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                            }}
-                            className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                          />
-                        )}
-                      </div>
-                      <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                        <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
-                          {hito}
+                    <MouseParallax key={cs.slug} intensity={8} rotate={3} className="will-change-transform">
+                      <div
+                        className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0"
+                      >
+                        <div className="aspect-[16/10] overflow-hidden">
+                          {!metaReady ? (
+                            <Skeleton className="w-full h-full rounded-none" />
+                          ) : (
+                            <img
+                              src={cover}
+                              alt={alt}
+                              loading="lazy"
+                              decoding="async"
+                              onError={(e) => {
+                                (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                              }}
+                              className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                            />
+                          )}
                         </div>
-                        <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                          {title}
-                        </h2>
-                        <div className="mt-auto pt-4 sm:pt-5">
-                          <div className="metric-block-min mb-2">
-                            {metaReady ? (
-                              metricLabel && metricValue ? (
-                                <>
-                                  <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                                    {metricLabel}
-                                  </div>
-                                  <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                                    {metricValue}
-                                  </div>
-                                </>
-                              ) : null
-                            ) : (
-                              <div className="space-y-2">
-                                <Skeleton className="h-3 w-24" />
-                                <Skeleton className="h-7 w-36" />
-                              </div>
-                            )}
+                        <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                          <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                            {hito}
                           </div>
-                          <PremiumButton
-                            variant="glass"
-                            size="sm"
-                            className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
-                            onClick={() => navigate(`/casos/${cs.slug}`)}
-                            aria-label={ui.ariaReadMore(title)}
-                          >
-                            {ui.readMore.toUpperCase()}
-                          </PremiumButton>
+                          <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                            {title}
+                          </h2>
+                          <div className="mt-auto pt-4 sm:pt-5">
+                            <div className="metric-block-min mb-2">
+                              {metaReady ? (
+                                metricLabel && metricValue ? (
+                                  <>
+                                    <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                      {metricLabel}
+                                    </div>
+                                    <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                      {metricValue}
+                                    </div>
+                                  </>
+                                ) : null
+                              ) : (
+                                <div className="space-y-2">
+                                  <Skeleton className="h-3 w-24" />
+                                  <Skeleton className="h-7 w-36" />
+                                </div>
+                              )}
+                            </div>
+                            <PremiumButton
+                              variant="glass"
+                              size="sm"
+                              className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
+                              onClick={() => navigate(`/casos/${cs.slug}`)}
+                              aria-label={ui.ariaReadMore(title)}
+                            >
+                              {ui.readMore.toUpperCase()}
+                            </PremiumButton>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </MouseParallax>
                   );
                 })}
               </div>
