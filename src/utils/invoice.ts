@@ -14,8 +14,6 @@ export type InvoiceData = {
   };
 };
 
-const DEFAULT_TEMPLATE_URL = "/assets/invoices/invoice-template.pdf";
-
 // Descarga el PDF con un nombre amigable
 function downloadBlob(blob: Blob, filename: string) {
   const url = URL.createObjectURL(blob);
@@ -29,18 +27,16 @@ function downloadBlob(blob: Blob, filename: string) {
 }
 
 /**
- * Rellena la plantilla PDF con los datos de la factura y fuerza la descarga.
- * Ajusta posiciones para encajar en la mayoría de plantillas tipo factura.
+ * Genera una factura simple e intuitiva (sin plantilla) y fuerza la descarga.
  */
 export async function generateInvoicePdf(
-  invoice: InvoiceData,
-  templateUrl: string = DEFAULT_TEMPLATE_URL
+  invoice: InvoiceData
 ) {
-  // Cargar plantilla
-  const templateBytes = await fetch(templateUrl).then(r => r.arrayBuffer());
-  const pdfDoc = await PDFDocument.load(templateBytes);
-  const page = pdfDoc.getPages()[0];
-  const { width: pageW, height: pageH } = page.getSize();
+  // Crear PDF A4 en blanco
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage([595.28, 841.89]); // A4 pts
+  const pageW = 595.28;
+  const pageH = 841.89;
 
   // Fuentes
   const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -76,13 +72,19 @@ export async function generateInvoicePdf(
     });
   };
 
-  // Campo: Nº de factura y fecha (zona superior derecha)
-  drawRight("FACTURA", rightX, pageH - 130, 14, true, textDark);
-  drawRight(`Nº: ${invoice.id}`, rightX, pageH - 150, 11, false, textMid);
-  drawRight(`Fecha: ${invoice.date}`, rightX, pageH - 168, 11, false, textMid);
+  const line = (x: number, y: number, w: number, h = 1, color = rgb(0.9, 0.9, 0.9)) => {
+    page.drawRectangle({ x, y, width: w, height: h, color });
+  };
+
+  // Cabecera simple
+  draw("KINETORA", M, pageH - 80, 20, true, textDark);
+  drawRight("FACTURA", rightX, pageH - 78, 14, true, textDark);
+  drawRight(`Nº: ${invoice.id}`, rightX, pageH - 98, 11, false, textMid);
+  drawRight(`Fecha: ${invoice.date}`, rightX, pageH - 114, 11, false, textMid);
+  line(M, pageH - 126, rightX - M);
 
   // Bloque Cliente (superior izquierda)
-  const customerY = pageH - 190;
+  const customerY = pageH - 160;
   draw("Cliente", M, customerY, 12, true, textDark);
   draw(invoice.customer.name, M, customerY - 18, 11, false, textMid);
   if (invoice.customer.email) draw(invoice.customer.email, M, customerY - 34, 11, false, textMid);
@@ -90,18 +92,19 @@ export async function generateInvoicePdf(
   if (invoice.customer.cityCountry) draw(invoice.customer.cityCountry, M, customerY - 66, 11, false, textMid);
 
   // Tabla Concepto / Periodo / Importe (cuerpo)
-  const headerY = pageH - 260;
+  const headerY = pageH - 230;
   draw("Detalle", M, headerY, 12, true, textDark);
 
   // Cabecera de columnas
   const colConceptX = M;
-  const colPeriodX = M + 320;
+  const colPeriodX = M + 300;
   const colAmountRightX = rightX;
 
   const tableHeaderY = headerY - 24;
   draw("Concepto", colConceptX, tableHeaderY, 11, true, textDark);
   draw("Periodo", colPeriodX, tableHeaderY, 11, true, textDark);
   drawRight("Importe", colAmountRightX, tableHeaderY, 11, true, textDark);
+  line(M, tableHeaderY - 8, rightX - M);
 
   // Fila única (simple y claro)
   const rowY = tableHeaderY - 22;
@@ -109,11 +112,12 @@ export async function generateInvoicePdf(
   draw(invoice.plan, colConceptX, rowY, 11, false, textMid);
   draw(period, colPeriodX, rowY, 11, false, textMid);
   drawRight(invoice.amount, colAmountRightX, rowY, 11, true, textDark);
+  line(M, rowY - 10, rightX - M);
 
   // Total destacado (alineado a la derecha)
-  const totalBoxY = rowY - 36;
-  draw("TOTAL", colAmountRightX - 140, totalBoxY, 11, true, textDark);
-  drawRight(invoice.amount, colAmountRightX, totalBoxY, 14, true, brand);
+  const totalY = rowY - 40;
+  draw("TOTAL", colAmountRightX - 140, totalY, 11, true, textDark);
+  drawRight(invoice.amount, colAmountRightX, totalY, 16, true, brand);
 
   // Pie de página
   const footY = 54;
