@@ -128,7 +128,7 @@ const Hero = () => {
       />
 
       {/* Contenido */}
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="kin-container">
         <motion.div
           style={{ y: yContent }}
           className="min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"

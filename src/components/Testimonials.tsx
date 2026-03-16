@@ -102,8 +102,8 @@ const Testimonials = () => {
         };
 
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] overflow-hidden">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+    <section className="kin-section relative overflow-hidden">
+      <div className="kin-container">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
             {copy.title.toUpperCase()}

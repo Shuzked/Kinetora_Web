@@ -38,7 +38,7 @@ const Brands = () => {
       }
       className="py-14 sm:py-16 bg-[#0D0D0D] border-y border-white/10 overflow-hidden"
     >
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div className="kin-container">
         <p className="text-center text-[10px] font-bold text-[#F5F5F5]/60 uppercase tracking-[0.4em] mb-8 sm:mb-10">
           {lang === "es"
             ? "Marcas que confían en nuestra velocidad"

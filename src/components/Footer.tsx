@@ -97,7 +97,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-[#0D0D0D] border-t border-[#2A2A2A]">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+      <div className="kin-container py-10 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
