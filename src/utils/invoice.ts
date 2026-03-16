@@ -71,6 +71,16 @@ function truncateToWidth(text: string, maxWidth: number, font: any, size: number
   return t + ell;
 }
 
+// Datos del emisor (se usan en todas las facturas)
+const ISSUER = {
+  name: "Rafael Muñoz Valverde",
+  cityCountry: "PRIEGO DE CÓRDOBA, CÓRDOBA, ESPAÑA",
+  address: "HUERTO DE SAN FRANCISCO, 1, 14800",
+  taxId: "ES-31026286E",
+  phone: "660535541",
+  email: "rmunozvalverde1@gmail.com",
+};
+
 /**
  * Genera una factura simple e intuitiva (sin plantilla) y fuerza la descarga.
  */
@@ -143,17 +153,33 @@ export async function generateInvoicePdf(
   // Separador bajo cabecera
   line(M, metaY1 - 48, rightX - M);
 
-  // Bloque Cliente
-  let y = metaY1 - 48 - innerGap;
-  draw("Cliente", M, y, 12, true, textLight);
-  y -= innerGap;
-  draw(invoice.customer.name, M, y, 11, false, textDim);
-  if (invoice.customer.email) { y -= innerGap; draw(invoice.customer.email, M, y, 11, false, textDim); }
-  if (invoice.customer.address) { y -= innerGap; draw(invoice.customer.address, M, y, 11, false, textDim); }
-  if (invoice.customer.cityCountry) { y -= innerGap; draw(invoice.customer.cityCountry, M, y, 11, false, textDim); }
+  // Bloque Cliente (izquierda) y Emisor (derecha) en dos columnas
+  const infoTopY = metaY1 - 48 - innerGap;
+  // Columna izquierda: Cliente
+  let yLeft = infoTopY;
+  draw("Cliente", M, yLeft, 12, true, textLight);
+  yLeft -= innerGap;
+  draw(invoice.customer.name, M, yLeft, 11, false, textDim);
+  if (invoice.customer.email) { yLeft -= innerGap; draw(invoice.customer.email, M, yLeft, 11, false, textDim); }
+  if (invoice.customer.address) { yLeft -= innerGap; draw(invoice.customer.address, M, yLeft, 11, false, textDim); }
+  if (invoice.customer.cityCountry) { yLeft -= innerGap; draw(invoice.customer.cityCountry, M, yLeft, 11, false, textDim); }
+  // Columna derecha: Emisor
+  let yRight = infoTopY;
+  drawRight("Emisor", rightX, yRight, 12, true, textLight);
+  yRight -= innerGap;
+  drawRight(ISSUER.name, rightX, yRight, 11, false, textDim);
+  yRight -= innerGap;
+  drawRight(ISSUER.cityCountry, rightX, yRight, 11, false, textDim);
+  yRight -= innerGap;
+  drawRight(ISSUER.address, rightX, yRight, 11, false, textDim);
+  yRight -= innerGap;
+  drawRight(`NIF: ${ISSUER.taxId}`, rightX, yRight, 11, false, textDim);
+  yRight -= innerGap;
+  drawRight(`Tel: ${ISSUER.phone}`, rightX, yRight, 11, false, textDim);
+  if (ISSUER.email) { yRight -= innerGap; drawRight(ISSUER.email, rightX, yRight, 11, false, textDim); }
 
-  // Espacio antes del detalle
-  y -= innerGap * 1.5;
+  // Espacio antes del detalle: tomamos el menor Y de ambas columnas y añadimos margen
+  let y = Math.min(yLeft, yRight) - innerGap * 1.5;
 
   // Panel contenedor del detalle (altura dinámica y columnas equilibradas)
   const panelX = M;
