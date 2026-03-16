@@ -89,7 +89,8 @@ const ValueProp = () => {
         };
 
   return (
-    <section className="kin-section relative overflow-hidden">
+    <section className="kin-section relative">
+
       <div className="kin-container">
         {/* ambient glow (soft, no hard cuts) */}
         <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/10 blur-[110px] z-0" />
