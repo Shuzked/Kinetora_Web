@@ -644,9 +644,9 @@ const CaseStudyPost = () => {
                               className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
                             >
                               <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform transform-gpu hover:-translate-y-0.5">
-                                <div className="aspect-[16/10] overflow-hidden">
+                                <div className="aspect-[16/10] overflow-hidden rounded-[inherit]">
                                   {!metaReady ? (
-                                    <Skeleton className="w-full h-full rounded-none" />
+                                    <Skeleton className="w-full h-full rounded-[inherit]" />
                                   ) : (
                                     <img
                                       src={coverImg}
@@ -656,7 +656,7 @@ const CaseStudyPost = () => {
                                       onError={(e) => {
                                         (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
                                       }}
-                                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 rounded-[inherit] transform-gpu"
                                     />
                                   )}
                                 </div>
