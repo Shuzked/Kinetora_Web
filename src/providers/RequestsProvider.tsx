@@ -49,6 +49,13 @@ const nowLabel = () => {
   return `Hoy, ${hh}:${mm}`;
 };
 
+const generateRequestId = (existing: Set<string>) => {
+  const make = () => `REQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+  let id = make();
+  while (existing.has(id)) id = make();
+  return id;
+};
+
 const initialRequests: RequestItem[] = [
   {
     id: "REQ-001",
@@ -128,7 +135,14 @@ const initialRequests: RequestItem[] = [
 ];
 
 export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [items, setItems] = useState<RequestItem[]>(initialRequests);
+  const [items, setItems] = useState<RequestItem[]>(() => {
+    const used = new Set<string>();
+    return initialRequests.map((r) => {
+      const id = generateRequestId(used);
+      used.add(id);
+      return { ...r, id };
+    });
+  });
 
   const getById = (id?: string) => items.find((r) => r.id === id);
 
@@ -175,9 +189,7 @@ export const RequestsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   // Generador de ID aleatoria legible; respeta IDs existentes
   const createRequest: RequestsContextValue["createRequest"] = (data) => {
     const used = new Set(items.map((r) => r.id));
-    const make = () => `REQ-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
-    let newId = make();
-    while (used.has(newId)) newId = make();
+    const newId = generateRequestId(used);
 
     const newItem: RequestItem = {
       id: newId,
