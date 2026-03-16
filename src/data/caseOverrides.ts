@@ -117,6 +117,18 @@ export const caseContentOverrides: Record<
   },
 
   "chronosworlds": {
+    esTextHtml: [
+      "<p>CHRONOSWORLDS necesitaba un salto en percepción. Lideramos un rebranding completo y una pasada de UX/UI de producto para pasar de prometedor a premium, alineando lo visual con la ambición técnica del equipo.</p>",
+      "<h2>Qué entregamos</h2>",
+      "<h3>1. Rebrand y lenguaje visual</h3>",
+      "<p>Nuevo logotipo, paleta y sistema de componentes diseñados para profundidad y escalabilidad. Definimos la dirección de arte para 3D y motion para que el mundo se sienta coherente en todos los puntos de contacto.</p>",
+      "<h3>2. UX/UI de producto</h3>",
+      "<p>Rediseñamos los flujos clave de descubrimiento, onboarding y progresión. La interfaz equilibra identidad de juego con claridad funcional, mejorando comprensión en la primera sesión y la retención a largo plazo.</p>",
+      "<h3>3. Pitch deck y materiales para inversores</h3>",
+      "<p>Un deck de alto impacto centrado en tracción, roadmap y equipo. Creamos diagramas y visualizaciones de datos para comunicar sistemas rápidamente a perfiles no técnicos.</p>",
+      "<h3>4. Activos sociales y de lanzamiento</h3>",
+      "<p>Paquetes de plantillas y piezas de motion para reveals de features, actualizaciones y hitos—manteniendo un pulso de comunicación consistente en la línea temporal pública.</p>",
+    ].join(""),
     enTextHtml: [
       "<p>CHRONOSWORLDS needed a step-change in perception. We led a full rebrand and product UX/UI pass to move the experience from promising to premium, aligning visuals with the team's technical ambition.</p>",
       "<h2>What we delivered</h2>",
@@ -132,6 +144,18 @@ export const caseContentOverrides: Record<
   },
 
   "cybertitans-pulse-series": {
+    esTextHtml: [
+      "<p>Para CYBERTITANS PULSE SERIES construimos un sistema visual competitivo que se lee al instante en streamings y redes. La identidad eleva el torneo y a la vez es fácil de operar para equipos de producción.</p>",
+      "<h2>Qué entregamos</h2>",
+      "<h3>1. Identidad del torneo</h3>",
+      "<p>Formas contundentes, tipografía dinámica y un sistema de color contenido, optimizado para broadcast. Diseñamos un sistema que escala desde player cards hasta visuales de escenario a gran formato.</p>",
+      "<h3>2. Gráficos para stream</h3>",
+      "<p>Marcadores, lower-thirds, transiciones y pantallas de intermedio, construidos para ser legibles y modulares. Todo se entrega con capas y nombres claros para edición rápida en días de emisión.</p>",
+      "<h3>3. Kit social de hype</h3>",
+      "<p>Tarjetas de anuncio, horarios de partidos, actualizaciones de brackets y assets de ganadores. Estas plantillas ayudaron a los equipos sociales a mantener ritmo y consistencia durante todo el evento.</p>",
+      "<h3>4. Paquetes de motion</h3>",
+      "<p>Trailers cortos y animaciones de cortinilla para mejorar el pacing del broadcast y elevar el engagement en Twitter y Discord durante los momentos clave.</p>",
+    ].join(""),
     enTextHtml: [
       "<p>For the CYBERTITANS PULSE SERIES we built a competitive visual system that reads instantly on streams and social. The identity elevates the tournament while keeping it easy to operate for production teams.</p>",
       "<h2>What we delivered</h2>",
@@ -147,6 +171,18 @@ export const caseContentOverrides: Record<
   },
 
   "cybertitans-clash-impacto-brutal-y-evolucion-web3": {
+    esTextHtml: [
+      "<p>CLASH fue un gran paso en el universo CyberTitans. Objetivo: un lanzamiento Web3 listo para mercado con un mensaje claro y un sistema visual sólido que convierta la curiosidad en acción.</p>",
+      "<h2>Qué entregamos</h2>",
+      "<h3>1. Sistema visual de lanzamiento</h3>",
+      "<p>Definimos la dirección de arte—tipografía, color y composición—y documentamos reglas para mantener consistencia entre equipos y líneas temporales.</p>",
+      "<h3>2. Landing y funnel</h3>",
+      "<p>Una landing rápida y enfocada, con una narrativa que vende valor en segundos. Diseñamos CTAs y secciones para convertir en diferentes segmentos (jugadores, holders, partners).</p>",
+      "<h3>3. Motion y momentos de reveal</h3>",
+      "<p>Producimos teasers de motion para marcar hitos (features, partnerships, recompensas). Cada pieza encaja con la voz visual global para consolidar memoria de marca.</p>",
+      "<h3>4. Estrategia de comunidad</h3>",
+      "<p>Kits para anuncios, FAQs y mecánicas de recompensa. Ayudamos al equipo a mantener cadencia y claridad durante las semanas más intensas del lanzamiento.</p>",
+    ].join(""),
     enTextHtml: [
       "<p>CLASH was a major step in the CyberTitans universe. Our goal: a Web3-ready launch with clear messaging and a strong visual system that converts curiosity into action.</p>",
       "<h2>What we delivered</h2>",
@@ -162,6 +198,18 @@ export const caseContentOverrides: Record<
   },
 
   "robokiden-token": {
+    esTextHtml: [
+      "<p>ROBOKIDEN TOKEN exigía un plan Web3 orientado a ventas: una historia potente, una identidad visual sólida y activos que se muevan rápido entre canales.</p>",
+      "<h2>Qué entregamos</h2>",
+      "<h3>1. Branding del token</h3>",
+      "<p>Identidad del token nítida y reconocible para wallets, exchanges y gráficas de comunidad. El sistema se mantiene legible a tamaños diminutos y vibrante a gran escala.</p>",
+      "<h3>2. UX/UI y superficies de producto</h3>",
+      "<p>Diseñamos pantallas clave de producto y páginas del token con jerarquía clara y microinteracciones que refuerzan conversión y confianza.</p>",
+      "<h3>3. Ecosistema audiovisual</h3>",
+      "<p>Trailers, piezas de motion y banners sociales que traducen mecánicas complejas en entusiasmo y entendimiento—optimizados para Twitter, Discord y YouTube.</p>",
+      "<h3>4. Mecánicas de airdrop y ventas</h3>",
+      "<p>Un plan accionable de incentivos y comunicación. Creamos el lenguaje visual para airdrops y unlocks manteniendo el momentum—y la transparencia—durante toda la campaña.</p>",
+    ].join(""),
     enTextHtml: [
       "<p>ROBOKIDEN TOKEN demanded a sales-oriented Web3 plan: a compelling story, a strong visual identity and assets that move fast across channels.</p>",
       "<h2>What we delivered</h2>",
