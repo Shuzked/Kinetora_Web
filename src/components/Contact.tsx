@@ -22,6 +22,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { lang } = useI18n();
@@ -132,22 +133,34 @@ const Contact = () => {
     if (Object.keys(v).length > 0) return;
 
     setLoading(true);
-
-    // Envío real: lo conectaremos a Supabase tras integrar (seguro para claves/SMTP).
-    // Por ahora mantenemos la UX: confirmación + modal con CTA a Calendly.
-    setTimeout(() => {
+    const { data, error } = await supabase.functions.invoke(
+      "https://ezarpucfsasumwpcderw.supabase.co/functions/v1/send-email",
+      {
+        body: {
+          type: "contact",
+          name,
+          email,
+          company,
+          budget,
+          message,
+        },
+      }
+    );
+    if (error) {
       setLoading(false);
-      showSuccess(strings.success);
-      setOpenModal(true);
-
-      // Reset form
-      setName("");
-      setEmail("");
-      setCompany("");
-      setBudget("");
-      setMessage("");
-      setConsent(false);
-    }, 700);
+      setErrors({ submit: "Error al enviar. Inténtalo de nuevo en unos minutos." });
+      return;
+    }
+    setLoading(false);
+    showSuccess(strings.success);
+    setOpenModal(true);
+    // Reset form
+    setName("");
+    setEmail("");
+    setCompany("");
+    setBudget("");
+    setMessage("");
+    setConsent(false);
   };
 
   return (
@@ -269,6 +282,7 @@ const Contact = () => {
                   {strings.send.toUpperCase()}
                 </PremiumButton>
               </div>
+              {errors.submit && <p className="mt-2 text-[12px] text-red-400">{errors.submit}</p>}
             </form>
           </div>
         </div>
