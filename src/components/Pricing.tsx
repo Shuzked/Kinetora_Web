@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import PremiumButton from '@/components/PremiumButton';
 import { useI18n } from "@/i18n/I18nProvider";
+import { useNavigate } from "react-router-dom";
 
 const Pricing = () => {
   const { lang } = useI18n();
+  const navigate = useNavigate();
 
   const copy =
     lang === "es"
@@ -19,6 +21,7 @@ const Pricing = () => {
           cta: "Empezar ahora",
           plans: [
             {
+              key: "essential",
               name: "Diseño Esencial",
               price: "1.995€",
               description: "Ideal para startups en fase inicial.",
@@ -26,6 +29,7 @@ const Pricing = () => {
               perMonth: true,
             },
             {
+              key: "fullstack",
               name: "Full-Stack Creativo",
               price: "3.495€",
               description: "Tu equipo creativo completo bajo demanda.",
@@ -40,6 +44,7 @@ const Pricing = () => {
               perMonth: true,
             },
             {
+              key: "custom",
               name: "Custom",
               price: "A medida",
               description: "Para necesidades a medida y proyectos especiales.",
@@ -57,6 +62,7 @@ const Pricing = () => {
           cta: "Get started",
           plans: [
             {
+              key: "essential",
               name: "Essential Design",
               price: "€1,995",
               description: "Perfect for early-stage startups.",
@@ -64,6 +70,7 @@ const Pricing = () => {
               perMonth: true,
             },
             {
+              key: "fullstack",
               name: "Creative Full-Stack",
               price: "€3,495",
               description: "Your on-demand, end-to-end creative team.",
@@ -78,6 +85,7 @@ const Pricing = () => {
               perMonth: true,
             },
             {
+              key: "custom",
               name: "Custom",
               price: "On request",
               description: "For tailored, one-off or special projects.",
@@ -88,7 +96,6 @@ const Pricing = () => {
           ],
         };
 
-  // Add smooth scroll helper for Contact section
   const getNavbarOffset = () => {
     const nav = document.querySelector("nav") as HTMLElement | null;
     return (nav?.offsetHeight || 0) + 8;
@@ -100,6 +107,14 @@ const Pricing = () => {
     const rect = el.getBoundingClientRect();
     const y = rect.top + window.scrollY - getNavbarOffset();
     window.scrollTo({ top: y, behavior: "smooth" });
+  };
+
+  const handlePlanClick = (key: string, perMonth: boolean | undefined) => {
+    if (perMonth === false || key === "custom") {
+      scrollToContact();
+    } else {
+      navigate(`/checkout?plan=${encodeURIComponent(key)}`);
+    }
   };
 
   return (
@@ -118,12 +133,12 @@ const Pricing = () => {
               key={i}
               whileHover={{ y: -5 }}
               className={`relative p-7 sm:p-8 rounded-[2rem] border ${
-                plan.featured
+                (plan as any).featured
                   ? 'border-[#B454FF]/45 bg-white/[0.05] shadow-[0_22px_90px_rgba(180,84,255,0.12)]'
                   : 'border-white/10 bg-white/[0.04] hover:border-white/15 hover:bg-white/[0.06]'
               } flex flex-col`}
             >
-              {plan.featured && (
+              {(plan as any).featured && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#B454FF] text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-[0.28em]">
                   {copy.mostPopular.toUpperCase()}
                 </div>
@@ -132,7 +147,7 @@ const Pricing = () => {
                 <h3 className="text-xl font-bold text-[#F5F5F5] mb-2">{plan.name}</h3>
                 <div className="text-4xl font-black text-[#F5F5F5] mb-4">
                   {plan.price}
-                  {plan.perMonth !== false && (
+                  {(plan as any).perMonth !== false && (
                     <span className="text-sm text-[#F5F5F5]/60 font-bold"> {copy.perMonth}</span>
                   )}
                 </div>
@@ -149,10 +164,10 @@ const Pricing = () => {
               </div>
               
               <PremiumButton
-                variant={plan.featured ? "primary" : "glass"}
+                variant={(plan as any).featured ? "primary" : "glass"}
                 size="md"
                 className="w-full rounded-full mt-8"
-                onClick={plan.perMonth === false ? scrollToContact : undefined}
+                onClick={() => handlePlanClick((plan as any).key, (plan as any).perMonth)}
               >
                 {(plan as any).cta ? (plan as any).cta : copy.cta.toUpperCase()}
               </PremiumButton>

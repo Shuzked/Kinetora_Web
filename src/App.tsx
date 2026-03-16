@@ -22,6 +22,7 @@ import Settings from "./pages/Settings";
 import { NotificationsProvider } from "./providers/NotificationsProvider";
 import { RequestsProvider } from "./providers/RequestsProvider";
 import { I18nProvider } from "@/i18n/I18nProvider";
+import Checkout from "./pages/Checkout";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/casos" element={<Cases />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/checkout" element={<Checkout />} />
 
                 {/* Portal */}
                 <Route path="/dashboard" element={<Dashboard />} />
