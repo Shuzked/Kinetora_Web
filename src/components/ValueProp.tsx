@@ -111,7 +111,7 @@ const ValueProp = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-stretch">
           {/* Tradicional */}
           <MouseParallax intensity={9} rotate={4} className="will-change-transform">
             <motion.div
@@ -119,7 +119,7 @@ const ValueProp = () => {
               initial={{ opacity: 0, y: 16 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, ease: 'easeOut' }}
-              className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative"
+              className="h-full rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative flex flex-col"
             >
               <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
                 <div className="flex items-center gap-3">
@@ -173,7 +173,7 @@ const ValueProp = () => {
               initial={{ opacity: 0, y: 16 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
-              className="rounded-[2.5rem] border border-[#B454FF]/30 bg-white/[0.05] p-8 sm:p-10 md:p-12 relative overflow-hidden shadow-[0_18px_90px_rgba(180,84,255,0.10)]"
+              className="h-full rounded-[2.5rem] border border-[#B454FF]/30 bg-white/[0.05] p-8 sm:p-10 md:p-12 relative overflow-hidden shadow-[0_18px_90px_rgba(180,84,255,0.10)] flex flex-col"
             >
               <div className="pointer-events-none absolute -top-28 -right-28 w-72 h-72 bg-[#B454FF]/18 rounded-full blur-[90px]" />
 

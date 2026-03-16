@@ -76,15 +76,15 @@ const Testimonials = () => {
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 items-stretch">
           {copy.testimonials.map((t, i) => (
-            <MouseParallax key={i} intensity={7} rotate={4} className="will-change-transform">
+            <MouseParallax key={i} intensity={7} rotate={4} className="h-full will-change-transform">
             <motion.div
               whileInView={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors"
+              className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
             >
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, idx) => (

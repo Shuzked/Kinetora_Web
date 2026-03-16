@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import { useEqualizeHeights } from "@/hooks/use-equalize";
 
 type WPListPost = {
   slug?: string;
@@ -148,11 +149,14 @@ const Cases = () => {
           ariaReadMore: (t: string) => `Read more: ${t}`,
         };
 
+  const eqRef = React.useRef<HTMLDivElement | null>(null);
+  useEqualizeHeights(eqRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang, meta]);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
       <main className="pt-[68px] md:pt-[88px]">
-        <section className="kin-section relative overflow-hidden">
+        <section className="kin-section relative overflow-hidden" ref={eqRef}>
           <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
           <div className="kin-container relative">
             <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
@@ -169,7 +173,7 @@ const Cases = () => {
                 </p>
               </div>
 
-              <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+              <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 items-stretch">
                 {caseStudies.map((cs) => {
                   const m = meta[cs.slug];
                   const cover = cs.coverImage || m?.img;
@@ -190,10 +194,8 @@ const Cases = () => {
                   const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 
                   return (
-                    <MouseParallax key={cs.slug} intensity={8} rotate={3} className="will-change-transform">
-                      <div
-                        className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0"
-                      >
+                    <MouseParallax key={cs.slug} intensity={8} rotate={3} className="h-full will-change-transform">
+                      <div className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
                         <div className="aspect-[16/10] overflow-hidden">
                           {!metaReady ? (
                             <Skeleton className="w-full h-full rounded-none" />
@@ -211,12 +213,14 @@ const Cases = () => {
                           )}
                         </div>
                         <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                          <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
-                            {hito}
+                          <div className="js-eq-header">
+                            <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                              {hito}
+                            </div>
+                            <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                              {title}
+                            </h2>
                           </div>
-                          <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                            {title}
-                          </h2>
                           <div className="mt-auto pt-4 sm:pt-5">
                             <div className="metric-block-min mb-2">
                               {metaReady ? (

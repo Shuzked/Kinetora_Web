@@ -69,12 +69,12 @@ const Services = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6 items-stretch">
           {/* Bloque 1: Branding */}
           <MouseParallax intensity={10} rotate={5} className="will-change-transform">
             <motion.div
               whileHover={{ y: -5 }}
-              className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-[transform,background-color,border-color] duration-300"
+              className="h-full md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-[transform,background-color,border-color] duration-300"
             >
               <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/branding.svg')] bg-cover bg-center" />
               <div className="relative mb-8">
@@ -97,7 +97,7 @@ const Services = () => {
           <MouseParallax intensity={8} rotate={4} className="will-change-transform">
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/40"
+              className="h-full bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/40"
             >
               <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/digital.svg')] bg-cover bg-center" />
               <div className="relative mb-8">
@@ -118,7 +118,7 @@ const Services = () => {
           <MouseParallax intensity={8} rotate={4} className="will-change-transform">
             <motion.div
               whileHover={{ y: -5 }}
-              className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
+              className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
             >
               <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/multimedia.svg')] bg-cover bg-center" />
               <div className="relative mb-8">
@@ -139,7 +139,7 @@ const Services = () => {
           <MouseParallax intensity={10} rotate={5} className="will-change-transform">
             <motion.div
               whileHover={{ y: -5 }}
-              className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
+              className="h-full md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
             >
               <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/communication.svg')] bg-cover bg-center" />
               <div className="relative mb-8">
