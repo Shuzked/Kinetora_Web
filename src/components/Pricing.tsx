@@ -5,13 +5,9 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import PremiumButton from '@/components/PremiumButton';
 import { useI18n } from "@/i18n/I18nProvider";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/providers/AuthProvider";
 
 const Pricing = () => {
   const { lang } = useI18n();
-  const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
 
   const copy =
     lang === "es"
@@ -111,18 +107,6 @@ const Pricing = () => {
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
-  const handlePlanClick = (key: string, perMonth: boolean | undefined) => {
-    if (perMonth === false || key === "custom") {
-      scrollToContact();
-    } else {
-      if (isAuthenticated) {
-        navigate(`/checkout?plan=${encodeURIComponent(key)}`);
-      } else {
-        navigate(`/login?next=/checkout&plan=${encodeURIComponent(key)}`);
-      }
-    }
-  };
-
   return (
     <section id="precios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -173,7 +157,7 @@ const Pricing = () => {
                 variant={(plan as any).featured ? "primary" : "glass"}
                 size="md"
                 className="w-full rounded-full mt-8"
-                onClick={() => handlePlanClick((plan as any).key, (plan as any).perMonth)}
+                onClick={scrollToContact}
               >
                 {(plan as any).cta ? (plan as any).cta : copy.cta.toUpperCase()}
               </PremiumButton>

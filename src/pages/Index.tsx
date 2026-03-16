@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useLocation } from "react-router-dom";
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Brands from '@/components/Brands';
@@ -18,6 +19,27 @@ import FloatingCTA from '@/components/FloatingCTA';
 import Contact from '@/components/Contact';
 
 const Index = () => {
+  const location = useLocation();
+
+  React.useEffect(() => {
+    if (!location.hash) return;
+    const id = location.hash.replace("#", "");
+    if (!id) return;
+
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    const nav = document.querySelector("nav") as HTMLElement | null;
+    const offset = (nav?.offsetHeight || 0) + 8;
+
+    // Allow layout to settle
+    requestAnimationFrame(() => {
+      const rect = el.getBoundingClientRect();
+      const y = rect.top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    });
+  }, [location.hash]);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />

@@ -84,7 +84,7 @@ const Navbar = () => {
 
         <div className="h-full flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
           <LanguageSwitcher hideOnSmall />
-          <Link to="/dashboard" className="shrink-0">
+          <Link to="/#contacto" className="shrink-0">
             <PremiumButton variant="primary" size="md" className="leading-none">
               {t("nav.start").toUpperCase()}
             </PremiumButton>
@@ -116,7 +116,7 @@ const Navbar = () => {
 
                   <LanguagePills />
 
-                  <Link to="/dashboard">
+                  <Link to="/#contacto">
                     <PremiumButton variant="primary" size="md" className="w-full mt-2">
                       {t("nav.start").toUpperCase()}
                     </PremiumButton>

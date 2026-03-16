@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -55,6 +55,7 @@ function extractMetricKind(html: string): { kind: "milestone" | "sales" | "organ
 
 const Portfolio = () => {
   const { lang } = useI18n();
+  const navigate = useNavigate();
 
   const [meta, setMeta] = React.useState<
     Record<
@@ -269,11 +270,7 @@ const Portfolio = () => {
                               variant="glass"
                               size="sm"
                               className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                window.open(cs.sourceUrl, "_blank", "noopener,noreferrer");
-                              }}
+                              onClick={() => navigate(`/casos/${cs.slug}`)}
                               aria-label={ui.ariaReadMore(title)}
                             >
                               {ui.readMore.toUpperCase()}
