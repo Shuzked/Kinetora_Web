@@ -129,6 +129,10 @@ const Portfolio = () => {
         };
       });
       setMeta(next);
+    })
+    .catch(() => {
+      if (cancelled) return;
+      setMeta({});
     });
 
     return () => {

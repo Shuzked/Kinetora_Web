@@ -106,6 +106,10 @@ const Cases = () => {
         };
       });
       setMeta(next);
+    })
+    .catch(() => {
+      if (cancelled) return;
+      setMeta({});
     });
     return () => {
       cancelled = true;
