@@ -313,8 +313,12 @@ const CaseStudyPost = () => {
 
   const caseTag = React.useMemo(() => {
     if (!cs) return lang === "es" ? "Caso de éxito" : "Case study";
-    return lang === "es" ? cs.label : cs.labelEn ?? cs.label;
-  }, [cs, lang]);
+    const excerptText = post?.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "";
+    const extracted = excerptText ? extractHito(excerptText) : null;
+    const fallback =
+      lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback;
+    return extracted || fallback;
+  }, [cs, lang, post?.excerpt?.rendered]);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as any });
