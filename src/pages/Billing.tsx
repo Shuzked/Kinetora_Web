@@ -5,137 +5,16 @@ import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
 import { Check, CreditCard, Download } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { jsPDF } from "jspdf";
 
 const Billing = () => {
-  const generateInvoicePdf = (inv: { id: string; date: string; plan: string; amount: string }) => {
-    const doc = new jsPDF({ unit: "pt", format: "a4" });
-    const pageW = doc.internal.pageSize.getWidth();
-    const pageH = doc.internal.pageSize.getHeight();
-    const M = 56; // margen principal
-    const rightX = pageW - M;
-    const brand = { r: 180, g: 84, b: 255 }; // #B454FF
-    const gray = (v: number) => ({ r: v, g: v, b: v });
-    const drawRight = (text: string, x: number, y: number) => doc.text(text, x, y, { align: "right" as const });
-
-    // CABECERA KINETORA
-    doc.setFillColor(13, 13, 13);
-    doc.rect(0, 0, pageW, 120, "F");
-    // glow sutil morado
-    doc.setFillColor(brand.r, brand.g, brand.b);
-    doc.setGState(new (doc as any).GState({ opacity: 0.12 }));
-    doc.circle(pageW - 120, 40, 90, "F");
-    doc.setGState(new (doc as any).GState({ opacity: 1 }));
-    // marca
-    doc.setTextColor(255, 255, 255);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(20);
-    doc.text("KINETORA", M, 54);
-    doc.setFontSize(11);
-    doc.setTextColor(230, 230, 230);
-    doc.text("hello@kinetora.com  •  kinetora.com", M, 74);
-    // meta factura (derecha)
-    doc.setTextColor(255, 255, 255);
-    doc.setFont("helvetica", "bold");
-    doc.setFontSize(16);
-    drawRight("FACTURA", rightX, 50);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
-    doc.setTextColor(230, 230, 230);
-    drawRight(`Nº: ${inv.id}`, rightX, 68);
-    drawRight(`Fecha: ${inv.date}`, rightX, 84);
-
-    // INFO CLIENTE / EMPRESA (dos columnas)
-    let y = 150;
-    doc.setFontSize(12);
-    doc.setTextColor(30, 30, 30);
-    doc.setFont("helvetica", "bold");
-    doc.text("Emisor", M, y);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(70, 70, 70);
-    doc.text("Kinetora Studio", M, y + 18);
-    doc.text("CIF: B-00000000", M, y + 34);
-    doc.text("España", M, y + 50);
-
-    const col2X = M + 300;
-    doc.setTextColor(30, 30, 30);
-    doc.setFont("helvetica", "bold");
-    doc.text("Cliente", col2X, y);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(70, 70, 70);
-    doc.text("Juan Díaz", col2X, y + 18);
-    doc.text("cliente@empresa.com", col2X, y + 34);
-    doc.text("Madrid, España", col2X, y + 50);
-
-    // SEPARADOR
-    y += 86;
-    doc.setDrawColor(230, 230, 230);
-    doc.line(M, y, rightX, y);
-
-    // TABLA DETALLE
-    y += 24;
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(30, 30, 30);
-    doc.setFontSize(12);
-    doc.text("Detalle", M, y);
-    y += 12;
-
-    const tableY = y + 16;
-    const tableW = pageW - 2 * M;
-    const rowH = 28;
-    const colConceptX = M;
-    const colPeriodX = M + 360;
-    const colAmountX = rightX;
-    // header fondo claro y bordes
-    doc.setFillColor(248, 248, 248);
-    doc.setDrawColor(230, 230, 230);
-    doc.rect(M, tableY, tableW, rowH, "FD");
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(50, 50, 50);
-    doc.text("Concepto", colConceptX + 10, tableY + 18);
-    doc.text("Periodo", colPeriodX + 10, tableY + 18);
-    drawRight("Importe", colAmountX - 10, tableY + 18);
-
-    // fila única (el plan)
-    const row1Y = tableY + rowH;
-    doc.setDrawColor(235, 235, 235);
-    doc.rect(M, row1Y, tableW, rowH, "S");
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(70, 70, 70);
-    doc.text(inv.plan, colConceptX + 10, row1Y + 18);
-    doc.text(inv.date, colPeriodX + 10, row1Y + 18);
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(0, 0, 0);
-    drawRight(inv.amount, colAmountX - 10, row1Y + 18);
-
-    // TOTAL BOX (alineado a la derecha, con acento)
-    const totalBoxY = row1Y + rowH + 28;
-    const totalBoxW = 260;
-    const totalBoxX = rightX - totalBoxW;
-    doc.setDrawColor(brand.r, brand.g, brand.b);
-    doc.roundedRect(totalBoxX, totalBoxY, totalBoxW, 70, 10, 10, "S");
-    doc.setFont("helvetica", "bold");
-    doc.setTextColor(30, 30, 30);
-    doc.text("TOTAL", totalBoxX + 16, totalBoxY + 28);
-    doc.setTextColor(brand.r, brand.g, brand.b);
-    doc.text(inv.amount, totalBoxX + 16, totalBoxY + 50);
-    // línea guía visual a la izquierda
-    doc.setDrawColor(235, 235, 235);
-    doc.line(M, totalBoxY - 16, rightX, totalBoxY - 16);
-
-    // NOTA / FOOTER
-    const footY = pageH - 84;
-    doc.setDrawColor(235, 235, 235);
-    doc.line(M, footY, rightX, footY);
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(10);
-    const t1 = "Gracias por confiar en Kinetora. Esta factura ha sido generada automáticamente para tu archivo.";
-    const t2 = "Si tienes dudas sobre el contenido o el importe, contáctanos en hello@kinetora.com.";
-    doc.setTextColor(gray(110).r, gray(110).g, gray(110).b);
-    doc.text(t1, M, footY + 22);
-    doc.text(t2, M, footY + 38);
-
-    doc.save(`${inv.id}.pdf`);
+  const TEMPLATE_URL = "/assets/invoices/invoice-template.pdf";
+  const downloadInvoice = (inv: { id: string; date: string; plan: string; amount: string }) => {
+    const a = document.createElement("a");
+    a.href = TEMPLATE_URL;
+    a.download = `${inv.id}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 
   return (
@@ -255,7 +134,7 @@ const Billing = () => {
                       <button
                         type="button"
                         aria-label="Descargar"
-                        onClick={() => generateInvoicePdf(inv)}
+                        onClick={() => downloadInvoice(inv)}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#B454FF] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                       >
                         <Download className="w-4 h-4" />
