@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef } from 'react';
+import { useI18n } from "@/i18n/I18nProvider";
 
 const brands = [
   { name: "Square Enix", src: "/assets/brands/square-enix.svg" },
@@ -15,6 +16,7 @@ const brands = [
 ];
 
 const Brands = () => {
+  const { lang } = useI18n();
   // Duplicamos para crear un loop perfecto en una sola línea
   const items = [...brands, ...brands];
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -30,15 +32,21 @@ const Brands = () => {
   };
 
   return (
-    <section aria-label="Marcas que confían en Kinetora" className="py-14 sm:py-16 bg-[#0D0D0D] border-y border-white/10 overflow-hidden">
+    <section
+      aria-label={
+        lang === "es" ? "Marcas que confían en Kinetora" : "Brands that trust Kinetora"
+      }
+      className="py-14 sm:py-16 bg-[#0D0D0D] border-y border-white/10 overflow-hidden"
+    >
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-[10px] font-bold text-[#F5F5F5]/60 uppercase tracking-[0.4em] mb-8 sm:mb-10">
-          Marcas que confían en nuestra velocidad
+          {lang === "es"
+            ? "Marcas que confían en nuestra velocidad"
+            : "Brands that trust our speed"}
         </p>
       </div>
 
       <div className="relative overflow-hidden">
-        {/* Pista única con loop infinito perfecto (contenido duplicado) */}
         <div className="relative h-12 sm:h-14" data-animate="always" ref={wrapperRef}>
           <div
             ref={trackRef}

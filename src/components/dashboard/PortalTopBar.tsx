@@ -12,6 +12,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { useNotifications } from "@/hooks/use-notifications";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type PortalTopBarProps = {
   onOpenMobileMenu?: () => void;
@@ -24,15 +25,43 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
 }) => {
   const navigate = useNavigate();
   const { items, unreadCount, markAllRead, remove } = useNotifications();
+  const { lang, setLang, t } = useI18n();
 
-  const tintFor = (t: "done" | "review" | "message") => {
-    if (t === "done") return "bg-green-500/15 text-green-300 border-green-500/20";
-    if (t === "review") return "bg-blue-500/15 text-blue-300 border-blue-500/20";
+  const ui =
+    lang === "es"
+      ? {
+          openMenu: "Abrir menú",
+          markAll: "Marcar todo",
+          empty: "Sin notificaciones.",
+          viewRequest: "Ver Request",
+          delete: "Eliminar",
+          unread: "sin leer",
+          viewAll: "Ver todas →",
+          profile: "Perfil",
+          settings: "Configuración",
+          logout: "Salir",
+        }
+      : {
+          openMenu: "Open menu",
+          markAll: "Mark all",
+          empty: "No notifications.",
+          viewRequest: "View request",
+          delete: "Delete",
+          unread: "unread",
+          viewAll: "View all →",
+          profile: "Profile",
+          settings: "Settings",
+          logout: "Log out",
+        };
+
+  const tintFor = (tint: "done" | "review" | "message") => {
+    if (tint === "done") return "bg-green-500/15 text-green-300 border-green-500/20";
+    if (tint === "review") return "bg-blue-500/15 text-blue-300 border-blue-500/20";
     return "bg-[#B454FF]/15 text-[#D7B3FF] border-[#B454FF]/25";
   };
-  const iconFor = (t: "done" | "review" | "message") => {
-    if (t === "done") return <CheckCircle2 className="w-4 h-4" />;
-    if (t === "review") return <Clock3 className="w-4 h-4" />;
+  const iconFor = (type: "done" | "review" | "message") => {
+    if (type === "done") return <CheckCircle2 className="w-4 h-4" />;
+    if (type === "review") return <Clock3 className="w-4 h-4" />;
     return <MessageSquare className="w-4 h-4" />;
   };
 
@@ -43,22 +72,43 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
           {showMobileMenuButton ? (
             <button
               type="button"
-              aria-label="Abrir menú"
+              aria-label={ui.openMenu}
               onClick={onOpenMobileMenu}
               className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
             >
               <span className="text-[13px] font-black">☰</span>
             </button>
           ) : null}
-          <div className="text-[#F5F5F5] font-black tracking-tight">Portal del Cliente</div>
+          <div className="text-[#F5F5F5] font-black tracking-tight">{t("portal.title")}</div>
         </div>
 
         <div className="flex items-center gap-3">
+          {/* Language */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label={t("lang.switch")}
+                className="hidden sm:inline-flex h-10 px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:text-[#F5F5F5] hover:bg-white/[0.06] transition-colors text-[11px] font-black tracking-[0.22em] uppercase"
+              >
+                {lang.toUpperCase()}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-[#111111] border-white/10 text-[#F5F5F5] rounded-2xl p-1 min-w-[160px]">
+              <DropdownMenuItem onClick={() => setLang("es")} className="rounded-xl focus:bg-white/[0.06] cursor-pointer">
+                {t("lang.es")}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setLang("en")} className="rounded-xl focus:bg-white/[0.06] cursor-pointer">
+                {t("lang.en")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           {/* Notifications dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
-                aria-label="Notificaciones"
+                aria-label={t("portal.notifications")}
                 className="relative inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:text-[#F5F5F5] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
               >
                 <Bell className="w-5 h-5" />
@@ -71,23 +121,31 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-[#111111] border-white/10 text-[#F5F5F5] w-[86vw] max-w-[360px] p-0 overflow-hidden">
               <div className="flex items-center justify-between px-3 py-2 border-b border-white/10">
-                <DropdownMenuLabel className="p-0 text-[#F5F5F5]">Notificaciones</DropdownMenuLabel>
+                <DropdownMenuLabel className="p-0 text-[#F5F5F5]">{t("portal.notifications")}</DropdownMenuLabel>
                 <button
                   type="button"
                   onClick={markAllRead}
                   className="inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-widest text-[#F5F5F5]/70 hover:text-[#F5F5F5]"
                 >
                   <Check className="w-4 h-4" />
-                  Marcar todo
+                  {ui.markAll}
                 </button>
               </div>
 
               <div className="max-h-80 overflow-auto">
                 {items.length === 0 ? (
-                  <div className="p-4 text-[#F5F5F5]/60 text-sm">Sin notificaciones.</div>
+                  <div className="p-4 text-[#F5F5F5]/60 text-sm">{ui.empty}</div>
                 ) : (
                   items.map((n) => (
-                    <div key={n.id} className={"px-3 py-3 border-b border-white/10 last:border-0 transition-opacity " + (n.read ? "opacity-60 hover:opacity-100 focus-within:opacity-100" : "opacity-100")}>
+                    <div
+                      key={n.id}
+                      className={
+                        "px-3 py-3 border-b border-white/10 last:border-0 transition-opacity " +
+                        (n.read
+                          ? "opacity-60 hover:opacity-100 focus-within:opacity-100"
+                          : "opacity-100")
+                      }
+                    >
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex items-center gap-3 min-w-0">
                           <div className={"h-8 w-8 rounded-full border flex items-center justify-center shrink-0 " + tintFor(n.type)}>
@@ -105,7 +163,7 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
                                   onClick={() => navigate(`/dashboard/requests/${n.requestId}`)}
                                   className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#B454FF] hover:bg-white/[0.06] transition-colors text-xs"
                                 >
-                                  Ver Request
+                                  {ui.viewRequest}
                                   <ArrowRight className="w-3.5 h-3.5" />
                                 </button>
                               )}
@@ -115,7 +173,7 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
                                 className="inline-flex items-center gap-1.5 h-8 px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:bg-white/[0.06] transition-colors text-xs"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
-                                Eliminar
+                                {ui.delete}
                               </button>
                             </div>
                           </div>
@@ -128,24 +186,26 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
 
               <DropdownMenuSeparator className="bg-white/10" />
               <div className="flex items-center justify-between px-3 py-2">
-                <div className="text-[11px] text-[#F5F5F5]/55">{unreadCount} sin leer</div>
+                <div className="text-[11px] text-[#F5F5F5]/55">
+                  {unreadCount} {ui.unread}
+                </div>
                 <Link
                   to="/dashboard/notifications"
                   className="text-[11px] font-extrabold uppercase tracking-widest text-[#F5F5F5]/80 hover:text-[#F5F5F5]"
                 >
-                  Ver todas →
+                  {ui.viewAll}
                 </Link>
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* User dropdown (sin cambios) */}
+          {/* User dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
                 className="inline-flex items-center gap-3 rounded-full bg-white/[0.03] border border-white/10 px-3 py-2 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
-                aria-label="Perfil"
+                aria-label={ui.profile}
               >
                 <div className="h-9 w-9 rounded-full bg-[#B454FF] text-white flex items-center justify-center font-black text-[12px]">
                   JD
@@ -159,14 +219,14 @@ const PortalTopBar: React.FC<PortalTopBarProps> = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-[#111111] border-white/10 text-[#F5F5F5]">
               <DropdownMenuItem asChild className="focus:bg-white/[0.06]">
-                <Link to="/dashboard/profile">Perfil</Link>
+                <Link to="/dashboard/profile">{ui.profile}</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="focus:bg-white/[0.06]">
-                <Link to="/dashboard/settings">Configuración</Link>
+                <Link to="/dashboard/settings">{ui.settings}</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator className="bg-white/10" />
               <DropdownMenuItem asChild className="text-red-300 focus:bg-white/[0.06]">
-                <Link to="/login">Salir</Link>
+                <Link to="/login">{ui.logout}</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

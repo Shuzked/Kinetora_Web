@@ -3,8 +3,90 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { X, Check, AlertCircle, Zap } from 'lucide-react';
+import { useI18n } from "@/i18n/I18nProvider";
 
 const ValueProp = () => {
+  const { lang } = useI18n();
+
+  const copy =
+    lang === "es"
+      ? {
+          pill: "Por qué las startups eligen Kinetora",
+          titleTop: "El fin de la",
+          titleAccent: "fricción creativa",
+          sub:
+            "Un modelo pensado para velocidad, claridad y consistencia visual — sin la complejidad de una agencia tradicional.",
+          left: {
+            title: "Agencias tradicionales",
+            badge: "Fricción",
+            items: [
+              { t: "Presupuestos sorpresa", d: "Costes que escalan sin previo aviso." },
+              { t: "Burocracia paralizante", d: "Semanas perdidas en contratos y reuniones." },
+              { t: "Entregas lentas", d: "Procesos de 2 a 4 semanas por tarea." },
+              { t: "Poca visibilidad", d: "No siempre sabes quién está ejecutando cada pieza." },
+            ],
+            metrics: [
+              { k: "Ritmo", v: "Lento" },
+              { k: "Reuniones", v: "Muchas" },
+              { k: "Coste", v: "Variable" },
+            ],
+          },
+          right: {
+            title: "Kinetora OS",
+            badge: "Premium",
+            items: [
+              { t: "Cuota plana mensual", d: "Sin sorpresas: un solo pago, todo incluido." },
+              { t: "Colaboración asíncrona", d: "Cero reuniones. Todo fluye por tu tablero." },
+              { t: "Entregas en 48h", d: "Velocidad real para equipos que no esperan." },
+              { t: "Dirección senior", d: "Acceso directo a criterio creativo con experiencia." },
+            ],
+            metrics: [
+              { k: "Ritmo", v: "48h" },
+              { k: "Reuniones", v: "0" },
+              { k: "Coste", v: "Fijo" },
+            ],
+            tag: "Recomendado para Series A/B",
+          },
+        }
+      : {
+          pill: "Why startups choose Kinetora",
+          titleTop: "The end of",
+          titleAccent: "creative friction",
+          sub:
+            "A model built for speed, clarity and visual consistency — without the complexity of a traditional agency.",
+          left: {
+            title: "Traditional agencies",
+            badge: "Friction",
+            items: [
+              { t: "Surprise budgets", d: "Costs that scale without warning." },
+              { t: "Paralyzing bureaucracy", d: "Weeks lost in contracts and meetings." },
+              { t: "Slow delivery", d: "2–4 week processes per task." },
+              { t: "Low visibility", d: "You don't always know who's executing each piece." },
+            ],
+            metrics: [
+              { k: "Pace", v: "Slow" },
+              { k: "Meetings", v: "Many" },
+              { k: "Cost", v: "Variable" },
+            ],
+          },
+          right: {
+            title: "Kinetora OS",
+            badge: "Premium",
+            items: [
+              { t: "Flat monthly fee", d: "No surprises: one payment, all included." },
+              { t: "Async collaboration", d: "Zero meetings. Everything flows through your board." },
+              { t: "48h deliveries", d: "Real speed for teams that can't wait." },
+              { t: "Senior direction", d: "Direct access to experienced creative judgment." },
+            ],
+            metrics: [
+              { k: "Pace", v: "48h" },
+              { k: "Meetings", v: "0" },
+              { k: "Cost", v: "Fixed" },
+            ],
+            tag: "Recommended for Series A/B",
+          },
+        };
+
   return (
     <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
       {/* ambient glow (soft, no hard cuts) */}
@@ -17,14 +99,14 @@ const ValueProp = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-4xl mx-auto text-center mb-14 sm:mb-16 lg:mb-20">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-            Por qué las startups eligen Kinetora
+            {copy.pill}
           </div>
           <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] mb-4 tracking-tighter uppercase">
-            El fin de la <br className="hidden sm:block" />
-            <span className="text-[#B454FF]">fricción creativa</span>
+            {copy.titleTop} <br className="hidden sm:block" />
+            <span className="text-[#B454FF]">{copy.titleAccent}</span>
           </h2>
           <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Un modelo pensado para velocidad, claridad y consistencia visual — sin la complejidad de una agencia tradicional.
+            {copy.sub}
           </p>
         </div>
 
@@ -43,21 +125,16 @@ const ValueProp = () => {
                   <AlertCircle className="w-5 h-5 text-red-300/70" />
                 </div>
                 <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
-                  Agencias tradicionales
+                  {copy.left.title}
                 </h3>
               </div>
               <span className="hidden sm:inline-flex rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#F5F5F5]/60">
-                Fricción
+                {copy.left.badge}
               </span>
             </div>
 
             <ul className="space-y-6 sm:space-y-7">
-              {[
-                { t: 'Presupuestos sorpresa', d: 'Costes que escalan sin previo aviso.' },
-                { t: 'Burocracia paralizante', d: 'Semanas perdidas en contratos y reuniones.' },
-                { t: 'Entregas lentas', d: 'Procesos de 2 a 4 semanas por tarea.' },
-                { t: 'Poca visibilidad', d: 'No siempre sabes quién está ejecutando cada pieza.' },
-              ].map((item, i) => (
+              {copy.left.items.map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
                   <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
                     <X className="w-4 h-4 text-red-300/70" />
@@ -74,16 +151,14 @@ const ValueProp = () => {
 
             <div className="mt-10 pt-7 border-t border-white/10">
               <div className="grid grid-cols-3 gap-3">
-                {[{ k: 'Ritmo', v: 'Lento' }, { k: 'Reuniones', v: 'Muchas' }, { k: 'Coste', v: 'Variable' }].map(
-                  (m) => (
-                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
-                        {m.k}
-                      </div>
-                      <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                {copy.left.metrics.map((m) => (
+                  <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                    <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                      {m.k}
                     </div>
-                  )
-                )}
+                    <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
@@ -104,21 +179,16 @@ const ValueProp = () => {
                   <Zap className="w-5 h-5 text-[#B454FF]" />
                 </div>
                 <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
-                  Kinetora OS
+                  {copy.right.title}
                 </h3>
               </div>
               <span className="inline-flex rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#B454FF]">
-                Premium
+                {copy.right.badge}
               </span>
             </div>
 
             <ul className="space-y-6 sm:space-y-7 relative z-10">
-              {[
-                { t: 'Cuota plana mensual', d: 'Sin sorpresas: un solo pago, todo incluido.' },
-                { t: 'Colaboración asíncrona', d: 'Cero reuniones. Todo fluye por tu tablero.' },
-                { t: 'Entregas en 48h', d: 'Velocidad real para equipos que no esperan.' },
-                { t: 'Dirección senior', d: 'Acceso directo a criterio creativo con experiencia.' },
-              ].map((item, i) => (
+              {copy.right.items.map((item, i) => (
                 <li key={i} className="flex items-start gap-4">
                   <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/20">
                     <Check className="w-4 h-4 text-[#B454FF]" />
@@ -135,7 +205,7 @@ const ValueProp = () => {
 
             <div className="mt-10 pt-7 border-t border-white/10 relative z-10">
               <div className="grid grid-cols-3 gap-3">
-                {[{ k: 'Ritmo', v: '48h' }, { k: 'Reuniones', v: '0' }, { k: 'Coste', v: 'Fijo' }].map((m) => (
+                {copy.right.metrics.map((m) => (
                   <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
                     <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
                       {m.k}
@@ -146,7 +216,7 @@ const ValueProp = () => {
               </div>
 
               <div className="mt-6 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#B454FF]">
-                Recomendado para Series A/B
+                {copy.right.tag}
               </div>
             </div>
           </motion.div>

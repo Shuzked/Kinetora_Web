@@ -13,26 +13,14 @@ import { Input } from "@/components/ui/input";
 import { showSuccess } from "@/utils/toast";
 import { useRequests } from "@/hooks/use-requests";
 import type { RequestStatus, Priority } from "@/providers/RequestsProvider";
+import { useI18n } from "@/i18n/I18nProvider";
 
-// Utilidad simple para formatear fecha a YYYY-MM-DD sin problemas de zona horaria
 const toISODate = (d: Date) => {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const dd = String(d.getDate()).padStart(2, "0");
   return `${y}-${m}-${dd}`;
 };
-
-const statusOptions: { value: RequestStatus; label: string }[] = [
-  { value: "in-progress", label: "En Progreso" },
-  { value: "review", label: "En Revisión" },
-  { value: "completed", label: "Completado" },
-];
-
-const priorityOptions: { value: Priority; label: string }[] = [
-  { value: "alta", label: "Alta" },
-  { value: "media", label: "Media" },
-  { value: "baja", label: "Baja" },
-];
 
 const prioColor: Record<Priority, string> = {
   alta: "text-red-300",
@@ -47,9 +35,93 @@ const statusColor: Record<RequestStatus, string> = {
 };
 
 const Requests = () => {
+  const { lang } = useI18n();
   const navigate = useNavigate();
   const { items, updateFields, addActivity } = useRequests();
   const [filter, setFilter] = useState<"all" | RequestStatus>("all");
+
+  const labels =
+    lang === "es"
+      ? {
+          title: "Mis Requests",
+          sub: "Gestiona todas tus solicitudes creativas",
+          new: "Nuevo Request",
+          tabs: {
+            all: "Todos",
+            inProgress: "En progreso",
+            review: "En revisión",
+            completed: "Completados",
+          },
+          cols: {
+            id: "ID",
+            title: "Título",
+            service: "Servicio",
+            status: "Estado",
+            due: "Fecha límite",
+            priority: "Prioridad",
+            view: "Ver Request",
+          },
+          status: {
+            inProgress: "En Progreso",
+            review: "En Revisión",
+            completed: "Completado",
+          },
+          priority: { alta: "Alta", media: "Media", baja: "Baja" },
+          toastStatus: "Estado actualizado.",
+          toastPriority: "Prioridad actualizada.",
+          toastDate: "Fecha actualizada.",
+          toastActivityStatus: "Estado actualizado",
+          toastActivityPriority: "Prioridad actualizada",
+          toastActivityDue: "Fecha límite actualizada",
+          openCalendar: "Abrir calendario",
+          changePriority: "Cambiar prioridad",
+        }
+      : {
+          title: "My requests",
+          sub: "Manage all your creative requests",
+          new: "New request",
+          tabs: {
+            all: "All",
+            inProgress: "In progress",
+            review: "In review",
+            completed: "Completed",
+          },
+          cols: {
+            id: "ID",
+            title: "Title",
+            service: "Service",
+            status: "Status",
+            due: "Due date",
+            priority: "Priority",
+            view: "View request",
+          },
+          status: {
+            inProgress: "In progress",
+            review: "In review",
+            completed: "Completed",
+          },
+          priority: { alta: "High", media: "Medium", baja: "Low" },
+          toastStatus: "Status updated.",
+          toastPriority: "Priority updated.",
+          toastDate: "Date updated.",
+          toastActivityStatus: "Status updated",
+          toastActivityPriority: "Priority updated",
+          toastActivityDue: "Due date updated",
+          openCalendar: "Open calendar",
+          changePriority: "Change priority",
+        };
+
+  const statusOptions: { value: RequestStatus; label: string }[] = [
+    { value: "in-progress", label: labels.status.inProgress },
+    { value: "review", label: labels.status.review },
+    { value: "completed", label: labels.status.completed },
+  ];
+
+  const priorityOptions: { value: Priority; label: string }[] = [
+    { value: "alta", label: labels.priority.alta },
+    { value: "media", label: labels.priority.media },
+    { value: "baja", label: labels.priority.baja },
+  ];
 
   const filtered = useMemo(() => {
     if (filter === "all") return items;
@@ -58,30 +130,30 @@ const Requests = () => {
 
   const onChangeStatus = (id: string, value: RequestStatus) => {
     updateFields(id, { status: value });
-    addActivity(id, { type: "update", text: "Estado actualizado", time: new Date().toLocaleString() });
-    showSuccess("Estado actualizado.");
+    addActivity(id, { type: "update", text: labels.toastActivityStatus, time: new Date().toLocaleString() });
+    showSuccess(labels.toastStatus);
   };
 
   const onChangePriority = (id: string, value: Priority) => {
     updateFields(id, { priority: value });
-    addActivity(id, { type: "update", text: "Prioridad actualizada", time: new Date().toLocaleString() });
-    showSuccess("Prioridad actualizada.");
+    addActivity(id, { type: "update", text: labels.toastActivityPriority, time: new Date().toLocaleString() });
+    showSuccess(labels.toastPriority);
   };
 
   const onChangeDate: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     const { name: id, value } = e.target;
     if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return;
     updateFields(id, { date: value });
-    addActivity(id, { type: "update", text: "Fecha límite actualizada", time: new Date().toLocaleString() });
-    showSuccess("Fecha actualizada.");
+    addActivity(id, { type: "update", text: labels.toastActivityDue, time: new Date().toLocaleString() });
+    showSuccess(labels.toastDate);
   };
 
   return (
     <PortalLayout>
       <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tight">Mis Requests</h1>
-          <p className="text-[#F5F5F5]/55 mt-1">Gestiona todas tus solicitudes creativas</p>
+          <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tight">{labels.title}</h1>
+          <p className="text-[#F5F5F5]/55 mt-1">{labels.sub}</p>
         </div>
 
         <PremiumButton
@@ -91,17 +163,17 @@ const Requests = () => {
           leftIcon={<Plus className="w-4 h-4" />}
           onClick={() => navigate("/dashboard/new")}
         >
-          Nuevo Request
+          {labels.new}
         </PremiumButton>
       </div>
 
       <div className="mt-6 flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
         {(
           [
-            { key: "all", label: "Todos" },
-            { key: "in-progress", label: "En Progreso" },
-            { key: "review", label: "En Revisión" },
-            { key: "completed", label: "Completados" },
+            { key: "all", label: labels.tabs.all },
+            { key: "in-progress", label: labels.tabs.inProgress },
+            { key: "review", label: labels.tabs.review },
+            { key: "completed", label: labels.tabs.completed },
           ] as const
         ).map((t) => {
           const active = filter === t.key;
@@ -128,14 +200,14 @@ const Requests = () => {
           <Table className="min-w-full table-auto">
             <TableHeader>
               <TableRow className="hover:bg-transparent border-white/10">
-                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20">ID</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold min-w-[14rem]">Título</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">Servicio</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Estado</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Fecha límite</TableHead>
-                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">Prioridad</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden md:table-cell w-20">{labels.cols.id}</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold min-w-[14rem]">{labels.cols.title}</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold hidden lg:table-cell">{labels.cols.service}</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">{labels.cols.status}</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">{labels.cols.due}</TableHead>
+                <TableHead className="text-[#F5F5F5]/55 font-semibold whitespace-nowrap">{labels.cols.priority}</TableHead>
                 <TableHead className="text-right text-[#F5F5F5]/55 font-semibold">
-                  <span className="sr-only">Ver Request</span>
+                  <span className="sr-only">{labels.cols.view}</span>
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -156,7 +228,7 @@ const Requests = () => {
                   <TableCell className="whitespace-nowrap">
                     <Select value={r.status} onValueChange={(v: RequestStatus) => onChangeStatus(r.id, v)}>
                       <SelectTrigger className="relative h-10 pl-3 pr-9 w-[14ch] inline-flex items-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg]:absolute [&>svg]:right-2 [&>svg]:top-1/2 [&>svg]:-translate-y-1/2">
-                        <SelectValue placeholder="Estado" className="truncate" />
+                        <SelectValue placeholder={labels.cols.status} className="truncate" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#0F0F0F] border-white/10 text-[#F5F5F5] rounded-xl shadow-2xl min-w-[12rem]">
                         {statusOptions.map((s) => (
@@ -184,7 +256,7 @@ const Requests = () => {
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            aria-label="Abrir calendario"
+                            aria-label={labels.openCalendar}
                             className="mx-1 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                           >
                             <CalendarIcon className="w-4 h-4 text-white" />
@@ -201,8 +273,8 @@ const Requests = () => {
                               if (!d) return;
                               const iso = toISODate(d);
                               updateFields(r.id, { date: iso });
-                              addActivity(r.id, { type: 'update', text: 'Fecha límite actualizada', time: new Date().toLocaleString() });
-                              showSuccess('Fecha actualizada.');
+                              addActivity(r.id, { type: 'update', text: labels.toastActivityDue, time: new Date().toLocaleString() });
+                              showSuccess(labels.toastDate);
                             }}
                             initialFocus
                             className="p-2 rounded-xl"
@@ -219,7 +291,7 @@ const Requests = () => {
                     <Select value={r.priority} onValueChange={(v: Priority) => onChangePriority(r.id, v)}>
                       <SelectTrigger
                         className="relative h-10 w-10 p-0 inline-flex items-center justify-center rounded-full bg-white/[0.03] border-white/10 text-[#F5F5F5] focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF] [&>svg:last-child]:hidden"
-                        aria-label="Cambiar prioridad"
+                        aria-label={labels.changePriority}
                         title={priorityOptions.find((o) => o.value === r.priority)?.label}
                       >
                         <Flag className={"w-4 h-4 " + prioColor[r.priority]} />
@@ -246,7 +318,7 @@ const Requests = () => {
                       onClick={() => navigate(`/dashboard/requests/${r.id}`)}
                       className="inline-flex h-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 px-4 text-sm font-semibold text-[#F5F5F5] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] whitespace-nowrap"
                     >
-                      Ver Request
+                      {labels.cols.view}
                     </button>
                   </TableCell>
                 </TableRow>

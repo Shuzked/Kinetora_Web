@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PremiumButton from '@/components/PremiumButton';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
@@ -14,14 +14,23 @@ import {
 import SmoothScrollLink from '@/components/SmoothScrollLink';
 import useScrollSpy from '@/hooks/use-scroll-spy';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Navbar = () => {
+  const { lang, setLang, t } = useI18n();
+
   const navLinks = [
-    { name: "Servicios", href: "#servicios" },
-    { name: "Método", href: "#como-funciona" },
-    { name: "ÉXITOS", href: "#casos" },
-    { name: "Planes", href: "#precios" },
-    { name: "Contacto", href: "#contacto" },
+    { name: t("nav.services"), href: "#servicios" },
+    { name: t("nav.method"), href: "#como-funciona" },
+    { name: t("nav.successes"), href: "#casos" },
+    { name: t("nav.plans"), href: "#precios" },
+    { name: t("nav.contact"), href: "#contacto" },
   ];
 
   const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios", "contacto"]);
@@ -85,15 +94,44 @@ const Navbar = () => {
         </div>
 
         {/* Derecha: Acciones (alineado vertical y baseline consistente) */}
-        <div className="h-full flex items-center justify-end gap-3 md:gap-6">
+        <div className="h-full flex items-center justify-end gap-2.5 md:gap-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                aria-label={t("lang.switch")}
+                className="hidden sm:inline-flex h-10 md:h-12 px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/[0.06] hover:border-white/20 transition-colors text-[11px] font-black tracking-[0.22em] uppercase"
+              >
+                {lang.toUpperCase()}
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="bg-[#111111] border-white/10 text-[#F5F5F5] rounded-2xl p-1 min-w-[160px]"
+            >
+              <DropdownMenuItem
+                onClick={() => setLang("es")}
+                className="rounded-xl focus:bg-white/[0.06] cursor-pointer"
+              >
+                {t("lang.es")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => setLang("en")}
+                className="rounded-xl focus:bg-white/[0.06] cursor-pointer"
+              >
+                {t("lang.en")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
           <Link to="/login" className="hidden sm:block">
             <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[12px] leading-none font-bold text-[#F5F5F5]/70 hover:text-[#F5F5F5] transition-colors">
-              LOGIN
+              {t("nav.login").toUpperCase()}
             </button>
           </Link>
           <Link to="/login">
             <PremiumButton variant="primary" size="md" className="leading-none">
-              EMPEZAR
+              {t("nav.start").toUpperCase()}
             </PremiumButton>
           </Link>
 
@@ -121,9 +159,37 @@ const Navbar = () => {
                       {link.name}
                     </SmoothScrollLink>
                   ))}
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setLang("es")}
+                      className={
+                        "h-10 px-4 rounded-full border text-[11px] font-black tracking-[0.22em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] " +
+                        (lang === "es"
+                          ? "bg-[#B454FF]/18 border-[#B454FF]/30 text-[#F5F5F5]"
+                          : "bg-white/[0.03] border-white/10 text-[#F5F5F5]/75 hover:bg-white/[0.06]")
+                      }
+                    >
+                      ES
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLang("en")}
+                      className={
+                        "h-10 px-4 rounded-full border text-[11px] font-black tracking-[0.22em] uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] " +
+                        (lang === "en"
+                          ? "bg-[#B454FF]/18 border-[#B454FF]/30 text-[#F5F5F5]"
+                          : "bg-white/[0.03] border-white/10 text-[#F5F5F5]/75 hover:bg-white/[0.06]")
+                      }
+                    >
+                      EN
+                    </button>
+                  </div>
+
                   <hr className="border-[#2A2A2A]" />
                   <Link to="/login" className="text-xl font-black uppercase tracking-titter hover:text-[#B454FF]">
-                    LOGIN
+                    {t("nav.login").toUpperCase()}
                   </Link>
                 </div>
               </SheetContent>

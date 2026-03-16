@@ -1,19 +1,19 @@
 "use client";
 
 import React from "react";
-// import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { caseStudies } from "@/data/caseStudies";
+import { useI18n } from "@/i18n/I18nProvider";
 
 type WPListPost = {
   slug?: string;
   excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }> ;
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
   };
 };
 
@@ -31,22 +31,36 @@ function extractHito(text: string) {
   return m ? m[0].trim() : null;
 }
 
-function extractMetric(html: string): { label: string; value: string } | null {
+function extractMetricKind(html: string): { kind: "milestone" | "sales" | "organic" | "funding"; value: string } | null {
   const text = stripHtml(html).toLowerCase();
   const valueMatch =
     html.match(/[\+\-]?\s?\d[\d.,]*\s?(?:m€|m\$|m|k€|k\$|k|€|\$|%)/i) ||
     html.match(/\b\d{2,}\s?(?:usuarios|users|participantes|winners|views|impresiones|impressions|alcance|reach)\b/i);
   if (!valueMatch) return null;
   const rawValue = valueMatch[0].trim();
-  let label = "Hito";
-  if (/(venta|ventas|sales)/i.test(text)) label = "Ventas realizadas";
-  else if (/(impacto|org[aá]nico|organic|reach|views|impresiones|impressions|alcance)/i.test(text)) label = "Impacto orgánico";
-  else if (/(recaud|inversi|raised|funding)/i.test(text)) label = "Recaudación";
-  return { label, value: rawValue };
+  let kind: "milestone" | "sales" | "organic" | "funding" = "milestone";
+  if (/(venta|ventas|sales)/i.test(text)) kind = "sales";
+  else if (/(impacto|org[aá]nico|organic|reach|views|impresiones|impressions|alcance)/i.test(text)) kind = "organic";
+  else if (/(recaud|inversi|raised|funding)/i.test(text)) kind = "funding";
+  return { kind, value: rawValue };
 }
 
 const Cases = () => {
-  const [meta, setMeta] = React.useState<Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string; metricLabel?: string; metricValue?: string }>>({});
+  const { lang } = useI18n();
+
+  const [meta, setMeta] = React.useState<
+    Record<
+      string,
+      {
+        img?: string;
+        alt?: string;
+        excerpt?: string;
+        hito?: string;
+        metricKind?: "milestone" | "sales" | "organic" | "funding";
+        metricValue?: string;
+      }
+    >
+  >({});
 
   React.useEffect(() => {
     let cancelled = false;
@@ -63,29 +77,73 @@ const Cases = () => {
         const featured = fm?.source_url;
         const alt = fm?.alt_text;
         const excerptText = p?.excerpt?.rendered ? stripHtml(p.excerpt.rendered) : "";
-        const metric = p?.content?.rendered ? extractMetric(p.content.rendered) : null;
+        const metric = p?.content?.rendered ? extractMetricKind(p.content.rendered) : null;
         return {
           slug: cs.slug,
           img: featured,
           alt,
           excerpt: excerptText,
           hito: excerptText ? extractHito(excerptText) ?? undefined : undefined,
-          metricLabel: metric?.label,
+          metricKind: metric?.kind,
           metricValue: metric?.value,
         };
       })
     ).then((items) => {
       if (cancelled) return;
-      const next: Record<string, { img?: string; alt?: string; excerpt?: string; hito?: string; metricLabel?: string; metricValue?: string }> = {};
+      const next: Record<string, any> = {};
       items.forEach((it) => {
-        next[it.slug] = { img: it.img, alt: it.alt, excerpt: it.excerpt, hito: it.hito, metricLabel: it.metricLabel, metricValue: it.metricValue };
+        next[it.slug] = {
+          img: it.img,
+          alt: it.alt,
+          excerpt: it.excerpt,
+          hito: it.hito,
+          metricKind: it.metricKind,
+          metricValue: it.metricValue,
+        };
       });
       setMeta(next);
     });
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const metaReady = Object.keys(meta).length > 0;
+
+  const metricLabelFor = (kind?: "milestone" | "sales" | "organic" | "funding") => {
+    if (!kind) return null;
+    if (lang === "es") {
+      if (kind === "sales") return "Ventas realizadas";
+      if (kind === "organic") return "Impacto orgánico";
+      if (kind === "funding") return "Recaudación";
+      return "Hito";
+    }
+    if (kind === "sales") return "Sales";
+    if (kind === "organic") return "Organic reach";
+    if (kind === "funding") return "Funding";
+    return "Milestone";
+  };
+
+  const ui =
+    lang === "es"
+      ? {
+          badge: "Casos de éxito",
+          titleA: "Proyectos reales.",
+          titleB: "Resultados medibles",
+          sub:
+            "Selección de proyectos donde diseñamos el sistema, el producto y la narrativa para acelerar crecimiento.",
+          readMore: "Leer más",
+          ariaReadMore: (t: string) => `Leer más: ${t}`,
+        }
+      : {
+          badge: "Case studies",
+          titleA: "Real projects.",
+          titleB: "Measurable results",
+          sub:
+            "A selection of projects where we designed the system, product and narrative to accelerate growth.",
+          readMore: "Read more",
+          ariaReadMore: (t: string) => `Read more: ${t}`,
+        };
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -96,14 +154,14 @@ const Cases = () => {
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
             <div className="max-w-3xl">
               <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                Casos de éxito
+                {ui.badge}
               </div>
               <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                Proyectos reales.
-                <span className="text-[#B454FF]"> Resultados medibles</span>.
+                {ui.titleA}{" "}
+                <span className="text-[#B454FF]">{ui.titleB}</span>.
               </h1>
               <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-                Selección de proyectos donde diseñamos el sistema, el producto y la narrativa para acelerar crecimiento.
+                {ui.sub}
               </p>
             </div>
 
@@ -111,11 +169,22 @@ const Cases = () => {
               {caseStudies.map((cs) => {
                 const m = meta[cs.slug];
                 const cover = cs.coverImage || m?.img;
-                const excerpt = m?.excerpt || cs.summaryFallback;
-                const hito = m?.hito || cs.highlightFallback;
-                const alt = cs.coverAlt || m?.alt;
-                const metricLabel = cs.metricLabel ?? m?.metricLabel;
+                const hito =
+                  m?.hito ||
+                  (lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback);
+                const alt =
+                  (lang === "es" ? cs.coverAlt : cs.coverAltEn ?? cs.coverAlt) ||
+                  cs.coverAlt ||
+                  m?.alt;
+
+                const metricLabel =
+                  (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ??
+                  metricLabelFor(m?.metricKind) ??
+                  null;
                 const metricValue = cs.metricValue ?? m?.metricValue;
+
+                const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
+
                 return (
                   <div
                     key={cs.slug}
@@ -130,20 +199,20 @@ const Cases = () => {
                           alt={alt}
                           loading="lazy"
                           decoding="async"
-                          onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg"; }}
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                          }}
                           className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                         />
                       )}
                     </div>
                     <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                      {/* Tema (hito) como pill premium */}
                       <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
                         {hito}
                       </div>
                       <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                        {cs.title}
+                        {title}
                       </h2>
-                      {/* Footer: métrica + CTA alineados al fondo */}
                       <div className="mt-auto pt-4 sm:pt-5">
                         <div className="metric-block-min mb-2">
                           {metaReady ? (
@@ -173,9 +242,9 @@ const Cases = () => {
                             e.stopPropagation();
                             window.open(cs.sourceUrl, "_blank", "noopener,noreferrer");
                           }}
-                          aria-label={`Leer más: ${cs.title}`}
+                          aria-label={ui.ariaReadMore(title)}
                         >
-                          LEER MÁS
+                          {ui.readMore.toUpperCase()}
                         </PremiumButton>
                       </div>
                     </div>

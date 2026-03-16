@@ -3,15 +3,26 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import CountUp from '@/components/CountUp';
-
-const stats = [
-  { label: "Proyectos Completados", value: 450, suffix: "+" },
-  { label: "Capital Levantado", value: 12, suffix: "M€+" },
-  { label: "Tiempo de Entrega", value: 48, suffix: "h" },
-  { label: "Tasa de Éxito", value: 99, suffix: "%" },
-];
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Stats = () => {
+  const { lang } = useI18n();
+
+  const stats =
+    lang === "es"
+      ? [
+          { label: "Proyectos completados", value: 450, suffix: "+" },
+          { label: "Capital levantado", value: 12, suffix: "M€+" },
+          { label: "Tiempo de entrega", value: 48, suffix: "h" },
+          { label: "Tasa de éxito", value: 99, suffix: "%" },
+        ]
+      : [
+          { label: "Projects delivered", value: 450, suffix: "+" },
+          { label: "Capital raised", value: 12, suffix: "M€+" },
+          { label: "Delivery time", value: 48, suffix: "h" },
+          { label: "Success rate", value: 99, suffix: "%" },
+        ];
+
   return (
     <section className="py-16 sm:py-20 lg:py-24 bg-[#0D0D0D] relative overflow-hidden">
       {/* Background Accents */}

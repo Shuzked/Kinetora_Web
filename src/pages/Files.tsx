@@ -5,10 +5,31 @@ import PortalLayout from "@/components/dashboard/PortalLayout";
 import { Grid2X2, List, FileText, Film, Figma, Archive, ArrowRight, Download } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { deliverables, type Deliverable } from "@/data/deliverables";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Files = () => {
+  const { lang } = useI18n();
   const navigate = useNavigate();
   const [view, setView] = useState<"grid" | "list">("grid");
+
+  const ui =
+    lang === "es"
+      ? {
+          title: "Archivos",
+          sub: "Trabajo entregado por Kinetora (entregables por request)",
+          grid: "Vista grid",
+          list: "Vista lista",
+          download: "Descargar",
+          viewRequest: "Ver Request",
+        }
+      : {
+          title: "Files",
+          sub: "Work delivered by Kinetora (deliverables per request)",
+          grid: "Grid view",
+          list: "List view",
+          download: "Download",
+          viewRequest: "View request",
+        };
 
   const items: Deliverable[] = useMemo(() => deliverables, []);
 
@@ -29,8 +50,8 @@ const Files = () => {
     <PortalLayout>
       <div className="flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tight">Archivos</h1>
-          <p className="text-[#F5F5F5]/55 mt-1">Trabajo entregado por Kinetora (entregables por request)</p>
+          <h1 className="text-3xl font-black text-[#F5F5F5] tracking-tight">{ui.title}</h1>
+          <p className="text-[#F5F5F5]/55 mt-1">{ui.sub}</p>
         </div>
 
         <div className="inline-flex rounded-xl bg-white/[0.03] border border-white/10 p-1">
@@ -43,7 +64,7 @@ const Files = () => {
                 ? "bg-[#B454FF] text-white"
                 : "text-[#F5F5F5]/70 hover:text-[#F5F5F5] hover:bg-white/[0.06]")
             }
-            aria-label="Vista grid"
+            aria-label={ui.grid}
           >
             <Grid2X2 className="w-5 h-5" />
           </button>
@@ -56,7 +77,7 @@ const Files = () => {
                 ? "bg-[#B454FF] text-white"
                 : "text-[#F5F5F5]/70 hover:text-[#F5F5F5] hover:bg-white/[0.06]")
             }
-            aria-label="Vista lista"
+            aria-label={ui.list}
           >
             <List className="w-5 h-5" />
           </button>
@@ -108,14 +129,14 @@ const Files = () => {
                   className="inline-flex h-9 items-center justify-center px-3 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Descargar
+                  {ui.download}
                 </a>
                 <button
                   type="button"
                   onClick={() => navigate(`/dashboard/requests/${it.requestId}`)}
                   className="inline-flex h-9 items-center justify-center px-3 rounded-full bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                 >
-                  Ver Request
+                  {ui.viewRequest}
                 </button>
               </div>
             </div>

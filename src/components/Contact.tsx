@@ -14,9 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Contact = () => {
-  // Cargar script Calendly una sola vez
+  const { lang } = useI18n();
+
   useEffect(() => {
     const src = "https://assets.calendly.com/assets/external/widget.js";
     const already = Array.from(document.scripts).some((s) => s.src === src);
@@ -37,14 +39,77 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  const strings =
+    lang === "es"
+      ? {
+          badge: "Contacto",
+          title: "Cuéntanos tu proyecto",
+          sub: "Escríbenos y, si lo prefieres, agenda una llamada directa con nuestro equipo.",
+          name: "Nombre",
+          namePh: "Tu nombre",
+          email: "Email",
+          emailPh: "tu@email.com",
+          company: "Empresa (opcional)",
+          companyPh: "Nombre de empresa",
+          budget: "Presupuesto",
+          budgetPh: "Elige un rango",
+          message: "Mensaje",
+          messagePh: "Cuéntanos brevemente qué necesitas…",
+          consent:
+            "Acepto ser contactado para resolver dudas y recibir una propuesta personalizada.",
+          send: "Enviar mensaje",
+          success: "Gracias. Te contactaremos en breve.",
+          errName: "Introduce tu nombre.",
+          errEmail: "Introduce un email válido.",
+          errMsg: "Cuéntanos brevemente tu necesidad (mín. 10 caracteres).",
+          errConsent: "Debes aceptar el consentimiento.",
+          budgets: [
+            { v: "<5k", l: "Menos de 5.000€" },
+            { v: "5-10k", l: "5.000€ - 10.000€" },
+            { v: "10-25k", l: "10.000€ - 25.000€" },
+            { v: "25-50k", l: "25.000€ - 50.000€" },
+            { v: "50k+", l: "Más de 50.000€" },
+          ],
+          ariaSend: "Enviar consulta",
+        }
+      : {
+          badge: "Contact",
+          title: "Tell us about your project",
+          sub: "Write to us and, if you prefer, book a call directly with our team.",
+          name: "Name",
+          namePh: "Your name",
+          email: "Email",
+          emailPh: "you@company.com",
+          company: "Company (optional)",
+          companyPh: "Company name",
+          budget: "Budget",
+          budgetPh: "Choose a range",
+          message: "Message",
+          messagePh: "Tell us briefly what you need…",
+          consent: "I agree to be contacted and receive a tailored proposal.",
+          send: "Send message",
+          success: "Thanks — we'll get back to you shortly.",
+          errName: "Please enter your name.",
+          errEmail: "Please enter a valid email.",
+          errMsg: "Tell us briefly what you need (min. 10 characters).",
+          errConsent: "You must accept the consent.",
+          budgets: [
+            { v: "<5k", l: "Less than €5,000" },
+            { v: "5-10k", l: "€5,000 – €10,000" },
+            { v: "10-25k", l: "€10,000 – €25,000" },
+            { v: "25-50k", l: "€25,000 – €50,000" },
+            { v: "50k+", l: "More than €50,000" },
+          ],
+          ariaSend: "Send inquiry",
+        };
+
   const validate = () => {
     const next: Record<string, string> = {};
-    if (!name.trim()) next.name = "Introduce tu nombre.";
+    if (!name.trim()) next.name = strings.errName;
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
-    if (!emailValid) next.email = "Introduce un email válido.";
-    if (!message.trim() || message.trim().length < 10)
-      next.message = "Cuéntanos brevemente tu necesidad (mín. 10 caracteres).";
-    if (!consent) next.consent = "Debes aceptar el consentimiento.";
+    if (!emailValid) next.email = strings.errEmail;
+    if (!message.trim() || message.trim().length < 10) next.message = strings.errMsg;
+    if (!consent) next.consent = strings.errConsent;
     return next;
   };
 
@@ -57,7 +122,7 @@ const Contact = () => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      showSuccess("Gracias. Te contactaremos en breve.");
+      showSuccess(strings.success);
       setName("");
       setEmail("");
       setCompany("");
@@ -72,7 +137,6 @@ const Contact = () => {
       id="contacto"
       className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden"
     >
-      {/* ambient glow y fades para evitar cortes */}
       <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/10 blur-[110px] z-0" />
       <div className="pointer-events-none absolute -bottom-36 -right-28 h-[26rem] w-[26rem] rounded-full bg-[#B454FF]/6 blur-[120px] z-0" />
       <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(to_bottom,#0D0D0D,transparent)] z-[1]" />
@@ -81,41 +145,41 @@ const Contact = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-            Contacto
+            {strings.badge}
           </div>
           <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase">
-            Cuéntanos tu <span className="text-[#B454FF]">proyecto</span>
+            {strings.title.split(" ").slice(0, -1).join(" ")}{" "}
+            <span className="text-[#B454FF]">{strings.title.split(" ").slice(-1)[0]}</span>
           </h2>
           <p className="mt-3 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-            Escríbenos y, si lo prefieres, agenda una llamada directa con nuestro equipo.
+            {strings.sub}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
-          {/* Formulario */}
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full flex flex-col">
             <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">Nombre</Label>
+                  <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.name}</Label>
                   <Input
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Tu nombre"
+                    placeholder={strings.namePh}
                     className={`mt-2 bg-white/5 border ${errors.name ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
                     aria-invalid={!!errors.name}
                   />
                   {errors.name && <p className="mt-1 text-[12px] text-red-400">{errors.name}</p>}
                 </div>
                 <div>
-                  <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">Email</Label>
+                  <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.email}</Label>
                   <Input
                     id="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="tu@email.com"
+                    placeholder={strings.emailPh}
                     className={`mt-2 bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
                     aria-invalid={!!errors.email}
                   />
@@ -125,39 +189,39 @@ const Contact = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">Empresa (opcional)</Label>
+                  <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.company}</Label>
                   <Input
                     id="company"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    placeholder="Nombre de empresa"
+                    placeholder={strings.companyPh}
                     className="mt-2 bg-white/5 border border-white/15 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50"
                   />
                 </div>
                 <div>
-                  <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">Presupuesto</Label>
+                  <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.budget}</Label>
                   <Select value={budget} onValueChange={setBudget}>
                     <SelectTrigger className="mt-2 bg-white/5 border border-white/15 text-[#F5F5F5]">
-                      <SelectValue placeholder="Elige un rango" />
+                      <SelectValue placeholder={strings.budgetPh} />
                     </SelectTrigger>
                     <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
-                      <SelectItem value="<5k">Menos de 5.000€</SelectItem>
-                      <SelectItem value="5-10k">5.000€ - 10.000€</SelectItem>
-                      <SelectItem value="10-25k">10.000€ - 25.000€</SelectItem>
-                      <SelectItem value="25-50k">25.000€ - 50.000€</SelectItem>
-                      <SelectItem value="50k+">Más de 50.000€</SelectItem>
+                      {strings.budgets.map((b) => (
+                        <SelectItem key={b.v} value={b.v}>
+                          {b.l}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">Mensaje</Label>
+                <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.message}</Label>
                 <Textarea
                   id="message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Cuéntanos brevemente qué necesitas…"
+                  placeholder={strings.messagePh}
                   className={`mt-2 min-h-[120px] bg-white/5 border ${errors.message ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
                   aria-invalid={!!errors.message}
                 />
@@ -173,7 +237,7 @@ const Contact = () => {
                   aria-invalid={!!errors.consent}
                 />
                 <Label htmlFor="consent" className="text-[12px] text-[#F5F5F5]/70">
-                  Acepto ser contactado para resolver dudas y recibir una propuesta personalizada.
+                  {strings.consent}
                 </Label>
               </div>
               {errors.consent && <p className="text-[12px] text-red-400">{errors.consent}</p>}
@@ -185,15 +249,14 @@ const Contact = () => {
                   size="md"
                   className="w-full"
                   isLoading={loading}
-                  aria-label="Enviar consulta"
+                  aria-label={strings.ariaSend}
                 >
-                  ENVIAR MENSAJE
+                  {strings.send.toUpperCase()}
                 </PremiumButton>
               </div>
             </form>
           </div>
 
-          {/* Calendly */}
           <div className="rounded-[2rem] border border-white/10 bg-[#0D0D0D] overflow-hidden w-full h-full min-h-[760px] sm:min-h-[800px] lg:min-h-[860px] flex">
             <div
               className="calendly-inline-widget w-full h-full min-w-[320px]"

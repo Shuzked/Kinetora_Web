@@ -3,8 +3,46 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Palette, Globe, Video, MessageSquare } from 'lucide-react';
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Services = () => {
+  const { lang } = useI18n();
+
+  const copy =
+    lang === "es"
+      ? {
+          badge: "Capacidades",
+          titleTop: "Todo el músculo visual",
+          titleBottom: "que tu startup necesita.",
+          sub: "Branding, producto, web y contenido — con un sistema que mantiene calidad y consistencia a escala.",
+          cards: {
+            brandingTitle: "Construcción de marca",
+            brandingDesc: "Logos, branding completo y pitch decks diseñados para convencer a inversores de primer nivel.",
+            digitalTitle: "Digital",
+            digitalDesc: "UX/UI en Figma, desarrollo web y tiendas online optimizadas para conversión.",
+            multimediaTitle: "Multimedia",
+            multimediaDesc: "Motion graphics, edición de vídeo y animación 3D de alto impacto.",
+            commsTitle: "Comunicación",
+            commsDesc: "Vídeos ADs de alta retención y copywriting estratégico para escalar tus campañas.",
+          },
+        }
+      : {
+          badge: "Capabilities",
+          titleTop: "All the visual power",
+          titleBottom: "your startup needs.",
+          sub: "Brand, product, web and content — with a system that keeps quality and consistency at scale.",
+          cards: {
+            brandingTitle: "Brand building",
+            brandingDesc: "Logos, full branding and pitch decks designed to win top-tier investors.",
+            digitalTitle: "Digital",
+            digitalDesc: "UX/UI in Figma, web development and online stores optimized for conversion.",
+            multimediaTitle: "Multimedia",
+            multimediaDesc: "Motion graphics, video editing and high-impact 3D animation.",
+            commsTitle: "Communication",
+            commsDesc: "High-retention ad videos and strategic copywriting to scale your campaigns.",
+          },
+        };
+
   return (
     <section id="servicios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden">
       {/* ambient glow (soft, no hard cuts) */}
@@ -19,14 +57,14 @@ const Services = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24">
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
-            Capacidades
+            {copy.badge}
           </div>
           <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter leading-[1.1]">
-            TODO EL MÚSCULO VISUAL <br />
-            <span className="text-[#F5F5F5]/65">QUE TU STARTUP NECESITA.</span>
+            {copy.titleTop.toUpperCase()} <br />
+            <span className="text-[#F5F5F5]/65">{copy.titleBottom.toUpperCase()}</span>
           </h2>
           <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-            Branding, producto, web y contenido — con un sistema que mantiene calidad y consistencia a escala.
+            {copy.sub}
           </p>
         </div>
 
@@ -44,10 +82,10 @@ const Services = () => {
             </div>
             <div>
               <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
-                Construcción de Marca
+                {copy.cards.brandingTitle}
               </h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
-                Logos, Branding completo y Pitch Decks diseñados para convencer a inversores de primer nivel.
+                {copy.cards.brandingDesc}
               </p>
             </div>
           </motion.div>
@@ -64,9 +102,9 @@ const Services = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">Digital</h3>
+              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">{copy.cards.digitalTitle}</h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
-                UX/UI en Figma, Desarrollo Web y Tiendas Online optimizadas para conversión.
+                {copy.cards.digitalDesc}
               </p>
             </div>
           </motion.div>
@@ -83,9 +121,9 @@ const Services = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">Multimedia</h3>
+              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.multimediaTitle}</h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
-                Motion Graphics, Edición de Vídeo y Animación 3D de alto impacto.
+                {copy.cards.multimediaDesc}
               </p>
             </div>
           </motion.div>
@@ -103,10 +141,10 @@ const Services = () => {
             </div>
             <div>
               <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
-                Comunicación
+                {copy.cards.commsTitle}
               </h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
-                Vídeos ADs de alta retención y Copywriting estratégico para escalar tus campañas.
+                {copy.cards.commsDesc}
               </p>
             </div>
           </motion.div>

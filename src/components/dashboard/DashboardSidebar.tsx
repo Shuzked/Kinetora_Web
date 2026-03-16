@@ -11,17 +11,44 @@ import {
   Headphones,
   ArrowRight
 } from "lucide-react";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const DashboardSidebar = () => {
+  const { lang } = useI18n();
   const location = useLocation();
 
+  const labels =
+    lang === "es"
+      ? {
+          home: "Inicio",
+          requests: "Mis Requests",
+          newRequest: "Nuevo Request",
+          files: "Archivos",
+          billing: "Facturación",
+          support: "Soporte",
+          helpTitle: "¿Necesitas ayuda?",
+          helpSub: "Te ayudamos al momento.",
+          helpCta: "Contactar soporte",
+        }
+      : {
+          home: "Home",
+          requests: "My requests",
+          newRequest: "New request",
+          files: "Files",
+          billing: "Billing",
+          support: "Support",
+          helpTitle: "Need help?",
+          helpSub: "We'll help you right away.",
+          helpCta: "Contact support",
+        };
+
   const menuItems = [
-    { icon: LayoutGrid, label: "Inicio", path: "/dashboard" },
-    { icon: ClipboardList, label: "Mis Requests", path: "/dashboard/requests" },
-    { icon: PlusCircle, label: "Nuevo Request", path: "/dashboard/new" },
-    { icon: Folder, label: "Archivos", path: "/dashboard/files" },
-    { icon: CreditCard, label: "Facturación", path: "/dashboard/billing" },
-    { icon: Headphones, label: "Soporte", path: "/dashboard/support" },
+    { icon: LayoutGrid, label: labels.home, path: "/dashboard" },
+    { icon: ClipboardList, label: labels.requests, path: "/dashboard/requests" },
+    { icon: PlusCircle, label: labels.newRequest, path: "/dashboard/new" },
+    { icon: Folder, label: labels.files, path: "/dashboard/files" },
+    { icon: CreditCard, label: labels.billing, path: "/dashboard/billing" },
+    { icon: Headphones, label: labels.support, path: "/dashboard/support" },
   ];
 
   return (
@@ -71,13 +98,13 @@ const DashboardSidebar = () => {
             className="pointer-events-none absolute -top-10 -right-16 h-48 w-48 rounded-full bg-[#B454FF]/12 blur-[60px]"
           />
           <div className="relative">
-            <div className="text-[#F5F5F5] font-bold">¿Necesitas ayuda?</div>
-            <div className="text-[#F5F5F5]/55 text-sm mt-1">Te ayudamos al momento.</div>
+            <div className="text-[#F5F5F5] font-bold">{labels.helpTitle}</div>
+            <div className="text-[#F5F5F5]/55 text-sm mt-1">{labels.helpSub}</div>
             <Link
               to="/dashboard/support"
               className="mt-4 inline-flex items-center gap-2 text-[#B454FF] font-semibold hover:text-[#C07CFF] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
             >
-              Contactar Soporte
+              {labels.helpCta}
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

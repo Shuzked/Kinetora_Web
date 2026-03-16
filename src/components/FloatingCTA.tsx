@@ -3,8 +3,10 @@
 import React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const FloatingCTA: React.FC = () => {
+  const { lang } = useI18n();
   const { scrollY } = useScroll();
   const visible = useTransform(scrollY, [0, 240, 300], [0, 0, 1]);
 
@@ -41,7 +43,7 @@ const FloatingCTA: React.FC = () => {
             size="sm"
             className="flex-1 rounded-xl"
           >
-            Ver Planes
+            {lang === "es" ? "Ver planes" : "View pricing"}
           </PremiumButton>
           <PremiumButton
             variant="glass"
@@ -49,7 +51,7 @@ const FloatingCTA: React.FC = () => {
             onClick={handleServiciosClick}
             className="flex-1 rounded-xl"
           >
-            Servicios
+            {lang === "es" ? "Servicios" : "Services"}
           </PremiumButton>
         </div>
       </div>

@@ -4,8 +4,10 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import PremiumButton from '@/components/PremiumButton';
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
+import { useI18n } from "@/i18n/I18nProvider";
 
 const Hero = () => {
+  const { lang } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
 
   const { scrollYProgress } = useScroll({
@@ -15,6 +17,35 @@ const Hero = () => {
 
   const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
+
+  const copy =
+    lang === "es"
+      ? {
+          headlineTop: "Diseño que",
+          headlineAccent: "impulsa tu visión.",
+          sub:
+            "Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto entregados en 48 horas.",
+          ctaPrimary: "Ver planes",
+          ctaSecondary: "Éxitos",
+          pills: [
+            { Icon: Timer, text: "Entrega en 48h" },
+            { Icon: RefreshCw, text: "Revisiones ilimitadas" },
+            { Icon: Euro, text: "Precio mensual fijo" },
+          ],
+        }
+      : {
+          headlineTop: "Design that",
+          headlineAccent: "moves your vision forward.",
+          sub:
+            "Your strategic partner for design and development. No meetings, no friction—just high-impact results delivered in 48 hours.",
+          ctaPrimary: "View pricing",
+          ctaSecondary: "Case studies",
+          pills: [
+            { Icon: Timer, text: "48h delivery" },
+            { Icon: RefreshCw, text: "Unlimited revisions" },
+            { Icon: Euro, text: "Fixed monthly price" },
+          ],
+        };
 
   // Utilidad local para desplazamiento suave respetando la altura del navbar
   const getNavbarOffset = () => {
@@ -62,9 +93,9 @@ const Hero = () => {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
             style={{
               width: '100vw',
-              height: '56.25vw',       // 9/16 = 0.5625
+              height: '56.25vw',
               minHeight: '100vh',
-              minWidth: '177.78vh',     // 16/9 = 1.7778
+              minWidth: '177.78vh',
             }}
           >
             <iframe
@@ -85,9 +116,7 @@ const Hero = () => {
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
-        {/* Capa extra oscura para aumentar contraste del texto */}
         <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
-        {/* Vignette sutil para reforzar la lectura sin aplanar el fondo */}
         <div className="absolute inset-0 pointer-events-none opacity-70 bg-[radial-gradient(ellipse_at_center,transparent_45%,#0D0D0D_90%)]" />
       </div>
 
@@ -110,9 +139,9 @@ const Hero = () => {
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-6 sm:mb-7 tracking-tighter uppercase"
           >
-            Diseño que <br />
+            {copy.headlineTop} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] to-[#8A2BE2] drop-shadow-[0_0_25px_rgba(180,84,255,0.25)]">
-              impulsa tu visión.
+              {copy.headlineAccent}
             </span>
           </motion.h1>
 
@@ -122,7 +151,7 @@ const Hero = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="text-base md:text-lg text-[#F5F5F5]/80 max-w-xl leading-relaxed font-medium mb-8 sm:mb-10"
           >
-            Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto entregados en 48 horas.
+            {copy.sub}
           </motion.p>
 
           <motion.div
@@ -138,7 +167,7 @@ const Hero = () => {
               leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
               onClick={() => handleScrollTo("precios")}
             >
-              VER PLANES
+              {copy.ctaPrimary.toUpperCase()}
             </PremiumButton>
             <PremiumButton
               variant="glass"
@@ -146,7 +175,7 @@ const Hero = () => {
               className="w-full sm:w-auto"
               onClick={() => handleScrollTo("casos")}
             >
-              ÉXITOS
+              {copy.ctaSecondary.toUpperCase()}
             </PremiumButton>
           </motion.div>
 
@@ -156,11 +185,7 @@ const Hero = () => {
             transition={{ delay: 1.0 }}
             className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6"
           >
-            {[
-              { Icon: Timer, text: "48H DELIVERY" },
-              { Icon: RefreshCw, text: "UNLIMITED REVISIONS" },
-              { Icon: Euro, text: "FIXED MONTHLY PRICE" },
-            ].map(({ Icon, text }, i) => (
+            {copy.pills.map(({ Icon, text }, i) => (
               <div
                 key={i}
                 className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"

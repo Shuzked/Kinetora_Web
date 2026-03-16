@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PremiumButton from "@/components/PremiumButton";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const NotFound = () => {
+  const { lang } = useI18n();
   const location = useLocation();
 
   useEffect(() => {
@@ -13,6 +15,23 @@ const NotFound = () => {
       location.pathname,
     );
   }, [location.pathname]);
+
+  const copy =
+    lang === "es"
+      ? {
+          title: "Esta página no existe.",
+          subA: "La ruta",
+          subB: "no está disponible.",
+          back: "Volver al inicio",
+          cases: "Ver casos",
+        }
+      : {
+          title: "This page doesn't exist.",
+          subA: "The route",
+          subB: "is not available.",
+          back: "Back to home",
+          cases: "View case studies",
+        };
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -26,21 +45,23 @@ const NotFound = () => {
                 404
               </div>
               <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                Esta página no existe.
+                {copy.title}
               </h1>
               <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-                La ruta <span className="text-[#F5F5F5] font-semibold">{location.pathname}</span> no está disponible.
+                {copy.subA}{" "}
+                <span className="text-[#F5F5F5] font-semibold">{location.pathname}</span>{" "}
+                {copy.subB}
               </p>
 
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
                 <Link to="/">
                   <PremiumButton variant="primary" size="md" className="w-full sm:w-auto">
-                    VOLVER AL INICIO
+                    {copy.back.toUpperCase()}
                   </PremiumButton>
                 </Link>
                 <Link to="/casos">
                   <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
-                    VER CASOS
+                    {copy.cases.toUpperCase()}
                   </PremiumButton>
                 </Link>
               </div>
