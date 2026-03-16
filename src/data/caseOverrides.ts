@@ -24,6 +24,8 @@ export const caseContentOverrides: Record<
       "<h2>Videos entregables</h2>",
       '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/SmxMZZUsqIo?si=EqO1GaCOdw0TfdQ0" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
       '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/6FQVlBRWU-Y?si=95MSDbWVsfvD9g-q" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      "<h2>Imágenes entregables</h2>",
+      '<figure class="wp-block-image"><img src="/assets/cases/dunk-low-elixir/Gif_NFT_Nike.webp" alt="DUNK LOW ELIXIR — Asset animado" loading="lazy" /></figure>',
     ].join(""),
     // Traducción al inglés del contenido anterior
     enTextHtml: [
@@ -44,6 +46,8 @@ export const caseContentOverrides: Record<
       "<h2>Deliverable Videos</h2>",
       '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/SmxMZZUsqIo?si=EqO1GaCOdw0TfdQ0" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
       '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/6FQVlBRWU-Y?si=95MSDbWVsfvD9g-q" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      "<h2>Image deliverables</h2>",
+      '<figure class="wp-block-image"><img src="/assets/cases/dunk-low-elixir/Gif_NFT_Nike.webp" alt="DUNK LOW ELIXIR — Animated asset" loading="lazy" /></figure>',
     ].join(""),
   },
 
