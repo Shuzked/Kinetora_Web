@@ -25,7 +25,7 @@ const DashboardSidebar = () => {
   ];
 
   return (
-    <aside className="w-72 bg-[#0B0B0B] border-r border-white/10 flex flex-col h-screen sticky top-0">
+    <aside className="w-72 bg-[#0B0B0B] border-r border-white/10 flex flex-col h-dvh">
       <div className="px-6 py-6">
         <Link
           to="/dashboard"
@@ -66,7 +66,10 @@ const DashboardSidebar = () => {
 
       <div className="p-4 border-t border-white/10">
         <div className="relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 p-4">
-          <div aria-hidden className="pointer-events-none absolute -top-10 -right-16 h-48 w-48 rounded-full bg-[#B454FF]/12 blur-[60px]" />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -top-10 -right-16 h-48 w-48 rounded-full bg-[#B454FF]/12 blur-[60px]"
+          />
           <div className="relative">
             <div className="text-[#F5F5F5] font-bold">¿Necesitas ayuda?</div>
             <div className="text-[#F5F5F5]/55 text-sm mt-1">Te ayudamos al momento.</div>

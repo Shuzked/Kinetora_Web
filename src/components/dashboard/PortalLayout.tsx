@@ -14,9 +14,9 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] flex overflow-x-hidden">
+    <div className="bg-[#0D0D0D] flex h-dvh overflow-hidden overflow-x-hidden">
       {/* Desktop Sidebar */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block shrink-0">
         <DashboardSidebar />
       </div>
 
@@ -51,17 +51,15 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({ children }) => {
         )}
       </AnimatePresence>
 
-      <div className="flex-1 min-w-0 flex flex-col overflow-x-hidden">
-        <PortalTopBar
-          showMobileMenuButton
-          onOpenMobileMenu={() => setIsSidebarOpen(true)}
-        />
+      {/* Right panel (scrollable) */}
+      <div className="flex-1 min-w-0 flex flex-col h-dvh overflow-y-auto overflow-x-hidden">
+        <PortalTopBar showMobileMenuButton onOpenMobileMenu={() => setIsSidebarOpen(true)} />
 
-        <div className="flex-1 min-w-0">
+        <main className="flex-1 min-w-0">
           <div className="px-4 sm:px-6 lg:px-8 py-8 lg:py-10 max-w-[1400px] mx-auto w-full overflow-x-hidden">
             {children}
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );
