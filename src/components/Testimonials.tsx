@@ -94,7 +94,7 @@ const Testimonials = () => {
               <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
                 "{t.content}"
               </p>
-              <div className="flex items-center gap-4">
+              <div className="mt-auto flex items-center gap-4">
                 <img
                   src={t.avatar}
                   alt={t.name}
