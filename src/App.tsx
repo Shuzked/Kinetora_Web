@@ -2,82 +2,31 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Cases from "./pages/Cases";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Billing from "./pages/Billing";
 import NotFound from "./pages/NotFound";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
-import Requests from "./pages/Requests";
-import NewRequest from "./pages/NewRequest";
-import Files from "./pages/Files";
-import Support from "./pages/Support";
-import RequestDetail from "./pages/RequestDetail";
-import Notifications from "./pages/Notifications";
-import Profile from "./pages/Profile";
-import Settings from "./pages/Settings";
-import { NotificationsProvider } from "./providers/NotificationsProvider";
-import { RequestsProvider } from "./providers/RequestsProvider";
 import { I18nProvider } from "@/i18n/I18nProvider";
-import Checkout from "./pages/Checkout";
-import { AuthProvider } from "@/providers/AuthProvider";
 
 const queryClient = new QueryClient();
-
-const ConditionalScrollUI = () => {
-  const location = useLocation();
-  const isDashboard = location.pathname.startsWith("/dashboard");
-  if (isDashboard) return null;
-  return (
-    <>
-      <ScrollProgress />
-      <ScrollToTop />
-    </>
-  );
-};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <I18nProvider>
-        <AuthProvider>
-          <Toaster />
-          <Sonner />
-          <NotificationsProvider>
-            <RequestsProvider>
-              <BrowserRouter>
-                <ConditionalScrollUI />
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/casos" element={<Cases />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/checkout" element={<Checkout />} />
-
-                  {/* Portal */}
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/dashboard/requests" element={<Requests />} />
-                  <Route path="/dashboard/requests/:id" element={<RequestDetail />} />
-                  <Route path="/dashboard/new" element={<NewRequest />} />
-                  <Route path="/dashboard/files" element={<Files />} />
-                  <Route path="/dashboard/billing" element={<Billing />} />
-                  <Route path="/dashboard/support" element={<Support />} />
-                  <Route path="/dashboard/notifications" element={<Notifications />} />
-                  <Route path="/dashboard/profile" element={<Profile />} />
-                  <Route path="/dashboard/settings" element={<Settings />} />
-
-                  {/* Aliases */}
-                  <Route path="/dashboard/projects" element={<Navigate to="/dashboard/requests" replace />} />
-                  <Route path="/dashboard/messages" element={<Navigate to="/dashboard/support" replace />} />
-
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </BrowserRouter>
-            </RequestsProvider>
-          </NotificationsProvider>
-        </AuthProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollProgress />
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/casos" element={<Cases />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
       </I18nProvider>
     </TooltipProvider>
   </QueryClientProvider>
