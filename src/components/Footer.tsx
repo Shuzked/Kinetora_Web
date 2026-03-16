@@ -97,6 +97,7 @@ const Footer = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: "easeOut" }}
+            className="flex flex-col items-center text-center lg:items-start lg:text-left"
           >
             <Logo className="h-6 mb-4" />
             <p className="text-[#F5F5F5]/80 text-sm mb-3">
@@ -150,7 +151,7 @@ const Footer = () => {
                 <FaInstagram className="h-4 w-4" />
               </a>
             </div>
-            <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm font-semibold text-[#F5F5F5]/80">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-2 text-sm font-semibold text-[#F5F5F5]/80">
               <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
                 {strings.legal1}
               </a>
@@ -165,7 +166,7 @@ const Footer = () => {
 
           <MouseParallax intensity={8} rotate={3} className="will-change-transform">
           <motion.div
-            className="flex flex-col items-start lg:items-end text-center lg:text-right"
+            className="flex flex-col items-center lg:items-end text-center lg:text-right"
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

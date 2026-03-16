@@ -60,8 +60,15 @@ const Navbar = () => {
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="h-full flex items-center justify-start min-w-0">
-          <Link to="/" className="hover:opacity-80 transition-opacity">
-            <Logo className="h-6" />
+          <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
+            <img
+              src="/favicon.svg"
+              alt="Kinetora"
+              className="h-6 w-6 md:hidden"
+            />
+            <span className="hidden md:inline-flex">
+              <Logo className="h-6" />
+            </span>
           </Link>
         </div>
 
@@ -83,7 +90,7 @@ const Navbar = () => {
 
         <div className="h-full flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
           <LanguageSwitcher hideOnSmall />
-          <Link to="/#contacto" className="shrink-0">
+          <Link to="/#contacto" className="shrink-0 hidden md:inline-flex">
             <PremiumButton variant="primary" size="md" className="leading-none">
               {t("nav.start").toUpperCase()}
             </PremiumButton>
@@ -112,14 +119,7 @@ const Navbar = () => {
                       {link.name}
                     </SmoothScrollLink>
                   ))}
-
                   <LanguagePills />
-
-                  <Link to="/#contacto">
-                    <PremiumButton variant="primary" size="md" className="w-full mt-2">
-                      {t("nav.start").toUpperCase()}
-                    </PremiumButton>
-                  </Link>
                 </div>
               </SheetContent>
             </Sheet>
