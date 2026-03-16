@@ -14,7 +14,7 @@ export const dictionaries: Dictionaries = {
     "nav.plans": "Planes",
     "nav.contact": "Contacto",
     "nav.login": "Login",
-    "nav.start": "Empezar",
+    "nav.start": "Ir al portal",
 
     "portal.title": "Portal del Cliente",
     "portal.notifications": "Notificaciones",
@@ -30,7 +30,7 @@ export const dictionaries: Dictionaries = {
     "nav.plans": "Pricing",
     "nav.contact": "Contact",
     "nav.login": "Log in",
-    "nav.start": "Get started",
+    "nav.start": "Go to portal",
 
     "portal.title": "Client Portal",
     "portal.notifications": "Notifications",

@@ -92,12 +92,7 @@ const Navbar = () => {
         <div className="h-full flex items-center justify-end gap-2.5 md:gap-6">
           <LanguageSwitcher hideOnSmall />
 
-          <Link to="/login" className="hidden sm:block">
-            <button className="inline-flex items-center justify-center h-10 md:h-12 px-3 text-[12px] leading-none font-bold text-[#F5F5F5]/70 hover:text-[#F5F5F5] transition-colors">
-              {t("nav.login").toUpperCase()}
-            </button>
-          </Link>
-          <Link to="/login">
+          <Link to="/dashboard">
             <PremiumButton variant="primary" size="md" className="leading-none">
               {t("nav.start").toUpperCase()}
             </PremiumButton>
@@ -130,10 +125,6 @@ const Navbar = () => {
 
                   <LanguagePills />
 
-                  <hr className="border-[#2A2A2A]" />
-                  <Link to="/login" className="text-xl font-black uppercase tracking-titter hover:text-[#B454FF]">
-                    {t("nav.login").toUpperCase()}
-                  </Link>
                 </div>
               </SheetContent>
             </Sheet>
