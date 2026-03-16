@@ -52,14 +52,6 @@
     @apply relative z-10;
   }
 
-  /* Dashboard: right panel padding with safe gutters */
-  .kin-panel {
-    padding-left: clamp(1rem, 2.5vw, 2rem);
-    padding-right: clamp(1rem, 2.5vw, 2rem);
-    padding-top: clamp(1.25rem, 2.2vw, 2.5rem);
-    padding-bottom: clamp(1.25rem, 2.2vw, 2.5rem);
-  }
-
   /* Rounded, bordered blocks spacing standard */
   .kin-card {
     @apply rounded-2xl border border-white/10 bg-white/[0.04];
@@ -84,6 +76,29 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Marquee (Brands) */
+  .marquee-track {
+    animation-name: kinetora-marquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+}
+
+@keyframes kinetora-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    transform: translateX(0) !important;
   }
 }
 
