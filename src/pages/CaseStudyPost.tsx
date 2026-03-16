@@ -17,6 +17,7 @@ import {
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import { translateHtmlEsToEn, isLikelySpanish, translateTextEsToEn } from "@/utils/translate";
+import { caseContentOverrides } from "@/data/caseOverrides";
 
 type WPPost = {
   slug?: string;
@@ -435,10 +436,17 @@ const CaseStudyPost = () => {
   const { textHtml, mediaHtml } = React.useMemo(() => {
     const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
     const withEmbeds = cs?.embeds?.length ? injectEmbedsAtPoints(base, cs.embeds) : base;
-    // Dividir primero y traducir SIEMPRE el bloque textual cuando el idioma es EN
     const split = splitWpContentIntoTextAndMedia(withEmbeds);
-    const translatedText = lang === "en" ? translateHtmlEsToEn(split.textHtml) : split.textHtml;
-    return { textHtml: translatedText, mediaHtml: split.mediaHtml };
+    // Si hay override EN para este caso y el idioma es EN, úsalo; si no, traducir el texto
+    if (lang === "en" && cs) {
+      const override = caseContentOverrides[cs.slug]?.enTextHtml;
+      if (override) {
+        const safeOverride = sanitizeWpHtml(override);
+        return { textHtml: safeOverride, mediaHtml: split.mediaHtml };
+      }
+      return { textHtml: translateHtmlEsToEn(split.textHtml), mediaHtml: split.mediaHtml };
+    }
+    return { textHtml: split.textHtml, mediaHtml: split.mediaHtml };
   }, [post?.content?.rendered, cs, lang]);
 
   React.useEffect(() => {
