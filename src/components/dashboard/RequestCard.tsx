@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Clock, CheckCircle2, PlayCircle } from 'lucide-react';
+import { useI18n } from '@/i18n/I18nProvider';
 
 interface RequestCardProps {
   title: string;
@@ -11,11 +12,28 @@ interface RequestCardProps {
 }
 
 const RequestCard = ({ title, status, date, type }: RequestCardProps) => {
+  const { lang } = useI18n();
+
   const statusConfig = {
-    pending: { icon: Clock, color: 'text-yellow-500', bg: 'bg-yellow-500/10', label: 'En cola' },
-    'in-progress': { icon: PlayCircle, color: 'text-[#B454FF]', bg: 'bg-[#B454FF]/10', label: 'Diseñando' },
-    completed: { icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-500/10', label: 'Entregado' }
-  };
+    pending: {
+      icon: Clock,
+      color: 'text-yellow-500',
+      bg: 'bg-yellow-500/10',
+      label: lang === 'es' ? 'En cola' : 'Queued',
+    },
+    'in-progress': {
+      icon: PlayCircle,
+      color: 'text-[#B454FF]',
+      bg: 'bg-[#B454FF]/10',
+      label: lang === 'es' ? 'Diseñando' : 'In progress',
+    },
+    completed: {
+      icon: CheckCircle2,
+      color: 'text-green-500',
+      bg: 'bg-green-500/10',
+      label: lang === 'es' ? 'Entregado' : 'Delivered',
+    },
+  } as const;
 
   const config = statusConfig[status];
 
@@ -32,12 +50,14 @@ const RequestCard = ({ title, status, date, type }: RequestCardProps) => {
       </div>
       
       <h3 className="text-[#F5F5F5] font-bold text-lg mb-2 group-hover:text-[#B454FF] transition-colors">{title}</h3>
-      <p className="text-[#F5F5F5]/55 text-[10px] font-bold uppercase tracking-widest">Solicitado el {date}</p>
+      <p className="text-[#F5F5F5]/55 text-[10px] font-bold uppercase tracking-widest">
+        {lang === 'es' ? 'Solicitado el' : 'Requested on'} {date}
+      </p>
       
       {status === 'in-progress' && (
         <div className="mt-6">
           <div className="flex justify-between text-[9px] font-black uppercase tracking-widest text-[#F5F5F5]/55 mb-2">
-            <span>Progreso</span>
+            <span>{lang === 'es' ? 'Progreso' : 'Progress'}</span>
             <span>75%</span>
           </div>
           <div className="h-1 w-full bg-[#0D0D0D] rounded-full overflow-hidden">
