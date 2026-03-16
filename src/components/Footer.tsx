@@ -151,7 +151,7 @@ const Footer = () => {
                 <FaInstagram className="h-4 w-4" />
               </a>
             </div>
-            <div className="flex flex-wrap justify-center lg:justify-start gap-x-8 gap-y-2 text-sm font-semibold text-[#F5F5F5]/80">
+            <div className="flex flex-col items-center lg:flex-row lg:justify-start gap-2 lg:gap-x-8 text-sm font-semibold text-[#F5F5F5]/80">
               <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
                 {strings.legal1}
               </a>

@@ -54,18 +54,14 @@ const Navbar = () => {
       />
 
       <motion.div
-        className="kin-container grid grid-cols-[1fr_auto_1fr] items-center h-[68px] md:h-[88px] relative"
+        className="kin-container grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center h-[68px] md:h-[88px] relative"
         initial={{ y: -8, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="h-full flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
-            <img
-              src="/favicon.svg"
-              alt="Kinetora"
-              className="h-6 w-6 md:hidden"
-            />
+            <img src="/favicon.svg" alt="Kinetora" className="h-8 w-8 md:hidden" />
             <span className="hidden md:inline-flex">
               <Logo className="h-6" />
             </span>
