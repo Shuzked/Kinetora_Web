@@ -156,10 +156,17 @@
     margin-bottom: 1.4rem;
   }
 
-  .wp-post__content img {
+  .wp-post__content img,
+  .wp-post__content video {
     border-radius: 1.35rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 18px 70px rgba(0, 0, 0, 0.35);
+  }
+
+  .wp-post__content video {
+    width: 100%;
+    height: auto;
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .wp-post__content figcaption {
