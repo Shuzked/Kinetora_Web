@@ -101,6 +101,16 @@ const Testimonials = () => {
           ],
         };
 
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(max-width: 767px)").matches;
+  const off = prefersReduced || isMobile;
+
   return (
     <section className="kin-section relative overflow-hidden">
       <div className="kin-container">
@@ -117,8 +127,8 @@ const Testimonials = () => {
               <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                 <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                   <motion.div
+                    initial={{ opacity: 0, y: off ? 0 : 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    initial={{ opacity: 0, y: 20 }}
                     viewport={{ once: true }}
                     transition={{ delay: (i % 3) * 0.08 }}
                     className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"

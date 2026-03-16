@@ -93,8 +93,8 @@ const ValueProp = () => {
 
       <div className="kin-container">
         {/* ambient glow (soft, no hard cuts) */}
-        <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/10 blur-[110px] z-0" />
-        <div className="pointer-events-none absolute -bottom-36 -right-28 h-[26rem] w-[26rem] rounded-full bg-[#5EEAD4]/5 blur-[120px] z-0" />
+        <div className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 sm:h-80 sm:w-80 md:h-96 md:w-96 rounded-full bg-[#B454FF]/10 blur-[60px] sm:blur-[90px] md:blur-[110px] z-0" />
+        <div className="pointer-events-none absolute -bottom-28 -right-20 h-72 w-72 sm:h-[22rem] sm:w-[22rem] md:h-[26rem] md:w-[26rem] rounded-full bg-[#5EEAD4]/5 blur-[70px] sm:blur-[100px] md:blur-[120px] z-0" />
         
         {/* content */}
         <div className="relative z-10">

@@ -50,8 +50,8 @@ const Brands = () => {
         <div className="relative h-12 sm:h-14" data-animate="always" ref={wrapperRef}>
           <div
             ref={trackRef}
-            className="marquee-track absolute inset-y-0 left-0 flex items-center gap-10 sm:gap-12 md:gap-24 min-w-max will-change-transform"
-            style={{ animationDuration: "55s" }}
+            className="marquee-track absolute inset-y-0 left-0 flex items-center gap-6 sm:gap-10 md:gap-24 min-w-max will-change-transform"
+            style={{ animationDuration: "70s" }}
           >
             {items.map((brand, i) => (
               <div

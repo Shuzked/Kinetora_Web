@@ -42,8 +42,9 @@ const Navbar = () => {
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
         style={{
           opacity: progress,
-          backdropFilter: blurMV as any,
-          WebkitBackdropFilter: blurMV as any,
+          // En móvil evitamos el blur costoso (deja solo un fondo semitransparente)
+          backdropFilter: typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches ? (blurMV as any) : undefined,
+          WebkitBackdropFilter: typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches ? (blurMV as any) : undefined,
           backgroundColor: bgMV as any,
         }}
       />
