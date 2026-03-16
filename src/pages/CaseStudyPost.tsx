@@ -240,11 +240,6 @@ const sanitizeWpHtml = (html: string) => {
   return doc.body.innerHTML;
 };
 
-const canScroll = (el: HTMLElement, deltaY: number) => {
-  if (deltaY > 0) return el.scrollTop + el.clientHeight < el.scrollHeight - 1;
-  return el.scrollTop > 0;
-};
-
 const CaseStudyPost = () => {
   const { lang } = useI18n();
   const { slug } = useParams();
@@ -257,9 +252,9 @@ const CaseStudyPost = () => {
   const [post, setPost] = React.useState<WPPost | null>(null);
   const [loading, setLoading] = React.useState(true);
 
-  const textColRef = React.useRef<HTMLDivElement | null>(null);
-  const mediaColRef = React.useRef<HTMLDivElement | null>(null);
-  const dualColRef = React.useRef<HTMLDivElement | null>(null);
+  const textWrapRef = React.useRef<HTMLElement | null>(null);
+  const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
+  const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
 
   const [meta, setMeta] = React.useState<
     Record<
@@ -332,42 +327,6 @@ const CaseStudyPost = () => {
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as any });
   }, [slug]);
-
-  React.useEffect(() => {
-    const root = dualColRef.current;
-    if (!root) return;
-
-    const onWheel = (e: WheelEvent) => {
-      // Only intercept when the 2-col section is active on desktop.
-      if (window.matchMedia("(min-width: 1024px)").matches === false) return;
-
-      const textEl = textColRef.current;
-      const mediaEl = mediaColRef.current;
-      if (!textEl || !mediaEl) return;
-
-      const dy = e.deltaY;
-      if (dy === 0) return;
-
-      const textCan = canScroll(textEl, dy);
-      const mediaCan = canScroll(mediaEl, dy);
-
-      // Priority: keep reading flow in text first, then media.
-      if (textCan) {
-        e.preventDefault();
-        textEl.scrollTop += dy;
-        return;
-      }
-      if (mediaCan) {
-        e.preventDefault();
-        mediaEl.scrollTop += dy;
-        return;
-      }
-      // If neither can scroll further, allow page scroll.
-    };
-
-    root.addEventListener("wheel", onWheel, { passive: false });
-    return () => root.removeEventListener("wheel", onWheel as any);
-  }, []);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -464,6 +423,37 @@ const CaseStudyPost = () => {
     return splitWpContentIntoTextAndMedia(withEmbeds);
   }, [post?.content?.rendered, cs]);
 
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!window.matchMedia("(min-width: 1024px)").matches) {
+      setStickySide(null);
+      return;
+    }
+
+    const textEl = textWrapRef.current;
+    const mediaEl = mediaWrapRef.current;
+    if (!textEl || !mediaEl) return;
+
+    const compute = () => {
+      const th = textEl.offsetHeight;
+      const mh = mediaEl.offsetHeight;
+      if (!th || !mh) return;
+      setStickySide(th <= mh ? "left" : "right");
+    };
+
+    compute();
+
+    const ro = new ResizeObserver(() => compute());
+    ro.observe(textEl);
+    ro.observe(mediaEl);
+
+    window.addEventListener("resize", compute);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", compute);
+    };
+  }, [textHtml, mediaHtml]);
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
@@ -515,59 +505,55 @@ const CaseStudyPost = () => {
                 </div>
               ) : (
                 <div className="space-y-8">
-                  <section
-                    ref={dualColRef}
-                    className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 lg:h-[calc(100vh-220px)] lg:overflow-hidden"
-                  >
-                    <article className="wp-post lg:h-full">
+                  <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 items-start">
+                    <article
+                      ref={textWrapRef}
+                      className={`wp-post self-start ${stickySide === "left" ? "lg:sticky lg:top-[108px]" : ""}`}
+                    >
                       <div className="flex items-center justify-between gap-4 mb-5">
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
                           {ui.textCol}
                         </div>
                       </div>
 
-                      <div
-                        ref={textColRef}
-                        className="lg:h-[calc(100%-1.75rem)] lg:overflow-auto no-scrollbar"
-                      >
-                        {loading ? (
-                          <div className="space-y-4">
-                            <Skeleton className="h-4 w-4/5" />
-                            <Skeleton className="h-4 w-3/5" />
-                            <Skeleton className="h-4 w-4/6" />
-                            <Skeleton className="h-48 w-full rounded-2xl" />
-                            <Skeleton className="h-4 w-5/6" />
-                            <Skeleton className="h-4 w-3/4" />
-                          </div>
-                        ) : (
-                          <div
-                            className="wp-post__content"
-                            dangerouslySetInnerHTML={{ __html: textHtml }}
-                          />
-                        )}
-                      </div>
+                      {loading ? (
+                        <div className="space-y-4">
+                          <Skeleton className="h-4 w-4/5" />
+                          <Skeleton className="h-4 w-3/5" />
+                          <Skeleton className="h-4 w-4/6" />
+                          <Skeleton className="h-48 w-full rounded-2xl" />
+                          <Skeleton className="h-4 w-5/6" />
+                          <Skeleton className="h-4 w-3/4" />
+                        </div>
+                      ) : (
+                        <div
+                          className="wp-post__content"
+                          dangerouslySetInnerHTML={{ __html: textHtml }}
+                        />
+                      )}
                     </article>
 
-                    <aside className="lg:h-full">
-                      <div className="wp-media h-full">
+                    <aside className="self-start">
+                      <div
+                        ref={mediaWrapRef}
+                        className={`wp-media ${stickySide === "right" ? "lg:sticky lg:top-[108px]" : ""}`}
+                      >
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
                           {ui.mediaCol}
                         </div>
 
-                        <div ref={mediaColRef} className="lg:h-[calc(100%-1.75rem)] lg:overflow-auto no-scrollbar">
-                          {loading ? (
-                            <div className="space-y-4">
-                              <Skeleton className="h-48 w-full rounded-2xl" />
-                              <Skeleton className="h-48 w-full rounded-2xl" />
-                              <Skeleton className="h-48 w-full rounded-2xl" />
-                            </div>
-                          ) : (
-                            <div
-                              className="wp-post__content wp-post__media"
-                              dangerouslySetInnerHTML={{ __html: mediaHtml }}
-                            />
-                          )}
-                        </div>
+                        {loading ? (
+                          <div className="space-y-4">
+                            <Skeleton className="h-48 w-full rounded-2xl" />
+                            <Skeleton className="h-48 w-full rounded-2xl" />
+                            <Skeleton className="h-48 w-full rounded-2xl" />
+                          </div>
+                        ) : (
+                          <div
+                            className="wp-post__content wp-post__media"
+                            dangerouslySetInnerHTML={{ __html: mediaHtml }}
+                          />
+                        )}
                       </div>
                     </aside>
                   </section>
