@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import PremiumButton from "@/components/PremiumButton";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,20 +15,16 @@ import {
 } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
 import { useI18n } from "@/i18n/I18nProvider";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const Contact = () => {
   const { lang } = useI18n();
-
-  useEffect(() => {
-    const src = "https://assets.calendly.com/assets/external/widget.js";
-    const already = Array.from(document.scripts).some((s) => s.src === src);
-    if (!already) {
-      const script = document.createElement("script");
-      script.src = src;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  }, []);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -38,6 +34,10 @@ const Contact = () => {
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [openModal, setOpenModal] = useState(false);
+
+  const calendlyUrl =
+    "https://calendly.com/hello-kinetora/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0d0d0d&text_color=ffffff&primary_color=b454ff";
 
   const strings =
     lang === "es"
@@ -71,6 +71,12 @@ const Contact = () => {
             { v: "50k+", l: "Más de 50.000€" },
           ],
           ariaSend: "Enviar consulta",
+          // Modal
+          modalTitle: "Mensaje recibido",
+          modalDesc:
+            "Tu mensaje ha llegado correctamente. Si quieres, puedes reservar una reunión con nosotros ahora.",
+          modalCTA: "Reservar reunión",
+          modalClose: "Cerrar",
         }
       : {
           badge: "Contact",
@@ -101,6 +107,12 @@ const Contact = () => {
             { v: "50k+", l: "More than €50,000" },
           ],
           ariaSend: "Send inquiry",
+          // Modal
+          modalTitle: "Message received",
+          modalDesc:
+            "Your message has been delivered. If you'd like, you can book a meeting with us now.",
+          modalCTA: "Book a meeting",
+          modalClose: "Close",
         };
 
   const validate = () => {
@@ -113,23 +125,29 @@ const Contact = () => {
     return next;
   };
 
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const v = validate();
     setErrors(v);
     if (Object.keys(v).length > 0) return;
 
     setLoading(true);
+
+    // Envío real: lo conectaremos a Supabase tras integrar (seguro para claves/SMTP).
+    // Por ahora mantenemos la UX: confirmación + modal con CTA a Calendly.
     setTimeout(() => {
       setLoading(false);
       showSuccess(strings.success);
+      setOpenModal(true);
+
+      // Reset form
       setName("");
       setEmail("");
       setCompany("");
       setBudget("");
       setMessage("");
       setConsent(false);
-    }, 900);
+    }, 700);
   };
 
   return (
@@ -156,8 +174,8 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-stretch">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full flex flex-col">
+        <div className="max-w-3xl mx-auto">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full">
             <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
@@ -256,16 +274,36 @@ const Contact = () => {
               </div>
             </form>
           </div>
-
-          <div className="rounded-[2rem] border border-white/10 bg-[#0D0D0D] overflow-hidden w-full h-full min-h-[760px] sm:min-h-[800px] lg:min-h-[860px] flex">
-            <div
-              className="calendly-inline-widget w-full h-full min-w-[320px]"
-              data-url="https://calendly.com/hello-kinetora/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0d0d0d&text_color=ffffff&primary_color=b454ff"
-              style={{ height: "100%" }}
-            />
-          </div>
         </div>
       </div>
+
+      <Dialog open={openModal} onOpenChange={setOpenModal}>
+        <DialogContent className="bg-[#111111] border-white/10 text-[#F5F5F5] rounded-2xl max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black">{strings.modalTitle}</DialogTitle>
+            <DialogDescription className="text-[#F5F5F5]/70">
+              {strings.modalDesc}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => setOpenModal(false)}
+              className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-colors"
+            >
+              {strings.modalClose}
+            </button>
+            <a
+              href={calendlyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-colors"
+            >
+              {strings.modalCTA}
+            </a>
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
