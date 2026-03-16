@@ -77,8 +77,7 @@ const ISSUER = {
   cityCountry: "PRIEGO DE CÓRDOBA, CÓRDOBA, ESPAÑA",
   address: "HUERTO DE SAN FRANCISCO, 1, 14800",
   taxId: "ES-31026286E",
-  phone: "660535541",
-  email: "rmunozvalverde1@gmail.com",
+  email: "hello@kinetora.tech",
 };
 
 /**
@@ -127,34 +126,30 @@ export async function generateInvoicePdf(
   // Fondo
   page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: pageBg });
 
-  // Cabecera con logo y meta
-  const headerTopY = pageH - M + 8;
-  // Logo
-  let logoDrawn = false;
+  // Cabecera simple
+  // Logotipo (SVG -> PNG)
   try {
     const pngBytes = await svgToPngBytes("/Logotipo.svg", 120);
     const logoPng = await pdfDoc.embedPng(pngBytes);
     const logoW = 120;
     const scale = logoW / logoPng.width;
     const logoH = logoPng.height * scale;
-    page.drawImage(logoPng, { x: M, y: headerTopY - logoH, width: logoW, height: logoH });
-    logoDrawn = true;
+    page.drawImage(logoPng, { x: M, y: pageH - 84 - logoH + 28, width: logoW, height: logoH });
   } catch {
-    // Fallback: nombre si no hay logo
-    draw("KINETORA", M, headerTopY - 16, 20, true, textLight);
+    // Fallback: si el SVG no carga, mostramos el nombre
+    draw("Kinetora", M, pageH - 80, 20, true, textLight);
   }
 
   // Meta de factura (alineada a derecha)
-  const metaY1 = headerTopY - (logoDrawn ? 6 : 10);
-  drawRight("FACTURA", rightX, metaY1, 14, true, textLight);
-  drawRight(`Nº: ${invoice.id}`, rightX, metaY1 - 18, 11, false, textDim);
-  drawRight(`Fecha: ${invoice.date}`, rightX, metaY1 - 34, 11, false, textDim);
+  drawRight("Factura", rightX, pageH - 78, 14, true, textLight);
+  drawRight(`Nº: ${invoice.id}`, rightX, pageH - 98, 11, false, textDim);
+  drawRight(`Fecha: ${invoice.date}`, rightX, pageH - 114, 11, false, textDim);
 
   // Separador bajo cabecera
-  line(M, metaY1 - 48, rightX - M);
+  line(M, pageH - 130, rightX - M);
 
   // Bloque Cliente (izquierda) y Emisor (derecha) en dos columnas
-  const infoTopY = metaY1 - 48 - innerGap;
+  const infoTopY = pageH - 130 - innerGap;
   // Columna izquierda: Cliente
   let yLeft = infoTopY;
   draw("Cliente", M, yLeft, 12, true, textLight);
@@ -174,8 +169,6 @@ export async function generateInvoicePdf(
   drawRight(ISSUER.address, rightX, yRight, 11, false, textDim);
   yRight -= innerGap;
   drawRight(`NIF: ${ISSUER.taxId}`, rightX, yRight, 11, false, textDim);
-  yRight -= innerGap;
-  drawRight(`Tel: ${ISSUER.phone}`, rightX, yRight, 11, false, textDim);
   if (ISSUER.email) { yRight -= innerGap; drawRight(ISSUER.email, rightX, yRight, 11, false, textDim); }
 
   // Espacio antes del detalle: tomamos el menor Y de ambas columnas y añadimos margen
@@ -240,7 +233,7 @@ export async function generateInvoicePdf(
   line(panelX + P, rowY - 10, panelW - P * 2);
 
   // Total alineado a la derecha dentro del panel
-  draw("TOTAL", colAmountRightX - 140, totalY, 11, true, textLight);
+  draw("Total", colAmountRightX - 140, totalY, 11, true, textLight);
   drawRight(invoice.amount, colAmountRightX, totalY, 16, true, brand);
 
   // Pie de página (siempre dentro de márgenes)
