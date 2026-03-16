@@ -60,6 +60,111 @@ function extractMetricKind(
   return { kind, value: rawValue };
 }
 
+const youtubeEmbedHtml = (src: string) => {
+  return `
+    <figure class="wp-block-embed">
+      <iframe
+        class="wp-embed"
+        src="${src}"
+        title="YouTube video player"
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+      ></iframe>
+    </figure>
+  `.trim();
+};
+
+const injectEmbedsForDunkLowElixir = (html: string) => {
+  if (typeof window === "undefined") return html;
+
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  const headings = Array.from(doc.querySelectorAll("h2, h3, h4"));
+  const isPointHeading = (el: Element, n: number) => {
+    const t = (el.textContent || "").trim();
+    if (new RegExp(`\\b(?:punto|point)\\s*${n}\\b`, "i").test(t)) return true;
+    return (
+      new RegExp(`^${n}\\s*[.)\\-:]`, "i").test(t) ||
+      new RegExp(`^${n}\\s+`, "i").test(t)
+    );
+  };
+
+  const findPointIdx = (n: number) => headings.findIndex((h) => isPointHeading(h, n));
+
+  const insertBeforeNextPoint = (point: number, htmlToInsert: string) => {
+    const i = findPointIdx(point);
+    if (i === -1) return;
+
+    const nextPoint = point + 1;
+    const nextHeading = headings.slice(i + 1).find((h) => isPointHeading(h, nextPoint));
+
+    const marker = doc.createElement("div");
+    marker.innerHTML = htmlToInsert;
+
+    // Avoid duplicates if the video was already embedded in WP.
+    const srcMatch = marker.querySelector("iframe")?.getAttribute("src");
+    if (srcMatch && doc.querySelector(`iframe[src='${CSS.escape(srcMatch)}']`)) return;
+
+    if (nextHeading && nextHeading.parentNode) {
+      nextHeading.parentNode.insertBefore(marker, nextHeading);
+    } else {
+      doc.body.appendChild(marker);
+    }
+  };
+
+  insertBeforeNextPoint(1, youtubeEmbedHtml("https://www.youtube.com/embed/SmxMZZUsqIo?si=waoMk9O97NIoHM6a"));
+  insertBeforeNextPoint(3, youtubeEmbedHtml("https://www.youtube.com/embed/6FQVlBRWU-Y?si=XcaTft1ptmHXEQV-"));
+
+  return doc.body.innerHTML;
+};
+
+const splitWpContentIntoTextAndMedia = (html: string) => {
+  if (typeof window === "undefined") return { textHtml: html, mediaHtml: "" };
+
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  const mediaSelectors = [
+    "iframe",
+    "video",
+    "img",
+    "figure",
+    ".wp-block-image",
+    ".wp-block-embed",
+    ".wp-block-video",
+    ".wp-block-gallery",
+    ".blocks-gallery-grid",
+  ];
+
+  const mediaEls = Array.from(doc.body.querySelectorAll(mediaSelectors.join(",")));
+
+  // Keep order as in the original document.
+  const mediaHtml = mediaEls
+    .map((el) => {
+      // Prefer the wrapping block if available.
+      const wrapper = el.closest("figure, .wp-block-embed, .wp-block-image, .wp-block-video, .wp-block-gallery, .blocks-gallery-grid");
+      return (wrapper || el).outerHTML;
+    })
+    // Deduplicate adjacent duplicates from nested selections
+    .filter((v, i, arr) => (i === 0 ? true : v !== arr[i - 1]))
+    .join("\n");
+
+  // Remove media from the text version.
+  mediaEls.forEach((el) => {
+    const wrapper = el.closest("figure, .wp-block-embed, .wp-block-image, .wp-block-video, .wp-block-gallery, .blocks-gallery-grid");
+    (wrapper || el).remove();
+  });
+
+  // Remove empty paragraphs/headings left behind.
+  Array.from(doc.body.querySelectorAll("p, h2, h3, h4, li"))
+    .filter((n) => !(n.textContent || "").trim() && n.children.length === 0)
+    .forEach((n) => n.remove());
+
+  return { textHtml: doc.body.innerHTML, mediaHtml };
+};
+
 const sanitizeWpHtml = (html: string) => {
   // Allow common WP embeds while keeping things safe.
   const clean = DOMPurify.sanitize(html, {
@@ -81,6 +186,9 @@ const sanitizeWpHtml = (html: string) => {
       "preload",
       "src",
       "type",
+      "title",
+      "width",
+      "height",
     ],
   });
 
@@ -112,7 +220,6 @@ const sanitizeWpHtml = (html: string) => {
         return;
       }
       f.setAttribute("loading", "lazy");
-      f.setAttribute("referrerpolicy", "no-referrer");
       f.classList.add("wp-embed");
     } catch {
       f.remove();
@@ -188,6 +295,8 @@ const CaseStudyPost = () => {
           moreResults: "Más resultados",
           viewAll: "Ver todos",
           readMore: "Leer más",
+          textCol: "Lo que hicimos",
+          mediaCol: "Entregables",
         }
       : {
           back: "Back to cases",
@@ -199,6 +308,8 @@ const CaseStudyPost = () => {
           moreResults: "More results",
           viewAll: "View all",
           readMore: "Read more",
+          textCol: "What we did",
+          mediaCol: "Deliverables",
         };
 
   React.useEffect(() => {
@@ -297,7 +408,11 @@ const CaseStudyPost = () => {
   const featuredAlt = post?._embedded?.["wp:featuredmedia"]?.[0]?.alt_text;
   const cover = featured || cs?.coverImage;
 
-  const contentHtml = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
+  const { textHtml, mediaHtml } = React.useMemo(() => {
+    const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
+    const withDunkEmbeds = slug === "dunk-low-elixir-edition" ? injectEmbedsForDunkLowElixir(base) : base;
+    return splitWpContentIntoTextAndMedia(withDunkEmbeds);
+  }, [post?.content?.rendered, slug]);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -392,23 +507,51 @@ const CaseStudyPost = () => {
                   transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
                   className="space-y-8"
                 >
-                  <article className="wp-post">
-                    {loading ? (
-                      <div className="space-y-4">
-                        <Skeleton className="h-4 w-4/5" />
-                        <Skeleton className="h-4 w-3/5" />
-                        <Skeleton className="h-4 w-4/6" />
-                        <Skeleton className="h-48 w-full rounded-2xl" />
-                        <Skeleton className="h-4 w-5/6" />
-                        <Skeleton className="h-4 w-3/4" />
+                  <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8">
+                    <article className="wp-post">
+                      <div className="flex items-center justify-between gap-4 mb-5">
+                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                          {ui.textCol}
+                        </div>
                       </div>
-                    ) : (
-                      <div
-                        className="wp-post__content"
-                        dangerouslySetInnerHTML={{ __html: contentHtml }}
-                      />
-                    )}
-                  </article>
+
+                      {loading ? (
+                        <div className="space-y-4">
+                          <Skeleton className="h-4 w-4/5" />
+                          <Skeleton className="h-4 w-3/5" />
+                          <Skeleton className="h-4 w-4/6" />
+                          <Skeleton className="h-48 w-full rounded-2xl" />
+                          <Skeleton className="h-4 w-5/6" />
+                          <Skeleton className="h-4 w-3/4" />
+                        </div>
+                      ) : (
+                        <div
+                          className="wp-post__content"
+                          dangerouslySetInnerHTML={{ __html: textHtml }}
+                        />
+                      )}
+                    </article>
+
+                    <aside className="lg:sticky lg:top-[108px] self-start">
+                      <div className="wp-media">
+                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
+                          {ui.mediaCol}
+                        </div>
+                        {loading ? (
+                          <div className="space-y-4">
+                            <Skeleton className="h-48 w-full rounded-2xl" />
+                            <Skeleton className="h-48 w-full rounded-2xl" />
+                            <Skeleton className="h-48 w-full rounded-2xl" />
+                          </div>
+                        ) : (
+                          <div
+                            className="wp-post__content wp-post__media"
+                            dangerouslySetInnerHTML={{ __html: mediaHtml }}
+                          />
+                        )}
+                      </div>
+                    </aside>
+                  </section>
 
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
@@ -548,6 +691,12 @@ const CaseStudyPost = () => {
                       <CarouselPrevious className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
                       <CarouselNext className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
                     </Carousel>
+
+                    <div className="mt-6 sm:hidden">
+                      <p className="text-center text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/55">
+                        {lang === "es" ? "Desliza para ver más" : "Swipe to see more"}
+                      </p>
+                    </div>
                   </motion.section>
                 </motion.div>
               )}
