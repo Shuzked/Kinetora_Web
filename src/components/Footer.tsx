@@ -158,7 +158,7 @@ const Footer = () => {
                 <FaInstagram className="h-4 w-4" />
               </a>
             </div>
-            <div className="flex flex-col items-center gap-2 text-sm font-semibold text-[#F5F5F5]/80">
+            <div className="flex flex-col items-start gap-2 text-sm font-semibold text-[#F5F5F5]/80 text-left">
               {strings.legal.map((item) => (
                 <Link
                   key={item.to}

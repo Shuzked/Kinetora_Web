@@ -10,10 +10,12 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
   }
 
   body {
     @apply bg-[#0D0D0D] text-[#F5F5F5];
+    overflow-x: clip;
   }
 
   /* Clamp heading sizes for better scaling between mobile and desktop */
@@ -321,6 +323,11 @@
   /* Clamp paragraph measure for readability */
   .kin-prose {
     max-width: 68ch;
+  }
+
+  /* Ensure main layout never causes horizontal scroll */
+  main {
+    overflow-x: clip;
   }
 
   /* Soft vertical fade using mask-image to avoid visible color cuts between sections */
