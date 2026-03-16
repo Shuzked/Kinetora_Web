@@ -7,6 +7,10 @@ import Index from "./pages/Index";
 import Cases from "./pages/Cases";
 import CaseStudyPost from "./pages/CaseStudyPost";
 import NotFound from "./pages/NotFound";
+import LegalNotice from "./pages/LegalNotice";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiesPolicy from "./pages/CookiesPolicy";
+import SocialPrivacyPolicy from "./pages/SocialPrivacyPolicy";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -29,6 +33,10 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/casos" element={<Cases />} />
               <Route path="/casos/:slug" element={<CaseStudyPost />} />
+              <Route path="/legal/aviso-legal" element={<LegalNotice />} />
+              <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
+              <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
+              <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const { lang } = useI18n();
@@ -39,9 +40,12 @@ const Footer = () => {
           errConsent: "Debes aceptar el consentimiento para suscribirte.",
           toast: "¡Gracias por suscribirte! Te enviaremos descuentos y novedades de Kinetora.",
           inlineOk: "¡Listo! Revisa tu bandeja para confirmar la suscripción.",
-          legal1: "Términos y condiciones",
-          legal2: "Política de privacidad",
-          legal3: "Cookies",
+          legal: [
+            { label: "Aviso Legal", to: "/legal/aviso-legal" },
+            { label: "Política de privacidad", to: "/legal/politica-privacidad" },
+            { label: "Política de cookies", to: "/legal/politica-cookies" },
+            { label: "Política de privacidad y redes sociales", to: "/legal/privacidad-redes-sociales" },
+          ],
           rights: "Todos los derechos reservados.",
         }
       : {
@@ -58,9 +62,12 @@ const Footer = () => {
           errConsent: "You must accept consent to subscribe.",
           toast: "Thanks for subscribing! We'll send you discounts and Kinetora updates.",
           inlineOk: "All set! Check your inbox to confirm your subscription.",
-          legal1: "Terms & Conditions",
-          legal2: "Privacy Policy",
-          legal3: "Cookie Settings",
+          legal: [
+            { label: "Legal Notice", to: "/legal/aviso-legal" },
+            { label: "Privacy Policy", to: "/legal/politica-privacidad" },
+            { label: "Cookie Policy", to: "/legal/politica-cookies" },
+            { label: "Social Media & Privacy Policy", to: "/legal/privacidad-redes-sociales" },
+          ],
           rights: "All rights reserved.",
         };
 
@@ -152,15 +159,15 @@ const Footer = () => {
               </a>
             </div>
             <div className="flex flex-col items-center lg:flex-row lg:justify-start gap-2 lg:gap-x-8 text-sm font-semibold text-[#F5F5F5]/80">
-              <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
-                {strings.legal1}
-              </a>
-              <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
-                {strings.legal2}
-              </a>
-              <a href="#" className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded">
-                {strings.legal3}
-              </a>
+              {strings.legal.map((item) => (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="hover:text-[#B454FF] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </motion.div>
 
