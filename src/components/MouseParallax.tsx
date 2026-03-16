@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { motion, useMotionValue, useSpring, type MotionStyle } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 type MouseParallaxProps = {
@@ -86,7 +86,7 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
     reset();
   };
 
-  const style = useMemo(
+  const style = useMemo<MotionStyle | undefined>(
     () =>
       off
         ? undefined
@@ -98,7 +98,7 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
             rotateY: sry,
             scale: sScale,
             willChange: "transform",
-          } as React.CSSProperties,
+          },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [off]
   );
