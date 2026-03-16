@@ -22,19 +22,20 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { showSuccess } from "@/utils/toast";
 import { deliverables as allDeliverables, type Deliverable } from "@/data/deliverables";
 import { useRequests } from "@/hooks/use-requests";
-import type { RequestStatus, Priority, Attachment, Comment, ActivityItem } from "@/providers/RequestsProvider";
+import type {
+  RequestStatus,
+  Priority,
+  Attachment,
+  Comment,
+  ActivityItem,
+} from "@/providers/RequestsProvider";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar as DateCalendar } from "@/components/ui/calendar";
+import { useI18n } from "@/i18n/I18nProvider";
 
 const prioColor: Record<Priority, string> = {
   alta: "text-red-300",
@@ -60,11 +61,11 @@ const tintFor = (t: ActivityItem["type"]) => {
   return "bg-white/10 text-[#F5F5F5] border-white/20";
 };
 
-const nowLabel = () => {
+const nowLabel = (lang: "es" | "en") => {
   const d = new Date();
   const hh = String(d.getHours()).padStart(2, "0");
   const mm = String(d.getMinutes()).padStart(2, "0");
-  return `Hoy, ${hh}:${mm}`;
+  return lang === "es" ? `Hoy, ${hh}:${mm}` : `Today, ${hh}:${mm}`;
 };
 
 const toISODate = (d: Date) => {
@@ -75,11 +76,100 @@ const toISODate = (d: Date) => {
 };
 
 const RequestDetail = () => {
+  const { lang } = useI18n();
+  const copy =
+    lang === "es"
+      ? {
+          back: "Volver a Mis Requests",
+          notFound: "Request no encontrada.",
+          statusPh: "Estado",
+          priorityPh: "Prioridad",
+          status: {
+            "in-progress": "En progreso",
+            review: "En revisión",
+            completed: "Completado",
+          } as Record<RequestStatus, string>,
+          prio: { alta: "alta", media: "media", baja: "baja" } as Record<Priority, string>,
+          openCalendar: "Abrir calendario",
+          saveChanges: "Guardar cambios",
+          metaUpdated: "Metadatos actualizados (título/estado/prioridad/fecha)",
+          changesSaved: "Cambios guardados.",
+          descUpdated: "Descripción actualizada",
+          descSaved: "Descripción actualizada.",
+          descTitle: "Descripción",
+          descSave: "Guardar",
+          descPh: "Describe con detalle el alcance, objetivos, referencias, etc.",
+          deliverablesTitle: "Entregables",
+          deliverablesSub: "Trabajo entregado por Kinetora para esta request.",
+          noDeliverables: "Todavía no hay entregables.",
+          download: "Descargar",
+          yourAttachments: "Tus adjuntos",
+          addAttachment: "Añadir adjunto",
+          noFiles: "No hay archivos. Sube alguno para empezar.",
+          attachmentsAdded: "Adjuntos añadidos.",
+          attachmentDeleted: "Adjunto eliminado.",
+          delete: "Eliminar",
+          notesTitle: "Notas",
+          notesSub: "Deja comentarios, feedback o tareas para este request.",
+          notePh: "Escribe tu nota para el equipo...",
+          sendNote: "Enviar nota",
+          noteSent: "Nota enviada.",
+          noteDeleted: "Nota eliminada.",
+          deleteNote: "Eliminar nota",
+          activityTitle: "Actividad",
+          noActivity: "Sin actividad todavía.",
+          idPrefix: "ID",
+          prioPrefix: "Prioridad",
+        }
+      : {
+          back: "Back to my requests",
+          notFound: "Request not found.",
+          statusPh: "Status",
+          priorityPh: "Priority",
+          status: {
+            "in-progress": "In progress",
+            review: "In review",
+            completed: "Completed",
+          } as Record<RequestStatus, string>,
+          prio: { alta: "high", media: "medium", baja: "low" } as Record<Priority, string>,
+          openCalendar: "Open calendar",
+          saveChanges: "Save changes",
+          metaUpdated: "Metadata updated (title/status/priority/date)",
+          changesSaved: "Changes saved.",
+          descUpdated: "Description updated",
+          descSaved: "Description updated.",
+          descTitle: "Description",
+          descSave: "Save",
+          descPh: "Describe scope, goals, references, and anything else that helps.",
+          deliverablesTitle: "Deliverables",
+          deliverablesSub: "Work delivered by Kinetora for this request.",
+          noDeliverables: "No deliverables yet.",
+          download: "Download",
+          yourAttachments: "Your attachments",
+          addAttachment: "Add attachment",
+          noFiles: "No files yet. Upload something to get started.",
+          attachmentsAdded: "Attachments added.",
+          attachmentDeleted: "Attachment removed.",
+          delete: "Delete",
+          notesTitle: "Notes",
+          notesSub: "Leave feedback, comments, or tasks for this request.",
+          notePh: "Write a note for the team...",
+          sendNote: "Send note",
+          noteSent: "Note sent.",
+          noteDeleted: "Note deleted.",
+          deleteNote: "Delete note",
+          activityTitle: "Activity",
+          noActivity: "No activity yet.",
+          idPrefix: "ID",
+          prioPrefix: "Priority",
+        };
+
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { getById, updateFields, addAttachments, removeAttachment, addComment, deleteComment, addActivity } = useRequests();
+  const { getById, updateFields, addAttachments, removeAttachment, addComment, deleteComment, addActivity } =
+    useRequests();
   const req = getById(id);
   const notFound = !req;
 
@@ -94,6 +184,22 @@ const RequestDetail = () => {
     [req]
   );
 
+  const displayAuthor = (a: string) => {
+    if (a === "Yo" && lang === "en") return "Me";
+    return a;
+  };
+
+  const initials = (a: string) => {
+    if (a === "Yo") return lang === "en" ? "ME" : "YO";
+    return a
+      .split(" ")
+      .filter(Boolean)
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join("")
+      .toUpperCase();
+  };
+
   if (notFound) {
     return (
       <PortalLayout>
@@ -103,9 +209,9 @@ const RequestDetail = () => {
             onClick={() => navigate("/dashboard/requests")}
             className="text-[#B454FF] hover:text-[#C07CFF] font-semibold"
           >
-            Volver a Mis Requests
+            {copy.back}
           </button>
-          <div className="mt-4 text-[#F5F5F5] text-lg">Request no encontrada.</div>
+          <div className="mt-4 text-[#F5F5F5] text-lg">{copy.notFound}</div>
         </div>
       </PortalLayout>
     );
@@ -113,14 +219,14 @@ const RequestDetail = () => {
 
   const saveMeta = () => {
     updateFields(req!.id, { title, status, priority, date: dueDate });
-    addActivity(req!.id, { type: "update", text: "Metadatos actualizados (título/estado/prioridad/fecha)", time: nowLabel() });
-    showSuccess("Cambios guardados.");
+    addActivity(req!.id, { type: "update", text: copy.metaUpdated, time: nowLabel(lang) });
+    showSuccess(copy.changesSaved);
   };
 
   const saveDescription = () => {
     updateFields(req!.id, { description });
-    addActivity(req!.id, { type: "update", text: "Descripción actualizada", time: nowLabel() });
-    showSuccess("Descripción actualizada.");
+    addActivity(req!.id, { type: "update", text: copy.descUpdated, time: nowLabel(lang) });
+    showSuccess(copy.descSaved);
   };
 
   const onUploadClick = () => fileInputRef.current?.click();
@@ -138,13 +244,13 @@ const RequestDetail = () => {
       };
     });
     addAttachments(req!.id, newOnes);
-    showSuccess("Adjuntos añadidos.");
+    showSuccess(copy.attachmentsAdded);
     e.currentTarget.value = "";
   };
 
   const removeAtt = (attId: string) => {
     removeAttachment(req!.id, attId);
-    showSuccess("Adjunto eliminado.");
+    showSuccess(copy.attachmentDeleted);
   };
 
   const [note, setNote] = useState("");
@@ -153,15 +259,17 @@ const RequestDetail = () => {
     e.preventDefault();
     const text = note.trim();
     if (!text) return;
-    const newComment: Comment = { id: `c-${Date.now()}`, author: "Yo", text, time: nowLabel() };
+    const author = lang === "en" ? "Me" : "Yo";
+    const newComment: Comment = { id: `c-${Date.now()}`, author, text, time: nowLabel(lang) };
     addComment(req!.id, newComment);
     setNote("");
-    showSuccess("Nota enviada.");
+    showSuccess(copy.noteSent);
+    addActivity(req!.id, { type: "note", text, time: nowLabel(lang) });
   };
 
   const deleteNote = (cid: string) => {
     deleteComment(req!.id, cid);
-    showSuccess("Nota eliminada.");
+    showSuccess(copy.noteDeleted);
   };
 
   return (
@@ -176,7 +284,7 @@ const RequestDetail = () => {
               className="inline-flex items-center gap-2 text-[#F5F5F5]/70 hover:text-[#F5F5F5] text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
             >
               <ArrowLeft className="w-4 h-4" />
-              Volver a Mis Requests
+              {copy.back}
             </button>
 
             <div className="mt-3 flex flex-col md:flex-row md:items-center gap-4 md:flex-wrap">
@@ -188,23 +296,23 @@ const RequestDetail = () => {
               <div className="flex items-center gap-3 shrink-0 flex-wrap w-full md:w-auto">
                 <Select value={status} onValueChange={(v) => setStatus(v as RequestStatus)}>
                   <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 pl-4 pr-12 w-full md:w-auto text-[#F5F5F5] tracking-wide focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
-                    <SelectValue placeholder="Estado" />
+                    <SelectValue placeholder={copy.statusPh} />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
-                    <SelectItem value="in-progress">En Progreso</SelectItem>
-                    <SelectItem value="review">En Revisión</SelectItem>
-                    <SelectItem value="completed">Completado</SelectItem>
+                    <SelectItem value="in-progress">{copy.status["in-progress"]}</SelectItem>
+                    <SelectItem value="review">{copy.status.review}</SelectItem>
+                    <SelectItem value="completed">{copy.status.completed}</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Select value={priority} onValueChange={(v) => setPriority(v as Priority)}>
                   <SelectTrigger className="bg-[#111111] border-white/10 rounded-full h-10 pl-4 pr-12 w-full md:w-auto text-[#F5F5F5] tracking-wide focus:ring-0 focus-visible:ring-2 focus-visible:ring-[#B454FF]">
-                    <SelectValue placeholder="Prioridad" />
+                    <SelectValue placeholder={copy.priorityPh} />
                   </SelectTrigger>
                   <SelectContent className="bg-[#111111] border-white/10 text-[#F5F5F5]">
-                    <SelectItem value="alta">Alta</SelectItem>
-                    <SelectItem value="media">Media</SelectItem>
-                    <SelectItem value="baja">Baja</SelectItem>
+                    <SelectItem value="alta">{lang === "es" ? "Alta" : "High"}</SelectItem>
+                    <SelectItem value="media">{lang === "es" ? "Media" : "Medium"}</SelectItem>
+                    <SelectItem value="baja">{lang === "es" ? "Baja" : "Low"}</SelectItem>
                   </SelectContent>
                 </Select>
 
@@ -219,7 +327,7 @@ const RequestDetail = () => {
                     <PopoverTrigger asChild>
                       <button
                         type="button"
-                        aria-label="Abrir calendario"
+                        aria-label={copy.openCalendar}
                         className="absolute right-2 top-1/2 -translate-y-1/2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.06] border border-white/10 hover:bg-white/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                       >
                         <CalendarIcon className="w-4 h-4 text-white" />
@@ -250,13 +358,16 @@ const RequestDetail = () => {
                   className="rounded-full w-full md:w-auto"
                   onClick={saveMeta}
                 >
-                  Guardar cambios
+                  {copy.saveChanges}
                 </PremiumButton>
               </div>
             </div>
 
             <div className="mt-1 text-[#F5F5F5]/55">
-              ID {req!.id} · {req!.service} · <span className={prioColor[priority]}>Prioridad {priority}</span>
+              {copy.idPrefix} {req!.id} · {req!.service} ·{" "}
+              <span className={prioColor[priority]}>
+                {copy.prioPrefix} {copy.prio[priority]}
+              </span>
             </div>
           </div>
         </div>
@@ -268,46 +379,50 @@ const RequestDetail = () => {
             {/* Descripción */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6 sm:p-7">
               <div className="flex items-center justify-between">
-                <div className="text-[#F5F5F5] font-bold">Descripción</div>
-                <PremiumButton
-                  variant="glass"
-                  size="sm"
-                  className="text-[#F5F5F5]"
-                  onClick={saveDescription}
-                >
-                  Guardar
+                <div className="text-[#F5F5F5] font-bold">{copy.descTitle}</div>
+                <PremiumButton variant="glass" size="sm" className="text-[#F5F5F5]" onClick={saveDescription}>
+                  {copy.descSave}
                 </PremiumButton>
               </div>
               <Textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe con detalle el alcance, objetivos, referencias, etc."
+                placeholder={copy.descPh}
                 className="mt-4 bg-[#0D0D0D] border-white/10 rounded-2xl min-h-[170px] text-[#F5F5F5] placeholder:text-[#F5F5F5]/35 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
               />
             </section>
 
             {/* Entregables (Kinetora) */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6">
-              <div className="text-[#F5F5F5] font-bold">Entregables</div>
-              <p className="text-[#F5F5F5]/60 text-sm mt-1">Trabajo entregado por Kinetora para esta request.</p>
+              <div className="text-[#F5F5F5] font-bold">{copy.deliverablesTitle}</div>
+              <p className="text-[#F5F5F5]/60 text-sm mt-1">{copy.deliverablesSub}</p>
 
               {myDeliverables.length === 0 ? (
-                <div className="mt-4 text-[#F5F5F5]/60 text-sm">Todavía no hay entregables.</div>
+                <div className="mt-4 text-[#F5F5F5]/60 text-sm">{copy.noDeliverables}</div>
               ) : (
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {myDeliverables.map((it) => (
-                    <div
-                      key={it.id}
-                      className="rounded-xl overflow-hidden border border-white/10 bg-[#0D0D0D]"
-                    >
+                    <div key={it.id} className="rounded-xl overflow-hidden border border-white/10 bg-[#0D0D0D]">
                       <div className="aspect-video relative">
-                        <img src={it.previewUrl} className="absolute inset-0 h-full w-full object-cover opacity-90" alt="" />
+                        <img
+                          src={it.previewUrl}
+                          className="absolute inset-0 h-full w-full object-cover opacity-90"
+                          alt=""
+                        />
                         <div className="absolute inset-0 bg-black/25" />
                       </div>
                       <div className="p-3 flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2 min-w-0">
                           <div className="h-8 w-8 rounded-lg bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 flex items-center justify-center">
-                            {it.kind === "figma" ? <Figma className="w-4 h-4" /> : it.kind === "video" ? <Film className="w-4 h-4" /> : it.kind === "pdf" ? <FileText className="w-4 h-4" /> : <Archive className="w-4 h-4" />}
+                            {it.kind === "figma" ? (
+                              <Figma className="w-4 h-4" />
+                            ) : it.kind === "video" ? (
+                              <Film className="w-4 h-4" />
+                            ) : it.kind === "pdf" ? (
+                              <FileText className="w-4 h-4" />
+                            ) : (
+                              <Archive className="w-4 h-4" />
+                            )}
                           </div>
                           <div className="min-w-0">
                             <div className="truncate text-[#F5F5F5]/85 text-sm">{it.name}</div>
@@ -320,7 +435,7 @@ const RequestDetail = () => {
                           className="inline-flex h-8 px-3 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/90 hover:bg-white/[0.06] transition-colors text-xs"
                         >
                           <Download className="w-4 h-4 mr-1" />
-                          Descargar
+                          {copy.download}
                         </a>
                       </div>
                     </div>
@@ -332,15 +447,9 @@ const RequestDetail = () => {
             {/* Tus adjuntos */}
             <section className="rounded-2xl bg-[#111111] border border-white/10 p-6 sm:p-7">
               <div className="flex items-center justify-between">
-                <div className="text-[#F5F5F5] font-bold">Tus adjuntos</div>
+                <div className="text-[#F5F5F5] font-bold">{copy.yourAttachments}</div>
                 <div className="flex items-center gap-2">
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    multiple
-                    onChange={onFilesSelected}
-                    className="hidden"
-                  />
+                  <input ref={fileInputRef} type="file" multiple onChange={onFilesSelected} className="hidden" />
                   <PremiumButton
                     type="button"
                     variant="primary"
@@ -349,7 +458,7 @@ const RequestDetail = () => {
                     leftIcon={<UploadCloud className="w-4 h-4" />}
                     onClick={onUploadClick}
                   >
-                    Añadir adjunto
+                    {copy.addAttachment}
                   </PremiumButton>
                 </div>
               </div>
@@ -359,15 +468,12 @@ const RequestDetail = () => {
                   <div className="mx-auto h-12 w-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#F5F5F5]/80">
                     <UploadCloud className="w-6 h-6" />
                   </div>
-                  <div className="mt-3 text-[#F5F5F5]/70 font-semibold">No hay archivos. Sube alguno para empezar.</div>
+                  <div className="mt-3 text-[#F5F5F5]/70 font-semibold">{copy.noFiles}</div>
                 </div>
               ) : (
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {req!.attachments.map((att) => (
-                    <div
-                      key={att.id}
-                      className="rounded-xl overflow-hidden border border-white/10 bg-[#0D0D0D] group"
-                    >
+                    <div key={att.id} className="rounded-xl overflow-hidden border border-white/10 bg-[#0D0D0D] group">
                       <div className="aspect-video relative">
                         {att.kind === "image" ? (
                           <img src={att.url} className="absolute inset-0 h-full w-full object-cover opacity-90" alt="" />
@@ -394,13 +500,13 @@ const RequestDetail = () => {
                             className="inline-flex h-8 px-3 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/90 hover:bg-white/[0.06] transition-colors text-xs"
                           >
                             <Download className="w-4 h-4 mr-1" />
-                            Descargar
+                            {copy.download}
                           </a>
                           <button
                             type="button"
                             onClick={() => removeAtt(att.id)}
                             className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:bg-white/[0.06] transition-colors"
-                            aria-label="Eliminar"
+                            aria-label={copy.delete}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -414,44 +520,43 @@ const RequestDetail = () => {
 
             {/* Notas */}
             <section id="notes" className="rounded-2xl bg-[#111111] border border-white/10 p-6 sm:p-7">
-              <div className="text-[#F5F5F5] font-bold">Notas</div>
-              <p className="text-[#F5F5F5]/60 text-sm mt-1">
-                Deja comentarios, feedback o tareas para este request.
-              </p>
+              <div className="text-[#F5F5F5] font-bold">{copy.notesTitle}</div>
+              <p className="text-[#F5F5F5]/60 text-sm mt-1">{copy.notesSub}</p>
               <Separator className="my-4 bg-white/10" />
               <form onSubmit={addNote} className="space-y-4">
                 <Textarea
                   value={note}
                   onChange={(e) => setNote(e.target.value)}
-                  placeholder="Escribe tu nota para el equipo..."
+                  placeholder={copy.notePh}
                   className="bg-[#0D0D0D] border-white/10 rounded-2xl min-h-[130px] text-[#F5F5F5] placeholder:text-[#F5F5F5]/35 focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                 />
                 <div className="flex items-center justify-end">
                   <PremiumButton type="submit" variant="primary" size="md" className="rounded-xl">
-                    Enviar Nota
+                    {copy.sendNote}
                   </PremiumButton>
                 </div>
               </form>
+
               {req!.comments.length > 0 && (
                 <div className="mt-6 space-y-4">
                   {req!.comments.map((c) => (
-                    <div key={c.id} className="rounded-xl bg:white/[0.02] border border-white/10 p-5">
+                    <div key={c.id} className="rounded-xl bg-white/[0.02] border border-white/10 p-5">
                       <div className="flex items-center justify-between gap-4">
                         <div className="flex items-center gap-3">
-                          <div className="h-9 w-9 rounded-full bg-[#B454FF] text:white flex items-center justify-center font-black text-[12px]">
-                            {c.author === "Yo" ? "YO" : c.author.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                          <div className="h-9 w-9 rounded-full bg-[#B454FF] text-white flex items-center justify-center font-black text-[12px]">
+                            {initials(c.author)}
                           </div>
                           <div>
-                            <div className="text-[#F5F5F5] font-semibold">{c.author}</div>
+                            <div className="text-[#F5F5F5] font-semibold">{displayAuthor(c.author)}</div>
                             <div className="text-[#F5F5F5]/55 text-xs">{c.time}</div>
                           </div>
                         </div>
-                        {c.author === "Yo" && (
+                        {(c.author === "Yo" || c.author === "Me") && (
                           <button
                             type="button"
                             onClick={() => deleteNote(c.id)}
                             className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/80 hover:bg-white/[0.06] transition-colors"
-                            aria-label="Eliminar nota"
+                            aria-label={copy.deleteNote}
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -467,7 +572,7 @@ const RequestDetail = () => {
 
           {/* Actividad */}
           <div className="rounded-2xl bg-[#111111] border border-white/10 p-6">
-            <div className="text-[#F5F5F5] font-bold">Actividad</div>
+            <div className="text-[#F5F5F5] font-bold">{copy.activityTitle}</div>
             <div className="mt-4 space-y-3">
               {req!.activity.map((a, i) => (
                 <div
@@ -486,7 +591,7 @@ const RequestDetail = () => {
                 </div>
               ))}
               {req!.activity.length === 0 && (
-                <div className="text-[#F5F5F5]/55 text-sm">Sin actividad todavía.</div>
+                <div className="text-[#F5F5F5]/55 text-sm">{copy.noActivity}</div>
               )}
             </div>
           </div>
