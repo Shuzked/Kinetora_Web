@@ -459,7 +459,7 @@ const CaseStudyPost = () => {
       <Navbar />
 
       <main className="pt-[68px] md:pt-[88px]">
-        <section className="relative overflow-hidden">
+        <section className="relative">
           <div className="pointer-events-none absolute -top-28 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/10 blur-[120px]" />
           <div className="pointer-events-none absolute -bottom-44 -left-44 h-[32rem] w-[32rem] rounded-full bg-[#33C3F0]/[0.07] blur-[140px]" />
 
@@ -537,6 +537,7 @@ const CaseStudyPost = () => {
                       <div
                         ref={mediaWrapRef}
                         className={`wp-media ${stickySide === "right" ? "lg:sticky lg:bottom-8" : ""}`}
+
                       >
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
                           {ui.mediaCol}
