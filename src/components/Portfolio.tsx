@@ -237,6 +237,8 @@ const Portfolio = () => {
                                 alt={alt}
                                 loading="lazy"
                                 decoding="async"
+                                fetchPriority="low"
+                                sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                                 onError={(e) => {
                                   (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
                                 }}

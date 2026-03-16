@@ -18,13 +18,15 @@ const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(ma
 const MouseParallax: React.FC<MouseParallaxProps> = ({
   children,
   className = "",
-  intensity = 10,
-  rotate = 6,
+  intensity = 8,
+  rotate = 3,
   scaleOnHover = 1.015,
   disabled = false,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile?.() ?? false;
+  const prefersReduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const off = isMobile || prefersReduced;
 
   const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
@@ -34,8 +36,6 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
     mql.addEventListener("change", update);
     return () => mql.removeEventListener("change", update);
   }, []);
-
-  const off = disabled || isMobile || reduceMotion;
 
   const tx = useMotionValue(0);
   const ty = useMotionValue(0);
@@ -99,7 +99,6 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
             scale: sScale,
             willChange: "transform",
           },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [off]
   );
 

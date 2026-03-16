@@ -278,7 +278,18 @@ const CaseStudyPost = () => {
                   {loading ? (
                     <Skeleton className="h-full w-full rounded-none" />
                   ) : cover ? (
-                    <img src={cover} alt={coverAlt || ""} className="h-full w-full object-cover" loading="lazy" decoding="async" />
+                    <img
+                      src={cover}
+                      alt={coverAlt || ""}
+                      loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
+                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                      }}
+                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 rounded-[inherit] transform-gpu"
+                    />
                   ) : null}
                 </div>
               </div>
