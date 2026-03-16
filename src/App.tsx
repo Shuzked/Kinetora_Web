@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Cases from "./pages/Cases";
+import CaseStudyPost from "./pages/CaseStudyPost";
 import NotFound from "./pages/NotFound";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
@@ -24,6 +25,7 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/casos" element={<Cases />} />
+            <Route path="/casos/:slug" element={<CaseStudyPost />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
