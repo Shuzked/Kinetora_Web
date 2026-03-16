@@ -25,7 +25,7 @@ const Hero = () => {
           headlineAccent: "impulsa tu visión.",
           sub:
             "Tu partner estratégico de diseño y desarrollo. Sin reuniones, sin fricción, solo resultados de alto impacto entregados en 48 horas.",
-          ctaPrimary: "Ver planes",
+          ctaPrimary: "Contactar",
           ctaSecondary: "Éxitos",
           pills: [
             { Icon: Timer, text: "Entrega en 48h" },
@@ -38,7 +38,7 @@ const Hero = () => {
           headlineAccent: "moves your vision forward.",
           sub:
             "Your strategic partner for design and development. No meetings, no friction—just high-impact results delivered in 48 hours.",
-          ctaPrimary: "View pricing",
+          ctaPrimary: "Let's talk",
           ctaSecondary: "Case studies",
           pills: [
             { Icon: Timer, text: "48h delivery" },
@@ -165,7 +165,7 @@ const Hero = () => {
               size="lg"
               className="w-full sm:w-auto hover:scale-[1.02] active:scale-95"
               leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
-              onClick={() => handleScrollTo("precios")}
+              onClick={() => handleScrollTo("contacto")}
             >
               {copy.ctaPrimary.toUpperCase()}
             </PremiumButton>

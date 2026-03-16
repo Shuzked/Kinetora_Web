@@ -12,7 +12,7 @@ const FloatingCTA: React.FC = () => {
 
   const handlePlanClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    const el = document.getElementById("precios");
+    const el = document.getElementById("contacto");
     if (!el) return;
     const nav = document.querySelector("nav");
     const navH = nav instanceof HTMLElement ? nav.offsetHeight : 0;
@@ -43,7 +43,7 @@ const FloatingCTA: React.FC = () => {
             size="sm"
             className="flex-1 rounded-xl"
           >
-            {lang === "es" ? "Ver planes" : "View pricing"}
+            {lang === "es" ? "Contactar" : "Let's talk"}
           </PremiumButton>
           <PremiumButton
             variant="glass"

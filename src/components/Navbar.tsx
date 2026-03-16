@@ -24,11 +24,10 @@ const Navbar = () => {
     { name: t("nav.services"), href: "#servicios" },
     { name: t("nav.method"), href: "#como-funciona" },
     { name: t("nav.successes"), href: "#casos" },
-    { name: t("nav.plans"), href: "#precios" },
     { name: t("nav.contact"), href: "#contacto" },
   ];
 
-  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios", "contacto"]);
+  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "contacto"]);
 
   const { scrollY } = useScroll();
   const progress = useTransform(scrollY, [0, 140], [0, 1]);

@@ -11,7 +11,6 @@ import HowItWorks from '@/components/HowItWorks';
 import Services from '@/components/Services';
 import Portfolio from '@/components/Portfolio';
 import Testimonials from '@/components/Testimonials';
-import Pricing from '@/components/Pricing';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import ParallaxSection from '@/components/ParallaxSection';
@@ -67,9 +66,6 @@ const Index = () => {
           <Testimonials />
         </ParallaxSection>
         <ParallaxSection intensity={14}>
-          <Pricing />
-        </ParallaxSection>
-        <ParallaxSection intensity={12}>
           <Contact />
         </ParallaxSection>
         <ParallaxSection intensity={12}>
