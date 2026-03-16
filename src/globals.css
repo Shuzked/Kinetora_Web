@@ -2,222 +2,103 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global base improvements for responsiveness */
 @layer base {
-  :root {
-    --background: 0 0% 5%;
-    --foreground: 0 0% 96%;
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 96%;
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 274 100% 66%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 0 0% 16%;
-    --secondary-foreground: 0 0% 96%;
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 274 100% 66%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 0 0% 16%;
-    --input: 0 0% 16%;
-    --ring: 274 100% 66%;
-    --radius: 0.75rem;
+  html {
+    /* Slightly tighter default letter spacing for better density on mobile */
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-}
 
-@layer base {
-  * { @apply border-border; }
   body {
-    @apply bg-background text-foreground antialiased;
-    font-feature-settings: "cv02", "cv03", "cv04", "ss01";
-    background-color: #0D0D0D;
-    font-family: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    @apply bg-[#0D0D0D] text-[#F5F5F5];
+  }
+
+  /* Clamp heading sizes for better scaling between mobile and desktop */
+  h1 {
+    font-size: clamp(1.75rem, 2.6vw + 1rem, 3rem);
+    line-height: 1.08;
+  }
+  h2 {
+    font-size: clamp(1.375rem, 1.6vw + 1rem, 2.25rem);
+    line-height: 1.12;
+  }
+  h3 {
+    font-size: clamp(1.125rem, 1vw + 0.9rem, 1.5rem);
+    line-height: 1.2;
   }
 }
 
-/* Smooth scrolling base */
-html { scroll-behavior: smooth; }
-
-/* Compensación por navbar fijo (nueva altura) */
-html { scroll-padding-top: 68px; }
-@media (min-width: 768px) { html { scroll-padding-top: 88px; } }
-
-/* Evitar que el sheet abierto bloquee el scroll suave */
-body[data-sheet-open="true"] { overscroll-behavior: contain; }
-
-/* Marquee continuo con contenido duplicado */
-@keyframes marquee-scroll {
-  0% { transform: translate3d(0,0,0); }
-  100% { transform: translate3d(-50%,0,0); }
-}
-.marquee-track {
-  animation: marquee-scroll 55s linear infinite;
-  will-change: transform;
-}
-
-/* Pausa robusta: cuando el wrapper tiene data-paused */
-[data-paused="true"] .marquee-track {
-  animation-play-state: paused !important;
-}
-
-/* Fallback: pausar al hover de la pista */
-.marquee-track:hover { animation-play-state: paused; }
-
-/* WordPress post content (sanitized) */
-.wp-post {
-  color: rgba(245, 245, 245, 0.78);
-  font-size: 15px;
-  line-height: 1.85;
-}
-@media (min-width: 640px) {
-  .wp-post { font-size: 16px; }
-}
-
-/* Title utilities: clamp to 3 lines and reserve space so footers align */
-.title-rows-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.title-rows-3-min {
-  min-height: 4.5rem;
-}
-@media (min-width: 640px) {
-  .title-rows-3-min { min-height: 5.25rem; }
-}
-
-/* Metric block reserved height to align CTAs across cards */
-.metric-block-min { min-height: 2.75rem; }
-@media (min-width: 640px) {
-  .metric-block-min { min-height: 3.25rem; }
-}
-
-/* Keep content aligned and readable inside the card */
-.wp-post > * {
-  max-width: 72ch;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.wp-post > figure,
-.wp-post > .wp-block-image,
-.wp-post > .wp-block-gallery,
-.wp-post > .wp-block-video,
-.wp-post > .wp-block-embed {
-  max-width: 100%;
-}
-
-.wp-post h1,
-.wp-post h2,
-.wp-post h3 {
-  color: rgba(245, 245, 245, 0.95);
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  margin-top: 1.6em;
-  margin-bottom: 0.6em;
-}
-
-.wp-post h2 { font-size: 18px; letter-spacing: 0.14em; text-transform: uppercase; }
-@media (min-width: 640px) { .wp-post h2 { font-size: 20px; } }
-
-.wp-post p { margin: 0.9em 0; }
-
-.wp-post a {
-  color: #B454FF;
-  text-decoration: none;
-}
-.wp-post a:hover { text-decoration: underline; }
-
-.wp-post img,
-.wp-post video,
-.wp-post iframe {
-  max-width: 100%;
-}
-
-.wp-post figure,
-.wp-post .wp-block-image {
-  margin: 1.25rem 0;
-}
-
-.wp-post img {
-  border-radius: 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-}
-
-.wp-post figure figcaption {
-  color: rgba(245, 245, 245, 0.65);
-  font-size: 0.9em;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-.wp-post iframe {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  border-radius: 1.25rem;
-  border: 1px solid rgba(255, 255, 255, 0.10);
-}
-
-.wp-post ul,
-.wp-post ol {
-  max-width: 72ch;
-  margin: 0.9em auto 0.9em auto;
-  padding-left: 1.25em;
-}
-
-.wp-post li { margin: 0.4em 0; }
-
-.wp-post blockquote {
-  border-left: 2px solid rgba(180, 84, 255, 0.45);
-  padding-left: 1rem;
-  color: rgba(245, 245, 245, 0.75);
-  margin: 1.2rem 0;
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .marquee-track { animation: none !important; }
-  [data-animate="always"] .marquee-track {
-    animation: marquee-scroll 55s linear infinite !important;
+/* Components: shared responsive utilities */
+@layer components {
+  /* Unified container with safe gutters */
+  .kin-container {
+    @apply w-full mx-auto;
+    max-width: 88rem; /* ~1408px */
+    padding-left: clamp(1rem, 3vw, 2rem);
+    padding-right: clamp(1rem, 3vw, 2rem);
   }
-  [data-animate="always"] .marquee-track--reverse {
-    animation: marquee-scroll-reverse 62s linear infinite !important;
+
+  /* Section vertical rhythm */
+  .kin-section {
+    padding-top: clamp(2.5rem, 5vw, 6rem);
+    padding-bottom: clamp(2.5rem, 5vw, 6rem);
   }
-  .hero-bg-video { display: none !important; }
-  html { scroll-behavior: auto; }
-  * {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0ms !important;
-    scroll-behavior: auto !important;
+
+  /* Landing: ensure consistent section margin collapse handling when nested in ParallaxSection */
+  .kin-section > .kin-container {
+    @apply relative z-10;
+  }
+
+  /* Dashboard: right panel padding with safe gutters */
+  .kin-panel {
+    padding-left: clamp(1rem, 2.5vw, 2rem);
+    padding-right: clamp(1rem, 2.5vw, 2rem);
+    padding-top: clamp(1.25rem, 2.2vw, 2.5rem);
+    padding-bottom: clamp(1.25rem, 2.2vw, 2.5rem);
+  }
+
+  /* Rounded, bordered blocks spacing standard */
+  .kin-card {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04];
+    padding: clamp(1rem, 2.2vw, 2rem);
+  }
+
+  /* Grid gaps standard across breakpoints */
+  .kin-grid-gap {
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  /* Avoid horizontal scrollbars from child transforms */
+  .kin-no-overflow {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  /* Hide native scrollbars on small screens (e.g., filter chips) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
-/* Oculta el icono nativo del date input y spinners cuando se use la clase */
-.kin-no-native-picker {
-  -webkit-appearance: none;
-  appearance: none;
-}
-.kin-no-native-picker::-webkit-calendar-picker-indicator {
-  opacity: 0 !important;
-  display: none !important;
-  -webkit-appearance: none;
-}
-.kin-no-native-picker::-webkit-clear-button,
-.kin-no-native-picker::-webkit-inner-spin-button,
-.kin-no-native-picker::-webkit-outer-spin-button {
-  display: none !important;
-  -webkit-appearance: none;
-  margin: 0;
-}
+/* Utilities overrides and small helpers */
+@layer utilities {
+  /* Slightly larger tap targets on touch devices */
+  @media (pointer: coarse) {
+    .kin-touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
 
-/* Ocultar scrollbar utilitario */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  /* Clamp paragraph measure for readability */
+  .kin-prose {
+    max-width: 68ch;
+  }
 }
-.no-scrollbar::-webkit-scrollbar { display: none; }

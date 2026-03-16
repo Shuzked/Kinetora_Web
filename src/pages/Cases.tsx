@@ -149,108 +149,110 @@ const Cases = () => {
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
       <main className="pt-[68px] md:pt-[88px]">
-        <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
+        <section className="kin-section relative overflow-hidden">
           <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
-            <div className="max-w-3xl">
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                {ui.badge}
+          <div className="kin-container relative">
+            <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
+              <div className="max-w-3xl">
+                <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+                  {ui.badge}
+                </div>
+                <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
+                  {ui.titleA}{" "}
+                  <span className="text-[#B454FF]">{ui.titleB}</span>.
+                </h1>
+                <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
+                  {ui.sub}
+                </p>
               </div>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                {ui.titleA}{" "}
-                <span className="text-[#B454FF]">{ui.titleB}</span>.
-              </h1>
-              <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-                {ui.sub}
-              </p>
-            </div>
 
-            <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
-              {caseStudies.map((cs) => {
-                const m = meta[cs.slug];
-                const cover = cs.coverImage || m?.img;
-                const hito =
-                  m?.hito ||
-                  (lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback);
-                const alt =
-                  (lang === "es" ? cs.coverAlt : cs.coverAltEn ?? cs.coverAlt) ||
-                  cs.coverAlt ||
-                  m?.alt;
+              <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+                {caseStudies.map((cs) => {
+                  const m = meta[cs.slug];
+                  const cover = cs.coverImage || m?.img;
+                  const hito =
+                    m?.hito ||
+                    (lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback);
+                  const alt =
+                    (lang === "es" ? cs.coverAlt : cs.coverAltEn ?? cs.coverAlt) ||
+                    cs.coverAlt ||
+                    m?.alt;
 
-                const metricLabel =
-                  (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ??
-                  metricLabelFor(m?.metricKind) ??
-                  null;
-                const metricValue = cs.metricValue ?? m?.metricValue;
+                  const metricLabel =
+                    (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ??
+                    metricLabelFor(m?.metricKind) ??
+                    null;
+                  const metricValue = cs.metricValue ?? m?.metricValue;
 
-                const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
+                  const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 
-                return (
-                  <div
-                    key={cs.slug}
-                    className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0"
-                  >
-                    <div className="aspect-[16/10] overflow-hidden">
-                      {!metaReady ? (
-                        <Skeleton className="w-full h-full rounded-none" />
-                      ) : (
-                        <img
-                          src={cover}
-                          alt={alt}
-                          loading="lazy"
-                          decoding="async"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                          }}
-                          className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                        />
-                      )}
-                    </div>
-                    <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                      <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
-                        {hito}
+                  return (
+                    <div
+                      key={cs.slug}
+                      className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0"
+                    >
+                      <div className="aspect-[16/10] overflow-hidden">
+                        {!metaReady ? (
+                          <Skeleton className="w-full h-full rounded-none" />
+                        ) : (
+                          <img
+                            src={cover}
+                            alt={alt}
+                            loading="lazy"
+                            decoding="async"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                            }}
+                            className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                          />
+                        )}
                       </div>
-                      <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                        {title}
-                      </h2>
-                      <div className="mt-auto pt-4 sm:pt-5">
-                        <div className="metric-block-min mb-2">
-                          {metaReady ? (
-                            metricLabel && metricValue ? (
-                              <>
-                                <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
-                                  {metricLabel}
-                                </div>
-                                <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                                  {metricValue}
-                                </div>
-                              </>
-                            ) : null
-                          ) : (
-                            <div className="space-y-2">
-                              <Skeleton className="h-3 w-24" />
-                              <Skeleton className="h-7 w-36" />
-                            </div>
-                          )}
+                      <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                        <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                          {hito}
                         </div>
-                        <PremiumButton
-                          variant="glass"
-                          size="sm"
-                          className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.open(cs.sourceUrl, "_blank", "noopener,noreferrer");
-                          }}
-                          aria-label={ui.ariaReadMore(title)}
-                        >
-                          {ui.readMore.toUpperCase()}
-                        </PremiumButton>
+                        <h2 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                          {title}
+                        </h2>
+                        <div className="mt-auto pt-4 sm:pt-5">
+                          <div className="metric-block-min mb-2">
+                            {metaReady ? (
+                              metricLabel && metricValue ? (
+                                <>
+                                  <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                    {metricLabel}
+                                  </div>
+                                  <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                    {metricValue}
+                                  </div>
+                                </>
+                              ) : null
+                            ) : (
+                              <div className="space-y-2">
+                                <Skeleton className="h-3 w-24" />
+                                <Skeleton className="h-7 w-36" />
+                              </div>
+                            )}
+                          </div>
+                          <PremiumButton
+                            variant="glass"
+                            size="sm"
+                            className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              window.open(cs.sourceUrl, "_blank", "noopener,noreferrer");
+                            }}
+                            aria-label={ui.ariaReadMore(title)}
+                          >
+                            {ui.readMore.toUpperCase()}
+                          </PremiumButton>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
           </div>
         </section>

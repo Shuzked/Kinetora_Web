@@ -24,34 +24,74 @@ const Index = () => {
       <main>
         <Hero />
         <ParallaxSection intensity={10}>
-          <Brands />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Brands />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={12}>
-          <Stats />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Stats />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={18}>
-          <ValueProp />
+          <section className="kin-section">
+            <div className="kin-container">
+              <ValueProp />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={16}>
-          <HowItWorks />
+          <section className="kin-section">
+            <div className="kin-container">
+              <HowItWorks />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={14}>
-          <Services />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Services />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={20}>
-          <Portfolio />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Portfolio />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={16}>
-          <Testimonials />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Testimonials />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={14}>
-          <Pricing />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Pricing />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={12}>
-          <Contact />
+          <section className="kin-section">
+            <div className="kin-container">
+              <Contact />
+            </div>
+          </section>
         </ParallaxSection>
         <ParallaxSection intensity={12}>
-          <FAQ />
+          <section className="kin-section">
+            <div className="kin-container">
+              <FAQ />
+            </div>
+          </section>
         </ParallaxSection>
       </main>
       <Footer />

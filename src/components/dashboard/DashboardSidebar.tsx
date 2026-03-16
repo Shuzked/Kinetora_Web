@@ -53,7 +53,7 @@ const DashboardSidebar = () => {
 
   return (
     <aside className="w-72 bg-[#0B0B0B] border-r border-white/10 flex flex-col h-dvh">
-      <div className="px-6 py-6">
+      <div className="px-6 py-5 sm:py-6">
         <Link
           to="/dashboard"
           className="inline-flex items-center gap-3 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
@@ -65,7 +65,7 @@ const DashboardSidebar = () => {
         </Link>
       </div>
 
-      <nav className="flex-1 px-4 pb-4 space-y-1 min-w-0">
+      <nav className="flex-1 px-3 sm:px-4 pb-4 space-y-1 min-w-0 overflow-y-auto">
         {menuItems.map((item) => {
           const active = location.pathname === item.path;
           return (
@@ -91,7 +91,7 @@ const DashboardSidebar = () => {
         })}
       </nav>
 
-      <div className="p-4 border-t border-white/10">
+      <div className="p-3 sm:p-4 border-t border-white/10">
         <div className="relative overflow-hidden rounded-2xl bg-white/[0.03] border border-white/10 p-4">
           <div
             aria-hidden
