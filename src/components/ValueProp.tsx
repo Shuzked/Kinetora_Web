@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { X, Check, AlertCircle, Zap } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
 
 const ValueProp = () => {
   const { lang } = useI18n();
@@ -112,114 +113,118 @@ const ValueProp = () => {
 
         <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10">
           {/* Tradicional */}
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 16 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, ease: 'easeOut' }}
-            className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative"
-          >
-            <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
-                  <AlertCircle className="w-5 h-5 text-red-300/70" />
+          <MouseParallax intensity={9} rotate={4} className="will-change-transform">
+            <motion.div
+              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 16 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, ease: 'easeOut' }}
+              className="rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative"
+            >
+              <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
+                    <AlertCircle className="w-5 h-5 text-red-300/70" />
+                  </div>
+                  <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
+                    {copy.left.title}
+                  </h3>
                 </div>
-                <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
-                  {copy.left.title}
-                </h3>
+                <span className="hidden sm:inline-flex rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#F5F5F5]/60">
+                  {copy.left.badge}
+                </span>
               </div>
-              <span className="hidden sm:inline-flex rounded-full bg-white/5 border border-white/10 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#F5F5F5]/60">
-                {copy.left.badge}
-              </span>
-            </div>
 
-            <ul className="space-y-6 sm:space-y-7">
-              {copy.left.items.map((item, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
-                    <X className="w-4 h-4 text-red-300/70" />
-                  </span>
-                  <div>
-                    <div className="text-[#F5F5F5] font-extrabold text-sm uppercase tracking-tight">
-                      {item.t}
+              <ul className="space-y-6 sm:space-y-7">
+                {copy.left.items.map((item, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                      <X className="w-4 h-4 text-red-300/70" />
+                    </span>
+                    <div>
+                      <div className="text-[#F5F5F5] font-extrabold text-sm uppercase tracking-tight">
+                        {item.t}
+                      </div>
+                      <div className="text-[#F5F5F5]/60 text-sm leading-snug mt-1">{item.d}</div>
                     </div>
-                    <div className="text-[#F5F5F5]/60 text-sm leading-snug mt-1">{item.d}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-10 pt-7 border-t border-white/10">
-              <div className="grid grid-cols-3 gap-3">
-                {copy.left.metrics.map((m) => (
-                  <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
-                    <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
-                      {m.k}
-                    </div>
-                    <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
-                  </div>
+                  </li>
                 ))}
+              </ul>
+
+              <div className="mt-10 pt-7 border-t border-white/10">
+                <div className="grid grid-cols-3 gap-3">
+                  {copy.left.metrics.map((m) => (
+                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                      <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                        {m.k}
+                      </div>
+                      <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </MouseParallax>
 
           {/* Kinetora */}
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 16 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
-            className="rounded-[2.5rem] border border-[#B454FF]/30 bg-white/[0.05] p-8 sm:p-10 md:p-12 relative overflow-hidden shadow-[0_18px_90px_rgba(180,84,255,0.10)]"
-          >
-            <div className="pointer-events-none absolute -top-28 -right-28 w-72 h-72 bg-[#B454FF]/18 rounded-full blur-[90px]" />
+          <MouseParallax intensity={10} rotate={5} className="will-change-transform">
+            <motion.div
+              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 16 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+              className="rounded-[2.5rem] border border-[#B454FF]/30 bg-white/[0.05] p-8 sm:p-10 md:p-12 relative overflow-hidden shadow-[0_18px_90px_rgba(180,84,255,0.10)]"
+            >
+              <div className="pointer-events-none absolute -top-28 -right-28 w-72 h-72 bg-[#B454FF]/18 rounded-full blur-[90px]" />
 
-            <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10 relative z-10">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
-                  <Zap className="w-5 h-5 text-[#B454FF]" />
+              <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10 relative z-10">
+                <div className="flex items-center gap-3">
+                  <div className="w-11 h-11 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-[#B454FF]" />
+                  </div>
+                  <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
+                    {copy.right.title}
+                  </h3>
                 </div>
-                <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
-                  {copy.right.title}
-                </h3>
+                <span className="inline-flex rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#B454FF]">
+                  {copy.right.badge}
+                </span>
               </div>
-              <span className="inline-flex rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-3 py-1 text-[11px] font-extrabold tracking-widest uppercase text-[#B454FF]">
-                {copy.right.badge}
-              </span>
-            </div>
 
-            <ul className="space-y-6 sm:space-y-7 relative z-10">
-              {copy.right.items.map((item, i) => (
-                <li key={i} className="flex items-start gap-4">
-                  <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/20">
-                    <Check className="w-4 h-4 text-[#B454FF]" />
-                  </span>
-                  <div>
-                    <div className="text-[#F5F5F5] font-extrabold text-sm uppercase tracking-tight">
-                      {item.t}
+              <ul className="space-y-6 sm:space-y-7 relative z-10">
+                {copy.right.items.map((item, i) => (
+                  <li key={i} className="flex items-start gap-4">
+                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/20">
+                      <Check className="w-4 h-4 text-[#B454FF]" />
+                    </span>
+                    <div>
+                      <div className="text-[#F5F5F5] font-extrabold text-sm uppercase tracking-tight">
+                        {item.t}
+                      </div>
+                      <div className="text-[#F5F5F5]/65 text-sm leading-snug mt-1">{item.d}</div>
                     </div>
-                    <div className="text-[#F5F5F5]/65 text-sm leading-snug mt-1">{item.d}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <div className="mt-10 pt-7 border-t border-white/10 relative z-10">
-              <div className="grid grid-cols-3 gap-3">
-                {copy.right.metrics.map((m) => (
-                  <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
-                    <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
-                      {m.k}
-                    </div>
-                    <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
-              <div className="mt-6 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#B454FF]">
-                {copy.right.tag}
+              <div className="mt-10 pt-7 border-t border-white/10 relative z-10">
+                <div className="grid grid-cols-3 gap-3">
+                  {copy.right.metrics.map((m) => (
+                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
+                      <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                        {m.k}
+                      </div>
+                      <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-6 inline-flex items-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/25 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#B454FF]">
+                  {copy.right.tag}
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </MouseParallax>
         </div>
       </div>
     </section>

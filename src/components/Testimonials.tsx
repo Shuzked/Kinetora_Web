@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
 
 const Testimonials = () => {
   const { lang } = useI18n();
@@ -77,8 +78,8 @@ const Testimonials = () => {
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {copy.testimonials.map((t, i) => (
+            <MouseParallax key={i} intensity={7} rotate={4} className="will-change-transform">
             <motion.div
-              key={i}
               whileInView={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 20 }}
               viewport={{ once: true }}
@@ -105,6 +106,7 @@ const Testimonials = () => {
                 </div>
               </div>
             </motion.div>
+            </MouseParallax>
           ))}
         </div>
       </div>

@@ -20,7 +20,7 @@ type WPListPost = {
   excerpt?: { rendered?: string };
   content?: { rendered?: string };
   _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>;
+    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>
   };
 };
 
@@ -214,8 +214,8 @@ const Portfolio = () => {
                       m?.alt;
 
                     const metricLabel =
-                      (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ??
-                      metricLabelFor(m?.metricKind) ??
+                      (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ?? 
+                      metricLabelFor(m?.metricKind) ?? 
                       null;
                     const metricValue = cs.metricValue ?? m?.metricValue;
 

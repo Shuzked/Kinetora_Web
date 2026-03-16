@@ -3,6 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
 
 const HowItWorks = () => {
   const { lang } = useI18n();
@@ -75,8 +76,8 @@ const HowItWorks = () => {
 
         <div className="grid md:grid-cols-3 gap-10 md:gap-12">
           {copy.steps.map((step, i) => (
+            <MouseParallax key={i} intensity={6} rotate={3} className="will-change-transform">
             <motion.div
-              key={i}
               whileInView={{ opacity: 1, y: 0 }}
               initial={{ opacity: 0, y: 30 }}
               viewport={{ once: true }}
@@ -93,6 +94,7 @@ const HowItWorks = () => {
                 <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>
               </div>
             </motion.div>
+            </MouseParallax>
           ))}
         </div>
       </div>

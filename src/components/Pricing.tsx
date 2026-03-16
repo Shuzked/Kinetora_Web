@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
 import PremiumButton from '@/components/PremiumButton';
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
 
 const Pricing = () => {
   const { lang } = useI18n();
@@ -119,8 +120,8 @@ const Pricing = () => {
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
           {copy.plans.map((plan, i) => (
+            <MouseParallax key={i} intensity={9} rotate={4} className="will-change-transform">
             <motion.div
-              key={i}
               whileHover={{ y: -5 }}
               className={`relative p-7 sm:p-8 rounded-[2rem] border ${
                 (plan as any).featured
@@ -162,6 +163,7 @@ const Pricing = () => {
                 {(plan as any).cta ? (plan as any).cta : copy.cta.toUpperCase()}
               </PremiumButton>
             </motion.div>
+            </MouseParallax>
           ))}
         </div>
       </div>
