@@ -640,7 +640,7 @@ const CaseStudyPost = () => {
                       <CarouselContent className="-ml-4">
                         {otherCases.map((it) => {
                           const m = meta[it.slug];
-                          const coverImg = it.coverImage || m?.img;
+                          const coverImg = it.coverImage || m?.img || "/assets/placeholder.svg";
                           const hito =
                             m?.hito ||
                             (lang === "es" ? it.highlightFallback : it.highlightFallbackEn ?? it.highlightFallback);
@@ -662,20 +662,16 @@ const CaseStudyPost = () => {
                             >
                               <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform will-change-transform transform-gpu hover:-translate-y-0.5">
                                 <div className="aspect-[16/10] overflow-hidden rounded-[inherit]">
-                                  {!metaReady ? (
-                                    <Skeleton className="w-full h-full rounded-[inherit]" />
-                                  ) : (
-                                    <img
-                                      src={coverImg}
-                                      alt={alt}
-                                      loading="lazy"
-                                      decoding="async"
-                                      onError={(e) => {
-                                        (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                                      }}
-                                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 rounded-[inherit] transform-gpu"
-                                    />
-                                  )}
+                                  <img
+                                    src={coverImg}
+                                    alt={alt}
+                                    loading="lazy"
+                                    decoding="async"
+                                    onError={(e) => {
+                                      (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                                    }}
+                                    className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 rounded-[inherit] transform-gpu"
+                                  />
                                 </div>
                                 <div className="p-6 sm:p-7 flex-1 flex flex-col">
                                   <div className="js-eq-header">

@@ -214,7 +214,7 @@ const Portfolio = () => {
                   >
                     {(() => {
                       const m = meta[cs.slug];
-                      const cover = cs.coverImage || m?.img;
+                      const cover = cs.coverImage || m?.img || "/assets/placeholder.svg";
                       const hito =
                         m?.hito ||
                         (lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback);
@@ -235,20 +235,16 @@ const Portfolio = () => {
                         <MouseParallax intensity={8} rotate={3} className="h-full will-change-transform">
                           <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
                             <div className="aspect-[16/10] overflow-hidden">
-                              {!metaReady ? (
-                                <Skeleton className="w-full h-full rounded-none" />
-                              ) : (
-                                <img
-                                  src={cover}
-                                  alt={alt}
-                                  loading="lazy"
-                                  decoding="async"
-                                  onError={(e) => {
-                                    (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                                  }}
-                                  className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                                />
-                              )}
+                              <img
+                                src={cover}
+                                alt={alt}
+                                loading="lazy"
+                                decoding="async"
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                                }}
+                                className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                              />
                             </div>
                             <div className="p-6 sm:p-7 flex-1 flex flex-col">
                               <div className="js-eq-header">
