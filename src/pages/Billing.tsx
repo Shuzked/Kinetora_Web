@@ -5,17 +5,11 @@ import PortalLayout from "@/components/dashboard/PortalLayout";
 import PremiumButton from "@/components/PremiumButton";
 import { Check, CreditCard, Download } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { generateInvoicePdf } from "@/utils/invoice";
 
 const Billing = () => {
-  const TEMPLATE_URL = "/assets/invoices/invoice-template.pdf";
-  const downloadInvoice = (inv: { id: string; date: string; plan: string; amount: string }) => {
-    const a = document.createElement("a");
-    a.href = TEMPLATE_URL;
-    a.download = `${inv.id}.pdf`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  };
+  // Datos de cliente (demo). En producción, tomar de Perfil/empresa del usuario.
+  const customer = { name: "Juan Díaz", email: "cliente@empresa.com", address: "Madrid", cityCountry: "España" };
 
   return (
     <PortalLayout>
@@ -134,7 +128,16 @@ const Billing = () => {
                       <button
                         type="button"
                         aria-label="Descargar"
-                        onClick={() => downloadInvoice(inv)}
+                        onClick={() =>
+                          generateInvoicePdf({
+                            id: inv.id,
+                            date: inv.date,
+                            plan: inv.plan,
+                            period: inv.date,
+                            amount: inv.amount,
+                            customer,
+                          })
+                        }
                         className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/[0.03] border border-white/10 text-[#B454FF] hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
                       >
                         <Download className="w-4 h-4" />
