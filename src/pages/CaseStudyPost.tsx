@@ -445,14 +445,27 @@ const CaseStudyPost = () => {
     const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
     const withEmbeds = cs?.embeds?.length ? injectEmbedsAtPoints(base, cs.embeds) : base;
     const split = splitWpContentIntoTextAndMedia(withEmbeds);
-    // Si hay override EN para este caso y el idioma es EN, úsalo; si no, traducir el texto
-    if (lang === "en" && cs) {
-      const override = caseContentOverrides[cs.slug]?.enTextHtml;
-      if (override) {
-        const safeOverride = sanitizeWpHtml(override);
-        return { textHtml: safeOverride, mediaHtml: split.mediaHtml };
+    
+    // Overrides: si hay override ES/EN, usarlo y volver a dividir para extraer media de ese HTML.
+    if (cs) {
+      if (lang === "es") {
+        const esOverride = caseContentOverrides[cs.slug]?.esTextHtml;
+        if (esOverride) {
+          const safe = sanitizeWpHtml(esOverride);
+          const sp = splitWpContentIntoTextAndMedia(safe);
+          return { textHtml: sp.textHtml, mediaHtml: sp.mediaHtml };
+        }
+        return { textHtml: split.textHtml, mediaHtml: split.mediaHtml };
+      } else {
+        const enOverride = caseContentOverrides[cs.slug]?.enTextHtml;
+        if (enOverride) {
+          const safe = sanitizeWpHtml(enOverride);
+          const sp = splitWpContentIntoTextAndMedia(safe);
+          return { textHtml: sp.textHtml, mediaHtml: sp.mediaHtml };
+        }
+        // Sin override en EN: traducir texto extraído del WP
+        return { textHtml: translateHtmlEsToEn(split.textHtml), mediaHtml: split.mediaHtml };
       }
-      return { textHtml: translateHtmlEsToEn(split.textHtml), mediaHtml: split.mediaHtml };
     }
     return { textHtml: split.textHtml, mediaHtml: split.mediaHtml };
   }, [post?.content?.rendered, cs, lang]);

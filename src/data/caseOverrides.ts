@@ -2,24 +2,48 @@
 
 export const caseContentOverrides: Record<
   string,
-  { enTextHtml?: string }
+  { enTextHtml?: string; esTextHtml?: string }
 > = {
   "dunk-low-elixir-edition": {
-    enTextHtml: [
-      "<p>Combining urban fashion with blockchain technology is a major challenge. It requires expert-level Web3 marketing. The team at Elixir Games presented us with a unique project. They wanted to launch an exclusive edition of the Nike Dunk Low sneakers. It was a highly limited product, with only 100 physical and digital units available.</p>",
-      "<p><strong>What did we do?</strong> We designed the entire visual and technical experience from scratch. We delivered the registration platform, an official trailer with visual effects (VFX), and the entire strategic rewards plan.</p>",
-      "<p><strong>The result?</strong> We quickly filled the waiting lists. Additionally, we generated $100 worth of tokens in rewards for each buyer. We built an elite community very quickly and successfully.</p>",
-      '<p>Our digital marketing agency made a significant impact on this project. Below, we detail our work. <a href="https://elixir.games" target="_blank" rel="noopener noreferrer">Visit the official Elixir Games website</a> to see their entire ecosystem.</p>',
-      "<h2>Web3 Marketing Strategy: Assets Created</h2>",
-      "<p>For this major launch, we prepared top-quality resources. Here is the work we delivered to our client:</p>",
+    // Contenido en español (tal cual lo proporcionaste)
+    esTextHtml: [
+      "<p>Unir moda urbana y tecnología blockchain es un gran reto. Esto exige un nivel experto de Marketing Web3. El equipo de Elixir Games nos planteó un proyecto único. Querían lanzar una edición exclusiva de las zapatillas Nike Dunk Low. Era un producto muy limitado de solo 100 unidades físicas y digitales.</p>",
+      "<p><strong>¿Qué hicimos?</strong> Diseñamos toda la experiencia visual y técnica desde cero. Entregamos la plataforma de registro, un tráiler oficial con efectos visuales (VFX) y todo el plan estratégico de recompensas.</p>",
+      "<p><strong>¿El resultado?</strong> Logramos llenar las listas de espera rápidamente. Además, generamos recompensas por valor de 100 dólares en tokens para cada comprador. Construimos una comunidad élite de forma muy rápida y exitosa.</p>",
+      '<p>Nuestra agencia de marketing digital logró un impacto total en este proyecto. A continuación, detallamos nuestro trabajo. <a href="https://elixir.games" target="_blank" rel="noopener noreferrer">Visita la web oficial de Elixir Games</a> para ver todo su ecosistema.</p>',
+      "<h2>Estrategia de Marketing Web3: Activos Creados</h2>",
+      "<p>Para este gran lanzamiento preparamos recursos de máxima calidad. Este fue el trabajo entregado a nuestro cliente:</p>",
       "<h3>1. Landing Page</h3>",
-      "<p>We developed the event's official website. We delivered a fast and highly engaging interface. We implemented a strategic UX/UI design to keep visitors engaged. We divided the platform into two key phases. First, we launched a secure form for the waitlist. Then, we activated the purchase flow once the countdown ended. The website handled massive traffic without crashes or technical issues. There were thousands of users on the waitlist. Despite this, the system ensured the seamless registration of the 100 lucky winners.</p>",
-      "<h3>2. Videos, Motion Graphics, and Images</h3>",
-      "<p>We produced all audiovisual content for social media. The deliverables included top-tier animations and motion graphics. We designed exclusive static banners for Discord and Twitter. We also created short video clips for the product launch. These visual assets highlighted the major prizes available. This kept public interest sky-high at all times.</p>",
-      "<h3>3. Launch Video (Editing, VFX, etc.)</h3>",
-      "<p>We created the official trailer to unveil these exclusive sneakers. This project required advanced video editing. We applied color correction and high-quality 3D visual effects (VFX). We showcased the realistic and detailed texture of the Nike Dunk Low. We achieved a highly immersive and cinematic aesthetic. This video sparked maximum excitement among the collector community.</p>",
+      "<p>Desarrollamos la página web oficial del evento. Entregamos una interfaz rápida y muy atractiva. Aplicamos un diseño UX/UI estratégico para retener al visitante. Dividimos la plataforma en dos fases clave. Primero, lanzamos un formulario seguro para la lista de espera (waitlist). Después, activamos el flujo de compra al terminar el contador. La web soportó un tráfico masivo sin caídas ni problemas técnicos. Hubo miles de usuarios en espera. A pesar de esto, el sistema aseguró el registro perfecto de los 100 afortunados.</p>",
+      "<h3>2. Vídeos, Motion e Imágenes</h3>",
+      "<p>Producimos todo el material audiovisual para las redes sociales. El trabajo entregado incluyó animaciones y motion graphics de primer nivel. Diseñamos banners estáticos y exclusivos para Discord y Twitter. También creamos píldoras de vídeo para el lanzamiento del producto. Estas piezas visuales destacaron los grandes premios disponibles. Así logramos mantener el interés del público por las nubes en todo momento.</p>",
+      "<h3>3. Video Lanzamiento (Edición, VFX, etc.)</h3>",
+      "<p>Creamos el tráiler oficial para revelar estas zapatillas exclusivas. Este entregable exigió una edición avanzada de vídeo. Aplicamos corrección de color y efectos visuales (VFX) en 3D de alta calidad. Mostramos la textura real y detallada de las Nike Dunk Low. Logramos una estética muy inmersiva y cinematográfica. Este vídeo detonó al máximo el entusiasmo del público coleccionista.</p>",
+      "<h3>4. Estrategia de Marketing</h3>",
+      "<p>Diseñamos un plan maestro para retener a todos los usuarios. Nuestra estrategia de Marketing Web3 incluyó la entrega de grandes premios. Creamos una campaña festiva para repartir airdrops durante todo el mes de diciembre. Los compradores recibieron recompensas valoradas en 100 dólares. Entregamos monedas virtuales gratuitas como $ELIX o $KIDEN. Esta gran acción táctica aseguró la lealtad absoluta de todo este grupo VIP.</p>",
+      "<h2>Videos entregables</h2>",
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/SmxMZZUsqIo?si=EqO1GaCOdw0TfdQ0" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/6FQVlBRWU-Y?si=95MSDbWVsfvD9g-q" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+    ].join(""),
+    // Traducción al inglés del contenido anterior
+    enTextHtml: [
+      "<p>Combining urban fashion with blockchain technology is a major challenge—one that demands expert-level Web3 marketing. The Elixir Games team came to us with a unique project: launch an exclusive edition of Nike Dunk Low sneakers, limited to just 100 physical and digital units.</p>",
+      "<p><strong>What did we do?</strong> We designed the entire visual and technical experience from scratch. We delivered the registration platform, the official trailer with visual effects (VFX), and the complete strategic rewards plan.</p>",
+      "<p><strong>The result?</strong> We quickly filled the waitlists and granted $100 in token rewards to every buyer—building an elite community fast and effectively.</p>",
+      '<p>Our digital marketing agency had a total impact on this project. Below we break down our work. <a href="https://elixir.games" target="_blank" rel="noopener noreferrer">Visit the official Elixir Games website</a> to explore their ecosystem.</p>',
+      "<h2>Web3 Marketing Strategy: Assets Created</h2>",
+      "<p>For this major launch, we prepared top-quality resources. Here's what we delivered:</p>",
+      "<h3>1. Landing Page</h3>",
+      "<p>We built the event's official website with a fast, engaging interface and strategic UX/UI designed to retain visitors. The platform launched in two phases: first, a secure waitlist form; then, once the countdown ended, the purchase flow. The site handled massive traffic without crashes, seamlessly registering the 100 winners amid thousands of waitlist users.</p>",
+      "<h3>2. Videos, Motion, and Images</h3>",
+      "<p>We produced all audiovisual assets for social channels, including top-tier animations and motion graphics. We designed exclusive static banners for Discord and Twitter and created short video clips for the product reveal—highlighting the rewards and keeping public interest sky-high.</p>",
+      "<h3>3. Launch Trailer (Editing, VFX, etc.)</h3>",
+      "<p>We crafted the official trailer to unveil the exclusive sneakers—requiring advanced video editing, color grading, and high-quality 3D VFX. We showcased the realistic texture of the Nike Dunk Low in an immersive, cinematic style that energized the collector community.</p>",
       "<h3>4. Marketing Strategy</h3>",
-      "<p>We designed a comprehensive plan to retain all users. Our Web3 marketing strategy included the distribution of generous prizes. We created a festive campaign to distribute airdrops throughout the month of December. Buyers received rewards valued at $100. We distributed free virtual coins such as $ELIX or $KIDEN. This major tactical initiative ensured the absolute loyalty of this entire VIP group.</p>",
+      "<p>We designed a master plan to retain users, with festive airdrops throughout December. Buyers received $100 in rewards and free coins such as $ELIX or $KIDEN—ensuring complete loyalty across this VIP group.</p>",
+      "<h2>Deliverable Videos</h2>",
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/SmxMZZUsqIo?si=EqO1GaCOdw0TfdQ0" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/6FQVlBRWU-Y?si=95MSDbWVsfvD9g-q" title="YouTube video player" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
     ].join(""),
   },
 
