@@ -84,49 +84,81 @@ serve(async (req) => {
       }
     }
 
-    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-    if (!RESEND_API_KEY) {
-      console.error("[send-email] RESEND_API_KEY not set");
-      return new Response(JSON.stringify({ error: "Server not configured" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
     const html = renderHtml(body);
-    const subject = body.type === "contact"
-      ? "New contact message — kinetora.tech"
-      : "New newsletter subscription — kinetora.tech";
+    const subject =
+      body.type === "contact"
+        ? "New contact message — kinetora.tech"
+        : "New newsletter subscription — kinetora.tech";
 
-    // You can change the 'from' after verifying your domain in Resend
-    const from = Deno.env.get("RESEND_FROM") || "onboarding@resend.dev";
-
-    const resp = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: ["hello@kinetora.tech"],
-        subject,
-        html,
-      }),
-    });
-
-    if (!resp.ok) {
-      const errText = await resp.text();
-      console.error("[send-email] Resend error", { status: resp.status, errText });
-      return new Response(JSON.stringify({ error: "Email send failed" }), {
-        status: 502,
+    // Try RESEND first (if configured)
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    if (RESEND_API_KEY) {
+      const from = Deno.env.get("RESEND_FROM") || "onboarding@resend.dev";
+      const r = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${RESEND_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          from,
+          to: ["hello@kinetora.tech"],
+          subject,
+          html,
+        }),
+      });
+      if (!r.ok) {
+        const errText = await r.text();
+        console.error("[send-email] Resend error", { status: r.status, errText });
+        return new Response(JSON.stringify({ error: "Email send failed" }), {
+          status: 502,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      console.log("[send-email] Email sent via Resend");
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    console.log("[send-email] Email sent successfully", { type: body.type });
-    return new Response(JSON.stringify({ ok: true }), {
-      status: 200,
+    // Fallback to Brevo (free plan) if configured
+    const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
+    if (BREVO_API_KEY) {
+      const fromEmail = Deno.env.get("BREVO_FROM") || "hello@kinetora.tech";
+      const fromName = Deno.env.get("BREVO_FROM_NAME") || "Kinetora Studio";
+      const r = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+          "api-key": BREVO_API_KEY,
+          "Content-Type": "application/json",
+          accept: "application/json",
+        },
+        body: JSON.stringify({
+          sender: { email: fromEmail, name: fromName },
+          to: [{ email: "hello@kinetora.tech", name: "Kinetora Studio" }],
+          subject,
+          htmlContent: html,
+        }),
+      });
+      if (!r.ok) {
+        const errText = await r.text();
+        console.error("[send-email] Brevo error", { status: r.status, errText });
+        return new Response(JSON.stringify({ error: "Email send failed" }), {
+          status: 502,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      console.log("[send-email] Email sent via Brevo");
+      return new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    console.error("[send-email] No provider configured (set RESEND_API_KEY or BREVO_API_KEY)");
+    return new Response(JSON.stringify({ error: "Server not configured" }), {
+      status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (e) {
