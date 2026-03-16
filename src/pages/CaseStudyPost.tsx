@@ -459,7 +459,7 @@ const CaseStudyPost = () => {
       <Navbar />
 
       <main className="pt-[68px] md:pt-[88px]">
-        <section className="relative">
+        <section className="relative kin-no-overflow">
           <div className="pointer-events-none absolute -top-28 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/10 blur-[120px]" />
           <div className="pointer-events-none absolute -bottom-44 -left-44 h-[32rem] w-[32rem] rounded-full bg-[#33C3F0]/[0.07] blur-[140px]" />
 
@@ -508,7 +508,7 @@ const CaseStudyPost = () => {
                   <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 items-start">
                     <article
                       ref={textWrapRef}
-                      className={`wp-post self-start ${stickySide === "left" ? "lg:sticky lg:bottom-8" : ""}`}
+                      className={`wp-post self-start ${stickySide === "left" ? "lg:sticky lg:top-[108px]" : ""}`}
                     >
                       <div className="flex items-center justify-between gap-4 mb-5">
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
@@ -536,7 +536,7 @@ const CaseStudyPost = () => {
                     <aside className="self-start">
                       <div
                         ref={mediaWrapRef}
-                        className={`wp-media ${stickySide === "right" ? "lg:sticky lg:bottom-8" : ""}`}
+                        className={`wp-media ${stickySide === "right" ? "lg:sticky lg:top-[108px]" : ""}`}
 
                       >
                         <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
