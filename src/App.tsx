@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import Cases from "./pages/Cases";
 import Login from "./pages/Login";
@@ -24,15 +24,27 @@ import { RequestsProvider } from "./providers/RequestsProvider";
 
 const queryClient = new QueryClient();
 
+const ConditionalScrollUI = () => {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith("/dashboard");
+  if (isDashboard) return null;
+  return (
+    <>
+      <ScrollProgress />
+      <ScrollToTop />
+    </>
+  );
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <ScrollProgress />
       <NotificationsProvider>
         <RequestsProvider>
           <BrowserRouter>
+            <ConditionalScrollUI />
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/casos" element={<Cases />} />
@@ -59,7 +71,6 @@ const App = () => (
           </BrowserRouter>
         </RequestsProvider>
       </NotificationsProvider>
-      <ScrollToTop />
     </TooltipProvider>
   </QueryClientProvider>
 );
