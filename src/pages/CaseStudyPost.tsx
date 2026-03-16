@@ -258,6 +258,8 @@ const CaseStudyPost = () => {
   const textWrapRef = React.useRef<HTMLElement | null>(null);
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
   const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
+
+  // Equalizar cabeceras en el carrusel de "Más resultados"
   const eqMoreRef = React.useRef<HTMLDivElement | null>(null);
 
   const [meta, setMeta] = React.useState<
@@ -482,8 +484,7 @@ const CaseStudyPost = () => {
     };
   }, [textHtml, mediaHtml]);
 
-  // Activar equalización como en el home (depende de idioma y meta cargado)
-  const metaReady = React.useMemo(() => Object.keys(meta).length > 0, [meta]);
+  // Usamos metaReady ya declarado más arriba
   useEqualizeHeights(eqMoreRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang, metaReady]);
 
   return (
@@ -604,8 +605,8 @@ const CaseStudyPost = () => {
                     </Link>
                   </div>
 
-                  <div className="relative" aria-label={ui.moreResults}>
-                    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-7" ref={eqMoreRef}>
+                  <div className="relative" aria-label={ui.moreResults} ref={eqMoreRef}>
+                    <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-7">
                       <div>
                         <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
                           {ui.moreResults}
