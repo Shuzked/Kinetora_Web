@@ -1,4 +1,3 @@
-EN preservando HTML y mayúsculas.">
 "use client";
 
 export function isLikelySpanish(text: string) {
@@ -28,8 +27,6 @@ function buildPairs(): Pair[] {
     ["piezas audiovisuales", "audiovisual assets"],
     ["identidad visual", "visual identity"],
     ["redes sociales", "social media"],
-
-    // términos frecuentes (individuales)
     ["campaña", "campaign"],
     ["lanzamiento", "launch"],
     ["global", "global"],
@@ -67,8 +64,6 @@ function buildPairs(): Pair[] {
     ["serie", "series"],
     ["series", "series"],
     ["eSports", "eSports"],
-
-    // conectores
     ["con", "with"],
     ["sin", "without"],
     ["para", "for"],
@@ -77,7 +72,6 @@ function buildPairs(): Pair[] {
     ["pero", "but"],
   ];
 
-  // Ordenar por longitud descendente para evitar solapamientos
   entries.sort((a, b) => b[0].length - a[0].length);
 
   return entries.map(([es, en]) => [new RegExp(`\\b${escapeRegExp(es)}\\b`, "gi"), en]);
@@ -105,8 +99,7 @@ export function translateHtmlEsToEn(html: string) {
 
   const walker = doc.createTreeWalker(
     doc.body,
-    // @ts-ignore: NodeFilter está disponible en DOM
-    NodeFilter.SHOW_TEXT,
+    NodeFilter.SHOW_TEXT as any,
     {
       acceptNode: (node: any) => {
         const val = node.nodeValue as string | null;
