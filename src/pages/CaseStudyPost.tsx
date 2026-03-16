@@ -435,10 +435,13 @@ const CaseStudyPost = () => {
   const { textHtml, mediaHtml } = React.useMemo(() => {
     const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
     const withEmbeds = cs?.embeds?.length ? injectEmbedsAtPoints(base, cs.embeds) : base;
-    // Si el usuario está en EN y el contenido parece español, traducimos automáticamente
-    const maybeTranslated =
-      lang === "en" && isLikelySpanish(stripHtml(withEmbeds)) ? translateHtmlEsToEn(withEmbeds) : withEmbeds;
-    return splitWpContentIntoTextAndMedia(maybeTranslated);
+    // Dividimos primero y traducimos SOLO el contenido textual del bloque "Lo que hicimos" si está en EN
+    const split = splitWpContentIntoTextAndMedia(withEmbeds);
+    const shouldTranslate = lang === "en" && isLikelySpanish(stripHtml(split.textHtml));
+    return {
+      textHtml: shouldTranslate ? translateHtmlEsToEn(split.textHtml) : split.textHtml,
+      mediaHtml: split.mediaHtml,
+    };
   }, [post?.content?.rendered, cs, lang]);
 
   React.useEffect(() => {
