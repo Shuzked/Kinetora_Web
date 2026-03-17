@@ -60,7 +60,7 @@ const Contact = () => {
             "Acepto ser contactado para resolver dudas y recibir una propuesta personalizada.",
           send: "Enviar mensaje",
           sending: "Enviando…",
-          success: "Gracias. Te contactaremos en breve.",
+          success: "Mensaje enviado correctamente",
           errName: "Introduce tu nombre.",
           errEmail: "Introduce un email válido.",
           errMsg: "Cuéntanos brevemente tu necesidad (mín. 10 caracteres).",
@@ -98,7 +98,7 @@ const Contact = () => {
           consent: "I agree to be contacted and receive a tailored proposal.",
           send: "Send message",
           sending: "Sending…",
-          success: "Thanks — we'll get back to you shortly.",
+          success: "Message sent successfully",
           errName: "Please enter your name.",
           errEmail: "Please enter a valid email.",
           errMsg: "Tell us briefly what you need (min. 10 characters).",
@@ -120,9 +120,9 @@ const Contact = () => {
           modalClose: "Close",
         };
 
-  // PEGAR AQUÍ TU ACCESS KEY DE WEB3FORMS:
-  // Sustituye el valor por tu Access Key real desde https://web3forms.com/dashboard
-  const WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY";
+  // Web3Forms: clave de acceso fija
+  // Nota: si cambias esta key, actualiza aquí tu nueva access_key desde https://web3forms.com/dashboard
+  const WEB3FORMS_ACCESS_KEY = "7e89d9dd-e4b7-4187-8cd0-46c5bc511b2c";
 
   const validate = () => {
     const next: Record<string, string> = {};
@@ -143,15 +143,11 @@ const Contact = () => {
 
     setLoading(true);
 
+    // Enviar estrictamente access_key, name, email, message
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
-      // Metadatos opcionales útiles en el correo
-      subject: lang === "es" ? "Nuevo contacto desde la web" : "New website contact",
-      from_name: "Kinetora Website",
       name,
       email,
-      company,
-      budget,
       message,
     };
 
@@ -232,6 +228,19 @@ const Contact = () => {
                 </div>
               </div>
 
+              <div>
+                <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.message}</Label>
+                <Textarea
+                  id="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  placeholder={strings.messagePh}
+                  className={`mt-2 min-h-[120px] bg-white/5 border ${errors.message ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
+                  aria-invalid={!!errors.message}
+                />
+                {errors.message && <p className="mt-1 text-[12px] text-red-400">{errors.message}</p>}
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.company}</Label>
@@ -258,19 +267,6 @@ const Contact = () => {
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
-
-              <div>
-                <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.message}</Label>
-                <Textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder={strings.messagePh}
-                  className={`mt-2 min-h-[120px] bg-white/5 border ${errors.message ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
-                  aria-invalid={!!errors.message}
-                />
-                {errors.message && <p className="mt-1 text-[12px] text-red-400">{errors.message}</p>}
               </div>
 
               <div className="flex items-start gap-2">
