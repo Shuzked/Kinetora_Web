@@ -120,6 +120,10 @@ const Contact = () => {
           modalClose: "Close",
         };
 
+  // PEGAR AQUÍ TU ACCESS KEY DE WEB3FORMS:
+  // Sustituye el valor por tu Access Key real desde https://web3forms.com/dashboard
+  const WEB3FORMS_ACCESS_KEY = "REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY";
+
   const validate = () => {
     const next: Record<string, string> = {};
     if (!name.trim()) next.name = strings.errName;
@@ -138,20 +142,30 @@ const Contact = () => {
     if (Object.keys(v).length > 0) return;
 
     setLoading(true);
-    const resp = await fetch("/api/contacto", {
+
+    const payload = {
+      access_key: WEB3FORMS_ACCESS_KEY,
+      // Metadatos opcionales útiles en el correo
+      subject: lang === "es" ? "Nuevo contacto desde la web" : "New website contact",
+      from_name: "Kinetora Website",
+      name,
+      email,
+      company,
+      budget,
+      message,
+    };
+
+    const resp = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name,
-        email,
-        company,
-        budget,
-        message,
-      }),
+      body: JSON.stringify(payload),
     });
+
     setLoading(false);
 
-    if (!resp.ok) {
+    const data = await resp.json().catch(() => null as any);
+
+    if (!resp.ok || !data || data.success !== true) {
       setSubmitMsg(strings.errSubmit);
       return;
     }
@@ -173,8 +187,6 @@ const Contact = () => {
       id="contacto"
       className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden"
     >
-      {/* REMOVED: fondos decorativos para mantenerlos solo en la sección de 'El fin de la fricción creativa' */}
-
       <div className="kin-container relative z-10">
         <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
@@ -292,7 +304,6 @@ const Contact = () => {
                   </p>
                 )}
               </div>
-              {errors.submit && <p className="mt-2 text-[12px] text-red-400">{errors.submit}</p>}
             </form>
           </div>
         </div>
