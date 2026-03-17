@@ -57,6 +57,20 @@ const Testimonials = () => {
                 "Con proyectos como Robokiden no puedes jugártela con la parte técnica. Kinetora nos dio la tranquilidad de saber que todo iba a funcionar perfectamente. Son expertos en lo suyo y se nota en la calidad de lo que entregan.",
               avatar: "https://i.pravatar.cc/150?u=ferran-pu",
             },
+            {
+              name: "Victor Merino",
+              role: "CTO @ BUU AI",
+              content:
+                "En el mundo de la IA todo cambia muy rápido y necesitas partners que no solo sigan el ritmo, sino que propongan. Con Kinetora la comunicación fluye de verdad y técnicamente están a un nivel altísimo. Da mucha tranquilidad delegar partes críticas del desarrollo en gente que sabe tanto de lo suyo.",
+              avatar: "/assets/testimonials/victor-merino.webp",
+            },
+            {
+              name: "Jorge Regalado",
+              role: "CTO @ Elixir Games",
+              content:
+                "He trabajado con muchos equipos, pero lo de Kinetora es de otro nivel. Se nota que disfrutan con los retos técnicos y no paran hasta encontrar la solución más eficiente. En Elixir Games valoramos mucho esa actitud de ir un paso más allá en cada entrega. Son unos cracks.",
+              avatar: "/assets/testimonials/jorge-regalado.webp",
+            },
           ],
         }
       : {
@@ -98,16 +112,32 @@ const Testimonials = () => {
                 "With projects like Robokiden you can't risk the technical side. Kinetora gave us peace of mind knowing everything would work flawlessly. They're experts at what they do and it shows in the quality they deliver.",
               avatar: "https://i.pravatar.cc/150?u=ferran-pu",
             },
+            {
+              name: "Victor Merino",
+              role: "CTO @ BUU AI",
+              content:
+                "In the AI world, everything changes fast and you need partners who not only keep up but also propose. With Kinetora, communication truly flows and technically they're at a very high level. It's reassuring to delegate critical parts of development to people who know their craft so well.",
+              avatar: "/assets/testimonials/victor-merino.webp",
+            },
+            {
+              name: "Jorge Regalado",
+              role: "CTO @ Elixir Games",
+              content:
+                "I've worked with many teams, but Kinetora is on another level. You can tell they enjoy technical challenges and don't stop until they find the most efficient solution. At Elixir Games we value that drive to go one step further with every delivery. They're outstanding.",
+              avatar: "/assets/testimonials/jorge-regalado.webp",
+            },
           ],
         };
 
-  // Añadimos mapeo a archivos locales y derivamos nombres desde el nombre del archivo
+  // Mapeo a archivos locales y derivación de nombres desde el nombre del archivo
   const avatarFiles = [
     "carlos-roldan.webp",
     "enrique-phan.webp",
     "danyil-shatko.webp",
     "nicolas-francisquelo.webp",
     "ferran-punti.webp",
+    "victor-merino.webp",
+    "jorge-regalado.webp",
   ];
   const toTitleCase = (str: string) =>
     str.replace(/\b\w+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
