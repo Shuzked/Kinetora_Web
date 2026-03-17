@@ -276,6 +276,15 @@ export const caseContentOverrides: Record<
       "<p>Unir creatividad, tecnología y psicología fue un éxito total. Logramos una gran meta en el mundo digital. Generamos más de 1,15 millones de dólares en ventas.</p>",
       "<p>El caso de RoboKiden deja una gran lección. En la era digital, no basta con estar online. Tu marca debe ser muy fácil de recordar. El buen Marketing Web3 ayuda a lograrlo.</p>",
     ].join(""),
+    esMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/RkqxhkuitMA?si=6l1w1YgJRZSF1lDF" title="ROBOKIDEN — Video 1" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/QUyiRiKI4U4?si=nNYea91flGpvXf5r" title="ROBOKIDEN — Video 2" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/EQXJD-CVhqc?si=Vxn7ysCfd9YDvKlF" title="ROBOKIDEN — Video 3" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/E4WACjOCVxo?si=Da7pZVBFr0ZgBWmo" title="ROBOKIDEN — Video 4" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/robokiden-token/misfits-art.webp" alt="RoboKiden Misfits — Arte de colección" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/robokiden-token/misfits-post.webp" alt="RoboKiden Misfits — Creatividad de anuncio" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/robokiden-token/misfits-grid.webp" alt="RoboKiden Misfits — Galería de avatares" loading="lazy" /></figure>',
+    ].join(""),
     enTextHtml: [
       "<p>ROBOKIDEN TOKEN demanded a sales-oriented Web3 plan: a compelling story, a strong visual identity and assets that move fast across channels.</p>",
       "<h2>What we delivered</h2>",
@@ -287,6 +296,15 @@ export const caseContentOverrides: Record<
       "<p>Trailers, motion snippets and social banners that translate complex mechanics into excitement and understanding—optimized for Twitter, Discord and YouTube.</p>",
       "<h3>4. Airdrop & Sales Mechanics</h3>",
       "<p>An actionable plan for incentives and communication. We created the visual language for airdrops and unlocks to keep momentum—and transparency—throughout the campaign.</p>",
+    ].join(""),
+    enMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/RkqxhkuitMA?si=6l1w1YgJRZSF1lDF" title="ROBOKIDEN — Video 1" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/QUyiRiKI4U4?si=nNYea91flGpvXf5r" title="ROBOKIDEN — Video 2" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/EQXJD-CVhqc?si=Vxn7ysCfd9YDvKlF" title="ROBOKIDEN — Video 3" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/E4WACjOCVxo?si=Da7pZVBFr0ZgBWmo" title="ROBOKIDEN — Video 4" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/robokiden-token/misfits-art.webp" alt="RoboKiden Misfits — Collection art" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/robokiden-token/misfits-post.webp" alt="RoboKiden Misfits — Announcement creative" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/robokiden-token/misfits-grid.webp" alt="RoboKiden Misfits — Avatar gallery" loading="lazy" /></figure>',
     ].join(""),
   },
 };
