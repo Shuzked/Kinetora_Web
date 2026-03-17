@@ -114,9 +114,9 @@ const Hero = () => {
 
         {/* Textura/grain y gradientes de legibilidad */}
         <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
-        <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
+        <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
+        <div className="absolute inset-0 pointer-events-none bg-black/60 sm:bg-black/55 md:bg-black/50" />
         <div className="absolute inset-0 pointer-events-none opacity-70 bg-[radial-gradient(ellipse_at_center,transparent_45%,#0D0D0D_90%)]" />
       </div>
 
@@ -131,7 +131,7 @@ const Hero = () => {
       <div className="kin-container">
         <motion.div
           style={{ y: yContent }}
-          className="min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"
+          className="relative z-10 min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"
         >
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
