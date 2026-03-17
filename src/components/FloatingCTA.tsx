@@ -6,57 +6,8 @@ import PremiumButton from "@/components/PremiumButton";
 import { useI18n } from "@/i18n/I18nProvider";
 
 const FloatingCTA: React.FC = () => {
-  const { lang } = useI18n();
-  const { scrollY } = useScroll();
-  const visible = useTransform(scrollY, [0, 240, 300], [0, 0, 1]);
-
-  const handlePlanClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const el = document.getElementById("contacto");
-    if (!el) return;
-    const nav = document.querySelector("nav");
-    const navH = nav instanceof HTMLElement ? nav.offsetHeight : 0;
-    const y = el.getBoundingClientRect().top + window.scrollY - navH - 8;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  };
-
-  const handleServiciosClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const el = document.getElementById("servicios");
-    if (!el) return;
-    const nav = document.querySelector("nav");
-    const navH = nav instanceof HTMLElement ? nav.offsetHeight : 0;
-    const y = el.getBoundingClientRect().top + window.scrollY - navH - 8;
-    window.scrollTo({ top: y, behavior: "smooth" });
-  };
-
-  return (
-    <motion.div
-      style={{ opacity: visible, pointerEvents: visible as unknown as "auto" }}
-      className="fixed bottom-5 left-0 right-0 z-[55] px-4 sm:px-6 md:hidden"
-    >
-      <div className="mx-auto max-w-6xl">
-        <div className="backdrop-blur-xl bg-[#0D0D0D]/70 border border-[#2A2A2A] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.35)] p-2 flex items-center gap-2">
-          <PremiumButton
-            onClick={handlePlanClick}
-            variant="primary"
-            size="sm"
-            className="flex-1 rounded-xl"
-          >
-            {lang === "es" ? "Contactar" : "Let's talk"}
-          </PremiumButton>
-          <PremiumButton
-            variant="glass"
-            size="sm"
-            onClick={handleServiciosClick}
-            className="flex-1 rounded-xl"
-          >
-            {lang === "es" ? "Servicios" : "Services"}
-          </PremiumButton>
-        </div>
-      </div>
-    </motion.div>
-  );
+  // Ocultamos el CTA flotante en móvil (no se renderiza)
+  return null;
 };
 
 export default FloatingCTA;

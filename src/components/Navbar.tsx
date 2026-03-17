@@ -33,6 +33,7 @@ const Navbar = () => {
   const progress = useTransform(scrollY, [0, 140], [0, 1]);
   const blurMV = useTransform(progress, (v) => `blur(${14 * v}px)`);
   const bgMV = useTransform(progress, (v) => `rgba(13,13,13,${0.12 * v})`);
+  const isMobile = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(max-width: 767px)").matches;
   const borderOpacity = progress;
 
   return (
@@ -42,10 +43,10 @@ const Navbar = () => {
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
         style={{
           opacity: progress,
-          // En móvil evitamos el blur costoso (deja solo un fondo semitransparente)
-          backdropFilter: typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches ? (blurMV as any) : undefined,
-          WebkitBackdropFilter: typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches ? (blurMV as any) : undefined,
-          backgroundColor: bgMV as any,
+          // En móvil: sin blur y fondo negro sólido; en desktop: blur + fondo translúcido
+          backdropFilter: !isMobile ? (blurMV as any) : undefined,
+          WebkitBackdropFilter: !isMobile ? (blurMV as any) : undefined,
+          backgroundColor: (isMobile ? "#000000" : (bgMV as unknown as string)) as any,
         }}
       />
       <motion.div
