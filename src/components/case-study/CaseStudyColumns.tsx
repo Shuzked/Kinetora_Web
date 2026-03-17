@@ -1,6 +1,7 @@
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import WPPostContent from "@/components/WPPostContent";
+import MediaLightbox from "@/components/case-study/MediaLightbox";
 
 type CaseStudyColumnsProps = {
   loading: boolean;
@@ -67,9 +68,7 @@ const CaseStudyColumns = ({
               <Skeleton className="h-48 w-full rounded-2xl" />
             </div>
           ) : (
-            <div className="wp-post__content wp-post__media">
-              <WPPostContent html={mediaHtml} />
-            </div>
+            <MediaLightbox html={mediaHtml} />
           )}
         </div>
       </aside>
