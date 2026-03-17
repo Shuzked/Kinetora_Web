@@ -27,7 +27,30 @@ export default function WPPostContent({ html }: { html: string }) {
     () =>
       DOMPurify.sanitize(html, {
         USE_PROFILES: { html: true },
-        ADD_ATTR: ["target", "rel", "loading", "decoding", "referrerpolicy"],
+        ADD_TAGS: ["iframe", "video", "source"],
+        ADD_ATTR: [
+          "target",
+          "rel",
+          "loading",
+          "decoding",
+          "referrerpolicy",
+          "allow",
+          "allowfullscreen",
+          "frameborder",
+          "scrolling",
+          "controls",
+          "playsinline",
+          "muted",
+          "loop",
+          "autoplay",
+          "poster",
+          "preload",
+          "src",
+          "type",
+          "title",
+          "width",
+          "height",
+        ],
       }),
     [html]
   );
