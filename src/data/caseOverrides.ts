@@ -195,6 +195,16 @@ export const caseContentOverrides: Record<
       "<h2>El Impacto de un Buen Ecosistema Visual</h2>",
       "<p>Este evento fue una victoria total para LitLab Games. Movilizar a miles de jugadores demuestra el gran poder del Marketing Web3. Una gran imagen gráfica siempre multiplica tus ingresos reales.</p>",
     ].join(""),
+    esMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/za4N6K06wno?si=5abUViTHta2IIK5k" title="CYBERTITANS PULSE — Video 1" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/FbMu9-idxVg?si=rT2sXPz5El3jAM_c" title="CYBERTITANS PULSE — Video 2" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/Z3Qj1_-ROs0?si=L-l-ygiiTIEBfC77" title="CYBERTITANS PULSE — Video 3" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/pulse-hero.webp" alt="CYBERTITANS PULSE — Identidad y emblema del torneo" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/ladder-prizes.webp" alt="CYBERTITANS PULSE — New Ladder Prizes x2 $5,000" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/promo-lateral-banner.webp" alt="CYBERTITANS PULSE — Banner lateral promocional 300.000$" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/lobby-banner.webp" alt="CYBERTITANS PULSE — Banner de lobby nueva temporada" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/board-ads.webp" alt="CYBERTITANS PULSE — Tablero con publicidad de premios" loading="lazy" /></figure>',
+    ].join(""),
     enTextHtml: [
       "<p>For the CYBERTITANS PULSE SERIES we built a competitive visual system that reads instantly on streams and social. The identity elevates the tournament while keeping it easy to operate for production teams.</p>",
       "<h2>What we delivered</h2>",
@@ -206,6 +216,16 @@ export const caseContentOverrides: Record<
       "<p>Announcement cards, match schedules, bracket updates and winner assets. These templates helped social teams maintain pace and consistency throughout the event.</p>",
       "<h3>4. Motion Packages</h3>",
       "<p>Short trailers and sting animations to enhance broadcast pacing and drive engagement on Twitter and Discord during key beats.</p>",
+    ].join(""),
+    enMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/za4N6K06wno?si=5abUViTHta2IIK5k" title="CYBERTITANS PULSE — Video 1" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/FbMu9-idxVg?si=rT2sXPz5El3jAM_c" title="CYBERTITANS PULSE — Video 2" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/Z3Qj1_-ROs0?si=L-l-ygiiTIEBfC77" title="CYBERTITANS PULSE — Video 3" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/pulse-hero.webp" alt="CYBERTITANS PULSE — Tournament identity and emblem" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/ladder-prizes.webp" alt="CYBERTITANS PULSE — New Ladder Prizes x2 $5,000" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/promo-lateral-banner.webp" alt="CYBERTITANS PULSE — Lateral promo banner 300,000$" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/lobby-banner.webp" alt="CYBERTITANS PULSE — Lobby banner new season" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-pulse-series/board-ads.webp" alt="CYBERTITANS PULSE — Board with prizes ads" loading="lazy" /></figure>',
     ].join(""),
   },
 
