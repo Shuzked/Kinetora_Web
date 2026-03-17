@@ -14,6 +14,8 @@ import { useI18n } from "@/i18n/I18nProvider";
 // SEO
 import SEO from "@/components/SEO";
 import { getSeoDefaults } from "@/seo/defaults";
+// Utils para separar media del texto
+import { splitWpContentIntoTextAndMedia, sanitizeWpHtml } from "@/components/case-study/caseStudyUtils";
 
 const CaseStudyPost = () => {
   const { lang } = useI18n();
@@ -68,32 +70,35 @@ const CaseStudyPost = () => {
   const cover = currentCase?.coverImage;
   const coverAlt = lang === "es" ? currentCase?.coverAlt : currentCase?.coverAltEn ?? currentCase?.coverAlt;
 
-  // Usar overrides locales: texto y media separados
+  // Usar overrides locales: texto y media separados automáticamente
   const { textHtml, mediaHtml } = React.useMemo(() => {
     if (!currentCase) {
       return { textHtml: "", mediaHtml: "" };
     }
     const overrides = caseContentOverrides[currentCase.slug] || {};
-    const text =
+    const rawText =
       lang === "es"
         ? overrides.esTextHtml ?? null
         : overrides.enTextHtml ?? overrides.esTextHtml ?? null;
 
-    const media =
+    // Si hay texto con figuras/iframes dentro, los separamos con el splitter
+    if (rawText) {
+      const safe = sanitizeWpHtml(rawText);
+      const split = splitWpContentIntoTextAndMedia(safe);
+      // Si algún caso define media extra de forma explícita, la añadimos (sin romper tipos)
+      const extraMedia = (lang === "es"
+        ? (overrides as any).esMediaHtml
+        : (overrides as any).enMediaHtml ?? (overrides as any).esMediaHtml) as string | undefined;
+      const mediaCombined = [split.mediaHtml, extraMedia].filter(Boolean).join("\n");
+      return { textHtml: split.textHtml, mediaHtml: mediaCombined };
+    }
+
+    // Fallback sin media
+    const fallbackText =
       lang === "es"
-        ? overrides.esMediaHtml ?? null
-        : overrides.enMediaHtml ?? overrides.esMediaHtml ?? null;
-
-    const safeText =
-      text ??
-      (lang === "es"
         ? `<p>Resumen del proyecto: ${currentCase.title}. Diseñamos e implementamos el sistema visual, la narrativa y los entregables principales para acelerar crecimiento.</p>`
-        : `<p>Project summary: ${currentCase.titleEn ?? currentCase.title}. We designed and implemented the visual system, narrative and key deliverables to accelerate growth.</p>`);
-
-    // Si no hay mediaHtml, dejamos cadena vacía para no mostrar nada en la columna de entregables
-    const safeMedia = media ?? "";
-
-    return { textHtml: safeText, mediaHtml: safeMedia };
+        : `<p>Project summary: ${currentCase.titleEn ?? currentCase.title}. We designed and implemented the visual system, narrative and key deliverables to accelerate growth.</p>`;
+    return { textHtml: fallbackText, mediaHtml: "" };
   }, [currentCase, lang]);
 
   React.useEffect(() => {
@@ -122,6 +127,10 @@ const CaseStudyPost = () => {
     ...seoDefaults.keywords,
     ...(lang === "es" ? ["caso de éxito", "portafolio", "resultados"] : ["case study", "portfolio", "results"]),
   ];
+
+  // Refs necesarias por CaseStudyColumns (para sticky y medidas)
+  const textWrapRef = React.useRef<HTMLElement | null>(null);
+  const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -195,6 +204,8 @@ const CaseStudyPost = () => {
                     stickySide={null}
                     textLabel={ui.textCol}
                     mediaLabel={ui.mediaCol}
+                    textWrapRef={textWrapRef}
+                    mediaWrapRef={mediaWrapRef}
                   />
 
                   <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
