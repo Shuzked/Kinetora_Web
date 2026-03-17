@@ -89,8 +89,7 @@ const ValueProp = () => {
         };
 
   return (
-    <section className="kin-section relative">
-
+    <section className="kin-section relative overflow-hidden sm:overflow-visible kin-no-overflow">
       <div className="kin-container">
         {/* ambient glow (soft, no hard cuts) */}
         <div className="pointer-events-none absolute -top-24 -left-20 h-64 w-64 sm:h-80 sm:w-80 md:h-96 md:w-96 rounded-full bg-[#B454FF]/10 blur-[60px] sm:blur-[90px] md:blur-[110px] z-0" />
@@ -102,11 +101,11 @@ const ValueProp = () => {
             <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
               {copy.pill}
             </div>
-            <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] mb-4 tracking-tighter uppercase">
+            <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] mb-4 tracking-tighter uppercase break-words">
               {copy.titleTop} <br className="hidden sm:block" />
               <span className="text-[#B454FF]">{copy.titleAccent}</span>
             </h2>
-            <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+            <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed break-words">
               {copy.sub}
             </p>
           </div>
@@ -119,7 +118,7 @@ const ValueProp = () => {
                 initial={{ opacity: 0, y: 16 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, ease: 'easeOut' }}
-                className="h-full rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative flex flex-col"
+                className="h-full rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-8 sm:p-10 md:p-12 relative flex flex-col overflow-hidden"
               >
                 <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
                   <div className="flex items-center gap-3">
