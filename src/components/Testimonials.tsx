@@ -23,39 +23,39 @@ const Testimonials = () => {
           sub: "Startups que escalan con nosotros.",
           testimonials: [
             {
-              name: "Alex Rivera",
-              role: "CEO @ TechFlow",
+              name: "Carlos Roldán",
+              role: "CEO @ Elixir Games",
               content:
-                "Kinetora cambió las reglas del juego para nosotros. Pasamos de esperar semanas por un diseño a tener entregas constantes cada 48h.",
-              avatar: "https://i.pravatar.cc/150?u=alex",
+                "Lo que más valoro de trabajar con el equipo de Kinetora es que no se limitan a picar código; entienden el producto. En Elixir Games necesitábamos a alguien que aguantara el ritmo y ellos estuvieron a la altura desde el primer día. Son de total confianza.",
+              avatar: "https://i.pravatar.cc/150?u=carlos-rol",
             },
             {
-              name: "Elena Gómez",
-              role: "Product Manager @ HealthUp",
+              name: "Enrique Phan",
+              role: "CEO @ SphereStudios",
               content:
-                "La calidad del UX/UI es excepcional. Entienden perfectamente el lenguaje de las startups y lo que los inversores buscan.",
-              avatar: "https://i.pravatar.cc/150?u=elena",
+                "Para Chronos Worlds buscábamos una ejecución impecable y Kinetora nos dio justo eso. Se implican de verdad en el proyecto y eso se nota en el resultado final. Si buscas a alguien que cuide los detalles técnicos tanto como tú, son ellos.",
+              avatar: "https://i.pravatar.cc/150?u=enrique-phan",
             },
             {
-              name: "Marc Soler",
-              role: "Founder @ Nexus AI",
+              name: "Danyil Shatko",
+              role: "CEO @ Litlab Games",
               content:
-                "Lo mejor es la ausencia de reuniones. Todo fluye por el tablero y las revisiones son rapidísimas. No vuelvo atrás.",
-              avatar: "https://i.pravatar.cc/150?u=marc",
+                "Con Cybertitans íbamos a mil por hora y Kinetora fue el apoyo que necesitábamos. Se adaptan rápido, proponen soluciones inteligentes y, sobre todo, cumplen con lo que dicen. Trabajar así da gusto.",
+              avatar: "https://i.pravatar.cc/150?u=danyil-sh",
             },
             {
-              name: "Lucía Paredes",
-              role: "COO @ FinNest",
+              name: "Nicolás Francisquelo",
+              role: "CEO @ A2AX",
               content:
-                "El onboarding fue instantáneo y las entregas cada 48h nos permitieron lanzar dos features clave antes de lo previsto.",
-              avatar: "https://i.pravatar.cc/150?u=lucia",
+                "Es difícil encontrar gente que entienda tan bien la infraestructura técnica y sepa aterrizarla. En A2AX nos ayudaron a optimizar procesos que antes eran un quebradero de cabeza. Son profesionales, directos y muy resolutivos.",
+              avatar: "https://i.pravatar.cc/150?u=nicolas-fr",
             },
             {
-              name: "Jordi Planas",
-              role: "CTO @ Orbital",
+              name: "Ferran Puntí",
+              role: "CEO @ The Breach Studios",
               content:
-                "Ritmo alto y criterio senior. La combinación de producto + web + motion nos dio coherencia de marca en semanas.",
-              avatar: "https://i.pravatar.cc/150?u=jordi",
+                "Con proyectos como Robokiden no puedes jugártela con la parte técnica. Kinetora nos dio la tranquilidad de saber que todo iba a funcionar perfectamente. Son expertos en lo suyo y se nota en la calidad de lo que entregan.",
+              avatar: "https://i.pravatar.cc/150?u=ferran-pu",
             },
           ],
         }
@@ -64,39 +64,39 @@ const Testimonials = () => {
           sub: "Startups scaling with us.",
           testimonials: [
             {
-              name: "Alex Rivera",
-              role: "CEO @ TechFlow",
+              name: "Carlos Roldán",
+              role: "CEO @ Elixir Games",
               content:
-                "Kinetora changed the game for us. We went from waiting weeks for design to consistent deliveries every 48 hours.",
-              avatar: "https://i.pravatar.cc/150?u=alex",
+                "What I value most about working with Kinetora is they don't just ship code—they understand the product. At Elixir Games we needed someone who could keep the pace and they delivered from day one. Totally trustworthy.",
+              avatar: "https://i.pravatar.cc/150?u=carlos-rol",
             },
             {
-              name: "Elena Gómez",
-              role: "Product Manager @ HealthUp",
+              name: "Enrique Phan",
+              role: "CEO @ SphereStudios",
               content:
-                "The UX/UI quality is outstanding. They truly understand startups and what investors look for.",
-              avatar: "https://i.pravatar.cc/150?u=elena",
+                "For Chronos Worlds we were aiming for impeccable execution—and Kinetora delivered exactly that. They truly engage with the project, and you see it in the result. If you want someone who cares about technical detail as much as you do, it's them.",
+              avatar: "https://i.pravatar.cc/150?u=enrique-phan",
             },
             {
-              name: "Marc Soler",
-              role: "Founder @ Nexus AI",
+              name: "Danyil Shatko",
+              role: "CEO @ Litlab Games",
               content:
-                "The best part is no meetings. Everything flows through the board and revisions are lightning-fast. I'm never going back.",
-              avatar: "https://i.pravatar.cc/150?u=marc",
+                "With Cybertitans we were moving at full speed and Kinetora was the support we needed. They adapt fast, propose smart solutions and, above all, do what they say. Working like this is a pleasure.",
+              avatar: "https://i.pravatar.cc/150?u=danyil-sh",
             },
             {
-              name: "Lucia Paredes",
-              role: "COO @ FinNest",
+              name: "Nicolás Francisquelo",
+              role: "CEO @ A2AX",
               content:
-                "Onboarding was instant and the 48h drops let us ship two key features ahead of schedule.",
-              avatar: "https://i.pravatar.cc/150?u=luciap",
+                "It's rare to find a team that understands technical infrastructure this well and can land it effectively. At A2AX they helped us streamline processes that used to be a headache. Professional, direct and highly resolute.",
+              avatar: "https://i.pravatar.cc/150?u=nicolas-fr",
             },
             {
-              name: "Jordi Planas",
-              role: "CTO @ Orbital",
+              name: "Ferran Puntí",
+              role: "CEO @ The Breach Studios",
               content:
-                "Fast pace and senior taste. The product + web + motion combo gave us brand coherence in weeks.",
-              avatar: "https://i.pravatar.cc/150?u=jordipl",
+                "With projects like Robokiden you can't risk the technical side. Kinetora gave us peace of mind knowing everything would work flawlessly. They're experts at what they do and it shows in the quality they deliver.",
+              avatar: "https://i.pravatar.cc/150?u=ferran-pu",
             },
           ],
         };
