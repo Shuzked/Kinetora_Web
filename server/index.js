@@ -1,12 +1,22 @@
 import express from "express";
 import cors from "cors";
 import nodemailer from "nodemailer";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json({ limit: "1mb" }));
+
+// Resolve dist path for static serving
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const distPath = path.resolve(__dirname, "..", "dist");
+
+// Static assets and SPA index
+app.use(express.static(distPath));
 
 function renderHtml(payload) {
   if (payload.type === "contact") {
@@ -45,7 +55,7 @@ function renderHtml(payload) {
   `;
 }
 
-// Configurador genérico actual (lo mantenemos para compatibilidad)
+// Generic transporter (kept for /api/send-email compatibility)
 function createTransporter() {
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT || "587");
@@ -64,7 +74,7 @@ function createTransporter() {
   });
 }
 
-// NUEVO: Endpoint específico para contacto con configuración de Hostinger solicitada
+// Hostinger SMTP: contacto
 app.post("/api/contacto", async (req, res) => {
   const { name, email, company, budget, message } = req.body || {};
   if (!name || !email || !message) {
@@ -77,7 +87,7 @@ app.post("/api/contacto", async (req, res) => {
     secure: true,
     auth: {
       user: "hello@kinetora.tech",
-      pass: process.env.EMAIL_PASSWORD, // NO exponer la contraseña
+      pass: process.env.EMAIL_PASSWORD, // no exponer contraseña
     },
   });
 
@@ -94,12 +104,12 @@ app.post("/api/contacto", async (req, res) => {
     });
     return res.status(200).json({ ok: true, id: info.messageId });
   } catch (e) {
-    console.error("[contacto] Error enviando email:", e?.message || e);
+    console.error("[/api/contacto] Error:", e?.message || e);
     return res.status(500).json({ error: "Email send failed" });
   }
 });
 
-// Ruta existente de envío (newsletter/contact genérica, se mantiene)
+// Compat: newsletter/contact genérico
 app.post("/api/send-email", async (req, res) => {
   const body = req.body || {};
   if (body.type !== "contact" && body.type !== "newsletter") {
@@ -135,7 +145,7 @@ app.post("/api/send-email", async (req, res) => {
 
     return res.status(200).json({ ok: true, id: info.messageId });
   } catch (e) {
-    console.error("[send-email] Error:", e?.message || e);
+    console.error("[/api/send-email] Error:", e?.message || e);
     return res.status(500).json({ error: "Email send failed" });
   }
 });
@@ -144,6 +154,11 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true, ts: Date.now() });
 });
 
+// SPA fallback: enviar index.html para rutas no-API
+app.get("*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
+
 app.listen(PORT, () => {
-  console.log(`[server] Email API listening on port ${PORT}`);
+  console.log(`[server] App listening on port ${PORT}`);
 });
