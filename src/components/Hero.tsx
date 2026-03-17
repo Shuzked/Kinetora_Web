@@ -87,29 +87,7 @@ const Hero = () => {
     window.matchMedia &&
     window.matchMedia("(max-width: 767px)").matches;
 
-  const [showVideo, setShowVideo] = React.useState(false);
-
-  React.useEffect(() => {
-    if (prefersReduced || isMobile) {
-      setShowVideo(false);
-      return;
-    }
-    const el = sectionRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            // Pequeño defer para que no bloquee LCP
-            setTimeout(() => setShowVideo(true), 150);
-          }
-        });
-      },
-      { rootMargin: "0px 0px -20% 0px", threshold: 0.1 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [prefersReduced, isMobile]);
+  // REMOVED: Estado y observer para vídeo (sustituimos por imagen estática)
 
   return (
     <section
@@ -122,45 +100,20 @@ const Hero = () => {
           style={{ y: yVideo }}
           className="absolute inset-0 pointer-events-none will-change-transform"
         >
-          {!showVideo ? (
-            <img
-              src="/assets/hero/hero-bg.webp"
-              alt=""
-              width={1920}
-              height={1080}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <div
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{
-                width: '100vw',
-                height: '56.25vw',
-                minHeight: '100vh',
-                minWidth: '177.78vh',
-              }}
-            >
-              <iframe
-                title="Kinetora background video"
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=-niUBSx3PKQ"
-                frameBorder="0"
-                loading="lazy"
-                allow="autoplay; encrypted-media; picture-in-picture; web-share"
-                allowFullScreen
-                referrerPolicy="strict-origin-when-cross-origin"
-                style={{ pointerEvents: 'none' }}
-                aria-hidden="true"
-              />
-            </div>
-          )}
+          <img
+            src="/assets/hero/hero-bg.webp"
+            alt=""
+            width={1920}
+            height={1080}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="w-full h-full object-cover"
+          />
         </motion.div>
 
-        {/* Textura/grain y gradientes de legibilidad */}
-        <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" />
+        {/* REMOVED: textura remota para evitar petición externa y mejorar performance */}
+        {/* <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" /> */}
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
         <div className="absolute inset-0 pointer-events-none bg-black/60 sm:bg-black/55 md:bg-black/50" />

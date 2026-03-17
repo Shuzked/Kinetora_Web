@@ -173,57 +173,59 @@ const Testimonials = () => {
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
 
-        <Carousel opts={{ align: "start", loop: true }} className="relative">
-          <CarouselContent className="-ml-4">
-            {items.map((t, i) => (
-              <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
-                <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
-                  <motion.div
-                    initial={{ opacity: 0, y: off ? 0 : 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: (i % 3) * 0.08 }}
-                    className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
-                  >
-                    <div className="flex gap-1 mb-6">
-                      {[...Array(5)].map((_, idx) => (
-                        <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
-                      ))}
-                    </div>
-                    <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
-                      "{t.content}"
-                    </p>
-                    <div className="mt-auto flex items-center gap-4">
-                      <img
-                        src={t.avatar}
-                        alt={t.name}
-                        className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
-                        loading="lazy"
-                        decoding="async"
-                        width={48}
-                        height={48}
-                      />
-                      <div>
-                        <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
-                        <div className="text-[#F5F5F5]/60 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+        <div role="region" aria-roledescription="carousel" aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}>
+          <Carousel opts={{ align: "start", loop: true }} className="relative">
+            <CarouselContent className="-ml-4">
+              {items.map((t, i) => (
+                <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
+                    <motion.div
+                      initial={{ opacity: 0, y: off ? 0 : 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: (i % 3) * 0.08 }}
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
+                    >
+                      <div className="flex gap-1 mb-6">
+                        {[...Array(5)].map((_, idx) => (
+                          <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
+                        ))}
                       </div>
-                    </div>
-                  </motion.div>
-                </MouseParallax>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious
-            className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
-            aria-label={lang === "es" ? "Anterior" : "Previous"}
-            title={lang === "es" ? "Anterior" : "Previous"}
-          />
-          <CarouselNext
-            className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
-            aria-label={lang === "es" ? "Siguiente" : "Next"}
-            title={lang === "es" ? "Siguiente" : "Next"}
-          />
-        </Carousel>
+                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
+                        "{t.content}"
+                      </p>
+                      <div className="mt-auto flex items-center gap-4">
+                        <img
+                          src={t.avatar}
+                          alt={t.name}
+                          className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
+                          loading="lazy"
+                          decoding="async"
+                          width={48}
+                          height={48}
+                        />
+                        <div>
+                          <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
+                          <div className="text-[#F5F5F5]/60 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </MouseParallax>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious
+              className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
+              aria-label={lang === "es" ? "Anterior" : "Previous"}
+              title={lang === "es" ? "Anterior" : "Previous"}
+            />
+            <CarouselNext
+              className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
+              aria-label={lang === "es" ? "Siguiente" : "Next"}
+              title={lang === "es" ? "Siguiente" : "Next"}
+            />
+          </Carousel>
+        </div>
       </div>
     </section>
   );

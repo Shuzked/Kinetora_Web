@@ -8,15 +8,14 @@ function enhanceMedia(html: string) {
   const doc = new DOMParser().parseFromString(html, "text/html");
 
   doc.querySelectorAll("img").forEach((img) => {
-    img.setAttribute("loading", img.getAttribute("loading") || "lazy");
-    img.setAttribute("decoding", img.getAttribute("decoding") || "async");
-    if (!img.getAttribute("width")) img.setAttribute("width", "0"); // deja al navegador calcular; evita CLS si WP no provee
-    if (!img.getAttribute("height")) img.setAttribute("height", "0");
+    if (!img.getAttribute("loading")) img.setAttribute("loading", "lazy");
+    if (!img.getAttribute("decoding")) img.setAttribute("decoding", "async");
+    // REMOVED: no establecer width/height=0
   });
 
   doc.querySelectorAll("iframe").forEach((ifr) => {
-    ifr.setAttribute("loading", ifr.getAttribute("loading") || "lazy");
-    ifr.setAttribute("referrerpolicy", ifr.getAttribute("referrerpolicy") || "strict-origin-when-cross-origin");
+    if (!ifr.getAttribute("loading")) ifr.setAttribute("loading", "lazy");
+    if (!ifr.getAttribute("referrerpolicy")) ifr.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
     if (!ifr.getAttribute("title")) ifr.setAttribute("title", "Embedded content");
   });
 
