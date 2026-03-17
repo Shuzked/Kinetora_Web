@@ -16,9 +16,14 @@ import Footer from '@/components/Footer';
 import ParallaxSection from '@/components/ParallaxSection';
 import FloatingCTA from '@/components/FloatingCTA';
 import Contact from '@/components/Contact';
+// SEO imports
+import SEO from '@/components/SEO';
+import { getSeoDefaults } from '@/seo/defaults';
+import { useI18n } from '@/i18n/I18nProvider';
 
 const Index = () => {
   const location = useLocation();
+  const { lang } = useI18n();
 
   React.useEffect(() => {
     if (!location.hash) return;
@@ -39,8 +44,33 @@ const Index = () => {
     });
   }, [location.hash]);
 
+  const seo = getSeoDefaults(lang);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const canonical = `${origin}/`;
+
+  const orgJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": seo.siteName,
+    "url": canonical,
+    "logo": `${origin}/Logotipo.svg`
+  };
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        keywords={seo.keywords}
+        image={seo.shareImage}
+        canonical={canonical}
+        locale={seo.locale}
+        siteName={seo.siteName}
+        ogType="website"
+        twitterCard="summary_large_image"
+        robots="index,follow"
+        jsonLd={orgJsonLd}
+      />
       <Navbar />
       <main>
         <Hero />

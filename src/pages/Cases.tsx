@@ -10,6 +10,9 @@ import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import { useEqualizeHeights } from "@/hooks/use-equalize";
+// SEO
+import SEO from "@/components/SEO";
+import { getSeoDefaults } from "@/seo/defaults";
 
 type WPListPost = {
   slug?: string;
@@ -156,8 +159,29 @@ const Cases = () => {
   const eqRef = React.useRef<HTMLDivElement | null>(null);
   useEqualizeHeights(eqRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang, meta]);
 
+  const seoDefaults = getSeoDefaults(lang);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const canonical = `${origin}/casos`;
+  const pageTitle = lang === "es" ? `Casos de éxito — ${seoDefaults.siteName}` : `Case studies — ${seoDefaults.siteName}`;
+  const pageKeywords = [
+    ...seoDefaults.keywords,
+    ...(lang === "es" ? ["casos de éxito", "portfolio", "resultados"] : ["case studies", "portfolio", "results"]),
+  ];
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+      <SEO
+        title={pageTitle}
+        description={ui.sub}
+        keywords={pageKeywords}
+        image={seoDefaults.shareImage}
+        canonical={canonical}
+        locale={seoDefaults.locale}
+        siteName={seoDefaults.siteName}
+        ogType="website"
+        twitterCard="summary_large_image"
+        robots="index,follow"
+      />
       <Navbar />
       <main className="pt-[68px] md:pt-[88px]">
         <section className="kin-section relative overflow-hidden" ref={eqRef}>

@@ -4,6 +4,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PremiumButton from "@/components/PremiumButton";
 import { useI18n } from "@/i18n/I18nProvider";
+// SEO
+import SEO from "@/components/SEO";
+import { getSeoDefaults } from "@/seo/defaults";
 
 const NotFound = () => {
   const { lang } = useI18n();
@@ -33,8 +36,24 @@ const NotFound = () => {
           cases: "View case studies",
         };
 
+  const seo = getSeoDefaults(lang);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const canonical = `${origin}${location.pathname}`;
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+      <SEO
+        title={lang === "es" ? `404 — ${seo.siteName}` : `404 — ${seo.siteName}`}
+        description={lang === "es" ? "La página solicitada no existe." : "The requested page does not exist."}
+        keywords={seo.keywords}
+        image={seo.shareImage}
+        canonical={canonical}
+        locale={seo.locale}
+        siteName={seo.siteName}
+        ogType="website"
+        twitterCard="summary"
+        robots="noindex,nofollow"
+      />
       <Navbar />
       <main className="pt-[68px] md:pt-[88px]">
         <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">

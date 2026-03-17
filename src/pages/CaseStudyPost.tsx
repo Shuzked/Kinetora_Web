@@ -22,6 +22,9 @@ import { caseStudies } from "@/data/caseStudies";
 import { caseContentOverrides } from "@/data/caseOverrides";
 import { useI18n } from "@/i18n/I18nProvider";
 import { isLikelySpanish, translateHtmlEsToEn, translateTextEsToEn } from "@/utils/translate";
+// SEO
+import SEO from "@/components/SEO";
+import { getSeoDefaults } from "@/seo/defaults";
 
 const CaseStudyPost = () => {
   const { lang } = useI18n();
@@ -247,8 +250,33 @@ const CaseStudyPost = () => {
     };
   }, [mediaHtml, textHtml]);
 
+  const seoDefaults = getSeoDefaults(lang);
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const canonical = `${origin}/casos/${slug ?? ""}`;
+  const excerptText = post?.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "";
+  const description =
+    lang === "en"
+      ? (excerptText ? (isLikelySpanish(excerptText) ? translateTextEsToEn(excerptText) : excerptText) : ui.readyBody)
+      : (excerptText || ui.readyBody);
+  const keywords = [
+    ...seoDefaults.keywords,
+    ...(lang === "es" ? ["caso de éxito", "portafolio", "resultados"] : ["case study", "portfolio", "results"]),
+  ];
+
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+      <SEO
+        title={title ? `${title} — ${seoDefaults.siteName}` : seoDefaults.title}
+        description={description}
+        keywords={keywords}
+        image={cover || seoDefaults.shareImage}
+        canonical={canonical}
+        locale={seoDefaults.locale}
+        siteName={seoDefaults.siteName}
+        ogType="article"
+        twitterCard="summary_large_image"
+        robots="index,follow"
+      />
       <Navbar />
 
       <main className="pt-[68px] md:pt-[88px]">
