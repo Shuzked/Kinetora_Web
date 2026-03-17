@@ -249,6 +249,11 @@ export const caseContentOverrides: Record<
       "<h2>El Impacto de una Gran Campaña Visual</h2>",
       "<p>Esta actualización fue una victoria absoluta para LitLab Games. Movilizar a miles de jugadores demuestra el gran poder del Marketing Web3. Una gran imagen gráfica siempre mejora la retención real de usuarios. Gracias a esto, el juego afianzó su claro liderazgo en el mercado.</p>",
     ].join(""),
+    esMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/BsNW-a8h96Q?si=khApu-RFQsst2eJC" title="CYBERTITANS CLASH — Tráiler de actualización" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lobby-banner.webp" alt="CYBERTITANS CLASH — Banner de lobby" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lateral-banner.webp" alt="CYBERTITANS CLASH — Banner lateral" loading="lazy" /></figure>',
+    ].join(""),
     enTextHtml: [
       "<p>CLASH was a major step in the CyberTitans universe. Our goal: a Web3-ready launch with clear messaging and a strong visual system that converts curiosity into action.</p>",
       "<h2>What we delivered</h2>",
@@ -260,6 +265,11 @@ export const caseContentOverrides: Record<
       "<p>We produced motion teasers to mark milestones (features, partnerships, rewards). Each piece fits the broader visual voice for cohesive brand memory.</p>",
       "<h3>4. Community Strategy</h3>",
       "<p>Toolkits for announcements, FAQs and reward mechanics. We helped the team maintain cadence and clarity during the most intense weeks of the launch cycle.</p>",
+    ].join(""),
+    enMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/BsNW-a8h96Q?si=khApu-RFQsst2eJC" title="CYBERTITANS CLASH — Update trailer" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lobby-banner.webp" alt="CYBERTITANS CLASH — Lobby banner" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lateral-banner.webp" alt="CYBERTITANS CLASH — Lateral banner" loading="lazy" /></figure>',
     ].join(""),
   },
 
