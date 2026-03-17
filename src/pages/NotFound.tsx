@@ -36,7 +36,7 @@ const NotFound = () => {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <Navbar />
-      <main id="main-content" className="pt-[68px] md:pt-[88px]">
+      <main id="main-content" role="main" className="pt-[68px] md:pt-[88px]">
         <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
           <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
@@ -47,7 +47,7 @@ const NotFound = () => {
               <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
                 {copy.title}
               </h1>
-              <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
+              <p className="mt-4 text-[#F5F5F5]/75 text-sm sm:text-base leading-relaxed">
                 {copy.subA}{" "}
                 <span className="text-[#F5F5F5] font-semibold">{location.pathname}</span>{" "}
                 {copy.subB}

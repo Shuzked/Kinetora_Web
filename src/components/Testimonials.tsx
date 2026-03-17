@@ -206,7 +206,7 @@ const Testimonials = () => {
                         />
                         <div>
                           <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
-                          <div className="text-[#F5F5F5]/60 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+                          <div className="text-[#F5F5F5]/75 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
                         </div>
                       </div>
                     </motion.div>

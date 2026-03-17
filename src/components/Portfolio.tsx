@@ -259,7 +259,7 @@ const Portfolio = () => {
                                   <div className="metric-block-min mb-2">
                                     {metricLabel && metricValue ? (
                                       <>
-                                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                        <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
                                           {metricLabel}
                                         </div>
                                         <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">

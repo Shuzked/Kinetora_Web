@@ -183,7 +183,7 @@ const Cases = () => {
         robots="index,follow"
       />
       <Navbar />
-      <main id="main-content" className="pt-[68px] md:pt-[88px]">
+      <main id="main-content" role="main" className="pt-[68px] md:pt-[88px]">
         <section className="kin-section relative overflow-hidden" ref={eqRef}>
           <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
           <div className="kin-container relative">
@@ -196,7 +196,7 @@ const Cases = () => {
                   {ui.titleA}{" "}
                   <span className="text-[#B454FF]">{ui.titleB}</span>.
                 </h1>
-                <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
+                <p className="mt-4 text-[#F5F5F5]/75 text-sm sm:text-base leading-relaxed">
                   {ui.sub}
                 </p>
               </div>
@@ -255,7 +255,7 @@ const Cases = () => {
                             <div className="metric-block-min mb-2">
                               {metricLabel && metricValue ? (
                                 <>
-                                  <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                                  <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
                                     {metricLabel}
                                   </div>
                                   <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">

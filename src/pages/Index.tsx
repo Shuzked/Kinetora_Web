@@ -16,7 +16,6 @@ const FAQ = React.lazy(() => import('@/components/FAQ'));
 import Footer from '@/components/Footer';
 import ParallaxSection from '@/components/ParallaxSection';
 import FloatingCTA from '@/components/FloatingCTA';
-// SEO imports
 import SEO from '@/components/SEO';
 import { getSeoDefaults } from '@/seo/defaults';
 import { useI18n } from '@/i18n/I18nProvider';
@@ -89,7 +88,7 @@ const Index = () => {
         }}
       />
       <Navbar />
-      <main id="main-content">
+      <main id="main-content" role="main" aria-label="Main content">
         <Hero />
         <React.Suspense fallback={<div className="kin-container py-8" />}>
           <ParallaxSection intensity={10}>

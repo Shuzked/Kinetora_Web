@@ -121,10 +121,8 @@ const Hero = () => {
       </div>
 
       {/* Glow de marca */}
-      <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.08, 0.12, 0.08] }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[140px] z-0"
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[90px] z-0"
       />
 
       {/* Contenido */}
