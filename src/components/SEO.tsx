@@ -14,6 +14,10 @@ type SEOProps = {
   twitterCard?: "summary" | "summary_large_image";
   robots?: string; // e.g. "index,follow" | "noindex,nofollow"
   jsonLd?: Record<string, any> | null;
+  alternates?: Array<{ hrefLang: string; href: string }>;
+  twitterSite?: string;
+  twitterCreator?: string;
+  localesAlternate?: string[];
 };
 
 function setMetaByName(name: string, content: string, managed = true) {
@@ -52,6 +56,39 @@ function setCanonical(href: string) {
   link.setAttribute("href", href);
 }
 
+function setAlternateLinks(alts: Array<{ hrefLang: string; href: string }> | undefined) {
+  if (typeof document === "undefined") return;
+  // Remove old managed alternates
+  document
+    .querySelectorAll('link[rel="alternate"][data-seo-managed="true"]')
+    .forEach((el) => el.parentElement?.removeChild(el));
+  if (!alts || !alts.length) return;
+  alts.forEach(({ hrefLang, href }) => {
+    const link = document.createElement("link");
+    link.setAttribute("rel", "alternate");
+    link.setAttribute("hreflang", hrefLang);
+    link.setAttribute("href", href);
+    link.setAttribute("data-seo-managed", "true");
+    document.head.appendChild(link);
+  });
+}
+
+function setMultiMetaByProperty(property: string, values: string[] | undefined) {
+  if (typeof document === "undefined") return;
+  // Remove previous managed multi values for this property
+  document
+    .querySelectorAll(`meta[property="${property}"][data-seo-multi="true"]`)
+    .forEach((el) => el.parentElement?.removeChild(el));
+  if (!values || !values.length) return;
+  values.forEach((val) => {
+    const tag = document.createElement("meta");
+    tag.setAttribute("property", property);
+    tag.setAttribute("content", val);
+    tag.setAttribute("data-seo-multi", "true");
+    document.head.appendChild(tag);
+  });
+}
+
 function setJsonLd(data: Record<string, any> | null) {
   if (typeof document === "undefined") return;
   let script = document.getElementById("seo-jsonld") as HTMLScriptElement | null;
@@ -80,9 +117,17 @@ const SEO: React.FC<SEOProps> = ({
   twitterCard = "summary_large_image",
   robots,
   jsonLd = null,
+  alternates,
+  twitterSite,
+  twitterCreator,
+  localesAlternate,
 }) => {
   React.useEffect(() => {
     if (typeof document === "undefined") return;
+
+    // Clear previous multi metas to avoid stale values on route change
+    setMultiMetaByProperty("og:locale:alternate", []);
+    setAlternateLinks([]);
 
     if (title) {
       document.title = title;
@@ -118,6 +163,8 @@ const SEO: React.FC<SEOProps> = ({
     }
 
     setMetaByName("twitter:card", twitterCard);
+    if (twitterSite) setMetaByName("twitter:site", twitterSite);
+    if (twitterCreator) setMetaByName("twitter:creator", twitterCreator);
 
     if (robots) {
       setMetaByName("robots", robots);
@@ -125,8 +172,14 @@ const SEO: React.FC<SEOProps> = ({
 
     setJsonLd(jsonLd);
 
+    // alternates and locale alternates
+    setAlternateLinks(alternates);
+    if (localesAlternate && localesAlternate.length) {
+      setMultiMetaByProperty("og:locale:alternate", localesAlternate);
+    }
+
     // No cleanup: next pages overwrite tags on route change
-  }, [title, description, keywords, image, canonical, locale, siteName, ogType, twitterCard, robots, jsonLd]);
+  }, [title, description, keywords, image, canonical, locale, siteName, ogType, twitterCard, robots, jsonLd, alternates, twitterSite, twitterCreator, localesAlternate]);
 
   return null;
 };

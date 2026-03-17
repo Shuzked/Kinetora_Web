@@ -122,11 +122,51 @@ const CaseStudyPost = () => {
   const seoDefaults = getSeoDefaults(lang);
   const origin = typeof window !== "undefined" ? window.location.origin : "";
   const canonical = `${origin}/casos/${slug ?? ""}`;
-  const description = ui.readyBody;
+  // Descripción específica del caso (mejor para SEO)
+  const description =
+    lang === "es"
+      ? currentCase?.summaryFallback || ui.readyBody
+      : currentCase?.summaryFallbackEn || currentCase?.summaryFallback || ui.readyBody;
   const keywords = [
     ...seoDefaults.keywords,
     ...(lang === "es" ? ["caso de éxito", "portafolio", "resultados"] : ["case study", "portfolio", "results"]),
   ];
+  // Locale y alternos para Open Graph
+  const ogLocale = lang === "es" ? "es_ES" : "en_US";
+  const ogLocaleAlternate = lang === "es" ? ["en_US"] : ["es_ES"];
+  // Alternates básicos (sin rutas por idioma, se apunta al canonical como x-default)
+  const alternates = [{ hrefLang: "x-default", href: canonical }];
+  // JSON-LD Article y Breadcrumb
+  const absoluteImage = cover ? (origin ? new URL(cover, origin).href : cover) : seoDefaults.shareImage;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": title || seoDefaults.title,
+        "description": description,
+        "image": absoluteImage,
+        "inLanguage": lang === "es" ? "es-ES" : "en-US",
+        "mainEntityOfPage": { "@type": "WebPage", "@id": canonical },
+        "publisher": {
+          "@type": "Organization",
+          "name": seoDefaults.siteName,
+          "logo": {
+            "@type": "ImageObject",
+            "url": origin ? new URL("/Logotipo.svg", origin).href : "/Logotipo.svg"
+          }
+        }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": lang === "es" ? "Inicio" : "Home", "item": origin ? new URL("/", origin).href : "/" },
+          { "@type": "ListItem", "position": 2, "name": lang === "es" ? "Casos" : "Cases", "item": origin ? new URL("/casos", origin).href : "/casos" },
+          { "@type": "ListItem", "position": 3, "name": title || (lang === "es" ? "Caso" : "Case"), "item": canonical }
+        ]
+      }
+    ]
+  };
 
   // Refs necesarias por CaseStudyColumns (para sticky y medidas)
   const textWrapRef = React.useRef<HTMLElement | null>(null);
@@ -140,11 +180,16 @@ const CaseStudyPost = () => {
         keywords={keywords}
         image={cover || seoDefaults.shareImage}
         canonical={canonical}
-        locale={seoDefaults.locale}
+        locale={ogLocale}
+        localesAlternate={ogLocaleAlternate}
+        alternates={alternates}
+        twitterSite="@Kinetora_Studio"
+        twitterCreator="@Kinetora_Studio"
         siteName={seoDefaults.siteName}
         ogType="article"
         twitterCard="summary_large_image"
         robots="index,follow"
+        jsonLd={jsonLd}
       />
       <Navbar />
 
