@@ -88,28 +88,13 @@ const Hero = () => {
     window.matchMedia("(max-width: 767px)").matches;
 
   // Montar el iframe solo cuando el hero esté en viewport y en desktop
-  const [showVideo, setShowVideo] = React.useState(false);
+  const [showVideo, setShowVideo] = React.useState(true);
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
+  // Mostrar el vídeo sin depender del IntersectionObserver (para que no quede el fondo)
   React.useEffect(() => {
     if (prefersReduced) return;
-    const el = sectionRef.current as HTMLElement | null;
-    if (!el || typeof IntersectionObserver === "undefined") {
-      setShowVideo(true);
-      return;
-    }
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry?.isIntersecting) {
-          setShowVideo(true);
-          obs.disconnect();
-        }
-      },
-      { threshold: 0.2 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
+    setShowVideo(true);
   }, [prefersReduced]);
 
   // Evitar parpadeo al final del loop usando la API de YouTube
