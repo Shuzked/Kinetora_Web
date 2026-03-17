@@ -1,5 +1,6 @@
 import React from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import WPPostContent from "@/components/WPPostContent";
 
 type CaseStudyColumnsProps = {
   loading: boolean;
@@ -44,7 +45,9 @@ const CaseStudyColumns = ({
             <Skeleton className="h-4 w-3/4" />
           </div>
         ) : (
-          <div className="wp-post__content" dangerouslySetInnerHTML={{ __html: textHtml }} />
+          <div className="wp-post__content">
+            <WPPostContent html={textHtml} />
+          </div>
         )}
       </article>
 
@@ -64,7 +67,9 @@ const CaseStudyColumns = ({
               <Skeleton className="h-48 w-full rounded-2xl" />
             </div>
           ) : (
-            <div className="wp-post__content wp-post__media" dangerouslySetInnerHTML={{ __html: mediaHtml }} />
+            <div className="wp-post__content wp-post__media">
+              <WPPostContent html={mediaHtml} />
+            </div>
           )}
         </div>
       </aside>
