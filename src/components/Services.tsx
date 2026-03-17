@@ -65,7 +65,7 @@ const Services = () => {
             whileHover={{ y: -5 }}
             className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-[transform,background-color,border-color] duration-300"
           >
-            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/branding.svg')] bg-cover bg-center" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/brand-identity.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15" />
             <div className="relative mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
@@ -86,7 +86,7 @@ const Services = () => {
             whileHover={{ y: -5 }}
             className="bg-[#B454FF]/7 border border-[#B454FF]/22 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/40"
           >
-            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/digital.svg')] bg-cover bg-center" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/digital-uxui.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15" />
             <div className="relative mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30">
                 <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
@@ -105,7 +105,7 @@ const Services = () => {
             whileHover={{ y: -5 }}
             className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
           >
-            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/multimedia.svg')] bg-cover bg-center" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/video-editing.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15" />
             <div className="relative mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
@@ -124,7 +124,7 @@ const Services = () => {
             whileHover={{ y: -5 }}
             className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
           >
-            <div aria-hidden className="pointer-events-none absolute inset-0 opacity-15 bg-[url('/assets/service-bg/communication.svg')] bg-cover bg-center" />
+            <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/communication-pitch-decks.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15" />
             <div className="relative mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
