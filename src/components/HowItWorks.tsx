@@ -14,7 +14,7 @@ const HowItWorks = () => {
           title: "Tu nuevo flujo creativo.",
           titleAccent: "Kickoff y ejecución ágil.",
           sub:
-            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida, nos comunicamos por Telegram/Discord/WhatsApp y gestionamos tareas en ClickUp. Entregas en 48h con revisiones limitadas.",
+            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida. La comunicación será formal por email y reuniones programadas, y gestionamos tareas en ClickUp. Entregas en 48h con revisiones limitadas.",
           steps: [
             {
               number: "01",
@@ -30,9 +30,9 @@ const HowItWorks = () => {
             },
             {
               number: "03",
-              title: "Canales y ClickUp",
+              title: "Gestión en ClickUp",
               description:
-                "Nos coordinamos por Telegram, Discord o WhatsApp y activamos tu espacio en ClickUp para tareas.",
+                "Centralizamos el trabajo en tu espacio de ClickUp: prioridades, estados y plazos claros. Coordinación por email y llamadas cuando sea necesario.",
             },
             {
               number: "04",
@@ -46,7 +46,7 @@ const HowItWorks = () => {
           title: "Your new creative workflow.",
           titleAccent: "Kickoff and fast execution.",
           sub:
-            "We start with a short meeting to understand goals and budget. We propose a subscription that fits, communicate via Telegram/Discord/WhatsApp, and manage tasks in ClickUp. 48h deliveries with limited revisions.",
+            "We start with a short meeting to understand goals and budget. We propose a tailored subscription. Communication is formal via email and scheduled meetings, and we manage tasks in ClickUp. 48h deliveries with limited revisions.",
           steps: [
             {
               number: "01",
@@ -62,9 +62,9 @@ const HowItWorks = () => {
             },
             {
               number: "03",
-              title: "Channels & ClickUp",
+              title: "ClickUp workflow",
               description:
-                "We coordinate on Telegram, Discord or WhatsApp and open your ClickUp space for tasks.",
+                "We centralize work in your ClickUp space: clear priorities, statuses and due dates. Coordination via email and calls when needed.",
             },
             {
               number: "04",
