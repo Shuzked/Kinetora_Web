@@ -87,7 +87,74 @@ const Hero = () => {
     window.matchMedia &&
     window.matchMedia("(max-width: 767px)").matches;
 
-  // REMOVED: Estado y observer para vídeo (sustituimos por imagen estática)
+  // Montar el iframe solo cuando el hero esté en viewport y en desktop
+  const [showVideo, setShowVideo] = React.useState(false);
+  const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
+
+  React.useEffect(() => {
+    if (prefersReduced || isMobile) return;
+    const el = sectionRef.current as HTMLElement | null;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setShowVideo(true);
+      return;
+    }
+    const obs = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry?.isIntersecting) {
+          setShowVideo(true);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [prefersReduced, isMobile]);
+
+  // Evitar parpadeo al final del loop usando la API de YouTube
+  React.useEffect(() => {
+    if (!showVideo) return;
+    const onMessage = (evt: MessageEvent) => {
+      if (!evt || typeof evt.data !== "string") return;
+      try {
+        const data = JSON.parse(evt.data);
+        if (data?.event === "onStateChange" && data?.info === 0 /* ended */) {
+          // Reiniciar al instante
+          iframeRef.current?.contentWindow?.postMessage(
+            JSON.stringify({ event: "command", func: "seekTo", args: [0, true] }),
+            "*"
+          );
+          iframeRef.current?.contentWindow?.postMessage(
+            JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+            "*"
+          );
+        }
+      } catch {
+        // Ignorar mensajes no JSON
+      }
+    };
+    window.addEventListener("message", onMessage);
+    // Asegurar mute y play al cargar
+    const timer = window.setTimeout(() => {
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: "command", func: "mute", args: [] }),
+        "*"
+      );
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: "command", func: "playVideo", args: [] }),
+        "*"
+      );
+    }, 800);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearTimeout(timer);
+    };
+  }, [showVideo]);
+
+  const videoId = "-niUBSx3PKQ";
+  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&showinfo=0&playsinline=1&iv_load_policy=3&fs=0&disablekb=1&enablejsapi=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`;
 
   return (
     <section
@@ -100,22 +167,35 @@ const Hero = () => {
           style={{ y: yVideo }}
           className="absolute inset-0 pointer-events-none will-change-transform"
         >
-          {/* Video de fondo YouTube: autoplay + loop sin cortes */}
-          <div className="absolute inset-0 overflow-hidden">
-            <iframe
-              className="absolute inset-0 w-full h-full"
-              src={`https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&loop=1&playlist=-niUBSx3PKQ&controls=0&modestbranding=1&rel=0&showinfo=0&playsinline=1&iv_load_policy=3`}
-              title="Hero background video"
-              loading="eager"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
-          </div>
+          {/* Poster (si móvil o reduce motion, solo imagen), y mientras no se monta el iframe */}
+          <img
+            src="/assets/hero/hero-bg.webp"
+            alt=""
+            width={1920}
+            height={1080}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {showVideo && !prefersReduced && !isMobile && (
+            <div className="absolute inset-0 overflow-hidden">
+              {/* cover visual: zoom ligero para eliminar barras y cortes */}
+              <iframe
+                ref={iframeRef}
+                className="absolute inset-0 w-full h-full scale-[1.18] md:scale-[1.12] origin-center"
+                src={embedSrc}
+                title="Hero background video"
+                loading="eager"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          )}
         </motion.div>
 
-        {/* REMOVED: textura remota para evitar petición externa y mejorar performance */}
-        {/* <div className="absolute inset-0 opacity-[0.12] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100 contrast-150" /> */}
+        {/* Capas de gradiente para suavizar bordes */}
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
         <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
         <div className="absolute inset-0 pointer-events-none bg-black/60 sm:bg-black/55 md:bg-black/50" />
