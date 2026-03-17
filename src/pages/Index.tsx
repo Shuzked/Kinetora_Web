@@ -60,13 +60,13 @@ const Index = () => {
           </ParallaxSection>
         </React.Suspense>
         <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={16}>
-            <HowItWorks />
+          <ParallaxSection intensity={14}>
+            <Services />
           </ParallaxSection>
         </React.Suspense>
         <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={14}>
-            <Services />
+          <ParallaxSection intensity={16}>
+            <HowItWorks />
           </ParallaxSection>
         </React.Suspense>
         <React.Suspense fallback={<div className="kin-container py-10" />}>
