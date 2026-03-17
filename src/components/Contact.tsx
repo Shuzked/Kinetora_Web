@@ -146,6 +146,9 @@ const Contact = () => {
       name,
       email,
       message,
+      // Campos adicionales solicitados
+      empresa: company,
+      presupuesto: budget,
     };
 
     const resp = await fetch("https://api.web3forms.com/submit", {
@@ -243,6 +246,7 @@ const Contact = () => {
                   <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.company}</Label>
                   <Input
                     id="company"
+                    name="empresa"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     placeholder={strings.companyPh}
@@ -263,6 +267,8 @@ const Contact = () => {
                       ))}
                     </SelectContent>
                   </Select>
+                  {/* Campo oculto para asegurar name="presupuesto" en el DOM */}
+                  <input type="hidden" name="presupuesto" value={budget} aria-hidden="true" />
                 </div>
               </div>
 
