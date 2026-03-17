@@ -47,6 +47,7 @@ const Footer = () => {
             { label: "Política de privacidad y redes sociales", to: "/legal/privacidad-redes-sociales" },
           ],
           rights: "Todos los derechos reservados.",
+          btnLoading: "Suscribiendo...",
         }
       : {
           badge: "-10% first month • Promos & updates",
@@ -69,6 +70,7 @@ const Footer = () => {
             { label: "Social Media & Privacy Policy", to: "/legal/privacidad-redes-sociales" },
           ],
           rights: "All rights reserved.",
+          btnLoading: "Subscribing...",
         };
 
   const handleSubscribe = async (e: React.FormEvent) => {
@@ -85,21 +87,29 @@ const Footer = () => {
       return;
     }
 
+    // Enviar a MailerLite
+    const actionUrl = "https://assets.mailerlite.com/jsonp/2199496/forms/182212041303394004/subscribe";
+    const params = new URLSearchParams();
+    params.append("fields[email]", email.trim());
+    params.append("ml-submit", "1");    // hidden requerido
+    params.append("anticsrf", "true");  // hidden requerido
+
     setLoading(true);
-    const resp = await fetch("/api/send-email", {
+    await fetch(actionUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "newsletter", email, consent }),
-    });
-    setLoading(false);
-    if (!resp.ok) {
-      setErr("No se pudo suscribir ahora. Inténtalo más tarde.");
-      return;
-    }
-    setSubscribed(true);
-    showSuccess(strings.toast);
-    setEmail("");
-    setConsent(false);
+      headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
+      body: params.toString(),
+      mode: "no-cors"
+    })
+      .then(() => {
+        setSubscribed(true);
+        showSuccess(strings.toast);
+        setEmail("");
+        setConsent(false);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -232,7 +242,7 @@ const Footer = () => {
                   aria-label={strings.btnAria}
                   isLoading={loading}
                 >
-                  {strings.btn}
+                  {loading ? strings.btnLoading : strings.btn}
                 </PremiumButton>
               </div>
             </form>
