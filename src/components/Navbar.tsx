@@ -18,7 +18,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import LanguageSwitcher, { LanguagePills } from "@/components/LanguageSwitcher";
 
 const Navbar = () => {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
 
   const navLinks = [
     { name: t("nav.services"), href: "#servicios" },
@@ -37,7 +37,7 @@ const Navbar = () => {
   const borderOpacity = progress;
 
   return (
-    <nav className="fixed top-0 z-50 w-full">
+    <nav className="fixed top-0 z-50 w-full" aria-label={lang === "es" ? "Navegación principal" : "Primary navigation"}>
       <motion.div
         aria-hidden
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
@@ -79,13 +79,14 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="hidden md:flex h-full items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70">
+        <div className="hidden md:flex h-full items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70" role="menubar" aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}>
           {navLinks.map((link) => {
             const isActive = activeId === link.href.replace('#','');
             return (
               <span key={link.name} className="relative">
                 <SmoothScrollLink 
                   href={link.href}
+                  aria-current={isActive ? "true" : undefined}
                   className={`transition-colors hover:text-[#B454FF] ${isActive ? 'text-[#B454FF]' : ''}`}
                 >
                   {link.name}
@@ -106,7 +107,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-[#F5F5F5] h-10 w-10 rounded-full kin-touch-target">
+                <Button variant="ghost" size="icon" className="text-[#F5F5F5] h-10 w-10 rounded-full kin-touch-target" aria-label={lang === "es" ? "Abrir menú" : "Open menu"}>
                   <Menu className="w-5 h-5" />
                 </Button>
               </SheetTrigger>

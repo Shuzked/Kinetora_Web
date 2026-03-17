@@ -213,8 +213,16 @@ const Testimonials = () => {
               </CarouselItem>
             ))}
           </CarouselContent>
-          <CarouselPrevious className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
-          <CarouselNext className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" />
+          <CarouselPrevious
+            className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
+            aria-label={lang === "es" ? "Anterior" : "Previous"}
+            title={lang === "es" ? "Anterior" : "Previous"}
+          />
+          <CarouselNext
+            className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
+            aria-label={lang === "es" ? "Siguiente" : "Next"}
+            title={lang === "es" ? "Siguiente" : "Next"}
+          />
         </Carousel>
       </div>
     </section>

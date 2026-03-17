@@ -279,7 +279,7 @@ const CaseStudyPost = () => {
       />
       <Navbar />
 
-      <main className="pt-[68px] md:pt-[88px]">
+      <main id="main-content" className="pt-[68px] md:pt-[88px]">
         <section className="relative kin-no-overflow">
           <div className="pointer-events-none absolute -top-28 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/10 blur-[120px]" />
           <div className="pointer-events-none absolute -bottom-44 -left-44 h-[32rem] w-[32rem] rounded-full bg-[#33C3F0]/[0.07] blur-[140px]" />
@@ -309,10 +309,12 @@ const CaseStudyPost = () => {
                     <img
                       src={cover}
                       alt={coverAlt || ""}
-                      loading="lazy"
+                      loading="eager"
                       decoding="async"
-                      fetchPriority="low"
-                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                      fetchPriority="high"
+                      width={1280}
+                      height={720}
+                      sizes="100vw"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
                       }}

@@ -68,6 +68,8 @@ const Brands = () => {
                   alt={brand.name}
                   loading="lazy"
                   decoding="async"
+                  width={160}
+                  height={48}
                   className="max-h-full max-w-full object-contain opacity-60 grayscale contrast-125 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
                 />
               </div>

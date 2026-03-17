@@ -183,7 +183,7 @@ const Cases = () => {
         robots="index,follow"
       />
       <Navbar />
-      <main className="pt-[68px] md:pt-[88px]">
+      <main id="main-content" className="pt-[68px] md:pt-[88px]">
         <section className="kin-section relative overflow-hidden" ref={eqRef}>
           <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
           <div className="kin-container relative">

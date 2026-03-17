@@ -53,7 +53,8 @@ const Index = () => {
     "@type": "Organization",
     "name": seo.siteName,
     "url": canonical,
-    "logo": `${origin}/Logotipo.svg`
+    "logo": `${origin}/Logotipo.svg`,
+    "@id": `${canonical}#organization`
   };
 
   return (
@@ -69,10 +70,27 @@ const Index = () => {
         ogType="website"
         twitterCard="summary_large_image"
         robots="index,follow"
-        jsonLd={orgJsonLd}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@graph": [
+            orgJsonLd,
+            {
+              "@type": "WebSite",
+              "@id": `${canonical}#website`,
+              "url": canonical,
+              "name": seo.siteName,
+              "publisher": { "@id": `${canonical}#organization` },
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": `${canonical}?q={search_term_string}`,
+                "query-input": "required name=search_term_string"
+              }
+            }
+          ]
+        }}
       />
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <React.Suspense fallback={<div className="kin-container py-8" />}>
           <ParallaxSection intensity={10}>
