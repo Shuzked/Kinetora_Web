@@ -22,7 +22,6 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { supabase } from "@/integrations/supabase/client";
 
 const Contact = () => {
   const { lang } = useI18n();
@@ -133,20 +132,12 @@ const Contact = () => {
     if (Object.keys(v).length > 0) return;
 
     setLoading(true);
-    const { data, error } = await supabase.functions.invoke(
-      "https://ezarpucfsasumwpcderw.supabase.co/functions/v1/send-email",
-      {
-        body: {
-          type: "contact",
-          name,
-          email,
-          company,
-          budget,
-          message,
-        },
-      }
-    );
-    if (error) {
+    const resp = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "contact", name, email, company, budget, message }),
+    });
+    if (!resp.ok) {
       setLoading(false);
       setErrors({ submit: "Error al enviar. Inténtalo de nuevo en unos minutos." });
       return;

@@ -14,7 +14,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import { Link } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 
 const Footer = () => {
   const { lang } = useI18n();
@@ -87,18 +86,13 @@ const Footer = () => {
     }
 
     setLoading(true);
-    const { data, error } = await supabase.functions.invoke(
-      "https://ezarpucfsasumwpcderw.supabase.co/functions/v1/send-email",
-      {
-        body: {
-          type: "newsletter",
-          email,
-          consent,
-        },
-      }
-    );
+    const resp = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type: "newsletter", email, consent }),
+    });
     setLoading(false);
-    if (error) {
+    if (!resp.ok) {
       setErr("No se pudo suscribir ahora. Inténtalo más tarde.");
       return;
     }
