@@ -100,16 +100,18 @@ const Hero = () => {
           style={{ y: yVideo }}
           className="absolute inset-0 pointer-events-none will-change-transform"
         >
-          <img
-            src="/assets/hero/hero-bg.webp"
-            alt=""
-            width={1920}
-            height={1080}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="w-full h-full object-cover"
-          />
+          {/* Video de fondo YouTube: autoplay + loop sin cortes */}
+          <div className="absolute inset-0 overflow-hidden">
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src={`https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&loop=1&playlist=-niUBSx3PKQ&controls=0&modestbranding=1&rel=0&showinfo=0&playsinline=1&iv_load_policy=3`}
+              title="Hero background video"
+              loading="eager"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
         </motion.div>
 
         {/* REMOVED: textura remota para evitar petición externa y mejorar performance */}
