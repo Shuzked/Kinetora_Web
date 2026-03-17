@@ -124,7 +124,7 @@ const Hero = () => {
         >
           {!showVideo ? (
             <img
-              src="/assets/service-photos/brand-identity.webp"
+              src="/assets/hero/hero-bg.webp"
               alt=""
               width={1920}
               height={1080}
