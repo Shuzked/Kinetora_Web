@@ -45,6 +45,7 @@ function renderHtml(payload) {
   `;
 }
 
+// Configurador genérico actual (lo mantenemos para compatibilidad)
 function createTransporter() {
   const host = process.env.SMTP_HOST;
   const port = Number(process.env.SMTP_PORT || "587");
@@ -63,6 +64,42 @@ function createTransporter() {
   });
 }
 
+// NUEVO: Endpoint específico para contacto con configuración de Hostinger solicitada
+app.post("/api/contacto", async (req, res) => {
+  const { name, email, company, budget, message } = req.body || {};
+  if (!name || !email || !message) {
+    return res.status(422).json({ error: "Missing required fields" });
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.hostinger.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "hello@kinetora.tech",
+      pass: process.env.EMAIL_PASSWORD, // NO exponer la contraseña
+    },
+  });
+
+  const subject = "Nuevo mensaje de contacto — kinetora.tech";
+  const html = renderHtml({ type: "contact", name, email, company, budget, message });
+
+  try {
+    const info = await transporter.sendMail({
+      from: "hello@kinetora.tech",
+      to: "hello@kinetora.tech",
+      replyTo: email,
+      subject,
+      html,
+    });
+    return res.status(200).json({ ok: true, id: info.messageId });
+  } catch (e) {
+    console.error("[contacto] Error enviando email:", e?.message || e);
+    return res.status(500).json({ error: "Email send failed" });
+  }
+});
+
+// Ruta existente de envío (newsletter/contact genérica, se mantiene)
 app.post("/api/send-email", async (req, res) => {
   const body = req.body || {};
   if (body.type !== "contact" && body.type !== "newsletter") {

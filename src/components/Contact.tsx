@@ -35,6 +35,7 @@ const Contact = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [openModal, setOpenModal] = useState(false);
+  const [submitMsg, setSubmitMsg] = useState<string | null>(null);
 
   const calendlyUrl =
     "https://calendly.com/hello-kinetora/30min?hide_event_type_details=1&hide_gdpr_banner=1&background_color=0d0d0d&text_color=ffffff&primary_color=b454ff";
@@ -58,11 +59,13 @@ const Contact = () => {
           consent:
             "Acepto ser contactado para resolver dudas y recibir una propuesta personalizada.",
           send: "Enviar mensaje",
+          sending: "Enviando…",
           success: "Gracias. Te contactaremos en breve.",
           errName: "Introduce tu nombre.",
           errEmail: "Introduce un email válido.",
           errMsg: "Cuéntanos brevemente tu necesidad (mín. 10 caracteres).",
           errConsent: "Debes aceptar el consentimiento.",
+          errSubmit: "No se pudo enviar el mensaje. Inténtalo más tarde.",
           budgets: [
             { v: "<5k", l: "Menos de 5.000€" },
             { v: "5-10k", l: "5.000€ - 10.000€" },
@@ -94,11 +97,13 @@ const Contact = () => {
           messagePh: "Tell us briefly what you need…",
           consent: "I agree to be contacted and receive a tailored proposal.",
           send: "Send message",
+          sending: "Sending…",
           success: "Thanks — we'll get back to you shortly.",
           errName: "Please enter your name.",
           errEmail: "Please enter a valid email.",
           errMsg: "Tell us briefly what you need (min. 10 characters).",
           errConsent: "You must accept the consent.",
+          errSubmit: "Could not send your message. Please try again later.",
           budgets: [
             { v: "<5k", l: "Less than €5,000" },
             { v: "5-10k", l: "€5,000 – €10,000" },
@@ -127,25 +132,34 @@ const Contact = () => {
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitMsg(null);
     const v = validate();
     setErrors(v);
     if (Object.keys(v).length > 0) return;
 
     setLoading(true);
-    const resp = await fetch("/api/send-email", {
+    const resp = await fetch("/api/contacto", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "contact", name, email, company, budget, message }),
+      body: JSON.stringify({
+        name,
+        email,
+        company,
+        budget,
+        message,
+      }),
     });
+    setLoading(false);
+
     if (!resp.ok) {
-      setLoading(false);
-      setErrors({ submit: "Error al enviar. Inténtalo de nuevo en unos minutos." });
+      setSubmitMsg(strings.errSubmit);
       return;
     }
-    setLoading(false);
+
     showSuccess(strings.success);
+    setSubmitMsg(strings.success);
     setOpenModal(true);
-    // Reset form
+    // Limpiar campos
     setName("");
     setEmail("");
     setCompany("");
@@ -270,8 +284,13 @@ const Contact = () => {
                   isLoading={loading}
                   aria-label={strings.ariaSend}
                 >
-                  {strings.send.toUpperCase()}
+                  {loading ? strings.sending : strings.send.toUpperCase()}
                 </PremiumButton>
+                {submitMsg && (
+                  <p className={`mt-2 text-[12px] ${submitMsg === strings.success ? "text-green-400" : "text-red-400"}`} role="status">
+                    {submitMsg}
+                  </p>
+                )}
               </div>
               {errors.submit && <p className="mt-2 text-[12px] text-red-400">{errors.submit}</p>}
             </form>
