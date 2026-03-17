@@ -22,8 +22,10 @@ const ParallaxSection: React.FC<Props> = ({ children, intensity = 12, className 
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 600], [0, -effectiveIntensity]);
 
+  // content-visibility reduce trabajo de layout/paint fuera de viewport
+  const baseClass = "kin-content-auto";
   return (
-    <motion.section style={{ y: effectiveIntensity ? y : undefined }} className={className}>
+    <motion.section style={{ y: effectiveIntensity ? y : undefined }} className={`${baseClass} ${className}`}>
       {children}
     </motion.section>
   );
