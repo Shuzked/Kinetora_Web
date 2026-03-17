@@ -122,7 +122,7 @@ export const caseStudies: CaseStudy[] = [
       "https://kinetora.tech/cybertitans-clash-impacto-brutal-y-evolucion-web3/",
     label: "CYBERTITANS CLASH",
     labelEn: "CYBERTITANS CLASH",
-    title: "CYBERTITANS CLASH: Impacto brutal y evolución Web3",
+    title: "CyberTitans Clash: Impacto Brutal y Evolución Web3",
     titleEn: "CYBERTITANS CLASH: Massive impact and Web3 evolution",
     summaryFallback:
       "Sistema visual y narrativa para lanzamiento: dirección de arte, mensaje y assets para conversión.",
