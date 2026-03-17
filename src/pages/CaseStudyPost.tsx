@@ -23,6 +23,7 @@ const CaseStudyPost = () => {
   const currentCase = React.useMemo(() => caseStudies.find((item) => item.slug === slug), [slug]);
   const otherCases = React.useMemo(() => caseStudies.filter((item) => item.slug !== slug), [slug]);
 
+  // Sin llamadas remotas
   const loading = false;
 
   const ui =
@@ -67,22 +68,32 @@ const CaseStudyPost = () => {
   const cover = currentCase?.coverImage;
   const coverAlt = lang === "es" ? currentCase?.coverAlt : currentCase?.coverAltEn ?? currentCase?.coverAlt;
 
+  // Usar overrides locales: texto y media separados
   const { textHtml, mediaHtml } = React.useMemo(() => {
     if (!currentCase) {
       return { textHtml: "", mediaHtml: "" };
     }
-    const override = lang === "es"
-      ? caseContentOverrides[currentCase.slug]?.esTextHtml
-      : caseContentOverrides[currentCase.slug]?.enTextHtml ?? caseContentOverrides[currentCase.slug]?.esTextHtml;
-
-    if (override) {
-      return { textHtml: override, mediaHtml: "" };
-    }
-    const fallbackText =
+    const overrides = caseContentOverrides[currentCase.slug] || {};
+    const text =
       lang === "es"
+        ? overrides.esTextHtml ?? null
+        : overrides.enTextHtml ?? overrides.esTextHtml ?? null;
+
+    const media =
+      lang === "es"
+        ? overrides.esMediaHtml ?? null
+        : overrides.enMediaHtml ?? overrides.esMediaHtml ?? null;
+
+    const safeText =
+      text ??
+      (lang === "es"
         ? `<p>Resumen del proyecto: ${currentCase.title}. Diseñamos e implementamos el sistema visual, la narrativa y los entregables principales para acelerar crecimiento.</p>`
-        : `<p>Project summary: ${currentCase.titleEn ?? currentCase.title}. We designed and implemented the visual system, narrative and key deliverables to accelerate growth.</p>`;
-    return { textHtml: fallbackText, mediaHtml: "" };
+        : `<p>Project summary: ${currentCase.titleEn ?? currentCase.title}. We designed and implemented the visual system, narrative and key deliverables to accelerate growth.</p>`);
+
+    // Si no hay mediaHtml, dejamos cadena vacía para no mostrar nada en la columna de entregables
+    const safeMedia = media ?? "";
+
+    return { textHtml: safeText, mediaHtml: safeMedia };
   }, [currentCase, lang]);
 
   React.useEffect(() => {
