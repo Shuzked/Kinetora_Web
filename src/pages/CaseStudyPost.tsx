@@ -180,7 +180,7 @@ const CaseStudyPost = () => {
                       alt={coverAlt || ""}
                       loading="lazy"
                       decoding="async"
-                      fetchPriority="low"
+                      fetchPriority="high"
                       sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
