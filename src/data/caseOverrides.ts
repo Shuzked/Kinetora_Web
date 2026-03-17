@@ -2,7 +2,7 @@
 
 export const caseContentOverrides: Record<
   string,
-  { enTextHtml?: string; esTextHtml?: string }
+  { enTextHtml?: string; esTextHtml?: string; enMediaHtml?: string; esMediaHtml?: string }
 > = {
   "dunk-low-elixir-edition": {
     esTextHtml: [
@@ -140,6 +140,15 @@ export const caseContentOverrides: Record<
       "<h2>El Valor de una Gran Renovación Visual</h2>",
       "<p>La profunda transformación de ChronosWorlds demuestra el gran poder del buen Diseño Web3. Su salto al mundo 3D multiplicó su alcance social y su valor financiero de forma espectacular.</p>",
     ].join(""),
+    esMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" width="560" height="315" src="https://www.youtube.com/embed/bAkjumF6hXk?si=4t-uhNHSYIi9G4n-" title="ChronosWorlds — video 1" frameborder="0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" width="560" height="315" src="https://www.youtube.com/embed/oDVrybkl44k?si=QnjgElB3HInp0Dxi" title="ChronosWorlds — video 2" frameborder="0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/before-after.webp" alt="ChronosWorlds — Rebranding antes y después" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/play.webp" alt="ChronosWorlds — Pantalla principal del juego" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/inventory.webp" alt="ChronosWorlds — Pantalla de inventario y equipo" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/pitch-cover.webp" alt="ChronosWorlds — Portada del Pitch Deck" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/pitch-problem.webp" alt="ChronosWorlds — Slide del problema en el Pitch Deck" loading="lazy" /></figure>',
+    ].join(""),
     enTextHtml: [
       "<p>CHRONOSWORLDS needed a step-change in perception. We led a full rebrand and product UX/UI pass to move the experience from promising to premium, aligning visuals with the team's technical ambition.</p>",
       "<h2>What we delivered</h2>",
@@ -151,6 +160,15 @@ export const caseContentOverrides: Record<
       "<p>A high-signal deck focused on traction, roadmap and team. We created diagrams and data visuals to communicate systems quickly to non-technical stakeholders.</p>",
       "<h3>4. Social & Launch Assets</h3>",
       "<p>Template packs and motion snippets for feature reveals, updates and milestones—keeping a consistent drumbeat of communication through the public timeline.</p>",
+    ].join(""),
+    enMediaHtml: [
+      '<figure class="wp-block-embed"><iframe class="wp-embed" width="560" height="315" src="https://www.youtube.com/embed/bAkjumF6hXk?si=4t-uhNHSYIi9G4n-" title="ChronosWorlds — video 1" frameborder="0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-embed"><iframe class="wp-embed" width="560" height="315" src="https://www.youtube.com/embed/oDVrybkl44k?si=QnjgElB3HInp0Dxi" title="ChronosWorlds — video 2" frameborder="0" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/before-after.webp" alt="ChronosWorlds — Rebrand before and after" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/play.webp" alt="ChronosWorlds — Main menu UI" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/inventory.webp" alt="ChronosWorlds — Inventory and loadout UI" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/pitch-cover.webp" alt="ChronosWorlds — Pitch Deck cover" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/chronosworlds/pitch-problem.webp" alt="ChronosWorlds — Pitch Deck problem slide" loading="lazy" /></figure>',
     ].join(""),
   },
 
