@@ -92,7 +92,7 @@ const Hero = () => {
   const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
 
   React.useEffect(() => {
-    if (prefersReduced || isMobile) return;
+    if (prefersReduced) return;
     const el = sectionRef.current as HTMLElement | null;
     if (!el || typeof IntersectionObserver === "undefined") {
       setShowVideo(true);
@@ -110,7 +110,7 @@ const Hero = () => {
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [prefersReduced, isMobile]);
+  }, [prefersReduced]);
 
   // Evitar parpadeo al final del loop usando la API de YouTube
   React.useEffect(() => {
@@ -178,7 +178,7 @@ const Hero = () => {
             fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover"
           />
-          {showVideo && !prefersReduced && !isMobile && (
+          {showVideo && !prefersReduced && (
             <div className="absolute inset-0 overflow-hidden">
               {/* cover visual: zoom ligero para eliminar barras y cortes */}
               <iframe
