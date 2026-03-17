@@ -16,6 +16,9 @@ const Logo = ({ className = "h-6" }: LogoProps) => {
           src="/Logotipo.svg"
           alt="Kinetora Logo"
           className="h-full w-auto"
+          width={120}
+          height={24}
+          decoding="async"
           onError={() => setHasError(true)}
         />
       ) : (

@@ -77,39 +77,86 @@ const Hero = () => {
     smoothScrollTo(absoluteY);
   };
 
+  // Mejora de rendimiento: cargar el iframe de YouTube solo en desktop y cuando el héroe está visible
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(max-width: 767px)").matches;
+
+  const [showVideo, setShowVideo] = React.useState(false);
+
+  React.useEffect(() => {
+    if (prefersReduced || isMobile) {
+      setShowVideo(false);
+      return;
+    }
+    const el = sectionRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            // Pequeño defer para que no bloquee LCP
+            setTimeout(() => setShowVideo(true), 150);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -20% 0px", threshold: 0.1 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [prefersReduced, isMobile]);
+
   return (
     <section
       ref={sectionRef}
       className="relative overflow-hidden bg-[#0D0D0D]"
     >
-      {/* Fondo con YouTube */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+      {/* Fondo: imagen ligera en móvil o antes de montar el iframe; video en desktop cuando visible */}
+      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <motion.div
           style={{ y: yVideo }}
           className="absolute inset-0 pointer-events-none will-change-transform"
         >
-          {/* Técnica de cover para iframes 16:9: asegura que el vídeo cubra todo el viewport */}
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            style={{
-              width: '100vw',
-              height: '56.25vw',
-              minHeight: '100vh',
-              minWidth: '177.78vh',
-            }}
-          >
-            <iframe
-              title="Kinetora Hero Background"
-              className="w-full h-full"
-              src="https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=-niUBSx3PKQ"
-              frameBorder="0"
-              loading="lazy"
-              allow="autoplay; encrypted-media; picture-in-picture; web-share"
-              allowFullScreen
-              referrerPolicy="strict-origin-when-cross-origin"
-              style={{ pointerEvents: 'none' }}
+          {!showVideo ? (
+            <img
+              src="/assets/service-photos/brand-identity.webp"
+              alt=""
+              width={1920}
+              height={1080}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+              className="w-full h-full object-cover"
             />
-          </div>
+          ) : (
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+              style={{
+                width: '100vw',
+                height: '56.25vw',
+                minHeight: '100vh',
+                minWidth: '177.78vh',
+              }}
+            >
+              <iframe
+                title="Kinetora background video"
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/-niUBSx3PKQ?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=-niUBSx3PKQ"
+                frameBorder="0"
+                loading="lazy"
+                allow="autoplay; encrypted-media; picture-in-picture; web-share"
+                allowFullScreen
+                referrerPolicy="strict-origin-when-cross-origin"
+                style={{ pointerEvents: 'none' }}
+                aria-hidden="true"
+              />
+            </div>
+          )}
         </motion.div>
 
         {/* Textura/grain y gradientes de legibilidad */}

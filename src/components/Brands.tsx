@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useI18n } from "@/i18n/I18nProvider";
 
 const brands = [
@@ -17,7 +17,6 @@ const brands = [
 
 const Brands = () => {
   const { lang } = useI18n();
-  // Duplicamos para crear un loop perfecto en una sola línea
   const items = [...brands, ...brands];
   const trackRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -30,6 +29,22 @@ const Brands = () => {
     if (trackRef.current) trackRef.current.style.animationPlayState = 'running';
     if (wrapperRef.current) wrapperRef.current.removeAttribute('data-paused');
   };
+
+  useEffect(() => {
+    const el = wrapperRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) resumeTrack();
+          else pauseTrack();
+        });
+      },
+      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section

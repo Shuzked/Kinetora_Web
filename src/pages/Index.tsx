@@ -4,18 +4,18 @@ import React from 'react';
 import { useLocation } from "react-router-dom";
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-import Brands from '@/components/Brands';
-import Stats from '@/components/Stats';
-import ValueProp from '@/components/ValueProp';
-import HowItWorks from '@/components/HowItWorks';
-import Services from '@/components/Services';
-import Portfolio from '@/components/Portfolio';
-import Testimonials from '@/components/Testimonials';
-import FAQ from '@/components/FAQ';
+const Brands = React.lazy(() => import('@/components/Brands'));
+const Stats = React.lazy(() => import('@/components/Stats'));
+const ValueProp = React.lazy(() => import('@/components/ValueProp'));
+const HowItWorks = React.lazy(() => import('@/components/HowItWorks'));
+const Services = React.lazy(() => import('@/components/Services'));
+const Portfolio = React.lazy(() => import('@/components/Portfolio'));
+const Testimonials = React.lazy(() => import('@/components/Testimonials'));
+const Contact = React.lazy(() => import('@/components/Contact'));
+const FAQ = React.lazy(() => import('@/components/FAQ'));
 import Footer from '@/components/Footer';
 import ParallaxSection from '@/components/ParallaxSection';
 import FloatingCTA from '@/components/FloatingCTA';
-import Contact from '@/components/Contact';
 // SEO imports
 import SEO from '@/components/SEO';
 import { getSeoDefaults } from '@/seo/defaults';
@@ -36,7 +36,6 @@ const Index = () => {
     const nav = document.querySelector("nav") as HTMLElement | null;
     const offset = (nav?.offsetHeight || 0) + 8;
 
-    // Allow layout to settle
     requestAnimationFrame(() => {
       const rect = el.getBoundingClientRect();
       const y = rect.top + window.scrollY - offset;

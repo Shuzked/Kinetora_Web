@@ -2,15 +2,16 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
-import Cases from "./pages/Cases";
-import CaseStudyPost from "./pages/CaseStudyPost";
-import NotFound from "./pages/NotFound";
-import LegalNotice from "./pages/LegalNotice";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import CookiesPolicy from "./pages/CookiesPolicy";
-import SocialPrivacyPolicy from "./pages/SocialPrivacyPolicy";
+const Cases = React.lazy(() => import("./pages/Cases"));
+const CaseStudyPost = React.lazy(() => import("./pages/CaseStudyPost"));
+const NotFound = React.lazy(() => import("./pages/NotFound"));
+const LegalNotice = React.lazy(() => import("./pages/LegalNotice"));
+const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
+const CookiesPolicy = React.lazy(() => import("./pages/CookiesPolicy"));
+const SocialPrivacyPolicy = React.lazy(() => import("./pages/SocialPrivacyPolicy"));
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -31,16 +32,18 @@ const App = () => (
           <div className="relative z-10">
             <ScrollProgress />
             <ScrollToTop />
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/casos" element={<Cases />} />
-              <Route path="/casos/:slug" element={<CaseStudyPost />} />
-              <Route path="/legal/aviso-legal" element={<LegalNotice />} />
-              <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
-              <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
-              <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <React.Suspense fallback={<div className="min-h-[50vh] bg-transparent" />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/casos" element={<Cases />} />
+                <Route path="/casos/:slug" element={<CaseStudyPost />} />
+                <Route path="/legal/aviso-legal" element={<LegalNotice />} />
+                <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
+                <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
+                <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </React.Suspense>
           </div>
         </BrowserRouter>
       </I18nProvider>
