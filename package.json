@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "postinstall": "node ./scripts/postinstall-fix-esbuild.mjs",
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
