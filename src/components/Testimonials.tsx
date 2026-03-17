@@ -101,6 +101,28 @@ const Testimonials = () => {
           ],
         };
 
+  // Añadimos mapeo a archivos locales y derivamos nombres desde el nombre del archivo
+  const avatarFiles = [
+    "carlos-roldan.webp",
+    "enrique-phan.webp",
+    "danyil-shatko.webp",
+    "nicolas-francisquelo.webp",
+    "ferran-punti.webp",
+  ];
+  const toTitleCase = (str: string) =>
+    str.replace(/\b\w+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  const derived = avatarFiles.map((file) => {
+    const base = file.replace(/\.[^/.]+$/, "").replace(/-/g, " ");
+    return {
+      name: toTitleCase(base),
+      avatar: `/assets/testimonials/${file}`,
+    };
+  });
+  const items = copy.testimonials.map((t, i) => ({
+    ...t,
+    ...(derived[i] || {}),
+  }));
+
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia &&
@@ -123,7 +145,7 @@ const Testimonials = () => {
 
         <Carousel opts={{ align: "start", loop: true }} className="relative">
           <CarouselContent className="-ml-4">
-            {copy.testimonials.map((t, i) => (
+            {items.map((t, i) => (
               <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
                 <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                   <motion.div
