@@ -186,7 +186,7 @@ const Testimonials = () => {
                       transition={{ delay: (i % 3) * 0.08 }}
                       className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
                     >
-                      <div className="flex gap-1 mb-6">
+                      <div className="flex gap-1 mb-6" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}

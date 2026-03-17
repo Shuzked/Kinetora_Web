@@ -103,7 +103,11 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#0D0D0D] border-t border-[#2A2A2A]">
+    <footer
+      className="bg-[#0D0D0D] border-t border-[#2A2A2A]"
+      role="contentinfo"
+      aria-label={lang === "es" ? "Pie de página" : "Footer"}
+    >
       <div className="kin-container py-10 sm:py-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <motion.div

@@ -120,11 +120,6 @@ const Hero = () => {
         <div className="absolute inset-0 pointer-events-none opacity-70 bg-[radial-gradient(ellipse_at_center,transparent_45%,#0D0D0D_90%)]" />
       </div>
 
-      {/* Glow de marca */}
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[60%] bg-[#B454FF]/20 rounded-full blur-[90px] z-0"
-      />
-
       {/* Contenido */}
       <div className="kin-container">
         <motion.div
