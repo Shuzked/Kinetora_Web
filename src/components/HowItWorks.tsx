@@ -14,7 +14,7 @@ const HowItWorks = () => {
           title: "Tu nuevo flujo creativo.",
           titleAccent: "Kickoff y ejecución ágil.",
           sub:
-            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida. La comunicación será formal por email y reuniones programadas, y gestionamos tareas en ClickUp. Entregas en 48h con revisiones limitadas.",
+            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida. Nos coordinamos por el canal que prefieras (email o chat) y gestionamos tareas en tu herramienta o en ClickUp. Entregas en 48h con revisiones limitadas.",
           steps: [
             {
               number: "01",
@@ -30,9 +30,9 @@ const HowItWorks = () => {
             },
             {
               number: "03",
-              title: "Gestión en ClickUp",
+              title: "Comunicación y tareas",
               description:
-                "Centralizamos el trabajo en tu espacio de ClickUp: prioridades, estados y plazos claros. Coordinación por email y llamadas cuando sea necesario.",
+                "Nos adaptamos al canal que te resulte más cómodo (email o chat) y a tu herramienta de gestión (tu espacio o ClickUp): prioridades, estados y plazos claros.",
             },
             {
               number: "04",
@@ -46,7 +46,7 @@ const HowItWorks = () => {
           title: "Your new creative workflow.",
           titleAccent: "Kickoff and fast execution.",
           sub:
-            "We start with a short meeting to understand goals and budget. We propose a tailored subscription. Communication is formal via email and scheduled meetings, and we manage tasks in ClickUp. 48h deliveries with limited revisions.",
+            "We start with a short meeting to understand goals and budget. We propose a tailored subscription. We coordinate through your preferred channel (email or chat) and manage tasks in your tool or in ClickUp. 48h deliveries with limited revisions.",
           steps: [
             {
               number: "01",
@@ -62,9 +62,9 @@ const HowItWorks = () => {
             },
             {
               number: "03",
-              title: "ClickUp workflow",
+              title: "Communication & tasks",
               description:
-                "We centralize work in your ClickUp space: clear priorities, statuses and due dates. Coordination via email and calls when needed.",
+                "We adapt to your preferred channel (email or chat) and your workflow tool (your workspace or ClickUp): clear priorities, statuses and due dates.",
             },
             {
               number: "04",
