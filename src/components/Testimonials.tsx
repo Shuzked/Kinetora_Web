@@ -200,6 +200,8 @@ const Testimonials = () => {
                         className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
                         loading="lazy"
                         decoding="async"
+                        width={48}
+                        height={48}
                       />
                       <div>
                         <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
