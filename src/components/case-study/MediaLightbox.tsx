@@ -36,8 +36,8 @@ const MediaLightbox: React.FC<MediaLightboxProps> = ({ html, className }) => {
         onClick={onContainerClick}
         className={[
           "wp-post__content wp-post__media",
-          // Todas las imágenes dentro muestran cursor de zoom
-          "[&_img]:cursor-zoom-in",
+          // Todas las imágenes dentro muestran cursor de "manita"
+          "[&_img]:cursor-pointer",
           className || "",
         ].join(" ").trim()}
       >
