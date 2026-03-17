@@ -12,47 +12,65 @@ const HowItWorks = () => {
     lang === "es"
       ? {
           title: "Tu nuevo flujo creativo.",
-          titleAccent: "Simple y sin reuniones.",
+          titleAccent: "Kickoff y ejecución ágil.",
           sub:
-            "Un proceso diseñado para mantener velocidad, claridad y control sin sacrificar calidad.",
+            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida, nos comunicamos por Telegram/Discord/WhatsApp y gestionamos tareas en ClickUp. Entregas en 48h con revisiones limitadas.",
           steps: [
             {
               number: "01",
-              title: "Pide",
-              description: "Describe tu necesidad en nuestro tablero centralizado. Sin emails infinitos.",
+              title: "Reunión inicial",
+              description:
+                "Agendamos una llamada corta para entender lo que necesitas y el presupuesto disponible.",
             },
             {
               number: "02",
-              title: "Relájate",
-              description: "Diseñamos con propósito de inmediato. Nos enfocamos en resultados, no en horas.",
+              title: "Suscripción a medida",
+              description:
+                "Te proponemos un plan acorde a tu presupuesto, optimizado para impacto y velocidad.",
             },
             {
               number: "03",
-              title: "Recibe y crece",
-              description: "Entregas garantizadas en 48h con revisiones ilimitadas hasta que brille.",
+              title: "Canales y ClickUp",
+              description:
+                "Nos coordinamos por Telegram, Discord o WhatsApp y activamos tu espacio en ClickUp para tareas.",
+            },
+            {
+              number: "04",
+              title: "Ejecución 48h",
+              description:
+                "Producción continua con entregas en 48h y revisiones limitadas hasta cerrar cada pieza.",
             },
           ],
         }
       : {
           title: "Your new creative workflow.",
-          titleAccent: "Simple and meeting-free.",
+          titleAccent: "Kickoff and fast execution.",
           sub:
-            "A process built for speed, clarity and control—without sacrificing quality.",
+            "We start with a short meeting to understand goals and budget. We propose a subscription that fits, communicate via Telegram/Discord/WhatsApp, and manage tasks in ClickUp. 48h deliveries with limited revisions.",
           steps: [
             {
               number: "01",
-              title: "Request",
-              description: "Describe what you need in your centralized board. No endless emails.",
+              title: "Kickoff meeting",
+              description:
+                "A quick call to capture scope, goals and budget so we align from day one.",
             },
             {
               number: "02",
-              title: "Relax",
-              description: "We start designing immediately. We focus on outcomes—not hours.",
+              title: "Tailored subscription",
+              description:
+                "We propose a plan based on your budget, optimized for impact and speed.",
             },
             {
               number: "03",
-              title: "Receive & grow",
-              description: "Guaranteed 48h deliveries with unlimited revisions until it shines.",
+              title: "Channels & ClickUp",
+              description:
+                "We coordinate on Telegram, Discord or WhatsApp and open your ClickUp space for tasks.",
+            },
+            {
+              number: "04",
+              title: "48h execution",
+              description:
+                "Continuous production with 48h turnarounds and limited revisions until done.",
             },
           ],
         };
@@ -74,7 +92,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-10 md:gap-12">
+        <div className="grid md:grid-cols-4 gap-10 md:gap-12">
           {copy.steps.map((step, i) => (
             <MouseParallax key={i} intensity={6} rotate={3} className="will-change-transform">
             <motion.div
