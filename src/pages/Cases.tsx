@@ -14,112 +14,12 @@ import { useEqualizeHeights } from "@/hooks/use-equalize";
 import SEO from "@/components/SEO";
 import { getSeoDefaults } from "@/seo/defaults";
 
-type WPListPost = {
-  slug?: string;
-  excerpt?: { rendered?: string };
-  content?: { rendered?: string };
-  _embedded?: {
-    "wp:featuredmedia"?: Array<{ source_url?: string; alt_text?: string }>
-  };
-};
-
-function stripHtml(html: string) {
-  if (typeof window === "undefined") return html;
-  const doc = new DOMParser().parseFromString(html, "text/html");
-  return (doc.body.textContent || "").replace(/\s+/g, " ").trim();
-}
-
-function extractHito(text: string) {
-  const t = text.replace(/\s+/g, " ");
-  const m =
-    t.match(/(\+?\d[\d.,]*\s?(?:M€|M\$|M|K€|K\$|K|€|\$|%))/i) ||
-    t.match(/(\b\d{2,}\b)(?=\s?(?:ganadores|winners|participantes|users|usuarios))/i);
-  return m ? m[0].trim() : null;
-}
-
-function extractMetricKind(html: string): { kind: "milestone" | "sales" | "organic" | "funding"; value: string } | null {
-  const text = stripHtml(html).toLowerCase();
-  const valueMatch =
-    html.match(/[\+\-]?\s?\d[\d.,]*\s?(?:m€|m\$|m|k€|k\$|k|€|\$|%)/i) ||
-    html.match(/\b\d{2,}\s?(?:usuarios|users|participantes|winners|views|impresiones|impressions|alcance|reach)\b/i);
-  if (!valueMatch) return null;
-  const rawValue = valueMatch[0].trim();
-  let kind: "milestone" | "sales" | "organic" | "funding" = "milestone";
-  if (/(venta|ventas|sales)/i.test(text)) kind = "sales";
-  else if (/(impacto|org[aá]nico|organic|reach|views|impresiones|impressions|alcance)/i.test(text)) kind = "organic";
-  else if (/(recaud|inversi|raised|funding)/i.test(text)) kind = "funding";
-  return { kind, value: rawValue };
-}
-
 const Cases = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
 
-  const [meta, setMeta] = React.useState<
-    Record<
-      string,
-      {
-        img?: string;
-        alt?: string;
-        excerpt?: string;
-        hito?: string;
-        metricKind?: "milestone" | "sales" | "organic" | "funding";
-        metricValue?: string;
-      }
-    >
-  >({});
-
-  React.useEffect(() => {
-    let cancelled = false;
-    Promise.all(
-      caseStudies.map(async (cs) => {
-        const url = new URL("/wp-json/wp/v2/posts", cs.sourceUrl);
-        url.searchParams.set("slug", cs.slug);
-        url.searchParams.set("_embed", "1");
-        url.searchParams.set("_fields", "slug,excerpt,content,_embedded");
-        const res = await fetch(url.toString());
-        const arr = (await res.json()) as WPListPost[];
-        const p = arr?.[0];
-        const fm = p?._embedded?.["wp:featuredmedia"]?.[0];
-        const featured = fm?.source_url;
-        const alt = fm?.alt_text;
-        const excerptText = p?.excerpt?.rendered ? stripHtml(p.excerpt.rendered) : "";
-        const metric = p?.content?.rendered ? extractMetricKind(p.content.rendered) : null;
-        return {
-          slug: cs.slug,
-          img: featured,
-          alt,
-          excerpt: excerptText,
-          hito: excerptText ? extractHito(excerptText) ?? undefined : undefined,
-          metricKind: metric?.kind,
-          metricValue: metric?.value,
-        };
-      })
-    ).then((items) => {
-      if (cancelled) return;
-      const next: Record<string, any> = {};
-      items.forEach((it) => {
-        next[it.slug] = {
-          img: it.img,
-          alt: it.alt,
-          excerpt: it.excerpt,
-          hito: it.hito,
-          metricKind: it.metricKind,
-          metricValue: it.metricValue,
-        };
-      });
-      setMeta(next);
-    })
-    .catch(() => {
-      if (cancelled) return;
-      setMeta({});
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const metaReady = Object.keys(meta).length > 0;
+  const meta: Record<string, any> = {};
+  const metaReady = true;
 
   const metricLabelFor = (kind?: "milestone" | "sales" | "organic" | "funding") => {
     if (!kind) return null;
@@ -183,7 +83,7 @@ const Cases = () => {
         robots="index,follow"
       />
       <Navbar />
-      <main id="main-content" role="main" className="pt-[68px] md:pt-[88px]">
+      <main id="main-content" className="pt-[68px] md:pt-[88px]">
         <section className="kin-section relative overflow-hidden" ref={eqRef}>
           <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
           <div className="kin-container relative">
@@ -203,21 +103,18 @@ const Cases = () => {
 
               <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 items-stretch">
                 {caseStudies.map((cs) => {
-                  const m = meta[cs.slug];
-                  const cover = cs.coverImage || m?.img;
+                  const cover = cs.coverImage;
                   const hito =
-                    m?.hito ||
                     (lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback);
                   const alt =
                     (lang === "es" ? cs.coverAlt : cs.coverAltEn ?? cs.coverAlt) ||
-                    cs.coverAlt ||
-                    m?.alt;
+                    cs.coverAlt;
 
                   const metricLabel =
                     (lang === "es" ? cs.metricLabel : cs.metricLabelEn ?? cs.metricLabel) ?? 
-                    metricLabelFor(m?.metricKind) ?? 
+                    metricLabelFor(undefined) ?? 
                     null;
-                  const metricValue = cs.metricValue ?? m?.metricValue;
+                  const metricValue = cs.metricValue ?? null;
 
                   const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 

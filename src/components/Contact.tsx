@@ -74,7 +74,6 @@ const Contact = () => {
             { v: "50k+", l: "Más de 50.000€" },
           ],
           ariaSend: "Enviar consulta",
-          // Modal
           modalTitle: "Mensaje recibido",
           modalDesc:
             "Tu mensaje ha llegado correctamente. Si quieres, puedes reservar una reunión con nosotros ahora.",
@@ -112,7 +111,6 @@ const Contact = () => {
             { v: "50k+", l: "More than €50,000" },
           ],
           ariaSend: "Send inquiry",
-          // Modal
           modalTitle: "Message received",
           modalDesc:
             "Your message has been delivered. If you'd like, you can book a meeting with us now.",
@@ -120,8 +118,7 @@ const Contact = () => {
           modalClose: "Close",
         };
 
-  // Web3Forms: clave de acceso fija
-  // Nota: si cambias esta key, actualiza aquí tu nueva access_key desde https://web3forms.com/dashboard
+  // Web3Forms access key (fija)
   const WEB3FORMS_ACCESS_KEY = "7e89d9dd-e4b7-4187-8cd0-46c5bc511b2c";
 
   const validate = () => {
@@ -319,7 +316,7 @@ const Contact = () => {
               onClick={() => setOpenModal(false)}
               className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-colors"
             >
-              {strings.modalClose}
+              {lang === "es" ? "Cerrar" : "Close"}
             </button>
             <a
               href={calendlyUrl}
@@ -327,7 +324,7 @@ const Contact = () => {
               rel="noopener noreferrer"
               className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-colors"
             >
-              {strings.modalCTA}
+              {lang === "es" ? "Reservar reunión" : "Book a meeting"}
             </a>
           </div>
         </DialogContent>

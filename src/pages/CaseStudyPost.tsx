@@ -8,20 +8,9 @@ import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import CaseStudyColumns from "@/components/case-study/CaseStudyColumns";
 import CaseStudyMoreResults from "@/components/case-study/CaseStudyMoreResults";
-import {
-  type CaseStudyMeta,
-  type WPPost,
-  extractHito,
-  extractMetricKind,
-  injectEmbedsAtPoints,
-  sanitizeWpHtml,
-  splitWpContentIntoTextAndMedia,
-  stripHtml,
-} from "@/components/case-study/caseStudyUtils";
 import { caseStudies } from "@/data/caseStudies";
 import { caseContentOverrides } from "@/data/caseOverrides";
 import { useI18n } from "@/i18n/I18nProvider";
-import { isLikelySpanish, translateHtmlEsToEn, translateTextEsToEn } from "@/utils/translate";
 // SEO
 import SEO from "@/components/SEO";
 import { getSeoDefaults } from "@/seo/defaults";
@@ -34,13 +23,7 @@ const CaseStudyPost = () => {
   const currentCase = React.useMemo(() => caseStudies.find((item) => item.slug === slug), [slug]);
   const otherCases = React.useMemo(() => caseStudies.filter((item) => item.slug !== slug), [slug]);
 
-  const [post, setPost] = React.useState<WPPost | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [meta, setMeta] = React.useState<Record<string, CaseStudyMeta>>({});
-  const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
-
-  const textWrapRef = React.useRef<HTMLElement | null>(null);
-  const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
+  const loading = false;
 
   const ui =
     lang === "es"
@@ -73,191 +56,57 @@ const CaseStudyPost = () => {
 
   const caseTag = React.useMemo(() => {
     if (!currentCase) return lang === "es" ? "Caso de éxito" : "Case study";
-
-    const excerptText = post?.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "";
-    const extracted = excerptText ? extractHito(excerptText) : null;
-    const fallback =
-      lang === "es"
-        ? currentCase.highlightFallback
-        : currentCase.highlightFallbackEn ?? currentCase.highlightFallback;
-
-    if (lang === "en") {
-      if (extracted) {
-        return isLikelySpanish(extracted) ? translateTextEsToEn(extracted) : extracted;
-      }
-      return fallback;
-    }
-
-    return extracted || fallback;
-  }, [currentCase, lang, post?.excerpt?.rendered]);
+    return lang === "es" ? currentCase.highlightFallback : currentCase.highlightFallbackEn ?? currentCase.highlightFallback;
+  }, [currentCase, lang]);
 
   const title = React.useMemo(() => {
-    const wpTitle = post?.title?.rendered ? stripHtml(post.title.rendered) : undefined;
-    if (lang === "en") {
-      if (wpTitle) return isLikelySpanish(wpTitle) ? translateTextEsToEn(wpTitle) : wpTitle;
-      return currentCase?.titleEn ?? currentCase?.title;
-    }
-    return wpTitle ?? currentCase?.title;
-  }, [currentCase?.title, currentCase?.titleEn, lang, post?.title?.rendered]);
+    if (!currentCase) return "";
+    return lang === "es" ? currentCase.title : currentCase.titleEn ?? currentCase.title;
+  }, [currentCase, lang]);
 
   const cover = currentCase?.coverImage;
   const coverAlt = lang === "es" ? currentCase?.coverAlt : currentCase?.coverAltEn ?? currentCase?.coverAlt;
 
   const { textHtml, mediaHtml } = React.useMemo(() => {
-    const base = post?.content?.rendered ? sanitizeWpHtml(post.content.rendered) : "";
-    const withEmbeds = currentCase?.embeds?.length ? injectEmbedsAtPoints(base, currentCase.embeds) : base;
-    const splitContent = splitWpContentIntoTextAndMedia(withEmbeds);
-
-    if (!currentCase) return splitContent;
-
-    if (lang === "es") {
-      const override = caseContentOverrides[currentCase.slug]?.esTextHtml;
-      if (!override) return splitContent;
-      const safeOverride = sanitizeWpHtml(override);
-      return splitWpContentIntoTextAndMedia(safeOverride);
+    if (!currentCase) {
+      return { textHtml: "", mediaHtml: "" };
     }
+    const override = lang === "es"
+      ? caseContentOverrides[currentCase.slug]?.esTextHtml
+      : caseContentOverrides[currentCase.slug]?.enTextHtml ?? caseContentOverrides[currentCase.slug]?.esTextHtml;
 
-    const override = caseContentOverrides[currentCase.slug]?.enTextHtml;
     if (override) {
-      const safeOverride = sanitizeWpHtml(override);
-      return splitWpContentIntoTextAndMedia(safeOverride);
+      return { textHtml: override, mediaHtml: "" };
     }
-
-    return {
-      textHtml: translateHtmlEsToEn(splitContent.textHtml),
-      mediaHtml: splitContent.mediaHtml,
-    };
-  }, [currentCase, lang, post?.content?.rendered]);
+    const fallbackText =
+      lang === "es"
+        ? `<p>Resumen del proyecto: ${currentCase.title}. Diseñamos e implementamos el sistema visual, la narrativa y los entregables principales para acelerar crecimiento.</p>`
+        : `<p>Project summary: ${currentCase.titleEn ?? currentCase.title}. We designed and implemented the visual system, narrative and key deliverables to accelerate growth.</p>`;
+    return { textHtml: fallbackText, mediaHtml: "" };
+  }, [currentCase, lang]);
 
   React.useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [slug]);
 
-  React.useEffect(() => {
-    let cancelled = false;
-
-    if (!currentCase) {
-      setPost(null);
-      setLoading(false);
-      return;
-    }
-
-    const baseUrl = lang === "en" && currentCase.sourceUrlEn ? currentCase.sourceUrlEn : currentCase.sourceUrl;
-    const slugParam = lang === "en" && currentCase.slugEn ? currentCase.slugEn : currentCase.slug;
-    const url = new URL("/wp-json/wp/v2/posts", baseUrl);
-
-    url.searchParams.set("slug", slugParam);
-    url.searchParams.set("_embed", "1");
-    url.searchParams.set("_fields", "slug,title,excerpt,content,_embedded");
-
-    setLoading(true);
-
-    fetch(url.toString())
-      .then((response) => response.json())
-      .then((items: WPPost[]) => {
-        if (cancelled) return;
-        setPost(items?.[0] ?? null);
-        setLoading(false);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setPost(null);
-        setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [currentCase, lang]);
-
-  React.useEffect(() => {
-    let cancelled = false;
-
-    Promise.all(
-      otherCases.map(async (item) => {
-        const baseUrl = lang === "en" && item.sourceUrlEn ? item.sourceUrlEn : item.sourceUrl;
-        const slugParam = lang === "en" && item.slugEn ? item.slugEn : item.slug;
-        const url = new URL("/wp-json/wp/v2/posts", baseUrl);
-
-        url.searchParams.set("slug", slugParam);
-        url.searchParams.set("_embed", "1");
-        url.searchParams.set("_fields", "slug,excerpt,content,_embedded");
-
-        const response = await fetch(url.toString());
-        const items = (await response.json()) as WPPost[];
-        const foundPost = items?.[0];
-        const featuredMedia = foundPost?._embedded?.["wp:featuredmedia"]?.[0];
-        const excerptText = foundPost?.excerpt?.rendered ? stripHtml(foundPost.excerpt.rendered) : "";
-        const metric = foundPost?.content?.rendered ? extractMetricKind(foundPost.content.rendered) : null;
-
-        return {
-          slug: item.slug,
-          img: featuredMedia?.source_url,
-          alt: featuredMedia?.alt_text,
-          excerpt: excerptText,
-          hito: excerptText ? extractHito(excerptText) ?? undefined : undefined,
-          metricKind: metric?.kind,
-          metricValue: metric?.value,
-        } satisfies CaseStudyMeta & { slug: string };
-      })
-    )
-      .then((items) => {
-        if (cancelled) return;
-        const nextMeta: Record<string, CaseStudyMeta> = {};
-        items.forEach(({ slug: itemSlug, ...rest }) => {
-          nextMeta[itemSlug] = rest;
-        });
-        setMeta(nextMeta);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setMeta({});
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [lang, otherCases]);
-
-  React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) {
-      setStickySide(null);
-      return;
-    }
-
-    const textEl = textWrapRef.current;
-    const mediaEl = mediaWrapRef.current;
-    if (!textEl || !mediaEl) return;
-
-    const computeStickySide = () => {
-      const textHeight = textEl.offsetHeight;
-      const mediaHeight = mediaEl.offsetHeight;
-      if (!textHeight || !mediaHeight) return;
-      setStickySide(textHeight <= mediaHeight ? "left" : "right");
-    };
-
-    computeStickySide();
-
-    const resizeObserver = new ResizeObserver(computeStickySide);
-    resizeObserver.observe(textEl);
-    resizeObserver.observe(mediaEl);
-
-    window.addEventListener("resize", computeStickySide);
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", computeStickySide);
-    };
-  }, [mediaHtml, textHtml]);
+  const moreMeta = React.useMemo(() => {
+    const m: Record<string, any> = {};
+    otherCases.forEach((item) => {
+      m[item.slug] = {
+        img: item.coverImage,
+        alt: lang === "es" ? item.coverAlt : item.coverAltEn ?? item.coverAlt,
+        hito: lang === "es" ? item.highlightFallback : item.highlightFallbackEn ?? item.highlightFallback,
+        metricKind: null,
+        metricValue: item.metricValue ?? null,
+      };
+    });
+    return m;
+  }, [otherCases, lang]);
 
   const seoDefaults = getSeoDefaults(lang);
   const origin = typeof window !== "undefined" ? window.location.origin : "";
   const canonical = `${origin}/casos/${slug ?? ""}`;
-  const excerptText = post?.excerpt?.rendered ? stripHtml(post.excerpt.rendered) : "";
-  const description =
-    lang === "en"
-      ? (excerptText ? (isLikelySpanish(excerptText) ? translateTextEsToEn(excerptText) : excerptText) : ui.readyBody)
-      : (excerptText || ui.readyBody);
+  const description = ui.readyBody;
   const keywords = [
     ...seoDefaults.keywords,
     ...(lang === "es" ? ["caso de éxito", "portafolio", "resultados"] : ["case study", "portfolio", "results"]),
@@ -309,12 +158,10 @@ const CaseStudyPost = () => {
                     <img
                       src={cover}
                       alt={coverAlt || ""}
-                      loading="eager"
+                      loading="lazy"
                       decoding="async"
-                      fetchPriority="high"
-                      width={1280}
-                      height={720}
-                      sizes="100vw"
+                      fetchPriority="low"
+                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
                       }}
@@ -334,11 +181,9 @@ const CaseStudyPost = () => {
                     loading={loading}
                     textHtml={textHtml}
                     mediaHtml={mediaHtml}
-                    stickySide={stickySide}
+                    stickySide={null}
                     textLabel={ui.textCol}
                     mediaLabel={ui.mediaCol}
-                    textWrapRef={textWrapRef}
-                    mediaWrapRef={mediaWrapRef}
                   />
 
                   <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
@@ -357,7 +202,7 @@ const CaseStudyPost = () => {
 
                   <CaseStudyMoreResults
                     cases={otherCases}
-                    meta={meta}
+                    meta={moreMeta}
                     lang={lang}
                     moreResultsLabel={ui.moreResults}
                     viewAllLabel={ui.viewAll}
