@@ -5,7 +5,6 @@ import { motion, useScroll } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const ScrollProgress = () => {
-  const { scrollYProgress } = useScroll();
   const isMobile = useIsMobile();
   const prefersReduced =
     typeof window !== "undefined" &&
@@ -13,6 +12,9 @@ const ScrollProgress = () => {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (isMobile || prefersReduced) return null;
+
+  // Llamar hooks solo cuando se renderiza este componente
+  const { scrollYProgress } = useScroll();
 
   return (
     <motion.div

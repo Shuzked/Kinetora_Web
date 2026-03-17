@@ -24,9 +24,13 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
   disabled = false,
 }) => {
   const ref = useRef<HTMLDivElement | null>(null);
-  const isMobile = useIsMobile?.() ?? false;
-  const prefersReduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const off = isMobile || prefersReduced;
+  // Llamar siempre al hook
+  const isMobile = useIsMobile();
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const off = isMobile || prefersReduced || disabled;
 
   const [reduceMotion, setReduceMotion] = useState(false);
   useEffect(() => {
@@ -39,8 +43,8 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
 
   const tx = useMotionValue(0);
   const ty = useMotionValue(0);
-  const rx = useMotionValue(0); // rotateX
-  const ry = useMotionValue(0); // rotateY
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
   const scale = useMotionValue(1);
 
   const stx = useSpring(tx, { stiffness: 180, damping: 18, mass: 0.6 });
@@ -62,17 +66,15 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
     const rect = ref.current.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
-    const dx = (e.clientX - cx) / (rect.width / 2); // -1 .. 1
-    const dy = (e.clientY - cy) / (rect.height / 2); // -1 .. 1
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
 
     const clampedX = clamp(dx, -1, 1);
     const clampedY = clamp(dy, -1, 1);
 
-    // Movimiento: invertimos Y para que el elemento acompañe sutilmente al cursor
     tx.set(clampedX * intensity);
     ty.set(clampedY * -intensity);
 
-    // Tilt: rotateX responde a Y, rotateY a X (invertimos para sensación natural)
     rx.set(clampedY * rotate);
     ry.set(clampedX * -rotate);
   };

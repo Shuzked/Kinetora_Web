@@ -17,11 +17,10 @@ const usePrefersReducedMotion = () => {
 };
 
 const BackgroundParallax: React.FC = () => {
-  const { scrollYProgress } = useScroll();
   const isMobile = useIsMobile();
   const reduced = usePrefersReducedMotion();
 
-  // En móvil o con reduce-motion: sin animación (ahorro de CPU/GPU)
+  // En móvil o con reduce-motion: sin animación y sin hooks de scroll
   if (isMobile || reduced) {
     return (
       <div aria-hidden className="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -33,7 +32,8 @@ const BackgroundParallax: React.FC = () => {
     );
   }
 
-  // Desktop: animación ligera
+  // Solo en desktop: animación ligera
+  const { scrollYProgress } = useScroll();
   const ySlow = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const yMid = useTransform(scrollYProgress, [0, 1], [0, 90]);
   const yFast = useTransform(scrollYProgress, [0, 1], [0, -120]);
