@@ -5,16 +5,16 @@ import { motion, useScroll } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const ScrollProgress = () => {
+  // Llamar hooks SIEMPRE en el mismo orden
+  const { scrollYProgress } = useScroll();
   const isMobile = useIsMobile();
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Render condicional, pero tras invocar los hooks
   if (isMobile || prefersReduced) return null;
-
-  // Llamar hooks solo cuando se renderiza este componente
-  const { scrollYProgress } = useScroll();
 
   return (
     <motion.div
