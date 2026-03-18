@@ -83,7 +83,7 @@ const Hero = () => {
 
   const videoId = "-niUBSx3PKQ";
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&iv_load_policy=3&fs=0&disablekb=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`;
+  const embedSrc = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&iv_load_policy=3&fs=0&disablekb=1&enablejsapi=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`;
 
   return (
     <section
@@ -96,20 +96,27 @@ const Hero = () => {
           className="absolute inset-0 pointer-events-none will-change-transform"
         >
           {!prefersReduced && (
-            <iframe
-              className="absolute left-1/2 top-1/2 h-[155vh] w-[320vw] max-w-none -translate-x-1/2 -translate-y-1/2 md:h-[140vh] md:w-[160vw] lg:h-[150vh] lg:w-[120vw]"
-              src={embedSrc}
-              title="Hero background video"
-              loading="eager"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-            />
+            <div className="absolute inset-0">
+              <iframe
+                className="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 scale-[1.18] md:scale-[1.08] lg:scale-[1.04]"
+                style={{
+                  width: '100vw',
+                  height: '56.25vw',
+                  minWidth: '177.78vh',
+                  minHeight: '100vh',
+                }}
+                src={embedSrc}
+                title="Hero background video"
+                loading="eager"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
           )}
-
         </motion.div>
 
-        <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
+        <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.82)_100%)]" />
       </div>
 
