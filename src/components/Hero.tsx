@@ -97,7 +97,7 @@ const Hero = () => {
         >
           {!prefersReduced && (
             <iframe
-              className="absolute left-1/2 top-1/2 h-[130vh] w-[230vw] max-w-none -translate-x-1/2 -translate-y-1/2 md:h-[140vh] md:w-[160vw] lg:h-[150vh] lg:w-[120vw]"
+              className="absolute left-1/2 top-1/2 h-[155vh] w-[320vw] max-w-none -translate-x-1/2 -translate-y-1/2 md:h-[140vh] md:w-[160vw] lg:h-[150vh] lg:w-[120vw]"
               src={embedSrc}
               title="Hero background video"
               loading="eager"
@@ -106,6 +106,7 @@ const Hero = () => {
               allowFullScreen
             />
           )}
+
         </motion.div>
 
         <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
