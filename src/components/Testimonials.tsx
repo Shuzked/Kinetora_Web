@@ -6,6 +6,7 @@ import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import {
+  type CarouselApi,
   Carousel,
   CarouselContent,
   CarouselItem,
@@ -15,6 +16,7 @@ import {
 
 const Testimonials = () => {
   const { lang } = useI18n();
+  const [api, setApi] = React.useState<CarouselApi>();
 
   const copy =
     lang === "es"
@@ -162,6 +164,16 @@ const Testimonials = () => {
     window.matchMedia("(max-width: 767px)").matches;
   const off = prefersReduced || isMobile;
 
+  React.useEffect(() => {
+    if (!api || prefersReduced) return;
+
+    const autoplay = window.setInterval(() => {
+      api.scrollNext();
+    }, 5000);
+
+    return () => window.clearInterval(autoplay);
+  }, [api, prefersReduced]);
+
   return (
     <section className="kin-section relative overflow-hidden">
       <div className="kin-container">
@@ -173,7 +185,7 @@ const Testimonials = () => {
         </div>
 
         <div role="region" aria-roledescription="carousel" aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}>
-          <Carousel opts={{ align: "start", loop: true }} className="relative">
+          <Carousel opts={{ align: "start", loop: true }} setApi={setApi} className="relative">
             <CarouselContent className="-ml-4">
               {items.map((t, i) => (
                 <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
