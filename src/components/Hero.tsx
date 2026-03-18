@@ -15,7 +15,7 @@ const Hero = () => {
     offset: ["start start", "end start"]
   });
 
-  const yVideo = useTransform(scrollYProgress, [0, 1], [0, 40]);
+  const yBackground = useTransform(scrollYProgress, [0, 1], [0, 40]);
   const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   const copy =
@@ -76,15 +76,6 @@ const Hero = () => {
     smoothScrollTo(absoluteY);
   };
 
-  const prefersReduced =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  const videoId = "-niUBSx3PKQ";
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const embedSrc = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&iv_load_policy=3&fs=0&disablekb=1&enablejsapi=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`;
-
   return (
     <section
       ref={sectionRef}
@@ -92,31 +83,22 @@ const Hero = () => {
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <motion.div
-          style={{ y: yVideo }}
-          className="absolute inset-0 pointer-events-none will-change-transform"
+          style={{ y: yBackground }}
+          className="absolute inset-0 will-change-transform"
         >
-          {!prefersReduced && (
-            <div className="absolute inset-0">
-              <iframe
-                className="absolute left-1/2 top-1/2 max-w-none -translate-x-1/2 -translate-y-1/2 scale-[1.18] md:scale-[1.08] lg:scale-[1.04]"
-                style={{
-                  width: '100vw',
-                  height: '56.25vw',
-                  minWidth: '177.78vh',
-                  minHeight: '100vh',
-                }}
-                src={embedSrc}
-                title="Hero background video"
-                loading="eager"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
-          )}
+          <img
+            src="/assets/hero/hero-kinetora-bg.webp"
+            alt=""
+            width={1600}
+            height={900}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            className="h-full w-full object-cover object-center"
+          />
         </motion.div>
 
-        <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
+        <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.82)_100%)]" />
       </div>
 
