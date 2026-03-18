@@ -157,25 +157,27 @@ const Testimonials = () => {
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const pauseTrack = () => {
-    if (trackRef.current) trackRef.current.style.animationPlayState = 'paused';
-    if (wrapperRef.current) wrapperRef.current.setAttribute('data-paused', 'true');
-  };
+  const [isPaused, setIsPaused] = React.useState(prefersReduced);
+  const [isVisible, setIsVisible] = React.useState(true);
 
+  const pauseTrack = () => setIsPaused(true);
   const resumeTrack = () => {
-    if (trackRef.current) trackRef.current.style.animationPlayState = 'running';
-    if (wrapperRef.current) wrapperRef.current.removeAttribute('data-paused');
+    if (!prefersReduced) setIsPaused(false);
   };
 
   useEffect(() => {
+    if (!trackRef.current) return;
+    trackRef.current.style.animationPlayState = !isVisible || isPaused || prefersReduced ? 'paused' : 'running';
+  }, [isPaused, isVisible, prefersReduced]);
+
+  useEffect(() => {
     const el = wrapperRef.current;
-    if (!el || prefersReduced) return;
+    if (!el) return;
 
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) resumeTrack();
-          else pauseTrack();
+          setIsVisible(entry.isIntersecting);
         });
       },
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
@@ -183,7 +185,7 @@ const Testimonials = () => {
 
     io.observe(el);
     return () => io.disconnect();
-  }, [prefersReduced]);
+  }, []);
 
   return (
     <section className="kin-section relative overflow-hidden">
@@ -198,25 +200,27 @@ const Testimonials = () => {
 
       <div
         ref={wrapperRef}
-        data-animate={prefersReduced ? undefined : "always"}
         role="region"
         aria-roledescription="carousel"
         aria-label={lang === "es" ? "Carrusel automático de testimonios" : "Automatic testimonials carousel"}
         className="relative overflow-hidden"
       >
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#0D0D0D] to-transparent sm:w-24" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#0D0D0D] to-transparent sm:w-24" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#0D0D0D] to-transparent sm:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#0D0D0D] to-transparent sm:w-20" />
 
         <div
           ref={trackRef}
-          className="marquee-track flex min-w-max gap-5 sm:gap-6 will-change-transform"
-          style={{ animationDuration: "95s" }}
+          className="flex min-w-max gap-4 sm:gap-5 will-change-transform"
+          style={{
+            animation: prefersReduced ? 'none' : 'kinetora-marquee 82s linear infinite',
+            animationPlayState: !isVisible || isPaused ? 'paused' : 'running',
+          }}
         >
           {marqueeItems.map((t, i) => (
             <div
               key={`${t.name}-${i}`}
               aria-hidden={i >= items.length}
-              className="w-[84vw] shrink-0 sm:w-[32rem] lg:w-[34rem]"
+              className="w-[76vw] shrink-0 sm:w-[24rem] lg:w-[26rem]"
               onMouseEnter={pauseTrack}
               onMouseLeave={resumeTrack}
               onFocus={pauseTrack}
@@ -231,16 +235,16 @@ const Testimonials = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.2 }}
                     transition={{ duration: 0.45, ease: 'easeOut' }}
-                    className="h-full min-h-[24rem] rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-7 sm:min-h-[26rem] sm:p-8 md:p-10 relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
+                    className="h-full min-h-[22rem] rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-6 sm:min-h-[24rem] sm:p-7 lg:p-8 relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
                     tabIndex={0}
                   >
-                    <div className="flex gap-1 mb-6" aria-hidden="true">
+                    <div className="flex gap-1 mb-5" aria-hidden="true">
                       {[...Array(5)].map((_, idx) => (
                         <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                       ))}
                     </div>
 
-                    <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
+                    <p className="text-[#F5F5F5] mb-7 sm:mb-8 italic font-medium text-sm sm:text-base leading-relaxed">
                       "{t.content}"
                     </p>
 
