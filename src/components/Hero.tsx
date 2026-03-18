@@ -47,7 +47,6 @@ const Hero = () => {
           ],
         };
 
-  // Utilidad local para desplazamiento suave respetando la altura del navbar
   const getNavbarOffset = () => {
     const nav = document.querySelector("nav") as HTMLElement | null;
     return (nav?.offsetHeight || 0) + 8;
@@ -77,117 +76,42 @@ const Hero = () => {
     smoothScrollTo(absoluteY);
   };
 
-  // Mejora de rendimiento: cargar el iframe de YouTube solo en desktop y cuando el héroe está visible
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isMobile =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(max-width: 767px)").matches;
-
-  // Montar el iframe solo cuando el hero esté en viewport y en desktop
-  const [showVideo, setShowVideo] = React.useState(true);
-  const iframeRef = React.useRef<HTMLIFrameElement | null>(null);
-
-  // Mostrar el vídeo sin depender del IntersectionObserver (para que no quede el fondo)
-  React.useEffect(() => {
-    if (prefersReduced) return;
-    setShowVideo(true);
-  }, [prefersReduced]);
-
-  // Evitar parpadeo al final del loop usando la API de YouTube
-  React.useEffect(() => {
-    if (!showVideo) return;
-    const onMessage = (evt: MessageEvent) => {
-      if (!evt || typeof evt.data !== "string") return;
-      try {
-        const data = JSON.parse(evt.data);
-        if (data?.event === "onStateChange" && data?.info === 0 /* ended */) {
-          // Reiniciar al instante
-          iframeRef.current?.contentWindow?.postMessage(
-            JSON.stringify({ event: "command", func: "seekTo", args: [0, true] }),
-            "*"
-          );
-          iframeRef.current?.contentWindow?.postMessage(
-            JSON.stringify({ event: "command", func: "playVideo", args: [] }),
-            "*"
-          );
-        }
-      } catch {
-        // Ignorar mensajes no JSON
-      }
-    };
-    window.addEventListener("message", onMessage);
-    // Asegurar mute y play al cargar
-    const timer = window.setTimeout(() => {
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "mute", args: [] }),
-        "*"
-      );
-      iframeRef.current?.contentWindow?.postMessage(
-        JSON.stringify({ event: "command", func: "playVideo", args: [] }),
-        "*"
-      );
-    }, 800);
-    return () => {
-      window.removeEventListener("message", onMessage);
-      window.clearTimeout(timer);
-    };
-  }, [showVideo]);
 
   const videoId = "-niUBSx3PKQ";
   const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&showinfo=0&playsinline=1&iv_load_policy=3&fs=0&disablekb=1&enablejsapi=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`;
+  const embedSrc = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&iv_load_policy=3&fs=0&disablekb=1${origin ? `&origin=${encodeURIComponent(origin)}` : ""}`;
 
   return (
     <section
       ref={sectionRef}
       className="relative overflow-hidden bg-[#0D0D0D]"
     >
-      {/* Fondo: imagen ligera en móvil o antes de montar el iframe; video en desktop cuando visible */}
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <motion.div
           style={{ y: yVideo }}
           className="absolute inset-0 pointer-events-none will-change-transform"
         >
-          {/* Poster (si móvil o reduce motion, solo imagen), y mientras no se monta el iframe */}
-          <img
-            src="/assets/hero/hero-bg.webp"
-            alt=""
-            width={1920}
-            height={1080}
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          {showVideo && !prefersReduced && (
-            <div className="absolute inset-0 overflow-hidden">
-              {/* cover visual: zoom ligero para eliminar barras y cortes */}
-              <iframe
-                ref={iframeRef}
-                className="absolute inset-0 w-full h-full scale-[1.18] md:scale-[1.12] origin-center"
-                src={embedSrc}
-                title="Hero background video"
-                loading="eager"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
+          {!prefersReduced && (
+            <iframe
+              className="absolute left-1/2 top-1/2 h-[130vh] w-[230vw] max-w-none -translate-x-1/2 -translate-y-1/2 md:h-[140vh] md:w-[160vw] lg:h-[150vh] lg:w-[120vw]"
+              src={embedSrc}
+              title="Hero background video"
+              loading="eager"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
           )}
         </motion.div>
 
-        {/* Capas de gradiente para suavizar bordes */}
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-[#0D0D0D] via-transparent to-[#0D0D0D]" />
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-r from-[#0D0D0D] via-transparent to-[#0D0D0D] opacity-90" />
-        <div className="absolute inset-0 pointer-events-none bg-black/60 sm:bg-black/55 md:bg-black/50" />
-        <div className="absolute inset-0 pointer-events-none opacity-70 bg-[radial-gradient(ellipse_at_center,transparent_45%,#0D0D0D_90%)]" />
+        <div className="absolute inset-0 bg-black/60 sm:bg-black/55 md:bg-black/50" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.82)_100%)]" />
       </div>
 
-      {/* Contenido */}
       <div className="kin-container">
         <motion.div
           style={{ y: yContent }}
