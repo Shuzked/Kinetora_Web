@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import {
+  type CarouselApi,
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel";
 
 const Testimonials = () => {
   const { lang } = useI18n();
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const [api, setApi] = React.useState<CarouselApi>();
 
   const copy =
     lang === "es"
@@ -133,10 +138,8 @@ const Testimonials = () => {
     "victor-merino.webp",
     "jorge-regalado.webp",
   ];
-
   const toTitleCase = (str: string) =>
     str.replace(/\b\w+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
-
   const derived = avatarFiles.map((file) => {
     const base = file.replace(/\.[^/.]+$/, "").replace(/-/g, " ");
     return {
@@ -144,48 +147,30 @@ const Testimonials = () => {
       avatar: `/assets/testimonials/${file}`,
     };
   });
-
   const items = copy.testimonials.map((t, i) => ({
     ...t,
     ...(derived[i] || {}),
   }));
 
-  const marqueeItems = [...items, ...items];
-
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isMobile =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(max-width: 767px)").matches;
+  const off = prefersReduced || isMobile;
 
-  const [isPaused, setIsPaused] = React.useState(prefersReduced);
-  const [isVisible, setIsVisible] = React.useState(true);
+  React.useEffect(() => {
+    if (!api || prefersReduced) return;
 
-  const pauseTrack = () => setIsPaused(true);
-  const resumeTrack = () => {
-    if (!prefersReduced) setIsPaused(false);
-  };
+    const autoplay = window.setInterval(() => {
+      api.scrollNext();
+    }, 4200);
 
-  useEffect(() => {
-    if (!trackRef.current) return;
-    trackRef.current.style.animationPlayState = !isVisible || isPaused || prefersReduced ? 'paused' : 'running';
-  }, [isPaused, isVisible, prefersReduced]);
-
-  useEffect(() => {
-    const el = wrapperRef.current;
-    if (!el) return;
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsVisible(entry.isIntersecting);
-        });
-      },
-      { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
-    );
-
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    return () => window.clearInterval(autoplay);
+  }, [api, prefersReduced]);
 
   return (
     <section className="kin-section relative overflow-hidden">
@@ -196,78 +181,49 @@ const Testimonials = () => {
           </h2>
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
-      </div>
 
-      <div
-        ref={wrapperRef}
-        role="region"
-        aria-roledescription="carousel"
-        aria-label={lang === "es" ? "Carrusel automático de testimonios" : "Automatic testimonials carousel"}
-        className="relative overflow-hidden"
-      >
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-[#0D0D0D] to-transparent sm:w-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-[#0D0D0D] to-transparent sm:w-20" />
-
-        <div
-          ref={trackRef}
-          className="flex min-w-max gap-4 sm:gap-5 will-change-transform"
-          style={{
-            animation: prefersReduced ? 'none' : 'kinetora-marquee 82s linear infinite',
-            animationPlayState: !isVisible || isPaused ? 'paused' : 'running',
-          }}
-        >
-          {marqueeItems.map((t, i) => (
-            <div
-              key={`${t.name}-${i}`}
-              aria-hidden={i >= items.length}
-              className="w-[76vw] shrink-0 sm:w-[24rem] lg:w-[26rem]"
-              onMouseEnter={pauseTrack}
-              onMouseLeave={resumeTrack}
-              onFocus={pauseTrack}
-              onBlur={resumeTrack}
-              onTouchStart={pauseTrack}
-              onTouchEnd={resumeTrack}
-            >
-              <div className="h-full px-2 py-1">
-                <MouseParallax intensity={7} rotate={3} className="h-full will-change-transform">
-                  <motion.article
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.45, ease: 'easeOut' }}
-                    className="h-full min-h-[22rem] rounded-[2.5rem] border border-white/10 bg-white/[0.04] p-6 sm:min-h-[24rem] sm:p-7 lg:p-8 relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
-                    tabIndex={0}
-                  >
-                    <div className="flex gap-1 mb-5" aria-hidden="true">
-                      {[...Array(5)].map((_, idx) => (
-                        <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
-                      ))}
-                    </div>
-
-                    <p className="text-[#F5F5F5] mb-7 sm:mb-8 italic font-medium text-sm sm:text-base leading-relaxed">
-                      "{t.content}"
-                    </p>
-
-                    <div className="mt-auto flex items-center gap-4">
-                      <img
-                        src={t.avatar}
-                        alt={t.name}
-                        className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
-                        loading="lazy"
-                        decoding="async"
-                        width={48}
-                        height={48}
-                      />
-                      <div>
-                        <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
-                        <div className="text-[#F5F5F5]/75 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+        <div role="region" aria-roledescription="carousel" aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}>
+          <Carousel opts={{ align: "start", loop: true }} setApi={setApi} className="relative">
+            <CarouselContent className="-ml-4">
+              {items.map((t, i) => (
+                <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
+                    <motion.div
+                      initial={{ opacity: 0, y: off ? 0 : 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: (i % 3) * 0.08 }}
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
+                    >
+                      <div className="flex gap-1 mb-6" aria-hidden="true">
+                        {[...Array(5)].map((_, idx) => (
+                          <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
+                        ))}
                       </div>
-                    </div>
-                  </motion.article>
-                </MouseParallax>
-              </div>
-            </div>
-          ))}
+                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
+                        "{t.content}"
+                      </p>
+                      <div className="mt-auto flex items-center gap-4">
+                        <img
+                          src={t.avatar}
+                          alt={t.name}
+                          className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
+                          loading="lazy"
+                          decoding="async"
+                          width={48}
+                          height={48}
+                        />
+                        <div>
+                          <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
+                          <div className="text-[#F5F5F5]/75 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </MouseParallax>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
         </div>
       </div>
     </section>
