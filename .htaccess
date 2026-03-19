@@ -1,34 +1,29 @@
 # ----------------------------------------------------------------------
-# | Cache Control & Fingerprinting Optimization (Hostinger/Litespeed)  |
+# | Kinetora - Server Configuration (.htaccess)                        |
 # ----------------------------------------------------------------------
 
-<IfModule mod_headers.c>
-    # 1. Force revalidation for HTML files (Cache Busting Entry Point)
-    <FilesMatch "\.(html)$">
-        Header set Cache-Control "no-cache, no-store, must-revalidate"
-        Header set Pragma "no-cache"
-        Header set Expires "0"
-    </FilesMatch>
-</IfModule>
-
+# 1. Handle SPA Routing (React Router)
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
+  
+  # If requested resource is NOT a file or directory, serve index.html
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
+  RewriteRule ^(.*)$ /index.html [L]
 </IfModule>
 
+# 2. Server-Side 404 Fallback
 ErrorDocument 404 /index.html
 
+# 3. Cache Control High Performance
 <IfModule mod_headers.c>
-    # Assets fingerprintados (CSS, JS, imágenes, fuentes) -> Caché agresiva
+    # Fingerprinted assets -> Long-term cache (1 year)
     <FilesMatch "\.(css|js|webp|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|otf)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
 
-    # HTML principal -> No cache (para verificar versiones)
+    # Main Entry Points -> Direct browser to revalidate
     <FilesMatch "\.(html|htm)$">
         Header set Cache-Control "no-cache, no-store, must-revalidate"
         Header set Pragma "no-cache"
