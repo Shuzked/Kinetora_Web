@@ -3,6 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import MagneticButton from "@/components/MagneticButton";
 
 type PremiumButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "glass" | "outline" | "white";
@@ -30,10 +31,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
   ...props
 }) => {
   const base =
-    // Esquinas pill unificadas, tipografía y microinteracciones consistentes
-    "relative inline-flex items-center justify-center rounded-full font-bold tracking-[0.12em] transition-all duration-200 group " +
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0 focus-visible:ring-[#B454FF] " +
-    "hover:scale-[1.02] active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed";
+    "inline-flex items-center justify-center gap-2 font-black uppercase tracking-[0.24em] rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]";
 
   const variants: Record<NonNullable<PremiumButtonProps["variant"]>, string> = {
     primary:
@@ -54,15 +52,13 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
       className={cn(base, variants[variant], sizeMap[size], className)}
       {...props}
     >
-      {leftIcon ? <span className="mr-2 -ml-1 flex items-center">{leftIcon}</span> : null}
-      <span className={cn(isLoading && "opacity-0")}>{children}</span>
-      {rightIcon ? <span className="ml-2 -mr-1 flex items-center">{rightIcon}</span> : null}
-      {isLoading && (
-        <span
-          aria-hidden
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 animate-spin rounded-full border-2 border-current/70 border-t-transparent h-4 w-4"
-        />
-      )}
+      <MagneticButton>
+        <div className="flex items-center justify-center gap-2">
+          {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
+          <span className="shrink-0">{props.children}</span>
+          {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
+        </div>
+      </MagneticButton>
     </Button>
   );
 };

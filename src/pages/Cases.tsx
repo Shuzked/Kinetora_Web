@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useEqualizeHeights } from "@/hooks/use-equalize";
+import Reveal from "@/components/Reveal";
 // SEO
 import SEO from "@/components/SEO";
 import { getSeoDefaults } from "@/seo/defaults";
@@ -89,16 +90,18 @@ const Cases = () => {
           <div className="kin-container relative">
             <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
               <div className="max-w-3xl">
-                <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                  {ui.badge}
-                </div>
-                <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
+                <Reveal>
+                  <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+                    {ui.badge}
+                  </div>
+                </Reveal>
+                <Reveal as="h1" className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
                   {ui.titleA}{" "}
                   <span className="text-[#B454FF]">{ui.titleB}</span>.
-                </h1>
-                <p className="mt-4 text-[#F5F5F5]/75 text-sm sm:text-base leading-relaxed">
+                </Reveal>
+                <Reveal as="p" className="mt-4 text-[#F5F5F5]/75 text-sm sm:text-base leading-relaxed">
                   {ui.sub}
-                </p>
+                </Reveal>
               </div>
 
               <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 items-stretch min-h-[200px]">
@@ -125,18 +128,20 @@ const Cases = () => {
                           {!metaReady ? (
                             <Skeleton className="w-full h-full rounded-none" />
                           ) : (
-                            <img
-                              src={cover}
-                              alt={alt}
-                              loading="lazy"
-                              decoding="async"
-                              fetchPriority="low"
-                              sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                              onError={(e) => {
-                                (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                              }}
-                              className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                            />
+                            <Reveal as="div">
+                              <img
+                                src={cover}
+                                alt={alt}
+                                loading="lazy"
+                                decoding="async"
+                                fetchPriority="low"
+                                sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                                onError={(e) => {
+                                  (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                                }}
+                                className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                              />
+                            </Reveal>
                           )}
                         </div>
                         <div className="p-6 sm:p-7 flex-1 flex flex-col">

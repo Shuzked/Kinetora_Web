@@ -4,6 +4,7 @@ import React from 'react';
 import { useLocation } from "react-router-dom";
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
+import Reveal from '@/components/Reveal';
 import Brands from '@/components/Brands';
 import Stats from '@/components/Stats';
 import ValueProp from '@/components/ValueProp';
@@ -91,25 +92,25 @@ const Index = () => {
       <main id="main-content" role="main" aria-label="Main content">
         <Hero />
         <ParallaxSection intensity={10}>
-          <Brands />
+          <Reveal as="div"><Brands /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={12}>
-          <Stats />
+          <Reveal as="div"><Stats /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={18}>
-          <ValueProp />
+          <Reveal as="div"><ValueProp /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={14}>
-          <Services />
+          <Reveal as="div"><Services /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={16}>
-          <HowItWorks />
+          <Reveal as="div"><HowItWorks /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={20}>
-          <Portfolio />
+          <Reveal as="div"><Portfolio /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={16}>
-          <Testimonials />
+          <Reveal as="div"><Testimonials /></Reveal>
         </ParallaxSection>
         <ParallaxSection intensity={14}>
           <Contact />

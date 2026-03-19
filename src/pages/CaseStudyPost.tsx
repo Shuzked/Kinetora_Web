@@ -16,6 +16,7 @@ import SEO from "@/components/SEO";
 import { getSeoDefaults } from "@/seo/defaults";
 // Utils para separar media del texto
 import { splitWpContentIntoTextAndMedia, sanitizeWpHtml } from "@/components/case-study/caseStudyUtils";
+import Reveal from "@/components/Reveal";
 
 const CaseStudyPost = () => {
   const { lang } = useI18n();
@@ -209,10 +210,12 @@ const CaseStudyPost = () => {
               </div>
 
               <div className="max-w-4xl mx-auto text-center">
-                <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                  {caseTag}
-                </div>
-                <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">{title}</h1>
+                <Reveal>
+                  <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+                    {caseTag}
+                  </div>
+                </Reveal>
+                <Reveal as="h1" className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">{title}</Reveal>
               </div>
 
               <div className="rounded-[2.25rem] border border-white/10 bg-white/[0.03] overflow-hidden shadow-[0_24px_110px_rgba(0,0,0,0.35)]">
@@ -220,18 +223,20 @@ const CaseStudyPost = () => {
                   {loading ? (
                     <Skeleton className="h-full w-full rounded-none" />
                   ) : cover ? (
-                    <img
-                      src={cover}
-                      alt={coverAlt || ""}
-                      loading="lazy"
-                      decoding="async"
-                      fetchPriority="high"
-                      sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                      onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                      }}
-                      className="h-full w-full object-cover transition-all duration-700 rounded-[inherit] transform-gpu"
-                    />
+                    <Reveal as="div">
+                      <img
+                        src={cover}
+                        alt={coverAlt || ""}
+                        loading="lazy"
+                        decoding="async"
+                        fetchPriority="high"
+                        sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
+                        }}
+                        className="h-full w-full object-cover transition-all duration-700 rounded-[inherit] transform-gpu"
+                      />
+                    </Reveal>
                   ) : null}
                 </div>
               </div>
