@@ -13,6 +13,16 @@ export function useEqualizeHeights(
     const root = containerRef.current;
     if (!root) return;
 
+    // Mobile: disable equalize logic since cards are stacked
+    const isMobile = window.innerWidth < 768;
+    if (isMobile) {
+      configs.forEach(cfg => {
+        const nodes = Array.from(root.querySelectorAll<HTMLElement>(cfg.selector));
+        nodes.forEach(n => n.style.removeProperty("minHeight"));
+      });
+      return;
+    }
+
     let observers: ResizeObserver[] = [];
 
     const computeFor = (cfg: Config) => {
