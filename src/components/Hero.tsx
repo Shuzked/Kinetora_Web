@@ -12,6 +12,7 @@ const Hero = () => {
 
 
 
+
   const copy =
     lang === "es"
       ? {
@@ -101,7 +102,7 @@ const Hero = () => {
           className="relative z-10 min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"
         >
           <h1
-            className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-6 sm:mb-7 tracking-tighter uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000"
+            className="text-3xl sm:text-5xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-5 sm:mb-7 tracking-tighter uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000"
           >
             {copy.headlineTop} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
@@ -110,7 +111,7 @@ const Hero = () => {
           </h1>
 
           <p
-            className="text-base md:text-lg text-[#F5F5F5]/80 max-w-xl leading-relaxed font-medium mb-8 sm:mb-10 animate-in fade-in duration-1000 delay-500 fill-mode-both"
+            className="text-sm md:text-lg text-[#F5F5F5]/80 max-w-[32rem] leading-relaxed font-medium mb-7 sm:mb-10 animate-in fade-in duration-1000 delay-500 fill-mode-both"
           >
             {copy.sub}
           </p>
@@ -138,7 +139,7 @@ const Hero = () => {
           </div>
 
           <div
-            className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both"
+            className="mt-6 sm:mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both"
           >
             {copy.pills.map(({ Icon, text }, i) => (
               <div
@@ -146,7 +147,7 @@ const Hero = () => {
                 className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"
               >
                 <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
-                <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.28em] uppercase">
+                <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.22em] uppercase">
                   {text}
                 </span>
               </div>

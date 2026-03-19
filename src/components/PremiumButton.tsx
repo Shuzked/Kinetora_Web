@@ -31,7 +31,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
   ...props
 }) => {
   const base =
-    "inline-flex items-center justify-center gap-2 font-black uppercase tracking-[0.24em] rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]";
+    "inline-flex items-center justify-center gap-2 font-black uppercase tracking-[0.18em] md:tracking-[0.24em] rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]";
 
   const variants: Record<NonNullable<PremiumButtonProps["variant"]>, string> = {
     primary:

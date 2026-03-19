@@ -44,6 +44,18 @@
     padding-right: clamp(1rem, 3vw, 2rem);
   }
 
+  /* Compactar en pantallas muy estrechas */
+  @media (max-width: 360px) {
+    .kin-container {
+      padding-left: 0.9rem;
+      padding-right: 0.9rem;
+    }
+    .kin-section {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+  }
+
   /* Section vertical rhythm */
   .kin-section {
     padding-top: clamp(2.5rem, 5vw, 6rem);
