@@ -14,14 +14,16 @@ export default defineConfig(() => ({
     },
   },
   build: {
-    cssCodeSplit: true,
+    cssCodeSplit: false,
+    modulePreload: false,
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name].[hash].js`,
         chunkFileNames: `assets/[name].[hash].js`,
         assetFileNames: `assets/[name].[hash].[ext]`,
-        // Fuerza un único bundle para evitar importaciones dinámicas que el servidor podría reescribir.
-        manualChunks: () => 'app',
+        // Desactivar división en chunks
+        manualChunks: undefined,
+        inlineDynamicImports: true,
       },
     },
   },

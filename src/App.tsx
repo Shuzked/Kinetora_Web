@@ -19,6 +19,7 @@ import BackgroundParallax from "@/components/BackgroundParallax";
 import SkipToContent from "@/components/SkipToContent";
 import CookieBanner from "@/components/CookieBanner";
 import VersionWatcher from "@/components/VersionWatcher";
+import DynamicImportGuard from "@/components/DynamicImportGuard";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
         <Sonner />
         <HashRouter>
           <VersionWatcher />
+          <DynamicImportGuard />
           <CookieBanner />
           <SkipToContent />
           <BackgroundParallax />
