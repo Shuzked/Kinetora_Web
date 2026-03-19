@@ -38,8 +38,12 @@ const CookieBanner = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-6 right-6 z-[9999] w-full max-w-[420px] transition-all duration-500 ease-out",
-        isVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0 pointer-events-none"
+        "fixed z-[9999] transition-all duration-500 ease-out",
+        // Mobile: full width, centered at bottom
+        "bottom-0 left-0 right-0 px-4 pb-4",
+        // Desktop: floating card at bottom-right
+        "sm:bottom-6 sm:left-auto sm:right-6 sm:px-0 sm:pb-0 sm:w-full sm:max-w-[420px]",
+        isVisible ? "translate-y-0 opacity-100" : "translate-y-full sm:translate-y-12 opacity-0 pointer-events-none"
       )}
     >
       <div className="bg-[#121212] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
