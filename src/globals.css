@@ -311,6 +311,21 @@
   }
 }
 
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.15);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   /* Antes: desactivaba por completo la animación y forzaba transform, lo que impedía reactivarla */
   /* Ahora: pausamos por defecto, pero permitimos reactivarla con data-animate="always" */

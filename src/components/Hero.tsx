@@ -91,6 +91,7 @@ const Hero = () => {
             src="/assets/hero/hero-kinetora-bg.webp"
             alt=""
             loading="eager"
+            fetchPriority="high"
             containerClassName="h-full w-full"
             skeletonClassName="bg-white/5"
             className="h-full w-full object-cover object-center"

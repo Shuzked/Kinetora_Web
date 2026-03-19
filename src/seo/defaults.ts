@@ -21,7 +21,7 @@ export const seoDefaults: Record<SupportedLang, {
     ],
     locale: "es_ES",
     siteName: "Kinetora",
-    shareImage: "/Logotipo.svg",
+    shareImage: "/assets/social/kinetora-social-share.webp",
   },
   en: {
     title: "Kinetora — Creative agency on subscription for Startups & B2B",
@@ -34,7 +34,7 @@ export const seoDefaults: Record<SupportedLang, {
     ],
     locale: "en_US",
     siteName: "Kinetora",
-    shareImage: "/Logotipo.svg",
+    shareImage: "/assets/social/kinetora-social-share.webp",
   },
 };
 
