@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
 import PremiumButton from '@/components/PremiumButton';
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
@@ -11,13 +10,7 @@ const Hero = () => {
   const { lang } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"]
-  });
 
-  const yBackground = useTransform(scrollYProgress, [0, 1], [0, 40]);
-  const yContent = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
   const copy =
     lang === "es"

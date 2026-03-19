@@ -13,12 +13,12 @@ const LegalNotice = React.lazy(() => import("./pages/LegalNotice"));
 const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 const CookiesPolicy = React.lazy(() => import("./pages/CookiesPolicy"));
 const SocialPrivacyPolicy = React.lazy(() => import("./pages/SocialPrivacyPolicy"));
-import ScrollProgress from "./components/ScrollProgress";
-import ScrollToTop from "./components/ScrollToTop";
+const ScrollProgress = React.lazy(() => import('./components/ScrollProgress'));
+const ScrollToTop = React.lazy(() => import('./components/ScrollToTop'));
 import { I18nProvider } from "@/i18n/I18nProvider";
-import BackgroundParallax from "@/components/BackgroundParallax";
-import SkipToContent from "@/components/SkipToContent";
-import CookieBanner from "@/components/CookieBanner";
+const BackgroundParallax = React.lazy(() => import('@/components/BackgroundParallax'));
+const SkipToContent = React.lazy(() => import('@/components/SkipToContent'));
+const CookieBanner = React.lazy(() => import('@/components/CookieBanner'));
 
 const queryClient = new QueryClient();
 
@@ -29,12 +29,16 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <CookieBanner />
-          <SkipToContent />
-          <BackgroundParallax />
+          <React.Suspense fallback={null}>
+            <CookieBanner />
+            <SkipToContent />
+            <BackgroundParallax />
+          </React.Suspense>
           <div className="relative z-10">
-            <ScrollProgress />
-            <ScrollToTop />
+            <React.Suspense fallback={null}>
+              <ScrollProgress />
+              <ScrollToTop />
+            </React.Suspense>
             <React.Suspense fallback={<HomeSkeleton />}>
               <Routes>
                 <Route path="/" element={<Index />} />
