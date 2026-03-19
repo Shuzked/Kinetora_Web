@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Palette, Globe, Video, MessageSquare } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from '@/components/MouseParallax';
+import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 
 const Services = () => {
   const { lang } = useI18n();
@@ -68,7 +69,15 @@ const Services = () => {
                 whileHover={{ y: -5 }}
                 className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-[transform,background-color,border-color] duration-300"
               >
-                <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/brand-identity.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15 transition-transform duration-700 group-hover:scale-110" />
+                <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                  <ImageWithSkeleton
+                    src="/assets/service-photos/brand-identity.webp"
+                    alt=""
+                    containerClassName="w-full h-full"
+                    skeletonClassName="bg-white/10"
+                    className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
+                  />
+                </div>
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
@@ -95,7 +104,15 @@ const Services = () => {
                 whileHover={{ y: -5 }}
                 className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
               >
-                <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/digital-uxui.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15 transition-transform duration-700 group-hover:scale-110" />
+                <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                  <ImageWithSkeleton
+                    src="/assets/service-photos/digital-uxui.webp"
+                    alt=""
+                    containerClassName="w-full h-full"
+                    skeletonClassName="bg-white/10"
+                    className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
+                  />
+                </div>
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
@@ -120,7 +137,15 @@ const Services = () => {
                 whileHover={{ y: -5 }}
                 className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
               >
-                <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/video-editing.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15 transition-transform duration-700 group-hover:scale-110" />
+                <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                  <ImageWithSkeleton
+                    src="/assets/service-photos/video-editing.webp"
+                    alt=""
+                    containerClassName="w-full h-full"
+                    skeletonClassName="bg-white/10"
+                    className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
+                  />
+                </div>
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
@@ -145,7 +170,15 @@ const Services = () => {
                 whileHover={{ y: -5 }}
                 className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
               >
-                <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/communication-pitch-decks.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15 transition-transform duration-700 group-hover:scale-110" />
+                <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
+                  <ImageWithSkeleton
+                    src="/assets/service-photos/communication-pitch-decks.webp"
+                    alt=""
+                    containerClassName="w-full h-full"
+                    skeletonClassName="bg-white/10"
+                    className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
+                  />
+                </div>
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">

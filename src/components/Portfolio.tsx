@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import {
   Carousel,
   CarouselContent,
@@ -108,16 +109,12 @@ const Portfolio = () => {
                         <MouseParallax intensity={8} rotate={3} className="h-full will-change-transform">
                           <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
                             <div className="aspect-[16/10] overflow-hidden">
-                              <img
+                              <ImageWithSkeleton
                                 src={cover}
                                 alt={alt}
                                 loading="lazy"
-                                decoding="async"
-                                fetchPriority="low"
-                                sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
-                                onError={(e) => {
-                                  (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
-                                }}
+                                containerClassName="h-full w-full"
+                                skeletonClassName="bg-white/10"
                                 className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
                               />
                             </div>

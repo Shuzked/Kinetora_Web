@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import PremiumButton from '@/components/PremiumButton';
+import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -86,15 +87,12 @@ const Hero = () => {
           style={{ y: yBackground }}
           className="absolute inset-0 will-change-transform"
         >
-          <img
+          <ImageWithSkeleton
             src="/assets/hero/hero-kinetora-bg.webp"
             alt=""
-            width={1600}
-            height={900}
             loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, 1600px"
+            containerClassName="h-full w-full"
+            skeletonClassName="bg-white/5"
             className="h-full w-full object-cover object-center"
           />
         </motion.div>
