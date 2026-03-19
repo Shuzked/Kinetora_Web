@@ -154,11 +154,13 @@ const ValueProp = () => {
               <div className="mt-10 pt-7 border-t border-white/10">
                 <div className="grid grid-cols-3 gap-3">
                   {copy.left.metrics.map((m) => (
-                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
+                      <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.22em] font-black text-[#F5F5F5]/55 break-words whitespace-normal leading-tight">
                         {m.k}
                       </div>
-                      <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                      <div className="mt-1 text-xs sm:text-sm font-extrabold text-[#F5F5F5] break-words whitespace-normal leading-snug">
+                        {m.v}
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -209,11 +211,13 @@ const ValueProp = () => {
               <div className="mt-10 pt-7 border-t border-white/10 relative z-10">
                 <div className="grid grid-cols-3 gap-3">
                   {copy.right.metrics.map((m) => (
-                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-4">
-                      <div className="text-[11px] uppercase tracking-[0.22em] font-black text-[#F5F5F5]/55">
+                    <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
+                      <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.22em] font-black text-[#F5F5F5]/55 break-words whitespace-normal leading-tight">
                         {m.k}
                       </div>
-                      <div className="mt-1 text-sm font-extrabold text-[#F5F5F5]">{m.v}</div>
+                      <div className="mt-1 text-xs sm:text-sm font-extrabold text-[#F5F5F5] break-words whitespace-normal leading-snug">
+                        {m.v}
+                      </div>
                     </div>
                   ))}
                 </div>
