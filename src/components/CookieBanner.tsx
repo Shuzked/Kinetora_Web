@@ -39,14 +39,18 @@ const CookieBanner = () => {
     <div
       className={cn(
         "fixed z-[9999] transition-all duration-500 ease-out",
-        // Mobile: full width, anchored to bottom, with horizontal padding
-        "bottom-0 left-0 right-0 px-4",
-        // Desktop: floating card at bottom-right
+        // Mobile: full width, centrado y con safe area lateral
+        "bottom-0 left-0 right-0 px-4 mx-auto",
+        // Desktop: tarjeta flotante en esquina
         "sm:bottom-6 sm:left-auto sm:right-6 sm:px-0 sm:w-full sm:max-w-[420px]",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-full sm:translate-y-12 opacity-0 pointer-events-none"
       )}
-      // Respetar la zona segura en móviles (notch)
-      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1rem)" } as React.CSSProperties}
+      // Respetar zonas seguras en móviles (notch y barras de gestos)
+      style={{
+        paddingBottom: "max(env(safe-area-inset-bottom), 1rem)",
+        paddingLeft: "max(env(safe-area-inset-left), 1rem)",
+        paddingRight: "max(env(safe-area-inset-right), 1rem)",
+      } as React.CSSProperties}
     >
       <div className="bg-[#121212] border border-white/10 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
         <div className="p-5 sm:p-6">
@@ -84,7 +88,7 @@ const CookieBanner = () => {
                 >
                   {t("banner.accept")}
                 </button>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   <button
                     onClick={rejectAll}
                     className="bg-white/5 hover:bg-white/10 text-[#F5F5F5]/80 font-semibold py-2.5 px-4 rounded-xl transition-colors text-xs border border-white/5"
@@ -116,7 +120,7 @@ const CookieBanner = () => {
               </div>
 
               {/* Scroll interno en móvil para no tapar demasiado contenido */}
-              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1 overscroll-contain">
                 {/* Technical */}
                 <div className="flex items-start justify-between gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5">
                   <div className="space-y-0.5">
