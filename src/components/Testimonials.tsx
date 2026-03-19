@@ -179,7 +179,7 @@ const Testimonials = () => {
       <div className="kin-container">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
-            {copy.title.toUpperCase()}
+            {copy.title.toUpperCase().replace(/\.$/, "")}
           </h2>
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>

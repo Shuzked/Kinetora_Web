@@ -63,7 +63,7 @@ const Portfolio = () => {
             </div>
             <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase">
               {ui.titleA}{" "}
-              <span className="text-[#B454FF]">{ui.titleB}</span>.
+              <span className="text-[#B454FF]">{ui.titleB}</span>
             </h2>
             <p className="mt-3 text-[#F5F5F5]/70 text-sm sm:text-base max-w-2xl leading-relaxed">
               {ui.sub}
