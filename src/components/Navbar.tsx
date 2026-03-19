@@ -66,9 +66,9 @@ const Navbar = () => {
             <img
               src="/Favicon_Kinetora.png"
               alt="Kinetora icon"
-              className="h-8 w-8 md:hidden"
-              width={32}
-              height={32}
+              className="h-[38px] w-[38px] md:hidden"
+              width={38}
+              height={38}
               loading="eager"
               decoding="async"
               fetchPriority="high"
