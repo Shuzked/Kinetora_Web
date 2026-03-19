@@ -93,10 +93,7 @@
     animation-duration: var(--marquee-duration, 55s);
   }
 
-  /* WP-style post typography (case studies) */
-  .wp-post {
-    @apply rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8;
-  }
+  /* WP-style post typography (case studies) — layout wrapper only, no box styling */
 
   /* Content-visibility para mejorar rendimiento en secciones fuera de viewport */
   .kin-content-auto {
@@ -104,9 +101,7 @@
     contain-intrinsic-size: 1000px 800px; /* reserva de tamaño aproximada */
   }
 
-  .wp-media {
-    @apply rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-7;
-  }
+  /* .wp-media — layout wrapper only, no box styling */
 
   .wp-post__content {
     color: rgba(245, 245, 245, 0.86);
