@@ -194,10 +194,39 @@ export const dictionaries: Dictionaries = {
     "social.profile.fb": "Facebook",
     "social.profile.handle": "@kinetora_studio",
 
-    "social.s2.title": "2. RESPONSABILIDAD Y TRATAMIENTO",
-    "social.s2.p1": "Las plataformas son responsables según sus políticas. Kinetora Studio S.L. es responsable solo de interacciones directas (mensajes, comentarios). No extraemos datos sin consentimiento.",
-    "social.s3.title": "3. FINALIDAD DEL USO",
-    "social.s3.p1": "Publicar contenido, interactuar, responder consultas, promover servicios y compartir casos de éxito."
+    "social.s2.title": "2. RESPONSABILIDAD Y TRATAMIENTO DE DATOS EN REDES SOCIALES",
+    "social.s2.p1": "Las plataformas de redes sociales son responsables del tratamiento de los datos de sus usuarios conforme a sus propias políticas de privacidad. Kinetora Studio S.L. actúa como responsable del tratamiento únicamente de los datos que recibe directamente a través de las interacciones en sus páginas (mensajes directos, comentarios, menciones, etc.).",
+    "social.s2.p2": "En ningún caso Kinetora Studio S.L. extrae ni almacena datos de perfiles de usuarios de redes sociales sin su consentimiento expreso.",
+
+    "social.s3.title": "3. FINALIDAD DEL USO DE LAS REDES SOCIALES",
+    "social.s3.p1": "Kinetora Studio S.L. utiliza sus perfiles en redes sociales con las siguientes finalidades:",
+    "social.s3.l1": "Publicar contenido relacionado con nuestros servicios, proyectos y noticias del sector.",
+    "social.s3.l2": "Interactuar con nuestra comunidad de seguidores y clientes.",
+    "social.s3.l3": "Atender consultas y solicitudes de información.",
+    "social.s3.l4": "Promover nuestros servicios de diseño, desarrollo y estrategia digital.",
+
+    "social.s4.title": "4. INTERACCIONES DE LOS USUARIOS",
+    "social.s4.b1.title": "Comentarios públicos",
+    "social.s4.b1.text": "Cualquier interacción pública que realices en nuestras páginas (comentarios, me gusta, menciones) es visible para el resto de usuarios. Te recomendamos no compartir información personal en comentarios públicos.",
+    "social.s4.b2.title": "Mensajes directos",
+    "social.s4.b2.text": "Los mensajes privados que nos envíes serán utilizados exclusivamente para atender tu consulta y no serán compartidos con terceros sin tu consentimiento, salvo obligación legal.",
+    "social.s4.b3.title": "Datos de comportamiento",
+    "social.s4.b3.text": "Las plataformas de redes sociales pueden recoger datos sobre tu comportamiento en sus plataformas (visitas a perfiles, interacciones, etc.). Esta recopilación es responsabilidad exclusiva de la plataforma correspondiente.",
+
+    "social.s5.title": "5. POLÍTICAS DE PRIVACIDAD DE LAS PLATAFORMAS",
+    "social.s5.p1": "Te recomendamos consultar las políticas de privacidad de cada plataforma para comprender cómo procesan tus datos:",
+    "social.s5.see": "Ver política",
+    "social.platform.ig.url": "https://privacycenter.instagram.com/policy",
+    "social.platform.tk.url": "https://www.tiktok.com/legal/page/eea/privacy-policy/es",
+    "social.platform.x.url": "https://twitter.com/en/privacy",
+    "social.platform.yt.url": "https://policies.google.com/privacy",
+    "social.platform.fb.url": "https://www.facebook.com/privacy/policy",
+
+    "social.s6.title": "6. EJERCICIO DE DERECHOS",
+    "social.s6.p1": "Para ejercer tus derechos de acceso, rectificación, supresión, oposición, limitación o portabilidad respecto a los datos que Kinetora Studio S.L. haya podido recibir a través de redes sociales, puedes contactarnos en:",
+    "social.s6.email": "hola@kinetora.tech",
+    "social.s6.subject": 'Indica en el asunto: \"Ejercicio de derechos RRSS\"',
+    "social.s6.note": "Para ejercer los derechos respecto a los datos tratados directamente por las plataformas, deberás dirigirte a cada plataforma conforme a sus propias políticas."
   },
   en: {
     "lang.es": "Spanish",
