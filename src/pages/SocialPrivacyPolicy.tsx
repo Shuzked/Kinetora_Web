@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useI18n } from "@/i18n/I18nProvider";
 import { Link } from "react-router-dom";
+import { FaInstagram, FaTiktok, FaXTwitter, FaYoutube, FaFacebook } from "react-icons/fa6";
 
 const SocialPrivacyPolicy = () => {
   const { t } = useI18n();
@@ -42,16 +43,16 @@ const SocialPrivacyPolicy = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {[
-                { name: t("social.profile.ig"), handle: t("social.profile.handle") },
-                { name: t("social.profile.tk"), handle: t("social.profile.handle") },
-                { name: t("social.profile.x"), handle: t("social.profile.handle") },
-                { name: t("social.profile.yt"), handle: t("social.profile.handle") },
-                { name: t("social.profile.fb"), handle: t("social.profile.handle") }
+                { name: t("social.profile.ig"), handle: t("social.profile.handle"), icon: <FaInstagram size={18} /> },
+                { name: t("social.profile.tk"), handle: t("social.profile.handle"), icon: <FaTiktok size={18} /> },
+                { name: t("social.profile.x"), handle: t("social.profile.handle"), icon: <FaXTwitter size={18} /> },
+                { name: t("social.profile.yt"), handle: t("social.profile.handle"), icon: <FaYoutube size={18} /> },
+                { name: t("social.profile.fb"), handle: t("social.profile.handle"), icon: <FaFacebook size={18} /> }
               ].map((profile, i) => (
                 <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 flex items-center justify-between hover:border-[#B454FF]/30 hover:bg-white/[0.06] transition-colors cursor-pointer group">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/50 group-hover:bg-[#B454FF]/20 group-hover:text-[#B454FF] transition-colors">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                      {profile.icon}
                     </div>
                     <div>
                       <h3 className="text-white font-bold text-sm md:text-base">{profile.name}</h3>
