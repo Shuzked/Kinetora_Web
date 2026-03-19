@@ -18,6 +18,7 @@ import { I18nProvider } from "@/i18n/I18nProvider";
 import BackgroundParallax from "@/components/BackgroundParallax";
 import SkipToContent from "@/components/SkipToContent";
 import CookieBanner from "@/components/CookieBanner";
+import VersionWatcher from "@/components/VersionWatcher";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <HashRouter>
+          <VersionWatcher />
           <CookieBanner />
           <SkipToContent />
           <BackgroundParallax />
