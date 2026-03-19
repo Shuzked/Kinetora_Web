@@ -17,6 +17,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
 import BackgroundParallax from "@/components/BackgroundParallax";
 import SkipToContent from "@/components/SkipToContent";
+import CookieBanner from "@/components/CookieBanner";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <I18nProvider>
+        <CookieBanner />
         <Toaster />
         <Sonner />
         <BrowserRouter>
