@@ -3,63 +3,81 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useI18n } from "@/i18n/I18nProvider";
+import { Link } from "react-router-dom";
 
 const CookiesPolicy = () => {
+  const { t } = useI18n();
+
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5]">
+    <div className="min-h-screen bg-[#030303] text-[#F5F5F5]">
       <Navbar />
-      <main className="pt-[68px] md:pt-[88px]">
-        <section className="kin-section relative overflow-hidden">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
-          <div className="kin-container">
-            <div className="mx-auto w-full max-w-3xl">
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                Política de cookies
-              </div>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                Uso de cookies
-              </h1>
+      <main className="pt-[100px] md:pt-[120px] pb-24">
+        <div className="mx-auto w-full max-w-[800px] px-6 lg:px-0">
+          
+          <Link to="/" className="inline-block text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 hover:text-white transition-colors mb-4 uppercase">
+            {t("legal.back")}
+          </Link>
+          
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-[0.14em] uppercase text-[#F5F5F5] mb-4">
+            {t("cookie.title")}
+          </h1>
+          
+          <p className="text-[#F5F5F5]/75 text-base md:text-lg mb-8 font-semibold tracking-wide">
+            {t("cookie.subtitle")}
+          </p>
 
-              <div className="wp-post mt-6">
-                <div className="wp-post__content">
-                  <p>
-                    Este sitio utiliza cookies y tecnologías similares para mejorar la experiencia,
-                    analizar el uso y personalizar contenido. Puedes configurar o desactivar las cookies en tu navegador.
-                  </p>
+          <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-12">
+            {t("cookie.intro")}
+          </p>
 
-                  <h2>¿Qué son las cookies?</h2>
-                  <p>
-                    Son pequeños archivos que se almacenan en tu dispositivo cuando navegas. Permiten recordar tus
-                    preferencias y entender cómo interactúas con el sitio.
-                  </p>
+          <p className="text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 uppercase mb-16">
+            {t("legal.updated")}
+          </p>
 
-                  <h2>Tipos de cookies que usamos</h2>
-                  <ul>
-                    <li><strong>Técnicas:</strong> necesarias para el funcionamiento del sitio.</li>
-                    <li><strong>De preferencias:</strong> recuerdan opciones como idioma.</li>
-                    <li><strong>Analíticas:</strong> nos ayudan a medir y mejorar el rendimiento.</li>
-                  </ul>
+          {/* 1. ¿QUÉ SON LAS COOKIES? */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("cookie.s1.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("cookie.s1.p1")}
+            </p>
+          </section>
 
-                  <h2>Gestión de cookies</h2>
-                  <p>
-                    Puedes permitir, bloquear o eliminar las cookies mediante la configuración de tu navegador.
-                    Ten en cuenta que bloquear ciertas cookies puede afectar al funcionamiento del sitio.
-                  </p>
+          {/* 2. TIPOS DE COOKIES QUE USAMOS */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("cookie.s2.title")}
+            </h2>
+            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2">
+              <li>{t("cookie.s2.l1")}</li>
+              <li>{t("cookie.s2.l2")}</li>
+              <li>{t("cookie.s2.l3")}</li>
+            </ul>
+          </section>
 
-                  <h2>Actualizaciones</h2>
-                  <p>
-                    Podemos actualizar esta política para reflejar cambios en las cookies empleadas o por motivos legales.
-                  </p>
+          {/* 3. GESTIÓN DE COOKIES */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("cookie.s3.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("cookie.s3.p1")}
+            </p>
+          </section>
 
-                  <p className="text-[#F5F5F5]/60 text-sm mt-6">
-                    Última actualización: {new Date().toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
+          {/* 4. ACTUALIZACIONES */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("cookie.s4.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("cookie.s4.p1")}
+            </p>
+          </section>
 
-            </div>
-          </div>
-        </section>
+        </div>
       </main>
       <Footer />
     </div>

@@ -3,76 +3,111 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useI18n } from "@/i18n/I18nProvider";
+import { Link } from "react-router-dom";
 
 const SocialPrivacyPolicy = () => {
+  const { t } = useI18n();
+
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5]">
+    <div className="min-h-screen bg-[#030303] text-[#F5F5F5]">
       <Navbar />
-      <main className="pt-[68px] md:pt-[88px]">
-        <section className="kin-section relative overflow-hidden">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
-          <div className="kin-container">
-            <div className="mx-auto w-full max-w-3xl">
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                Privacidad y redes sociales
-              </div>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                Política de privacidad y RRSS
-              </h1>
+      <main className="pt-[100px] md:pt-[120px] pb-24">
+        <div className="mx-auto w-full max-w-[800px] px-6 lg:px-0">
+          
+          <Link to="/" className="inline-block text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 hover:text-white transition-colors mb-4 uppercase">
+            {t("legal.back")}
+          </Link>
+          
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-[0.14em] uppercase text-[#F5F5F5] mb-4">
+            {t("social.title")}
+          </h1>
+          
+          <p className="text-[#F5F5F5]/75 text-base md:text-lg mb-8 font-semibold tracking-wide">
+            {t("social.subtitle")}
+          </p>
 
-              <div className="wp-post mt-6">
-                <div className="wp-post__content">
-                  <p>
-                    Esta política explica el tratamiento de datos personales vinculados a nuestras comunicaciones y
-                    presencia en redes sociales (por ejemplo, TikTok, X, Instagram, Facebook, YouTube, Discord).
-                  </p>
+          <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-12">
+            {t("social.intro")}
+          </p>
 
-                  <h2>Responsable</h2>
-                  <p><strong>Kinetora Studio</strong> — <a href="mailto:hello@kinetora.tech">hello@kinetora.tech</a></p>
+          <p className="text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 uppercase mb-16">
+            {t("legal.updated")}
+          </p>
 
-                  <h2>Finalidad del tratamiento</h2>
-                  <ul>
-                    <li>Gestionar interacciones (comentarios, mensajes directos, menciones).</li>
-                    <li>Atender solicitudes de información y soporte.</li>
-                    <li>Analizar el rendimiento de nuestras publicaciones.</li>
-                  </ul>
+          {/* 1. RESPONSABLE */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s1.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed font-semibold">
+              {t("social.s1.p1")}
+            </p>
+          </section>
 
-                  <h2>Base jurídica</h2>
-                  <p>Consentimiento del interesado y, cuando proceda, interés legítimo en mantener comunicaciones y comunidad.</p>
+          {/* 2. FINALIDAD DEL TRATAMIENTO */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s2.title")}
+            </h2>
+            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2">
+              <li>{t("social.s2.l1")}</li>
+              <li>{t("social.s2.l2")}</li>
+              <li>{t("social.s2.l3")}</li>
+            </ul>
+          </section>
 
-                  <h2>Destinatarios</h2>
-                  <p>
-                    Las propias plataformas de redes sociales actúan como corresponsables o encargados de tratamiento.
-                    Te recomendamos revisar sus políticas de privacidad.
-                  </p>
+          {/* 3. BASE JURÍDICA */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s3.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("social.s3.p1")}
+            </p>
+          </section>
 
-                  <h2>Derechos de los usuarios</h2>
-                  <p>
-                    Puedes ejercer tus derechos de acceso, rectificación, supresión, oposición y demás previstos en la normativa
-                    escribiendo a <a href="mailto:hello@kinetora.tech">hello@kinetora.tech</a>.
-                  </p>
+          {/* 4. DESTINATARIOS */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s4.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("social.s4.p1")}
+            </p>
+          </section>
 
-                  <h2>Contenido generado por el usuario</h2>
-                  <p>
-                    Cuando nos etiquetes o envíes contenido, nos autorizas a interactuar con el mismo y, en su caso,
-                    a solicitar permisos adicionales si fuese necesaria su reutilización en canales propios.
-                  </p>
+          {/* 5. DERECHOS DE LOS USUARIOS */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s5.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed font-semibold">
+              {t("social.s5.p1")}
+            </p>
+          </section>
 
-                  <h2>Conservación de datos</h2>
-                  <p>
-                    Mantendremos la información durante el tiempo imprescindible para atender la interacción o mientras
-                    siga disponible en la plataforma social, salvo solicitud de eliminación.
-                  </p>
+          {/* 6. CONTENIDO GENERADO POR EL USUARIO */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s6.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("social.s6.p1")}
+            </p>
+          </section>
 
-                  <p className="text-[#F5F5F5]/60 text-sm mt-6">
-                    Última actualización: {new Date().toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
+          {/* 7. CONSERVACIÓN DE DATOS */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("social.s7.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("social.s7.p1")}
+            </p>
+          </section>
 
-            </div>
-          </div>
-        </section>
+        </div>
       </main>
       <Footer />
     </div>
