@@ -36,10 +36,19 @@ const PrivacyPolicy = () => {
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s1.title")}
             </h2>
-            <div className="border border-white/10 bg-white/5 rounded-2xl p-6 md:p-8 text-sm md:text-base text-[#F5F5F5]/75 space-y-3">
-              <p>{t("privacy.s1.p1")}</p>
-              <p>{t("privacy.s1.p2")}</p>
-              <p>{t("privacy.s1.p3")}</p>
+            <div className="border border-white/10 bg-white/5 rounded-2xl p-6 md:p-8 text-sm md:text-base text-[#F5F5F5]/75 space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                <span className="text-[#B454FF] uppercase text-xs font-bold w-32 tracking-wider">{t("privacy.s1.l1.label")}</span>
+                <span className="font-medium text-white">{t("privacy.s1.l1.value")}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                <span className="text-[#B454FF] uppercase text-xs font-bold w-32 tracking-wider">{t("privacy.s1.l2.label")}</span>
+                <span className="font-medium text-white">{t("privacy.s1.l2.value")}</span>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4">
+                <span className="text-[#B454FF] uppercase text-xs font-bold w-32 tracking-wider">{t("privacy.s1.l3.label")}</span>
+                <span className="font-medium text-white">{t("privacy.s1.l3.value")}</span>
+              </div>
             </div>
           </section>
 

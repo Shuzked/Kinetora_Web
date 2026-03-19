@@ -56,9 +56,12 @@ export const dictionaries: Dictionaries = {
     "privacy.subtitle": "Tu privacidad es importante para nosotros. Aquí te explicamos cómo tratamos tus datos personales.",
     
     "privacy.s1.title": "1. RESPONSABLE DEL TRATAMIENTO",
-    "privacy.s1.p1": "Responsable: Kinetora Studio S.L.",
-    "privacy.s1.p2": "Email: hola@kinetora.tech",
-    "privacy.s1.p3": "Actividad: Agencia creativa de diseño, desarrollo y estrategia digital",
+    "privacy.s1.l1.label": "Responsable",
+    "privacy.s1.l1.value": "Kinetora Studio S.L.",
+    "privacy.s1.l2.label": "Email",
+    "privacy.s1.l2.value": "hola@kinetora.tech",
+    "privacy.s1.l3.label": "Actividad",
+    "privacy.s1.l3.value": "Agencia creativa de diseño, desarrollo y estrategia digital",
     "privacy.s2.title": "2. DATOS QUE RECOPILAMOS",
     "privacy.s2.p1": "Recopilamos distintos tipos de información personal cuando interactúas con nosotros:",
     "privacy.s2.subtitle1": "Datos facilitados directamente:",
@@ -91,11 +94,41 @@ export const dictionaries: Dictionaries = {
     "cookie.s1.p1": "Pequeños archivos de texto para funcionamiento, mejora y análisis del sitio.",
     "cookie.s2.title": "2. TIPOS DE COOKIES",
     "cookie.s2.p1": "Técnicas (necesarias), Funcionales, Analíticas.",
+    
+    "cookie.types.tech": "Técnicas (necesarias)",
+    "cookie.types.func": "Funcionales",
+    "cookie.types.anal": "Analíticas",
+
     "cookie.s3.title": "3. COOKIES UTILIZADAS",
     "cookie.s3.l1": "Nombre: _ga, _gid, _gat | Tipo: Analítica | Proveedor: Google Analytics | Finalidad: Análisis comportamiento | Duración: 2 años / 24h / 1 min",
     "cookie.s3.l2": "Nombre: cookieconsent_status | Tipo: Técnica | Proveedor: Propia | Finalidad: Recordar consentimiento cookies | Duración: 1 año",
+    
+    "cookie.table.name": "NOMBRE",
+    "cookie.table.type": "TIPO",
+    "cookie.table.provider": "PROVEEDOR",
+    "cookie.table.purpose": "FINALIDAD",
+    "cookie.table.duration": "DURACIÓN",
+
+    "cookie.table.row1.name": "_ga, _gid, _gat",
+    "cookie.table.row1.type": "Analítica",
+    "cookie.table.row1.provider": "Google Analytics",
+    "cookie.table.row1.purpose": "Análisis comportamiento",
+    "cookie.table.row1.duration": "2 años / 24h / 1 min",
+
+    "cookie.table.row2.name": "cookieconsent_status",
+    "cookie.table.row2.type": "Técnica",
+    "cookie.table.row2.provider": "Propia",
+    "cookie.table.row2.purpose": "Recordar consentimiento cookies",
+    "cookie.table.row2.duration": "1 año",
+
     "cookie.s4.title": "4. CÓMO GESTIONAR LAS COOKIES",
     "cookie.s4.p1": "Instrucciones para Chrome, Firefox, Safari, Edge, Opera.",
+    "cookie.manage.chrome": "Chrome",
+    "cookie.manage.firefox": "Firefox",
+    "cookie.manage.safari": "Safari",
+    "cookie.manage.edge": "Edge",
+    "cookie.manage.opera": "Opera",
+
     "cookie.s5.title": "5. ACTUALIZACIONES",
     "cookie.s5.p1": "Revisiones periódicas para reflejar cambios en el uso.",
 
@@ -105,6 +138,14 @@ export const dictionaries: Dictionaries = {
     
     "social.s1.title": "1. NUESTROS PERFILES",
     "social.s1.p1": "Presencia activa en: Instagram, TikTok, X (Twitter), YouTube, Facebook (@kinetora_studio / Kinetora Studio).",
+    
+    "social.profile.ig": "Instagram",
+    "social.profile.tk": "TikTok",
+    "social.profile.x": "X (Twitter)",
+    "social.profile.yt": "YouTube",
+    "social.profile.fb": "Facebook",
+    "social.profile.handle": "@kinetora_studio",
+
     "social.s2.title": "2. RESPONSABILIDAD Y TRATAMIENTO",
     "social.s2.p1": "Las plataformas son responsables según sus políticas. Kinetora Studio S.L. es responsable solo de interacciones directas (mensajes, comentarios). No extraemos datos sin consentimiento.",
     "social.s3.title": "3. FINALIDAD DEL USO",
@@ -163,9 +204,12 @@ export const dictionaries: Dictionaries = {
     "privacy.subtitle": "Your privacy matters to us. Here we explain how we process your personal data.",
     
     "privacy.s1.title": "1. DATA CONTROLLER",
-    "privacy.s1.p1": "Controller: Kinetora Studio S.L.",
-    "privacy.s1.p2": "Email: hola@kinetora.tech",
-    "privacy.s1.p3": "Activity: Creative agency for design, development and digital strategy",
+    "privacy.s1.l1.label": "Controller",
+    "privacy.s1.l1.value": "Kinetora Studio S.L.",
+    "privacy.s1.l2.label": "Email",
+    "privacy.s1.l2.value": "hola@kinetora.tech",
+    "privacy.s1.l3.label": "Activity",
+    "privacy.s1.l3.value": "Creative agency for design, development and digital strategy",
     "privacy.s2.title": "2. DATA WE COLLECT",
     "privacy.s2.p1": "We collect different types of personal information when you interact with us:",
     "privacy.s2.subtitle1": "Directly provided data:",
@@ -198,11 +242,41 @@ export const dictionaries: Dictionaries = {
     "cookie.s1.p1": "Small text files for website functioning, improvement and analysis.",
     "cookie.s2.title": "2. TYPES OF COOKIES",
     "cookie.s2.p1": "Technical (necessary), Functional, Analytical.",
+
+    "cookie.types.tech": "Technical (necessary)",
+    "cookie.types.func": "Functional",
+    "cookie.types.anal": "Analytical",
+
     "cookie.s3.title": "3. COOKIES USED",
     "cookie.s3.l1": "Name: _ga, _gid, _gat | Type: Analytical | Provider: Google Analytics | Purpose: User behavior analysis | Duration: 2 years / 24h / 1 min",
     "cookie.s3.l2": "Name: cookieconsent_status | Type: Technical | Provider: Own | Purpose: Remember cookie consent | Duration: 1 year",
+
+    "cookie.table.name": "NAME",
+    "cookie.table.type": "TYPE",
+    "cookie.table.provider": "PROVIDER",
+    "cookie.table.purpose": "PURPOSE",
+    "cookie.table.duration": "DURATION",
+
+    "cookie.table.row1.name": "_ga, _gid, _gat",
+    "cookie.table.row1.type": "Analytical",
+    "cookie.table.row1.provider": "Google Analytics",
+    "cookie.table.row1.purpose": "User behavior analysis",
+    "cookie.table.row1.duration": "2 years / 24h / 1 min",
+
+    "cookie.table.row2.name": "cookieconsent_status",
+    "cookie.table.row2.type": "Technical",
+    "cookie.table.row2.provider": "Own",
+    "cookie.table.row2.purpose": "Remember cookie consent",
+    "cookie.table.row2.duration": "1 year",
+
     "cookie.s4.title": "4. HOW TO MANAGE COOKIES",
     "cookie.s4.p1": "Instructions for Chrome, Firefox, Safari, Edge, Opera.",
+    "cookie.manage.chrome": "Chrome",
+    "cookie.manage.firefox": "Firefox",
+    "cookie.manage.safari": "Safari",
+    "cookie.manage.edge": "Edge",
+    "cookie.manage.opera": "Opera",
+
     "cookie.s5.title": "5. UPDATES",
     "cookie.s5.p1": "Periodic reviews to reflect changes in usage.",
 
@@ -212,6 +286,14 @@ export const dictionaries: Dictionaries = {
     
     "social.s1.title": "1. OUR SOCIAL MEDIA PROFILES",
     "social.s1.p1": "Active presence on: Instagram, TikTok, X (Twitter), YouTube, Facebook (@kinetora_studio / Kinetora Studio).",
+    
+    "social.profile.ig": "Instagram",
+    "social.profile.tk": "TikTok",
+    "social.profile.x": "X (Twitter)",
+    "social.profile.yt": "YouTube",
+    "social.profile.fb": "Facebook",
+    "social.profile.handle": "@kinetora_studio",
+
     "social.s2.title": "2. RESPONSIBILITY AND DATA PROCESSING",
     "social.s2.p1": "Platforms are responsible per their policies. Kinetora Studio S.L. is controller only for direct interactions (messages, comments). No data extraction without consent.",
     "social.s3.title": "3. PURPOSE OF SOCIAL MEDIA USE",
