@@ -15,13 +15,13 @@ function enhanceMedia(html: string) {
     if (!img.getAttribute("sizes")) img.setAttribute("sizes", "(min-width:1024px) 420px, 100vw");
     // Clases utilitarias para responsividad
     const cls = new Set((img.getAttribute("class") || "").split(/\s+/).filter(Boolean));
-    ["max-w-full","w-full","h-auto","block","rounded-xl","bg-transparent"].forEach(c => cls.add(c));
+    ["max-w-full", "w-full", "h-auto", "block", "rounded-xl", "bg-transparent"].forEach(c => cls.add(c));
     img.setAttribute("class", Array.from(cls).join(" "));
   });
 
   doc.querySelectorAll("figure").forEach((fig) => {
     const cls = new Set((fig.getAttribute("class") || "").split(/\s+/).filter(Boolean));
-    ["rounded-2xl","overflow-hidden","bg-white/[0.06]","mb-4"].forEach(c => cls.add(c));
+    ["rounded-2xl", "overflow-hidden", "mb-4"].forEach(c => cls.add(c));
     fig.setAttribute("class", Array.from(cls).join(" "));
   });
 
@@ -33,11 +33,11 @@ function enhanceMedia(html: string) {
     ifr.removeAttribute("width");
     ifr.removeAttribute("height");
     const cls = new Set((ifr.getAttribute("class") || "").split(/\s+/).filter(Boolean));
-    ["absolute","inset-0","w-full","h-full"].forEach(c => cls.add(c));
+    ["absolute", "inset-0", "w-full", "h-full"].forEach(c => cls.add(c));
     ifr.setAttribute("class", Array.from(cls).join(" "));
     // Envolver cada iframe en un contenedor 16:9 responsivo
     const wrapper = doc.createElement("div");
-    wrapper.setAttribute("class", "relative w-full aspect-video overflow-hidden rounded-xl bg-white/[0.06] mb-4");
+    wrapper.setAttribute("class", "relative w-full aspect-video overflow-hidden rounded-xl mb-4");
     const parent = ifr.parentNode;
     if (parent) {
       parent.insertBefore(wrapper, ifr);
@@ -83,5 +83,5 @@ export default function WPPostContent({ html }: { html: string }) {
 
   const enhanced = React.useMemo(() => enhanceMedia(sanitized), [sanitized]);
 
-  return <div className="wp-post" dangerouslySetInnerHTML={{ __html: enhanced }} />;
+  return <div className="wp-post-inner" dangerouslySetInnerHTML={{ __html: enhanced }} />;
 }
