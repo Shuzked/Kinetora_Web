@@ -119,8 +119,8 @@ const Cases = () => {
                   const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 
                   return (
-                    <MouseParallax key={cs.slug} intensity={8} rotate={3} className="h-full will-change-transform">
-                      <div className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
+                    <div key={cs.slug} className="h-full">
+                      <div className="group h-full flex flex-col rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
                         <div className="aspect-[16/10] overflow-hidden">
                           {!metaReady ? (
                             <Skeleton className="w-full h-full rounded-none" />
@@ -173,7 +173,7 @@ const Cases = () => {
                           </div>
                         </div>
                       </div>
-                    </MouseParallax>
+                    </div>
                   );
                 })}
               </div>
