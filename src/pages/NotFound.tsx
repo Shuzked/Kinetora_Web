@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PremiumButton from "@/components/PremiumButton";
 import { useI18n } from "@/i18n/I18nProvider";
+import { motion } from "framer-motion";
 
 const NotFound = () => {
   const { lang } = useI18n();
@@ -19,59 +20,66 @@ const NotFound = () => {
   const copy =
     lang === "es"
       ? {
-          title: "Esta página no existe.",
-          subA: "La ruta",
-          subB: "no está disponible.",
-          back: "Volver al inicio",
-          cases: "Ver casos",
+          badge: "Error 404",
+          title: "Parece que esta ruta no está en nuestro flujo de 48h.",
+          desc: "Volvamos al inicio para impulsar tu visión.",
+          back: "VOLVER AL INICIO",
         }
       : {
-          title: "This page doesn't exist.",
-          subA: "The route",
-          subB: "is not available.",
-          back: "Back to home",
-          cases: "View case studies",
+          badge: "404 Error",
+          title: "It seems this route is not in our 48h flow.",
+          desc: "Let's head back to the start and boost your vision.",
+          back: "BACK TO HOME",
         };
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30 font-inter">
       <Navbar />
-      <main id="main-content" role="main" className="pt-[68px] md:pt-[88px]">
-        <section className="py-16 sm:py-20 lg:py-24 relative overflow-hidden">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative">
-            <div className="max-w-xl">
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                404
+      
+      <main id="main-content" role="main" className="pt-[68px] md:pt-[88px] min-h-[calc(100vh-100px)] flex flex-col justify-center relative overflow-hidden">
+        {/* Background Decorative Elements */}
+        <div className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-[600px] bg-[#B454FF]/10 blur-[120px] rounded-full" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-[#B454FF]/5 blur-[90px]" />
+        <div className="pointer-events-none absolute top-24 -left-24 h-64 w-64 rounded-full bg-white/5 blur-[80px]" />
+
+        <section className="py-20 lg:py-32 relative z-10 text-center">
+          <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col items-center"
+            >
+              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] font-black tracking-[0.3em] uppercase text-[#F5F5F5]/60 mb-8 backdrop-blur-sm">
+                {copy.badge}
               </div>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
+
+              <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] mb-6 max-w-3xl">
                 {copy.title}
               </h1>
-              <p className="mt-4 text-[#F5F5F5]/75 text-sm sm:text-base leading-relaxed">
-                {copy.subA}{" "}
-                <span className="text-[#F5F5F5] font-semibold">{location.pathname}</span>{" "}
-                {copy.subB}
+
+              <p className="text-[#F5F5F5]/70 text-lg sm:text-xl md:text-2xl font-medium leading-tight mb-12 max-w-2xl">
+                {copy.desc}
               </p>
 
-              <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
                 <Link to="/">
-                  <PremiumButton variant="primary" size="md" className="w-full sm:w-auto">
-                    {copy.back.toUpperCase()}
+                  <PremiumButton variant="primary" size="lg" className="min-w-[280px] text-lg font-black tracking-widest shadow-[0_0_30px_rgba(180,84,255,0.2)]">
+                    {copy.back}
                   </PremiumButton>
                 </Link>
-                <Link to="/casos">
-                  <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
-                    {copy.cases.toUpperCase()}
-                  </PremiumButton>
-                </Link>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </section>
       </main>
+
       <Footer />
     </div>
   );
 };
 
-export default NotFound;
+export default NotFound;
