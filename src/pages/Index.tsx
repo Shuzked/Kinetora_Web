@@ -13,9 +13,9 @@ const Portfolio = React.lazy(() => import('@/components/Portfolio'));
 const Testimonials = React.lazy(() => import('@/components/Testimonials'));
 const Contact = React.lazy(() => import('@/components/Contact'));
 const FAQ = React.lazy(() => import('@/components/FAQ'));
-import Footer from '@/components/Footer';
+const Footer = React.lazy(() => import('@/components/Footer'));
+const FloatingCTA = React.lazy(() => import('@/components/FloatingCTA'));
 import ParallaxSection from '@/components/ParallaxSection';
-import FloatingCTA from '@/components/FloatingCTA';
 import SEO from '@/components/SEO';
 import { getSeoDefaults } from '@/seo/defaults';
 import { useI18n } from '@/i18n/I18nProvider';
@@ -136,8 +136,10 @@ const Index = () => {
           </ParallaxSection>
         </React.Suspense>
       </main>
-      <Footer />
-      <FloatingCTA />
+      <React.Suspense fallback={null}>
+        <Footer />
+        <FloatingCTA />
+      </React.Suspense>
     </div>
   );
 };

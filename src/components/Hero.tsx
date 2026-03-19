@@ -83,10 +83,7 @@ const Hero = () => {
       className="relative overflow-hidden bg-[#0D0D0D]"
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        <motion.div
-          style={{ y: yBackground }}
-          className="absolute inset-0 will-change-transform"
-        >
+        <div className="absolute inset-0">
           <ImageWithSkeleton
             src="/assets/hero/hero-kinetora-bg.webp"
             alt=""
@@ -100,7 +97,7 @@ const Hero = () => {
             skeletonClassName="bg-white/5"
             className="h-full w-full object-cover object-center"
           />
-        </motion.div>
+        </div>
 
         <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.82)_100%)]" />
