@@ -39,15 +39,17 @@ const CookieBanner = () => {
     <div
       className={cn(
         "fixed z-[9999] transition-all duration-500 ease-out",
-        // Mobile: full width, centered at bottom
-        "bottom-0 left-0 right-0 px-4 pb-4",
+        // Mobile: full width, anchored to bottom, with horizontal padding
+        "bottom-0 left-0 right-0 px-4",
         // Desktop: floating card at bottom-right
-        "sm:bottom-6 sm:left-auto sm:right-6 sm:px-0 sm:pb-0 sm:w-full sm:max-w-[420px]",
+        "sm:bottom-6 sm:left-auto sm:right-6 sm:px-0 sm:w-full sm:max-w-[420px]",
         isVisible ? "translate-y-0 opacity-100" : "translate-y-full sm:translate-y-12 opacity-0 pointer-events-none"
       )}
+      // Respetar la zona segura en móviles (notch)
+      style={{ paddingBottom: "max(env(safe-area-inset-bottom), 1rem)" } as React.CSSProperties}
     >
-      <div className="bg-[#121212] border border-white/10 rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
-        <div className="p-6">
+      <div className="bg-[#121212] border border-white/10 rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl">
+        <div className="p-5 sm:p-6">
           {!isExpanded ? (
             /* COMPACT VIEW */
             <div className="space-y-4">
@@ -71,7 +73,7 @@ const CookieBanner = () => {
                 <h3 className="text-white font-bold tracking-tight">{t("banner.title")}</h3>
               </div>
 
-              <p className="text-[#F5F5F5]/60 text-sm leading-relaxed">
+              <p className="text-[#F5F5F5]/70 text-[13px] leading-relaxed">
                 {t("banner.desc")}
               </p>
 
@@ -100,7 +102,7 @@ const CookieBanner = () => {
             </div>
           ) : (
             /* EXPANDED VIEW */
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div className="flex items-center justify-between">
                 <h3 className="text-white font-bold tracking-tight">{t("banner.manage")}</h3>
                 <button
@@ -113,7 +115,8 @@ const CookieBanner = () => {
                 </button>
               </div>
 
-              <div className="space-y-4">
+              {/* Scroll interno en móvil para no tapar demasiado contenido */}
+              <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
                 {/* Technical */}
                 <div className="flex items-start justify-between gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5">
                   <div className="space-y-0.5">
@@ -123,7 +126,7 @@ const CookieBanner = () => {
                         {t("banner.always")}
                       </span>
                     </div>
-                    <p className="text-[11px] text-[#F5F5F5]/50 leading-normal">
+                    <p className="text-[11px] text-[#F5F5F5]/60 leading-normal">
                       {t("banner.cat.tech.desc")}
                     </p>
                   </div>
@@ -133,7 +136,7 @@ const CookieBanner = () => {
                 <div className="flex items-start justify-between gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5">
                   <div className="space-y-0.5">
                     <span className="text-sm font-bold text-white">{t("banner.cat.analytics.title")}</span>
-                    <p className="text-[11px] text-[#F5F5F5]/50 leading-normal">
+                    <p className="text-[11px] text-[#F5F5F5]/60 leading-normal">
                       {t("banner.cat.analytics.desc")}
                     </p>
                   </div>
@@ -152,7 +155,7 @@ const CookieBanner = () => {
                 <div className="flex items-start justify-between gap-4 p-3 rounded-xl bg-white/[0.03] border border-white/5">
                   <div className="space-y-0.5">
                     <span className="text-sm font-bold text-white">{t("banner.cat.functional.title")}</span>
-                    <p className="text-[11px] text-[#F5F5F5]/50 leading-normal">
+                    <p className="text-[11px] text-[#F5F5F5]/60 leading-normal">
                       {t("banner.cat.functional.desc")}
                     </p>
                   </div>
@@ -177,22 +180,22 @@ const CookieBanner = () => {
             </div>
           )}
 
-          <div className="mt-6 flex items-center justify-between pt-4 border-t border-white/5">
-            <div className="flex gap-4">
+          <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pt-4 border-t border-white/5">
+            <div className="flex gap-3 sm:gap-4">
               <Link
                 to="/legal/politica-cookies"
-                className="text-[10px] font-bold text-[#F5F5F5]/40 hover:text-[#B454FF] transition-colors uppercase tracking-widest"
+                className="text-[10px] sm:text-[11px] font-bold text-[#F5F5F5]/50 hover:text-[#B454FF] transition-colors uppercase tracking-widest"
               >
                 {t("banner.link.cookies")}
               </Link>
               <Link
                 to="/legal/politica-privacidad"
-                className="text-[10px] font-bold text-[#F5F5F5]/40 hover:text-[#B454FF] transition-colors uppercase tracking-widest"
+                className="text-[10px] sm:text-[11px] font-bold text-[#F5F5F5]/50 hover:text-[#B454FF] transition-colors uppercase tracking-widest"
               >
                 {t("banner.link.privacy")}
               </Link>
             </div>
-            <span className="text-[9px] text-white/20 font-medium uppercase tracking-tighter">
+            <span className="text-[9px] text-white/30 font-medium uppercase tracking-tighter">
               KINETORA • 2026
             </span>
           </div>
