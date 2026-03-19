@@ -3,75 +3,108 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useI18n } from "@/i18n/I18nProvider";
+import { Link } from "react-router-dom";
 
 const LegalNotice = () => {
+  const { t } = useI18n();
+
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5]">
+    <div className="min-h-screen bg-[#030303] text-[#F5F5F5]">
       <Navbar />
-      <main className="pt-[68px] md:pt-[88px]">
-        <section className="kin-section relative overflow-hidden">
-          <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/10 blur-[90px]" />
-          <div className="kin-container">
-            <div className="mx-auto w-full max-w-3xl">
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                Aviso Legal
-              </div>
-              <h1 className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                Información general
-              </h1>
+      <main className="pt-[100px] md:pt-[120px] pb-24">
+        <div className="mx-auto w-full max-w-[800px] px-6 lg:px-0">
+          
+          <Link to="/" className="inline-block text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 hover:text-white transition-colors mb-4 uppercase">
+            {t("legal.back")}
+          </Link>
+          
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-[0.14em] uppercase text-[#F5F5F5] mb-4">
+            {t("legal.title")}
+          </h1>
+          
+          <p className="text-[#F5F5F5]/75 text-base md:text-lg mb-8">
+            {t("legal.subtitle")}
+          </p>
 
-              <div className="wp-post mt-6">
-                <div className="wp-post__content">
-                  <p>
-                    En cumplimiento con el deber de información recogido en la normativa vigente,
-                    se facilitan a continuación los datos de identificación del titular del sitio web.
-                  </p>
-                  <ul>
-                    <li><strong>Titular:</strong> Kinetora Studio</li>
-                    <li><strong>Correo electrónico:</strong> hello@kinetora.tech</li>
-                    <li><strong>Sitio web:</strong> https://kinetora.tech</li>
-                  </ul>
+          <p className="text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 uppercase mb-16">
+            {t("legal.updated")}
+          </p>
 
-                  <h2>Condiciones de uso</h2>
-                  <p>
-                    El acceso y/o uso de este sitio web atribuye la condición de usuario y supone la aceptación
-                    de las condiciones aquí reflejadas. El usuario se compromete a hacer un uso adecuado de los
-                    contenidos y servicios que Kinetora ofrece a través del sitio.
-                  </p>
-
-                  <h2>Propiedad intelectual e industrial</h2>
-                  <p>
-                    Todos los contenidos (textos, imágenes, diseños, logotipos, vídeos, etc.) son propiedad de
-                    Kinetora o de sus legítimos titulares. Queda prohibida su reproducción, distribución o
-                    transformación sin autorización expresa.
-                  </p>
-
-                  <h2>Responsabilidad</h2>
-                  <p>
-                    Kinetora no se hace responsable de los daños o perjuicios derivados del uso de la información
-                    del sitio ni de enlaces a contenidos de terceros.
-                  </p>
-
-                  <h2>Enlaces</h2>
-                  <p>
-                    Este sitio puede contener enlaces a páginas de terceros. Kinetora no asume responsabilidad por
-                    el contenido, información o servicios que pudieran aparecer en dichos sitios.
-                  </p>
-
-                  <h2>Legislación aplicable</h2>
-                  <p>
-                    Estas condiciones se rigen por la legislación aplicable y cualquier controversia se someterá a
-                    los tribunales competentes según la normativa vigente.
-                  </p>
-
-                  <p className="text-[#F5F5F5]/60 text-sm mt-6">
-                    Última actualización: {new Date().toLocaleDateString()}
-                  </p>
-                </div>
-              </div>
+          {/* 1. OWNER IDENTIFICATION */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("legal.s1.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-6">
+              {t("legal.s1.p1")}
+            </p>
+            <div className="border border-white/10 bg-white/5 rounded-2xl p-6 md:p-8 text-sm md:text-base text-[#F5F5F5]/75 space-y-3">
+              <p><strong className="text-white font-semibold">{t("legal.s1.company")}:</strong> Kinetora Studio S.L.</p>
+              <p><strong className="text-white font-semibold">{t("legal.s1.address")}:</strong> España</p>
+              <p><strong className="text-white font-semibold">{t("legal.s1.cif")}:</strong> {t("legal.s1.cif.val")}</p>
+              <p><strong className="text-white font-semibold">{t("legal.s1.email")}:</strong> hola@kinetora.tech</p>
+              <p><strong className="text-white font-semibold">{t("legal.s1.web")}:</strong> https://kinetora.tech</p>
             </div>
-          </div>
-        </section>
+          </section>
+
+          {/* 2. PURPOSE AND SCOPE */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("legal.s2.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-4">
+              {t("legal.s2.p1")}
+            </p>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("legal.s2.p2")}
+            </p>
+          </section>
+
+          {/* 3. INTELLECTUAL AND INDUSTRIAL PROPERTY */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("legal.s3.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-4">
+              {t("legal.s3.p1")}
+            </p>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("legal.s3.p2")}
+            </p>
+          </section>
+
+          {/* 4. LIABILITY */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("legal.s4.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("legal.s4.p1")}
+            </p>
+          </section>
+
+          {/* 5. APPLICABLE LAW AND JURISDICTION */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("legal.s5.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("legal.s5.p1")}
+            </p>
+          </section>
+
+          {/* 6. MODIFICATIONS */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("legal.s6.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("legal.s6.p1")}
+            </p>
+          </section>
+
+        </div>
       </main>
       <Footer />
     </div>
