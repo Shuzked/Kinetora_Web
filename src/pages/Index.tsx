@@ -4,17 +4,17 @@ import React from 'react';
 import { useLocation } from "react-router-dom";
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
-const Brands = React.lazy(() => import('@/components/Brands'));
-const Stats = React.lazy(() => import('@/components/Stats'));
-const ValueProp = React.lazy(() => import('@/components/ValueProp'));
-const HowItWorks = React.lazy(() => import('@/components/HowItWorks'));
-const Services = React.lazy(() => import('@/components/Services'));
-const Portfolio = React.lazy(() => import('@/components/Portfolio'));
-const Testimonials = React.lazy(() => import('@/components/Testimonials'));
-const Contact = React.lazy(() => import('@/components/Contact'));
-const FAQ = React.lazy(() => import('@/components/FAQ'));
-const Footer = React.lazy(() => import('@/components/Footer'));
-const FloatingCTA = React.lazy(() => import('@/components/FloatingCTA'));
+import Brands from '@/components/Brands';
+import Stats from '@/components/Stats';
+import ValueProp from '@/components/ValueProp';
+import HowItWorks from '@/components/HowItWorks';
+import Services from '@/components/Services';
+import Portfolio from '@/components/Portfolio';
+import Testimonials from '@/components/Testimonials';
+import Contact from '@/components/Contact';
+import FAQ from '@/components/FAQ';
+import Footer from '@/components/Footer';
+import FloatingCTA from '@/components/FloatingCTA';
 import ParallaxSection from '@/components/ParallaxSection';
 import SEO from '@/components/SEO';
 import { getSeoDefaults } from '@/seo/defaults';
@@ -90,56 +90,36 @@ const Index = () => {
       <Navbar />
       <main id="main-content" role="main" aria-label="Main content">
         <Hero />
-        <React.Suspense fallback={<div className="kin-container py-8" />}>
-          <ParallaxSection intensity={10}>
-            <Brands />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={12}>
-            <Stats />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={18}>
-            <ValueProp />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={14}>
-            <Services />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={16}>
-            <HowItWorks />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={20}>
-            <Portfolio />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={16}>
-            <Testimonials />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={14}>
-            <Contact />
-          </ParallaxSection>
-        </React.Suspense>
-        <React.Suspense fallback={<div className="kin-container py-10" />}>
-          <ParallaxSection intensity={12}>
-            <FAQ />
-          </ParallaxSection>
-        </React.Suspense>
+        <ParallaxSection intensity={10}>
+          <Brands />
+        </ParallaxSection>
+        <ParallaxSection intensity={12}>
+          <Stats />
+        </ParallaxSection>
+        <ParallaxSection intensity={18}>
+          <ValueProp />
+        </ParallaxSection>
+        <ParallaxSection intensity={14}>
+          <Services />
+        </ParallaxSection>
+        <ParallaxSection intensity={16}>
+          <HowItWorks />
+        </ParallaxSection>
+        <ParallaxSection intensity={20}>
+          <Portfolio />
+        </ParallaxSection>
+        <ParallaxSection intensity={16}>
+          <Testimonials />
+        </ParallaxSection>
+        <ParallaxSection intensity={14}>
+          <Contact />
+        </ParallaxSection>
+        <ParallaxSection intensity={12}>
+          <FAQ />
+        </ParallaxSection>
       </main>
-      <React.Suspense fallback={null}>
-        <Footer />
-        <FloatingCTA />
-      </React.Suspense>
+      <Footer />
+      <FloatingCTA />
     </div>
   );
 };
