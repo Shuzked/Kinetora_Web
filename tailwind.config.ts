@@ -57,12 +57,17 @@ export default {
           from: { opacity: "1", transform: "translateY(0)" },
           to: { opacity: "0", transform: "translateY(-6px)" },
         },
+        "pulse-slow": {
+          "0%, 100%": { opacity: "1", transform: "scale(1)" },
+          "50%": { opacity: "0.85", transform: "scale(1.02)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 260ms cubic-bezier(0.22, 1, 0.36, 1)",
         "accordion-up": "accordion-up 220ms cubic-bezier(0.22, 1, 0.36, 1)",
         "faq-in": "faq-in 260ms cubic-bezier(0.22, 1, 0.36, 1)",
         "faq-out": "faq-out 200ms cubic-bezier(0.22, 1, 0.36, 1)",
+        "pulse-slow": "pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

@@ -39,7 +39,7 @@ const LegalNotice = () => {
             <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-6">
               {t("legal.s1.p1")}
             </p>
-            <div className="border border-white/10 bg-white/5 rounded-2xl p-6 md:p-8 text-sm md:text-base text-[#F5F5F5]/75 space-y-3">
+            <div className="kin-card space-y-3">
               <p><strong className="text-white font-semibold">{t("legal.s1.company")}:</strong> Kinetora Studio S.L.</p>
               <p><strong className="text-white font-semibold">{t("legal.s1.address")}:</strong> España</p>
               <p><strong className="text-white font-semibold">{t("legal.s1.cif")}:</strong> {t("legal.s1.cif.val")}</p>

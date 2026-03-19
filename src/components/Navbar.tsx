@@ -43,10 +43,10 @@ const Navbar = () => {
         className="absolute inset-0 pointer-events-none will-change-[backdrop-filter,opacity]"
         style={{
           opacity: progress,
-          // En móvil: sin blur y fondo negro sólido; en desktop: blur + fondo translúcido
-          backdropFilter: !isMobile ? (blurMV as any) : undefined,
-          WebkitBackdropFilter: !isMobile ? (blurMV as any) : undefined,
-          backgroundColor: (isMobile ? "#000000" : (bgMV as unknown as string)) as any,
+          // Glass effect on all devices if possible, with a fallback for mobile
+          backdropFilter: blurMV as unknown as string,
+          WebkitBackdropFilter: blurMV as unknown as string,
+          backgroundColor: bgMV as unknown as string,
         }}
       />
       <motion.div
@@ -64,7 +64,7 @@ const Navbar = () => {
         <div className="h-full flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <img
-              src="/favicon.svg"
+              src="/Favicon_Kinetora.svg"
               alt="Kinetora icon"
               className="h-8 w-8 md:hidden"
               width={32}

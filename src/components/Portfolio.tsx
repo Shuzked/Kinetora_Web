@@ -87,8 +87,8 @@ const Portfolio = () => {
                   className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
                 >
                   <motion.div
-                    whileHover={{ y: -6 }}
-                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    whileHover={{ y: -8, scale: 1.01 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     className="h-full"
                   >
                     {(() => {

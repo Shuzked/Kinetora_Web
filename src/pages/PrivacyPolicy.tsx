@@ -106,7 +106,7 @@ const PrivacyPolicy = () => {
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s1.title")}
             </h2>
-            <div className="border border-white/10 bg-white/5 rounded-2xl p-6 md:p-8 space-y-6">
+            <div className="kin-card space-y-6">
               <div>
                 <span className="text-[11px] font-black tracking-[0.2em] uppercase text-[#B454FF] block mb-1">
                   {t("privacy.s1.l1.label")}

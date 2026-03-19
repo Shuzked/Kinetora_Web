@@ -94,6 +94,7 @@ const Hero = () => {
             loading="eager"
             decoding="async"
             fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 1600px"
             className="h-full w-full object-cover object-center"
           />
         </motion.div>
@@ -114,7 +115,7 @@ const Hero = () => {
             className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-6 sm:mb-7 tracking-tighter uppercase"
           >
             {copy.headlineTop} <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] to-[#8A2BE2] drop-shadow-[0_0_25px_rgba(180,84,255,0.25)]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
               {copy.headlineAccent}
             </span>
           </motion.h1>

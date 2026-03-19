@@ -198,7 +198,7 @@ const Contact = () => {
         </div>
 
         <div className="max-w-3xl mx-auto">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] backdrop-blur-xl p-6 sm:p-8 h-full">
+          <div className="kin-card premium-glass">
             <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
