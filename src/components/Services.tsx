@@ -66,8 +66,9 @@ const Services = () => {
           <div className="md:col-span-2 light-sweep-container h-full">
             <MouseParallax intensity={10} rotate={2} className="h-full">
               <motion.div
-                whileHover={{ y: -5 }}
-                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-[transform,background-color,border-color] duration-300"
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-2xl hover:border-[#B454FF]/40 hover:bg-white/[0.06] hover:shadow-[0_0_40px_rgba(180,84,255,0.18)] transition-[background-color,border-color,shadow] duration-300"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                   <ImageWithSkeleton
@@ -101,8 +102,9 @@ const Services = () => {
           <div className="light-sweep-container h-full">
             <MouseParallax intensity={12} rotate={3} className="h-full">
               <motion.div
-                whileHover={{ y: -5 }}
-                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-2xl transition-[background-color,border-color,shadow] duration-300 hover:border-[#B454FF]/40 hover:bg-white/[0.06] hover:shadow-[0_0_40px_rgba(180,84,255,0.18)]"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                   <ImageWithSkeleton
@@ -134,8 +136,9 @@ const Services = () => {
           <div className="light-sweep-container h-full">
             <MouseParallax intensity={12} rotate={3} className="h-full">
               <motion.div
-                whileHover={{ y: -5 }}
-                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-2xl transition-[background-color,border-color,shadow] duration-300 hover:border-[#B454FF]/40 hover:bg-white/[0.06] hover:shadow-[0_0_40px_rgba(180,84,255,0.18)]"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                   <ImageWithSkeleton
@@ -167,8 +170,9 @@ const Services = () => {
           <div className="md:col-span-2 light-sweep-container h-full">
             <MouseParallax intensity={10} rotate={2} className="h-full">
               <motion.div
-                whileHover={{ y: -5 }}
-                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
+                whileHover={{ y: -8, scale: 1.02 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-2xl transition-[background-color,border-color,shadow] duration-300 hover:border-[#B454FF]/40 hover:bg-white/[0.06] hover:shadow-[0_0_40px_rgba(180,84,255,0.18)]"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                   <ImageWithSkeleton
