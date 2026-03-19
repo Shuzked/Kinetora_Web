@@ -4,7 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
+const Index = React.lazy(() => import("./pages/Index"));
+import HomeSkeleton from "@/components/HomeSkeleton";
 const Cases = React.lazy(() => import("./pages/Cases"));
 const CaseStudyPost = React.lazy(() => import("./pages/CaseStudyPost"));
 const NotFound = React.lazy(() => import("./pages/NotFound"));
@@ -34,7 +35,7 @@ const App = () => (
           <div className="relative z-10">
             <ScrollProgress />
             <ScrollToTop />
-            <React.Suspense fallback={<div className="min-h-[50vh] bg-transparent" />}>
+            <React.Suspense fallback={<HomeSkeleton />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/casos" element={<Cases />} />

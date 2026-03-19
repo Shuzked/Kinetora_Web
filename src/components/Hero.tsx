@@ -95,7 +95,7 @@ const Hero = () => {
             sizes="100vw"
             containerClassName="h-full w-full"
             skeletonClassName="bg-white/5"
-            className="h-full w-full object-cover object-center"
+            className="h-full w-full object-cover object-center filter brightness-[0.45]"
           />
         </div>
 
@@ -104,36 +104,26 @@ const Hero = () => {
       </div>
 
       <div className="kin-container">
-        <motion.div
-          style={{ y: yContent }}
+        <div
           className="relative z-10 min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-6 sm:mb-7 tracking-tighter uppercase"
+          <h1
+            className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-6 sm:mb-7 tracking-tighter uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000"
           >
             {copy.headlineTop} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
               {copy.headlineAccent}
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="text-base md:text-lg text-[#F5F5F5]/80 max-w-xl leading-relaxed font-medium mb-8 sm:mb-10"
+          <p
+            className="text-base md:text-lg text-[#F5F5F5]/80 max-w-xl leading-relaxed font-medium mb-8 sm:mb-10 animate-in fade-in duration-1000 delay-500 fill-mode-both"
           >
             {copy.sub}
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-            className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4"
+          <div
+            className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-4 duration-800 delay-700 fill-mode-both"
           >
             <PremiumButton
               variant="primary"
@@ -152,13 +142,10 @@ const Hero = () => {
             >
               {copy.ctaSecondary.toUpperCase()}
             </PremiumButton>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.0 }}
-            className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6"
+          <div
+            className="mt-8 sm:mt-10 flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both"
           >
             {copy.pills.map(({ Icon, text }, i) => (
               <div
@@ -171,8 +158,8 @@ const Hero = () => {
                 </span>
               </div>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   );
