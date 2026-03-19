@@ -57,7 +57,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
         <MagneticButton>
           <div className="pointer-events-auto flex items-center justify-center gap-2">
             {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
-            <span className="shrink-0">{props.children}</span>
+            <span className="shrink-0">{children}</span>
             {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
           </div>
         </MagneticButton>
