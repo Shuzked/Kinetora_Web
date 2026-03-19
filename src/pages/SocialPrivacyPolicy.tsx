@@ -35,75 +35,33 @@ const SocialPrivacyPolicy = () => {
             {t("legal.updated")}
           </p>
 
-          {/* 1. RESPONSABLE */}
+          {/* 1. NUESTROS PERFILES */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("social.s1.title")}
             </h2>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed font-semibold">
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
               {t("social.s1.p1")}
             </p>
           </section>
 
-          {/* 2. FINALIDAD DEL TRATAMIENTO */}
+          {/* 2. RESPONSABILIDAD Y TRATAMIENTO */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("social.s2.title")}
             </h2>
-            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2">
-              <li>{t("social.s2.l1")}</li>
-              <li>{t("social.s2.l2")}</li>
-              <li>{t("social.s2.l3")}</li>
-            </ul>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("social.s2.p1")}
+            </p>
           </section>
 
-          {/* 3. BASE JURÍDICA */}
+          {/* 3. FINALIDAD DEL USO */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("social.s3.title")}
             </h2>
             <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
               {t("social.s3.p1")}
-            </p>
-          </section>
-
-          {/* 4. DESTINATARIOS */}
-          <section className="mb-12">
-            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
-              {t("social.s4.title")}
-            </h2>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
-              {t("social.s4.p1")}
-            </p>
-          </section>
-
-          {/* 5. DERECHOS DE LOS USUARIOS */}
-          <section className="mb-12">
-            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
-              {t("social.s5.title")}
-            </h2>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed font-semibold">
-              {t("social.s5.p1")}
-            </p>
-          </section>
-
-          {/* 6. CONTENIDO GENERADO POR EL USUARIO */}
-          <section className="mb-12">
-            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
-              {t("social.s6.title")}
-            </h2>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
-              {t("social.s6.p1")}
-            </p>
-          </section>
-
-          {/* 7. CONSERVACIÓN DE DATOS */}
-          <section className="mb-12">
-            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
-              {t("social.s7.title")}
-            </h2>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
-              {t("social.s7.p1")}
             </p>
           </section>
 

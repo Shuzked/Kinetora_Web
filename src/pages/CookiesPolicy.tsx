@@ -45,35 +45,44 @@ const CookiesPolicy = () => {
             </p>
           </section>
 
-          {/* 2. TIPOS DE COOKIES QUE USAMOS */}
+          {/* 2. TIPOS DE COOKIES */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("cookie.s2.title")}
             </h2>
-            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2">
-              <li>{t("cookie.s2.l1")}</li>
-              <li>{t("cookie.s2.l2")}</li>
-              <li>{t("cookie.s2.l3")}</li>
-            </ul>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("cookie.s2.p1")}
+            </p>
           </section>
 
-          {/* 3. GESTIÓN DE COOKIES */}
+          {/* 3. COOKIES UTILIZADAS */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("cookie.s3.title")}
             </h2>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
-              {t("cookie.s3.p1")}
-            </p>
+            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2">
+              <li>{t("cookie.s3.l1")}</li>
+              <li>{t("cookie.s3.l2")}</li>
+            </ul>
           </section>
 
-          {/* 4. ACTUALIZACIONES */}
+          {/* 4. CÓMO GESTIONAR LAS COOKIES */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("cookie.s4.title")}
             </h2>
             <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
               {t("cookie.s4.p1")}
+            </p>
+          </section>
+
+          {/* 5. ACTUALIZACIONES */}
+          <section className="mb-12">
+            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
+              {t("cookie.s5.title")}
+            </h2>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("cookie.s5.p1")}
             </p>
           </section>
 

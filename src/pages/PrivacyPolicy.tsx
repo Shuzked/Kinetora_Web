@@ -27,10 +27,6 @@ const PrivacyPolicy = () => {
             {t("privacy.subtitle")}
           </p>
 
-          <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-12">
-            {t("privacy.intro")}
-          </p>
-
           <p className="text-[11px] font-black tracking-[0.14em] text-[#F5F5F5]/60 uppercase mb-16">
             {t("legal.updated")}
           </p>
@@ -41,8 +37,9 @@ const PrivacyPolicy = () => {
               {t("privacy.s1.title")}
             </h2>
             <div className="border border-white/10 bg-white/5 rounded-2xl p-6 md:p-8 text-sm md:text-base text-[#F5F5F5]/75 space-y-3">
-              <p><strong className="text-white font-semibold">Titular:</strong> Kinetora Studio</p>
-              <p><strong className="text-white font-semibold">Email:</strong> hola@kinetora.tech</p>
+              <p>{t("privacy.s1.p1")}</p>
+              <p>{t("privacy.s1.p2")}</p>
+              <p>{t("privacy.s1.p3")}</p>
             </div>
           </section>
 
@@ -51,13 +48,30 @@ const PrivacyPolicy = () => {
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s2.title")}
             </h2>
-            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2">
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed mb-4">
+              {t("privacy.s2.p1")}
+            </p>
+            
+            <p className="text-white text-sm md:text-base font-semibold mb-2">
+              {t("privacy.s2.subtitle1")}
+            </p>
+            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-1 mb-6">
               <li>{t("privacy.s2.l1")}</li>
               <li>{t("privacy.s2.l2")}</li>
+              <li>{t("privacy.s2.l3")}</li>
+              <li>{t("privacy.s2.l4")}</li>
+              <li>{t("privacy.s2.l5")}</li>
             </ul>
+
+            <p className="text-white text-sm md:text-base font-semibold mb-2">
+              {t("privacy.s2.subtitle2")}
+            </p>
+            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
+              {t("privacy.s2.p2")}
+            </p>
           </section>
 
-          {/* 3. FINALIDADES */}
+          {/* 3. FINALIDADES Y BASES LEGALES DEL TRATAMIENTO */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s3.title")}
@@ -66,10 +80,11 @@ const PrivacyPolicy = () => {
               <li>{t("privacy.s3.l1")}</li>
               <li>{t("privacy.s3.l2")}</li>
               <li>{t("privacy.s3.l3")}</li>
+              <li>{t("privacy.s3.l4")}</li>
             </ul>
           </section>
 
-          {/* 4. LEGITIMACIÓN */}
+          {/* 4. DESTINATARIOS DE LOS DATOS */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s4.title")}
@@ -79,7 +94,7 @@ const PrivacyPolicy = () => {
             </p>
           </section>
 
-          {/* 5. CONSERVACIÓN */}
+          {/* 5. TRANSFERENCIAS INTERNACIONALES */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s5.title")}
@@ -89,7 +104,7 @@ const PrivacyPolicy = () => {
             </p>
           </section>
 
-          {/* 6. DESTINATARIOS */}
+          {/* 6. TUS DERECHOS */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s6.title")}
@@ -99,28 +114,13 @@ const PrivacyPolicy = () => {
             </p>
           </section>
 
-          {/* 7. DERECHOS */}
+          {/* 7. SEGURIDAD DE LOS DATOS */}
           <section className="mb-12">
             <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
               {t("privacy.s7.title")}
             </h2>
-            <ul className="list-disc pl-5 text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed space-y-2 mb-4">
-              <li>{t("privacy.s7.l1")}</li>
-              <li>{t("privacy.s7.l2")}</li>
-              <li>{t("privacy.s7.l3")}</li>
-            </ul>
-            <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed font-semibold">
-              {t("privacy.s7.p1")}
-            </p>
-          </section>
-
-          {/* 8. MEDIDAS DE SEGURIDAD */}
-          <section className="mb-12">
-            <h2 className="uppercase font-black tracking-[0.14em] text-lg md:text-xl mb-6 border-b border-white/10 pb-4">
-              {t("privacy.s8.title")}
-            </h2>
             <p className="text-[#F5F5F5]/75 text-sm md:text-base leading-relaxed">
-              {t("privacy.s8.p1")}
+              {t("privacy.s7.p1")}
             </p>
           </section>
 
