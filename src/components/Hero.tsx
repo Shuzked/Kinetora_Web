@@ -104,9 +104,9 @@ const Hero = () => {
           <h1
             className="text-3xl sm:text-5xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-5 sm:mb-7 tracking-tighter uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000"
           >
-            {copy.headlineTop} <br />
+            {copy.headlineTop.replace(/\.$/, "")} <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
-              {copy.headlineAccent}
+              {copy.headlineAccent.replace(/\.$/, "")}
             </span>
           </h1>
 

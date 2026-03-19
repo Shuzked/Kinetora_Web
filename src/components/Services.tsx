@@ -54,7 +54,7 @@ const Services = () => {
           </div>
           <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter leading-[1.1]">
             {copy.titleTop.toUpperCase()} <br />
-            <span className="text-[B454FF]">
+            <span className="text-[#B454FF]">
               {copy.titleBottom.toUpperCase().replace(/\.$/, "")}
             </span>
           </h2>

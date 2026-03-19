@@ -23,7 +23,8 @@ const Navbar = () => {
   const navLinks = [
     { name: t("nav.services"), href: "#servicios" },
     { name: t("nav.method"), href: "#como-funciona" },
-    { name: t("nav.successes"), href: "/casos" },
+    // Éxitos: scroll suave al bloque de casos en la home
+    { name: t("nav.successes"), href: "#casos" },
     { name: t("nav.contact"), href: "#contacto" },
   ];
 
