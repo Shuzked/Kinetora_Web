@@ -52,13 +52,16 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
       className={cn(base, variants[variant], sizeMap[size], className)}
       {...props}
     >
-      <MagneticButton>
-        <div className="flex items-center justify-center gap-2">
-          {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
-          <span className="shrink-0">{props.children}</span>
-          {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
-        </div>
-      </MagneticButton>
+      {/* Contenedor que asegura que el texto se dibuja por encima */}
+      <div className="relative z-[1] flex items-center justify-center gap-2 pointer-events-none">
+        <MagneticButton>
+          <div className="pointer-events-auto flex items-center justify-center gap-2">
+            {leftIcon ? <span className="shrink-0">{leftIcon}</span> : null}
+            <span className="shrink-0">{props.children}</span>
+            {rightIcon ? <span className="shrink-0">{rightIcon}</span> : null}
+          </div>
+        </MagneticButton>
+      </div>
     </Button>
   );
 };
