@@ -104,7 +104,10 @@
     contain-intrinsic-size: 1000px 800px; /* reserva de tamaño aproximada */
   }
 
-  /* .wp-media — layout wrapper only, no box styling */
+  /* .wp-media — layout wrapper with box styling */
+  .wp-media {
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-7;
+  }
 
   .wp-post__content {
     color: rgba(245, 245, 245, 0.86);
