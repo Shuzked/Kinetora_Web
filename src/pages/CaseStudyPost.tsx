@@ -230,7 +230,7 @@ const CaseStudyPost = () => {
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = "/assets/placeholder.svg";
                       }}
-                      className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 rounded-[inherit] transform-gpu"
+                      className="h-full w-full object-cover transition-all duration-700 rounded-[inherit] transform-gpu"
                     />
                   ) : null}
                 </div>
