@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
@@ -16,7 +15,6 @@ import {
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import { useEqualizeHeights } from "@/hooks/use-equalize";
-import MouseParallax from "@/components/MouseParallax";
 
 const Portfolio = () => {
   const { lang } = useI18n();
@@ -80,18 +78,14 @@ const Portfolio = () => {
         </div>
 
         <div ref={eqRef}>
-          <Carousel opts={{ align: "start", loop: true }} className="relative" >
+          <Carousel opts={{ align: "start", loop: true, dragFree: false }} className="relative">
             <CarouselContent className="-ml-4">
               {caseStudies.map((cs) => (
                 <CarouselItem
                   key={cs.slug}
                   className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3"
                 >
-                  <motion.div
-                    whileHover={{ y: -8, scale: 1.01 }}
-                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                    className="h-full"
-                  >
+                  <div className="h-full">
                     {(() => {
                       const cover = cs.coverImage || "/assets/placeholder.svg";
                       const hito =
@@ -106,64 +100,62 @@ const Portfolio = () => {
                       const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 
                       return (
-                        <MouseParallax intensity={8} rotate={3} className="h-full will-change-transform">
-                          <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors transition-transform hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
-                            <div className="aspect-[16/10] overflow-hidden">
-                              <ImageWithSkeleton
-                                src={cover}
-                                alt={alt}
-                                loading="lazy"
-                                width={600}
-                                height={375}
-                                containerClassName="h-full w-full"
-                                skeletonClassName="bg-white/10"
-                                className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                              />
+                        <div className="group block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-colors hover:-translate-y-0.5 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0">
+                          <div className="aspect-[16/10] overflow-hidden">
+                            <ImageWithSkeleton
+                              src={cover}
+                              alt={alt}
+                              loading="lazy"
+                              width={600}
+                              height={375}
+                              containerClassName="h-full w-full"
+                              skeletonClassName="bg-white/10"
+                              className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                            />
+                          </div>
+                          <div className="p-6 sm:p-7 flex-1 flex flex-col">
+                            <div className="js-eq-header">
+                              <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
+                                {hito}
+                              </div>
+                              <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
+                                {title}
+                              </h3>
                             </div>
-                            <div className="p-6 sm:p-7 flex-1 flex flex-col">
-                              <div className="js-eq-header">
-                                <div className="inline-flex items-center justify-center self-center rounded-full border border-[#B454FF]/30 bg-[#B454FF]/10 px-3 py-1 text-[11px] font-black uppercase tracking-[0.24em] text-[#B454FF]">
-                                  {hito}
-                                </div>
-                                <h3 className="mt-3 mb-2 sm:mb-3 text-lg sm:text-xl font-black tracking-tight title-rows-3 title-rows-3-min">
-                                  {title}
-                                </h3>
+                            <div className="mt-auto pt-4 sm:pt-5">
+                              <div className="metric-block-min mb-2">
+                                {metricLabel && metricValue ? (
+                                  <>
+                                    <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
+                                      {metricLabel}
+                                    </div>
+                                    <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                      {metricValue}
+                                    </div>
+                                  </>
+                                ) : null}
                               </div>
-                              <div className="mt-auto pt-4 sm:pt-5">
-                                <div className="metric-block-min mb-2">
-                                  {metricLabel && metricValue ? (
-                                    <>
-                                      <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
-                                        {metricLabel}
-                                      </div>
-                                      <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                                        {metricValue}
-                                      </div>
-                                    </>
-                                  ) : null}
-                                </div>
-                                <PremiumButton
-                                  variant="glass"
-                                  size="sm"
-                                  className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
-                                  onClick={() => navigate(`/casos/${cs.slug}`)}
-                                  aria-label={ui.ariaReadMore(title)}
-                                >
-                                  {ui.readMore.toUpperCase()}
-                                </PremiumButton>
-                              </div>
+                              <PremiumButton
+                                variant="glass"
+                                size="sm"
+                                className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
+                                onClick={() => navigate(`/casos/${cs.slug}`)}
+                                aria-label={ui.ariaReadMore(title)}
+                              >
+                                {ui.readMore.toUpperCase()}
+                              </PremiumButton>
                             </div>
                           </div>
-                        </MouseParallax>
+                        </div>
                       );
                     })()}
-                  </motion.div>
+                  </div>
                 </CarouselItem>
               ))}
             </CarouselContent>
 
-            <CarouselPrevious className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" aria-label={lang === "es" ? "Anterior" : "Previous"} title={lang === "es" ? "Anterior" : "Previous"} />
-            <CarouselNext className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" aria-label={lang === "es" ? "Siguiente" : "Next"} title={lang === "es" ? "Siguiente" : "Next"} />
+            <CarouselPrevious className="-left-2 sm:-left-4 md:-left-6 h-10 w-10 sm:h-11 sm:w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" aria-label={lang === "es" ? "Anterior" : "Previous"} title={lang === "es" ? "Anterior" : "Previous"} />
+            <CarouselNext className="-right-2 sm:-right-4 md:-right-6 h-10 w-10 sm:h-11 sm:w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" aria-label={lang === "es" ? "Siguiente" : "Next"} title={lang === "es" ? "Siguiente" : "Next"} />
           </Carousel>
         </div>
 
