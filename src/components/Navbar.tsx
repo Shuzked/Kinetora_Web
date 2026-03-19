@@ -63,7 +63,19 @@ const Navbar = () => {
       >
         <div className="h-full flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
-            <Logo className="h-6 md:h-7" />
+            <img
+              src="/Favicon_Kinetora.png"
+              alt="Kinetora icon"
+              className="h-8 w-8 md:hidden"
+              width={32}
+              height={32}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
+            <span className="hidden md:inline-flex">
+              <Logo className="h-6" />
+            </span>
           </Link>
         </div>
 
