@@ -1,0 +1,23 @@
+# ----------------------------------------------------------------------
+# | Cache Control & Fingerprinting Optimization (Hostinger/Litespeed)  |
+# ----------------------------------------------------------------------
+
+<IfModule mod_headers.c>
+    # 1. Force revalidation for HTML files (Cache Busting Entry Point)
+    <FilesMatch "\.(html)$">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+        Header set Pragma "no-cache"
+        Header set Expires "0"
+    </FilesMatch>
+
+    # 2. Maximize cache for fingerprinted assets (JS, CSS, Images, Fonts)
+    # These files have hashes in their names, making them safe to cache for 1 year.
+    <FilesMatch "\.(js|css|json|webmanifest|webp|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|otf)$">
+        Header set Cache-Control "public, max-age=31536000, immutable"
+    </FilesMatch>
+
+    # 3. Special handling for index.html (Primary Entry Point)
+    <Files "index.html">
+        Header set Cache-Control "no-cache, no-store, must-revalidate"
+    </Files>
+</IfModule>
