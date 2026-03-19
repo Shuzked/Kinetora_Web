@@ -118,7 +118,7 @@ const Services = () => {
             <MouseParallax intensity={12} rotate={3} className="h-full">
               <motion.div
                 whileHover={{ y: -5 }}
-                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
+                className="h-full bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-[transform,background-color,border-color] duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
               >
                 <div aria-hidden className="pointer-events-none absolute inset-0 bg-[url('/assets/service-photos/video-editing.webp')] bg-cover bg-center opacity-25 sm:opacity-20 md:opacity-15 transition-transform duration-700 group-hover:scale-110" />
                 <div className="light-sweep" />
