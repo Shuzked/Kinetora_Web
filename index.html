@@ -65,7 +65,36 @@
 
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Critical CSS -->
+    <style>
+      :root {
+        --kin-bg: #0D0D0D;
+        --kin-text: #F5F5F5;
+        --kin-accent: #B454FF;
+      }
+      body {
+        background-color: var(--kin-bg);
+        color: var(--kin-text);
+        margin: 0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      .kin-container {
+        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 88rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+      .hero-skeleton {
+        height: 100vh;
+        background: #121212;
+      }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"></noscript>
   </head>
 
   <body>

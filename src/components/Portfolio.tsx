@@ -113,6 +113,8 @@ const Portfolio = () => {
                                 src={cover}
                                 alt={alt}
                                 loading="lazy"
+                                width={600}
+                                height={375}
                                 containerClassName="h-full w-full"
                                 skeletonClassName="bg-white/10"
                                 className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"

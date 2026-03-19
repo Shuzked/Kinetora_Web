@@ -92,6 +92,10 @@ const Hero = () => {
             alt=""
             loading="eager"
             fetchPriority="high"
+            width={1920}
+            height={1080}
+            srcSet="/assets/hero/hero-kinetora-bg-mobile.webp 600w, /assets/hero/hero-kinetora-bg.webp 1920w"
+            sizes="100vw"
             containerClassName="h-full w-full"
             skeletonClassName="bg-white/5"
             className="h-full w-full object-cover object-center"
