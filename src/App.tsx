@@ -25,10 +25,10 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <I18nProvider>
-        <CookieBanner />
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <CookieBanner />
           <SkipToContent />
           <BackgroundParallax />
           <div className="relative z-10">
