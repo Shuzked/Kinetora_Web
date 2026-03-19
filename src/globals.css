@@ -93,7 +93,10 @@
     animation-duration: var(--marquee-duration, 55s);
   }
 
-  /* WP-style post typography (case studies) — layout wrapper only, no box styling */
+  /* WP-style post typography (case studies) */
+  .wp-post {
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8;
+  }
 
   /* Content-visibility para mejorar rendimiento en secciones fuera de viewport */
   .kin-content-auto {
