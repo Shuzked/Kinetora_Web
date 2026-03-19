@@ -8,7 +8,6 @@ import PremiumButton from "@/components/PremiumButton";
 import { Skeleton } from "@/components/ui/skeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
-import MouseParallax from "@/components/MouseParallax";
 import { useEqualizeHeights } from "@/hooks/use-equalize";
 // SEO
 import SEO from "@/components/SEO";
@@ -18,7 +17,8 @@ const Cases = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
 
-  const meta: Record<string, any> = {};
+  // Memoize meta to prevent infinite loops/unnecessary effect re-runs
+  const meta = React.useMemo(() => ({}), []);
   const metaReady = true;
 
   const metricLabelFor = (kind?: "milestone" | "sales" | "organic" | "funding") => {
@@ -101,8 +101,8 @@ const Cases = () => {
                 </p>
               </div>
 
-              <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 items-stretch">
-                {caseStudies.map((cs) => {
+              <div className="mt-10 sm:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7 items-stretch min-h-[200px]">
+                {(caseStudies || []).map((cs) => {
                   const cover = cs.coverImage;
                   const hito =
                     (lang === "es" ? cs.highlightFallback : cs.highlightFallbackEn ?? cs.highlightFallback);

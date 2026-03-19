@@ -31,6 +31,10 @@
   ],
   "rewrites": [
     {
+      "source": "/((?!api|assets|_next|.*\\..*).*)",
+      "destination": "/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
