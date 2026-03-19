@@ -85,7 +85,9 @@ const HowItWorks = () => {
         <div className="text-center mb-14 sm:mb-16 lg:mb-20">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-0 tracking-tighter">
             {copy.title.toUpperCase().replace(/\.$/, "")} <br />
-            <span className="text-[#B454FF]">{copy.titleAccent.toUpperCase()}</span>
+            <span className="text-[#B454FF]">
+              {copy.titleAccent.toUpperCase().replace(/\.$/, "")}
+            </span>
           </h2>
           <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             {copy.sub}

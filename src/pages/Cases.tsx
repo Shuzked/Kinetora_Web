@@ -96,8 +96,8 @@ const Cases = () => {
                   </div>
                 </Reveal>
                 <Reveal as="h1" className="mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase">
-                  {ui.titleA}{" "}
-                  <span className="text-[#B454FF]">{ui.titleB}</span>.
+                  {ui.titleA.replace(/\.$/, "")}{" "}
+                  <span className="text-[#B454FF]">{ui.titleB}</span>
                 </Reveal>
                 <Reveal as="p" className="mt-4 text-[#F5F5F5]/75 text-sm sm:text-base leading-relaxed">
                   {ui.sub}
