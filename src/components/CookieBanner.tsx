@@ -184,8 +184,8 @@ const CookieBanner = () => {
             </div>
           )}
 
-          <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 pt-4 border-t border-white/5">
-            <div className="flex gap-3 sm:gap-4">
+          <div className="mt-5 sm:mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-start sm:justify-between gap-3 sm:gap-4 pt-4 border-t border-white/5">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               <Link
                 to="/legal/politica-cookies"
                 className="text-[10px] sm:text-[11px] font-bold text-[#F5F5F5]/50 hover:text-[#B454FF] transition-colors uppercase tracking-widest"
@@ -199,9 +199,6 @@ const CookieBanner = () => {
                 {t("banner.link.privacy")}
               </Link>
             </div>
-            <span className="text-[9px] text-white/30 font-medium uppercase tracking-tighter">
-              KINETORA • 2026
-            </span>
           </div>
         </div>
       </div>
