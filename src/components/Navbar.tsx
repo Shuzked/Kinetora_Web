@@ -87,7 +87,7 @@ const Navbar = () => {
                 <SmoothScrollLink 
                   href={link.href}
                   aria-current={isActive ? "true" : undefined}
-                  className={`transition-colors hover:text-[#B454FF] ${isActive ? 'text-[#B454FF]' : ''}`}
+                  className={`transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded px-1 -mx-1 ${isActive ? 'text-[#B454FF]' : ''}`}
                 >
                   {link.name}
                 </SmoothScrollLink>
@@ -122,7 +122,7 @@ const Navbar = () => {
                     <SmoothScrollLink 
                       key={link.name} 
                       href={link.href} 
-                      className="text-xl font-black uppercase transition-colors hover:text-[#B454FF]"
+                      className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
                     >
                       {link.name}
                     </SmoothScrollLink>

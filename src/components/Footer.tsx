@@ -219,7 +219,7 @@ const Footer = () => {
               <div
                 className={`relative flex items-center rounded-full border backdrop-blur-3xl transition-all p-1.5
                 ${err ? 'border-red-500/50' : 'border-white/15'}
-                bg-white/[0.06] hover:bg-white/[0.08] focus-within:bg-white/[0.1] focus-within:ring-2 focus-within:ring-[#B454FF]/40`}
+                bg-white/[0.06] hover:bg-white/[0.08] focus-within:bg-white/[0.1] focus-within:ring-2 focus-within:ring-[#B454FF]`}
               >
                 <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F5F5F5]/60 pointer-events-none" />
                 <Input
@@ -228,7 +228,7 @@ const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={strings.placeholder}
-                  className="min-w-0 flex-1 h-11 pl-12 pr-4 bg-transparent border-0 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus-visible:ring-0 focus-visible:outline-none"
+                  className="min-w-0 flex-1 h-11 pl-12 pr-4 bg-transparent border-0 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none"
                   autoComplete="email"
                   inputMode="email"
                   aria-label={strings.inputAria}
