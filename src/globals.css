@@ -96,14 +96,14 @@
 
   /* WP-style post typography (case studies) */
   .wp-post {
-    @apply rounded-[2rem] sm:border sm:border-white/10 sm:bg-white/[0.04] p-0 sm:p-8;
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 sm:p-8;
   }
 
 
 
   /* .wp-media — layout wrapper with box styling */
   .wp-media {
-    @apply rounded-[2rem] sm:border sm:border-white/10 sm:bg-white/[0.04] p-0 sm:p-7;
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 sm:p-7;
   }
 
   .wp-post__content {

@@ -69,7 +69,7 @@ const Cases = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
+    <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30 block opacity-100 relative z-10">
       <SEO
         title={pageTitle}
         description={ui.sub}
