@@ -9,15 +9,29 @@
         Header set Pragma "no-cache"
         Header set Expires "0"
     </FilesMatch>
+</IfModule>
 
-    # 2. Maximize cache for fingerprinted assets (JS, CSS, Images, Fonts)
-    # These files have hashes in their names, making them safe to cache for 1 year.
-    <FilesMatch "\.(js|css|json|webmanifest|webp|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|otf)$">
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+ErrorDocument 404 /index.html
+
+<IfModule mod_headers.c>
+    # Assets fingerprintados (CSS, JS, imágenes, fuentes) -> Caché agresiva
+    <FilesMatch "\.(css|js|webp|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|otf)$">
         Header set Cache-Control "public, max-age=31536000, immutable"
     </FilesMatch>
 
-    # 3. Special handling for index.html (Primary Entry Point)
-    <Files "index.html">
+    # HTML principal -> No cache (para verificar versiones)
+    <FilesMatch "\.(html|htm)$">
         Header set Cache-Control "no-cache, no-store, must-revalidate"
-    </Files>
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
 </IfModule>
