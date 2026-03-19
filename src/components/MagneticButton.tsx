@@ -12,7 +12,55 @@ type MagneticButtonProps = {
 const MagneticButton: React.FC<MagneticButtonProps> = ({ children, radius = 50, strength = 0.25, className }) => {
   const ref = React.useRef<HTMLDivElement | null>(null);
 
+  const prefersReduced =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const isCoarse =
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(pointer: coarse)").matches;
+
+  // Posición actual aplicada y objetivo al que moverse
+  const posRef = React.useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const targetRef = React.useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+  const rafRef = React.useRef<number | null>(null);
+
+  const applyTransform = (x: number, y: number) => {
+    if (!ref.current) return;
+    ref.current.style.transform = `translate(${x}px, ${y}px)`;
+  };
+
+  const loop = React.useCallback(() => {
+    const { x, y } = posRef.current;
+    const { x: tx, y: ty } = targetRef.current;
+    // Lerp suave (damping)
+    const nx = x + (tx - x) * 0.16;
+    const ny = y + (ty - y) * 0.16;
+    posRef.current = { x: nx, y: ny };
+    applyTransform(nx, ny);
+
+    // Si estamos muy cerca del objetivo, evitamos seguir animando
+    const done = Math.hypot(tx - nx, ty - ny) < 0.2;
+    if (!done) {
+      rafRef.current = requestAnimationFrame(loop);
+    } else {
+      // Ajuste final exacto
+      posRef.current = { x: tx, y: ty };
+      applyTransform(tx, ty);
+      rafRef.current = null;
+    }
+  }, []);
+
+  const startLoopIfNeeded = () => {
+    if (rafRef.current == null) {
+      rafRef.current = requestAnimationFrame(loop);
+    }
+  };
+
   const onMove = React.useCallback((e: React.MouseEvent) => {
+    if (prefersReduced || isCoarse) return;
     const el = ref.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -23,16 +71,32 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({ children, radius = 50, 
     const dist = Math.hypot(dx, dy);
 
     if (dist < radius) {
-      el.style.transform = `translate(${dx * strength}px, ${dy * strength}px)`;
+      // Objetivo dentro del radio
+      targetRef.current = { x: dx * strength, y: dy * strength };
     } else {
-      el.style.transform = "translate(0, 0)";
+      // Fuera del radio: retornar al centro suavemente
+      targetRef.current = { x: 0, y: 0 };
     }
-  }, [radius, strength]);
+    startLoopIfNeeded();
+  }, [prefersReduced, isCoarse, radius, strength, loop]);
 
   const onLeave = React.useCallback(() => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "translate(0,0)";
+    if (prefersReduced || isCoarse) {
+      // Sin animación: volver directo
+      applyTransform(0, 0);
+      posRef.current = { x: 0, y: 0 };
+      targetRef.current = { x: 0, y: 0 };
+      return;
+    }
+    // Volver suave al centro
+    targetRef.current = { x: 0, y: 0 };
+    startLoopIfNeeded();
+  }, [prefersReduced, isCoarse, loop]);
+
+  React.useEffect(() => {
+    return () => {
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+    };
   }, []);
 
   return (
@@ -42,7 +106,6 @@ const MagneticButton: React.FC<MagneticButtonProps> = ({ children, radius = 50, 
       onMouseLeave={onLeave}
       className={className}
       style={{
-        transition: "transform 220ms cubic-bezier(0.16, 1, 0.3, 1)",
         willChange: "transform",
       }}
     >
