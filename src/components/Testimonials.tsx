@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
@@ -8,16 +8,8 @@ import MouseParallax from "@/components/MouseParallax";
 
 const Testimonials = () => {
   const { lang } = useI18n();
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStartX, setDragStartX] = useState(0);
-  const [initialTranslate, setInitialTranslate] = useState(0);
-  const [currentTranslate, setCurrentTranslate] = useState(0);
-  const [animationDelay, setAnimationDelay] = useState(0);
-  const [useAnimation, setUseAnimation] = useState(true);
-
-  // Stats for loop logic
-  const DURATION = 40; // seconds
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
 
   const copy =
     lang === "es"
@@ -30,35 +22,35 @@ const Testimonials = () => {
               role: "CEO @ Elixir Games",
               content:
                 "Lo que más valoro de trabajar con el equipo de Kinetora es que no se limitan a picar código; entienden el producto. En Elixir Games necesitábamos a alguien que aguantara el ritmo y ellos estuvieron a la altura desde el primer día. Son de total confianza.",
-              avatar: "https://i.pravatar.cc/150?u=carlos-rol",
+              avatar: "/assets/testimonials/carlos-roldan.webp",
             },
             {
               name: "Enrique Phan",
               role: "CEO @ SphereStudios",
               content:
                 "Para Chronos Worlds buscábamos una ejecución impecable y Kinetora nos dio justo eso. Se implican de verdad en el proyecto y eso se nota en el resultado final. Si buscas a alguien que cuide los detalles técnicos tanto como tú, son ellos.",
-              avatar: "https://i.pravatar.cc/150?u=enrique-phan",
+              avatar: "/assets/testimonials/enrique-phan.webp",
             },
             {
               name: "Danyil Shatko",
               role: "CEO @ Litlab Games",
               content:
                 "Con Cybertitans íbamos a mil por hora y Kinetora fue el apoyo que necesitábamos. Se adaptan rápido, proponen soluciones inteligentes y, sobre todo, cumplen con lo que dicen. Trabajar así da gusto.",
-              avatar: "https://i.pravatar.cc/150?u=danyil-sh",
+              avatar: "/assets/testimonials/danyil-shatko.webp",
             },
             {
               name: "Nicolás Francisquelo",
               role: "CEO @ A2AX",
               content:
                 "Es difícil encontrar gente que entienda tan bien la infraestructura técnica y sepa aterrizarla. En A2AX nos ayudaron a optimizar procesos que antes eran un quebradero de cabeza. Son profesionales, directos y muy resolutivos.",
-              avatar: "https://i.pravatar.cc/150?u=nicolas-fr",
+              avatar: "/assets/testimonials/nicolas-francisquelo.webp",
             },
             {
               name: "Ferran Puntí",
               role: "CEO @ The Breach Studios",
               content:
                 "Con proyectos como Robokiden no puedes jugártela con la parte técnica. Kinetora nos dio la tranquilidad de saber que todo iba a funcionar perfectamente. Son expertos en lo suyo y se nota en la calidad de lo que entregan.",
-              avatar: "https://i.pravatar.cc/150?u=ferran-pu",
+              avatar: "/assets/testimonials/ferran-punti.webp",
             },
             {
               name: "Victor Merino",
@@ -85,35 +77,35 @@ const Testimonials = () => {
               role: "CEO @ Elixir Games",
               content:
                 "What I value most about working with Kinetora is they don't just ship code—they understand the product. At Elixir Games we needed someone who could keep the pace and they delivered from day one. Totally trustworthy.",
-              avatar: "https://i.pravatar.cc/150?u=carlos-rol",
+              avatar: "/assets/testimonials/carlos-roldan.webp",
             },
             {
               name: "Enrique Phan",
               role: "CEO @ SphereStudios",
               content:
                 "For Chronos Worlds we were aiming for impeccable execution—and Kinetora delivered exactly that. They truly engage with the project, and you see it in the result. If you want someone who cares about technical detail as much as you do, it's them.",
-              avatar: "https://i.pravatar.cc/150?u=enrique-phan",
+              avatar: "/assets/testimonials/enrique-phan.webp",
             },
             {
               name: "Danyil Shatko",
               role: "CEO @ Litlab Games",
               content:
                 "With Cybertitans we were moving at full speed and Kinetora was the support we needed. They adapt fast, propose smart solutions and, above all, do what they say. Working like this is a pleasure.",
-              avatar: "https://i.pravatar.cc/150?u=danyil-sh",
+              avatar: "/assets/testimonials/danyil-shatko.webp",
             },
             {
               name: "Nicolás Francisquelo",
               role: "CEO @ A2AX",
               content:
                 "It's rare to find a team that understands technical infrastructure this well and can land it effectively. At A2AX they helped us streamline processes that used to be a headache. Professional, direct and highly resolute.",
-              avatar: "https://i.pravatar.cc/150?u=nicolas-fr",
+              avatar: "/assets/testimonials/nicolas-francisquelo.webp",
             },
             {
               name: "Ferran Puntí",
               role: "CEO @ The Breach Studios",
               content:
                 "With projects like Robokiden you can't risk the technical side. Kinetora gave us peace of mind knowing everything would work flawlessly. They're experts at what they do and it shows in the quality they deliver.",
-              avatar: "https://i.pravatar.cc/150?u=ferran-pu",
+              avatar: "/assets/testimonials/ferran-punti.webp",
             },
             {
               name: "Victor Merino",
@@ -132,101 +124,44 @@ const Testimonials = () => {
           ],
         };
 
-  const avatarFiles = [
-    "carlos-roldan.webp",
-    "enrique-phan.webp",
-    "danyil-shatko.webp",
-    "nicolas-francisquelo.webp",
-    "ferran-punti.webp",
-    "victor-merino.webp",
-    "jorge-regalado.webp",
-  ];
-  const toTitleCase = (str: string) =>
-    str.replace(/\b\w+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
-  
-  const derived = avatarFiles.map((file) => {
-    const base = file.replace(/\.[^/.]+$/, "").replace(/-/g, " ");
-    return {
-      name: toTitleCase(base),
-      avatar: `/assets/testimonials/${file}`,
-    };
-  });
-
-  const items = copy.testimonials.map((t, i) => ({
-    ...t,
-    ...(derived[i] || {}),
-  }));
-
-  const duplicatedItems = [...items, ...items];
-
-  const getTranslateX = () => {
-    if (!trackRef.current) return 0;
-    const style = window.getComputedStyle(trackRef.current);
-    const matrix = new WebKitCSSMatrix(style.transform);
-    return matrix.m41;
-  };
-
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
-    setIsDragging(true);
-    setUseAnimation(false);
-    
-    const currentX = getTranslateX();
-    setInitialTranslate(currentX);
-    setCurrentTranslate(currentX);
-    setDragStartX(pageX);
-  };
-
-  const handleMouseMove = useCallback((e: MouseEvent | TouchEvent) => {
-    if (!isDragging) return;
-    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
-    const walk = (pageX - dragStartX);
-    
-    // Calcular nueva posición con loop manual durante el drag
-    let newTranslate = initialTranslate + walk;
-    const trackWidth = trackRef.current?.scrollWidth || 0;
-    const halfWidth = trackWidth / 2;
-    
-    if (newTranslate > 0) newTranslate -= halfWidth;
-    if (newTranslate < -halfWidth) newTranslate += halfWidth;
-    
-    setCurrentTranslate(newTranslate);
-  }, [isDragging, dragStartX, initialTranslate]);
-
-  const handleMouseUp = useCallback(() => {
-    if (!isDragging) return;
-    setIsDragging(false);
-    
-    // Calcular el delay para que la animación CSS empiece desde donde dejamos el drag
-    if (trackRef.current) {
-      const trackWidth = trackRef.current.scrollWidth || 0;
-      const halfWidth = trackWidth / 2;
-      const percentage = Math.abs(currentTranslate % halfWidth) / halfWidth;
-      setAnimationDelay(-(percentage * DURATION));
-    }
-    
-    setUseAnimation(true);
-  }, [isDragging, currentTranslate]);
+  // Triplicamos para un loop infinito muy amplio que soporte momentum
+  const items = copy.testimonials;
+  const duplicatedItems = [...items, ...items, ...items];
 
   useEffect(() => {
-    if (isDragging) {
-      window.addEventListener('mousemove', handleMouseMove);
-      window.addEventListener('mouseup', handleMouseUp);
-      window.addEventListener('touchmove', handleMouseMove);
-      window.addEventListener('touchend', handleMouseUp);
-    } else {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchmove', handleMouseMove);
-      window.removeEventListener('touchend', handleMouseUp);
-    }
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseup', handleMouseUp);
-      window.removeEventListener('touchmove', handleMouseMove);
-      window.removeEventListener('touchend', handleMouseUp);
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    let animationFrameId: number;
+    let lastTime = 0;
+    const scrollSpeed = 40; // Pixeles por segundo aprox
+
+    const step = (time: number) => {
+      if (!lastTime) lastTime = time;
+      const deltaTime = (time - lastTime) / 1000;
+      lastTime = time;
+
+      if (!isPaused && scrollContainer) {
+        scrollContainer.scrollLeft += scrollSpeed * deltaTime;
+
+        // Loop infinito nativo
+        const sectionWidth = scrollContainer.scrollWidth / 3;
+        if (scrollContainer.scrollLeft >= sectionWidth * 2) {
+          scrollContainer.scrollLeft -= sectionWidth;
+        }
+      }
+      animationFrameId = requestAnimationFrame(step);
     };
-  }, [isDragging, handleMouseMove, handleMouseUp]);
+
+    animationFrameId = requestAnimationFrame(step);
+
+    // Posición inicial segura
+    if (scrollContainer.scrollLeft === 0) {
+      scrollContainer.scrollLeft = scrollContainer.scrollWidth / 3;
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPaused]);
 
   return (
     <section className="kin-section relative overflow-hidden">
@@ -244,23 +179,28 @@ const Testimonials = () => {
           className="relative kin-fade-x"
         >
           <div 
-            className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"} select-none`}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleMouseDown}
+            ref={scrollContainerRef}
+            className="overflow-x-auto no-scrollbar scroll-smooth flex select-none cursor-grab active:cursor-grabbing"
+            style={{ 
+              scrollSnapType: 'x mandatory',
+              WebkitOverflowScrolling: 'touch'
+            }}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onMouseDown={() => setIsPaused(true)}
+            onMouseUp={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
           >
-            <div 
-              ref={trackRef}
-              className={`flex gap-8 py-4 w-max ${useAnimation ? "animate-marquee-testimonials pause-on-hover" : ""}`}
-              style={{ 
-                animationDelay: `${animationDelay}s`,
-                transform: useAnimation ? undefined : `translateX(${currentTranslate}px)`,
-                animationPlayState: isDragging ? 'paused' : undefined
-              }}
-            >
+            <div className="flex gap-8 py-4 w-max">
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
                   className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0"
+                  style={{ 
+                    scrollSnapAlign: 'start',
+                    scrollSnapStop: 'normal' 
+                  }}
                 >
                   <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                     <motion.div
