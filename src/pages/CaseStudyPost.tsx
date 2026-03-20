@@ -175,6 +175,7 @@ const CaseStudyPost = () => {
 
   // --- Lógica para Sticky Column ---
   const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
+  const [stickyOffset, setStickyOffset] = React.useState<number>(108);
 
   React.useEffect(() => {
     const updateStickySide = () => {
@@ -185,14 +186,23 @@ const CaseStudyPost = () => {
 
       const textHeight = textWrapRef.current?.offsetHeight || 0;
       const mediaHeight = mediaWrapRef.current?.offsetHeight || 0;
+      const vh = window.innerHeight;
 
       if (textHeight > 0 && mediaHeight > 0) {
         // La columna más corta es la que se queda fija
-        // Añadimos margen para evitar saltos visuales si son similares
-        if (textHeight < mediaHeight - 60) {
+        const isTextShorter = textHeight < mediaHeight - 60;
+        const isMediaShorter = mediaHeight < textHeight - 60;
+
+        if (isTextShorter) {
           setStickySide("left");
-        } else if (mediaHeight < textHeight - 60) {
+          // Calculamos offset para que el sticky sea al final del contenido:
+          // top = vh - height - margin
+          const offset = Math.max(108, vh - textHeight - 40);
+          setStickyOffset(offset);
+        } else if (isMediaShorter) {
           setStickySide("right");
+          const offset = Math.max(108, vh - mediaHeight - 40);
+          setStickyOffset(offset);
         } else {
           setStickySide(null);
         }
@@ -296,6 +306,7 @@ const CaseStudyPost = () => {
                     textHtml={textHtml}
                     mediaHtml={mediaHtml}
                     stickySide={stickySide}
+                    stickyOffset={stickyOffset}
                     textLabel={ui.textCol}
                     mediaLabel={ui.mediaCol}
                     textWrapRef={textWrapRef}
