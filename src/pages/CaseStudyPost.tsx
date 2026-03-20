@@ -169,63 +169,9 @@ const CaseStudyPost = () => {
     ]
   };
 
-  // Refs necesarias por CaseStudyColumns (para sticky y medidas)
+  // Refs necesarias por CaseStudyColumns (para medidas si fuera el caso)
   const textWrapRef = React.useRef<HTMLElement | null>(null);
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
-
-  // --- Lógica para Sticky Column ---
-  const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
-  const [stickyOffset, setStickyOffset] = React.useState<number>(108);
-
-  React.useEffect(() => {
-    const updateStickySide = () => {
-      if (window.innerWidth < 1024) {
-        setStickySide(null);
-        return;
-      }
-
-      const textHeight = textWrapRef.current?.offsetHeight || 0;
-      const mediaHeight = mediaWrapRef.current?.offsetHeight || 0;
-      const vh = window.innerHeight;
-
-      if (textHeight > 0 && mediaHeight > 0) {
-        // La columna más corta es la que se queda fija
-        const isTextShorter = textHeight < mediaHeight - 60;
-        const isMediaShorter = mediaHeight < textHeight - 60;
-
-        if (isTextShorter) {
-          setStickySide("left");
-          // Calculamos offset para que el sticky sea al final del contenido:
-          // top = vh - height - margin
-          const offset = Math.max(108, vh - textHeight - 40);
-          setStickyOffset(offset);
-        } else if (isMediaShorter) {
-          setStickySide("right");
-          const offset = Math.max(108, vh - mediaHeight - 40);
-          setStickyOffset(offset);
-        } else {
-          setStickySide(null);
-        }
-      }
-    };
-
-    // Usar ResizeObserver para detectar cambios de altura reales (ej. carga de imágenes)
-    const observer = new ResizeObserver(updateStickySide);
-    
-    if (textWrapRef.current) observer.observe(textWrapRef.current);
-    if (mediaWrapRef.current) observer.observe(mediaWrapRef.current);
-    
-    window.addEventListener("resize", updateStickySide);
-    
-    // Ejecución inicial con delay por si acaso
-    const timer = setTimeout(updateStickySide, 300);
-    
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", updateStickySide);
-      clearTimeout(timer);
-    };
-  }, [slug, lang, textHtml, mediaHtml]);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -305,8 +251,6 @@ const CaseStudyPost = () => {
                     loading={loading}
                     textHtml={textHtml}
                     mediaHtml={mediaHtml}
-                    stickySide={stickySide}
-                    stickyOffset={stickyOffset}
                     textLabel={ui.textCol}
                     mediaLabel={ui.mediaCol}
                     textWrapRef={textWrapRef}

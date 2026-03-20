@@ -7,8 +7,6 @@ type CaseStudyColumnsProps = {
   loading: boolean;
   textHtml: string;
   mediaHtml: string;
-  stickySide: "left" | "right" | null;
-  stickyOffset?: number;
   textLabel: string;
   mediaLabel: string;
   textWrapRef: React.RefObject<HTMLElement | null>;
@@ -19,8 +17,6 @@ const CaseStudyColumns = ({
   loading,
   textHtml,
   mediaHtml,
-  stickySide,
-  stickyOffset = 108,
   textLabel,
   mediaLabel,
   textWrapRef,
@@ -30,8 +26,7 @@ const CaseStudyColumns = ({
     <section className="grid lg:grid-cols-[1fr_420px] gap-6 lg:gap-8 items-start">
       <article
         ref={textWrapRef}
-        className={`wp-post self-start ${stickySide === "left" ? "lg:sticky" : ""}`}
-        style={stickySide === "left" ? { top: `${stickyOffset}px` } : undefined}
+        className="wp-post self-start lg:sticky lg:top-[100px]"
       >
         <div className="flex items-center justify-between gap-4 mb-5">
           <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
@@ -55,11 +50,10 @@ const CaseStudyColumns = ({
         )}
       </article>
 
-      <aside className="self-start">
+      <aside className="self-start lg:sticky lg:top-[100px]">
         <div
           ref={mediaWrapRef}
-          className={`wp-media ${stickySide === "right" ? "lg:sticky" : ""}`}
-          style={stickySide === "right" ? { top: `${stickyOffset}px` } : undefined}
+          className="wp-media"
         >
           <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-5">
             {mediaLabel}
@@ -80,4 +74,4 @@ const CaseStudyColumns = ({
   );
 };
 
-export default CaseStudyColumns;
+export default CaseStudyColumns;
