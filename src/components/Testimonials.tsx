@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
@@ -8,6 +8,12 @@ import MouseParallax from "@/components/MouseParallax";
 
 const Testimonials = () => {
   const { lang } = useI18n();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   const copy =
     lang === "es"
@@ -133,6 +139,7 @@ const Testimonials = () => {
   ];
   const toTitleCase = (str: string) =>
     str.replace(/\b\w+/g, (w) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
+  
   const derived = avatarFiles.map((file) => {
     const base = file.replace(/\.[^/.]+$/, "").replace(/-/g, " ");
     return {
@@ -140,18 +147,75 @@ const Testimonials = () => {
       avatar: `/assets/testimonials/${file}`,
     };
   });
+
   const items = copy.testimonials.map((t, i) => ({
     ...t,
     ...(derived[i] || {}),
   }));
 
   // Duplicar items para scroll infinito suave
-  const duplicatedItems = [...items, ...items];
+  // Triplicar para asegurar que el scroll-snap y el loop manual funcionen bien
+  const duplicatedItems = [...items, ...items, ...items];
 
-  const prefersReduced =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Dragging logic
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    setStartX(e.pageX - (scrollContainerRef.current?.offsetLeft || 0));
+    setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
+    setIsPaused(true);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
+    const walk = (x - startX) * 2; // Velocidad de drag
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  const handleMouseLeave = () => {
+    if (isDragging) setIsDragging(false);
+    setIsPaused(false);
+  };
+
+  useEffect(() => {
+    if (isPaused || isDragging) return;
+
+    const scrollContainer = scrollContainerRef.current;
+    if (!scrollContainer) return;
+
+    let animationFrameId: number;
+    const scrollSpeed = 0.5; // Ajustable para los 40s sugeridos
+
+    const scroll = () => {
+      if (scrollContainer) {
+        scrollContainer.scrollLeft += scrollSpeed;
+        
+        // Loop infinito manual: si llegamos a 2/3, volvemos a 1/3
+        const maxScroll = scrollContainer.scrollWidth / 3;
+        if (scrollContainer.scrollLeft >= maxScroll * 2) {
+          scrollContainer.scrollLeft = maxScroll;
+        }
+      }
+      animationFrameId = requestAnimationFrame(scroll);
+    };
+
+    animationFrameId = requestAnimationFrame(scroll);
+    
+    // Posición inicial: empezar en el medio para el loop
+    if (scrollContainer.scrollLeft === 0) {
+      scrollContainer.scrollLeft = scrollContainer.scrollWidth / 3;
+    }
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isPaused, isDragging]);
 
   return (
     <section className="kin-section relative overflow-hidden">
@@ -168,15 +232,29 @@ const Testimonials = () => {
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
           className="relative kin-fade-x"
         >
-          <div className="overflow-hidden">
+          <div 
+            ref={scrollContainerRef}
+            className={`overflow-x-auto no-scrollbar scroll-smooth flex ${isDragging ? "cursor-grabbing" : "cursor-grab"} select-none`}
+            style={{ 
+              scrollSnapType: isDragging ? 'none' : 'x mandatory',
+              WebkitOverflowScrolling: 'touch'
+            }}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseOver={() => setIsPaused(true)}
+          >
             <div 
-              className={`flex gap-8 py-4 ${prefersReduced ? "" : "animate-marquee-testimonials pause-on-hover"} w-max`}
-              style={{ '--marquee-duration': '40s' } as React.CSSProperties}
+              ref={trackRef}
+              className="flex gap-8 py-4 w-max"
             >
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0"
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 scroll-snap-align-start"
+                  style={{ scrollSnapAlign: 'start' }}
                 >
                   <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                     <motion.div
@@ -184,7 +262,7 @@ const Testimonials = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: (i % 3) * 0.08 }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-none"
                     >
                       <div className="flex gap-1 mb-6" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
