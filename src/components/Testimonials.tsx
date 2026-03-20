@@ -10,7 +10,10 @@ const Testimonials = () => {
   const { lang } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isPaused, setIsPaused] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Usamos una ref para evitar re-renders innecesarios durante la animación
+  const isInteractingRef = useRef(false);
+  const rafIdRef = useRef<number | null>(null);
 
   const copy =
     lang === "es"
@@ -125,23 +128,59 @@ const Testimonials = () => {
           ],
         };
 
+  // Triplicamos para un loop infinito muy suave y con margen para drag
   const items = copy.testimonials;
-  const duplicatedItems = [...items, ...items];
-
-  // Sincronización: pausar animación al interactuar
-  const handleInteraction = () => {
-    setIsPaused(true);
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => {
-      setIsPaused(false);
-    }, 3000); // 3 segundos de inactividad
-  };
+  const duplicatedItems = [...items, ...items, ...items];
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    let lastTime = 0;
+    const speed = 40; // Pixeles por segundo
+
+    const animate = (time: number) => {
+      if (!lastTime) lastTime = time;
+      const deltaTime = (time - lastTime) / 1000;
+      lastTime = time;
+
+      if (!isInteractingRef.current && !isPaused) {
+        container.scrollLeft += speed * deltaTime;
+
+        // Bucle Infinito de Scroll: Teletransporte invisible
+        const sectionWidth = container.scrollWidth / 3;
+        if (container.scrollLeft >= sectionWidth * 2) {
+          container.scrollLeft -= sectionWidth;
+        } else if (container.scrollLeft <= 0) {
+          container.scrollLeft += sectionWidth;
+        }
+      }
+
+      rafIdRef.current = requestAnimationFrame(animate);
     };
-  }, []);
+
+    rafIdRef.current = requestAnimationFrame(animate);
+
+    // Posición inicial en el centro del set
+    container.scrollLeft = container.scrollWidth / 3;
+
+    return () => {
+      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    };
+  }, [isPaused]); // Solo depende de isPaused para el hover react
+
+  // Handlers de Interacción para pausa manual
+  const onInteractionStart = () => {
+    isInteractingRef.current = true;
+    setIsPaused(true);
+  };
+  const onInteractionEnd = () => {
+    isInteractingRef.current = false;
+    // Damos un pequeño respiro antes de reanudar la animación automática
+    setTimeout(() => {
+      if (!isInteractingRef.current) setIsPaused(false);
+    }, 1500);
+  };
 
   return (
     <section className="kin-section relative overflow-hidden">
@@ -158,28 +197,26 @@ const Testimonials = () => {
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
           className="relative kin-fade-x"
         >
-          {/* Contenedor con Scroll Nativo y Ocultación de Scrollbar */}
+          {/* Contenedor de Scroll Nativo con Animación JS */}
           <div 
             ref={scrollContainerRef}
-            onScroll={handleInteraction}
-            onMouseDown={handleInteraction}
-            onTouchStart={handleInteraction}
-            className="overflow-x-auto no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onMouseDown={onInteractionStart}
+            onMouseUp={onInteractionEnd}
+            onTouchStart={onInteractionStart}
+            onTouchEnd={onInteractionEnd}
+            className="overflow-x-auto no-scrollbar scroll-smooth flex select-none cursor-grab active:cursor-grabbing"
             style={{ 
-              scrollSnapType: 'x mandatory',
+              scrollSnapType: isInteractingRef.current ? 'none' : 'x mandatory',
               WebkitOverflowScrolling: 'touch',
               scrollbarWidth: 'none',
-              msOverflowStyle: 'none'
+              msOverflowStyle: 'none',
+              // Aseguramos que no haya transiciones CSS de transform interfiriendo
             }}
           >
-            {/* CSS Marquee Track que se pausa mediante clase condicional o inline style */}
-            <div 
-              className={`flex gap-8 py-4 w-max ${isPaused ? "" : "animate-marquee-testimonials"}`}
-              style={{ 
-                '--marquee-duration': '40s',
-                animationPlayState: isPaused ? 'paused' : 'running'
-              } as React.CSSProperties}
-            >
+            {/* El track simplemente contiene los elementos, el movimiento es por scrollLeft del padre */}
+            <div className="flex gap-8 py-4 w-max">
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
@@ -195,14 +232,14 @@ const Testimonials = () => {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: (i % 3) * 0.08 }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-none"
                     >
                       <div className="flex gap-1 mb-6" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}
                       </div>
-                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed select-none">
+                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
                         "{t.content}"
                       </p>
                       <div className="mt-auto flex items-center gap-4">
