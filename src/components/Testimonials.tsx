@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
@@ -8,12 +8,16 @@ import MouseParallax from "@/components/MouseParallax";
 
 const Testimonials = () => {
   const { lang } = useI18n();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
+  const [dragStartX, setDragStartX] = useState(0);
+  const [initialTranslate, setInitialTranslate] = useState(0);
+  const [currentTranslate, setCurrentTranslate] = useState(0);
+  const [animationDelay, setAnimationDelay] = useState(0);
+  const [useAnimation, setUseAnimation] = useState(true);
+
+  // Stats for loop logic
+  const DURATION = 40; // seconds
 
   const copy =
     lang === "es"
@@ -153,69 +157,76 @@ const Testimonials = () => {
     ...(derived[i] || {}),
   }));
 
-  // Duplicar items para scroll infinito suave
-  // Triplicar para asegurar que el scroll-snap y el loop manual funcionen bien
-  const duplicatedItems = [...items, ...items, ...items];
+  const duplicatedItems = [...items, ...items];
 
-  // Dragging logic
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const getTranslateX = () => {
+    if (!trackRef.current) return 0;
+    const style = window.getComputedStyle(trackRef.current);
+    const matrix = new WebKitCSSMatrix(style.transform);
+    return matrix.m41;
+  };
+
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
     setIsDragging(true);
-    setStartX(e.pageX - (scrollContainerRef.current?.offsetLeft || 0));
-    setScrollLeft(scrollContainerRef.current?.scrollLeft || 0);
-    setIsPaused(true);
+    setUseAnimation(false);
+    
+    const currentX = getTranslateX();
+    setInitialTranslate(currentX);
+    setCurrentTranslate(currentX);
+    setDragStartX(pageX);
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = useCallback((e: MouseEvent | TouchEvent) => {
     if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - (scrollContainerRef.current?.offsetLeft || 0);
-    const walk = (x - startX) * 2; // Velocidad de drag
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-    }
-  };
+    const pageX = 'touches' in e ? e.touches[0].pageX : e.pageX;
+    const walk = (pageX - dragStartX);
+    
+    // Calcular nueva posición con loop manual durante el drag
+    let newTranslate = initialTranslate + walk;
+    const trackWidth = trackRef.current?.scrollWidth || 0;
+    const halfWidth = trackWidth / 2;
+    
+    if (newTranslate > 0) newTranslate -= halfWidth;
+    if (newTranslate < -halfWidth) newTranslate += halfWidth;
+    
+    setCurrentTranslate(newTranslate);
+  }, [isDragging, dragStartX, initialTranslate]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
+    if (!isDragging) return;
     setIsDragging(false);
-    setIsPaused(false);
-  };
-
-  const handleMouseLeave = () => {
-    if (isDragging) setIsDragging(false);
-    setIsPaused(false);
-  };
+    
+    // Calcular el delay para que la animación CSS empiece desde donde dejamos el drag
+    if (trackRef.current) {
+      const trackWidth = trackRef.current.scrollWidth || 0;
+      const halfWidth = trackWidth / 2;
+      const percentage = Math.abs(currentTranslate % halfWidth) / halfWidth;
+      setAnimationDelay(-(percentage * DURATION));
+    }
+    
+    setUseAnimation(true);
+  }, [isDragging, currentTranslate]);
 
   useEffect(() => {
-    if (isPaused || isDragging) return;
-
-    const scrollContainer = scrollContainerRef.current;
-    if (!scrollContainer) return;
-
-    let animationFrameId: number;
-    const scrollSpeed = 0.5; // Ajustable para los 40s sugeridos
-
-    const scroll = () => {
-      if (scrollContainer) {
-        scrollContainer.scrollLeft += scrollSpeed;
-        
-        // Loop infinito manual: si llegamos a 2/3, volvemos a 1/3
-        const maxScroll = scrollContainer.scrollWidth / 3;
-        if (scrollContainer.scrollLeft >= maxScroll * 2) {
-          scrollContainer.scrollLeft = maxScroll;
-        }
-      }
-      animationFrameId = requestAnimationFrame(scroll);
-    };
-
-    animationFrameId = requestAnimationFrame(scroll);
-    
-    // Posición inicial: empezar en el medio para el loop
-    if (scrollContainer.scrollLeft === 0) {
-      scrollContainer.scrollLeft = scrollContainer.scrollWidth / 3;
+    if (isDragging) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchmove', handleMouseMove);
+      window.addEventListener('touchend', handleMouseUp);
+    } else {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleMouseMove);
+      window.removeEventListener('touchend', handleMouseUp);
     }
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [isPaused, isDragging]);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleMouseMove);
+      window.removeEventListener('touchend', handleMouseUp);
+    };
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   return (
     <section className="kin-section relative overflow-hidden">
@@ -233,28 +244,23 @@ const Testimonials = () => {
           className="relative kin-fade-x"
         >
           <div 
-            ref={scrollContainerRef}
-            className={`overflow-x-auto no-scrollbar scroll-smooth flex ${isDragging ? "cursor-grabbing" : "cursor-grab"} select-none`}
-            style={{ 
-              scrollSnapType: isDragging ? 'none' : 'x mandatory',
-              WebkitOverflowScrolling: 'touch'
-            }}
+            className={`overflow-hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"} select-none`}
             onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseOver={() => setIsPaused(true)}
+            onTouchStart={handleMouseDown}
           >
             <div 
               ref={trackRef}
-              className="flex gap-8 py-4 w-max"
+              className={`flex gap-8 py-4 w-max ${useAnimation ? "animate-marquee-testimonials pause-on-hover" : ""}`}
+              style={{ 
+                animationDelay: `${animationDelay}s`,
+                transform: useAnimation ? undefined : `translateX(${currentTranslate}px)`,
+                animationPlayState: isDragging ? 'paused' : undefined
+              }}
             >
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 scroll-snap-align-start"
-                  style={{ scrollSnapAlign: 'start' }}
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0"
                 >
                   <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                     <motion.div
