@@ -9,11 +9,14 @@ import MouseParallax from "@/components/MouseParallax";
 const Testimonials = () => {
   const { lang } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
+  const trackRef = useRef<HTMLDivElement>(null);
   
-  // Usamos una ref para evitar re-renders innecesarios durante la animación
+  // Refs para estado de animación y drag sin causar re-renders
   const isInteractingRef = useRef(false);
+  const scrollLeftRef = useRef(0);
   const rafIdRef = useRef<number | null>(null);
+  const startXRef = useRef(0);
+  const scrollStartRef = useRef(0);
 
   const copy =
     lang === "es"
@@ -128,32 +131,32 @@ const Testimonials = () => {
           ],
         };
 
-  // Triplicamos para un loop infinito muy suave y con margen para drag
+  // Duplicamos el contenido para el efecto bucle infinito
   const items = copy.testimonials;
-  const duplicatedItems = [...items, ...items, ...items];
+  const duplicatedItems = [...items, ...items];
 
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
     let lastTime = 0;
-    const speed = 40; // Pixeles por segundo
+    const speed = 60; // Pixeles por segundo
 
     const animate = (time: number) => {
       if (!lastTime) lastTime = time;
       const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
 
-      if (!isInteractingRef.current && !isPaused) {
-        container.scrollLeft += speed * deltaTime;
-
-        // Bucle Infinito de Scroll: Teletransporte invisible
-        const sectionWidth = container.scrollWidth / 3;
-        if (container.scrollLeft >= sectionWidth * 2) {
-          container.scrollLeft -= sectionWidth;
-        } else if (container.scrollLeft <= 0) {
-          container.scrollLeft += sectionWidth;
+      if (!isInteractingRef.current) {
+        scrollLeftRef.current += speed * deltaTime;
+        
+        // Lógica de Bucle: ancho original
+        const originalWidth = container.scrollWidth / 2;
+        if (scrollLeftRef.current >= originalWidth) {
+          scrollLeftRef.current = 0;
         }
+        
+        container.scrollLeft = scrollLeftRef.current;
       }
 
       rafIdRef.current = requestAnimationFrame(animate);
@@ -161,31 +164,41 @@ const Testimonials = () => {
 
     rafIdRef.current = requestAnimationFrame(animate);
 
-    // Posición inicial en el centro del set
-    container.scrollLeft = container.scrollWidth / 3;
-
     return () => {
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
-  }, [isPaused]); // Solo depende de isPaused para el hover react
+  }, []);
 
-  // Handlers de Interacción para pausa manual
-  const onInteractionStart = () => {
+  // Handlers de Drag Manual (Copia del comportamiento de Stripe/Framer)
+  const handleMouseDown = (e: React.MouseEvent) => {
     isInteractingRef.current = true;
-    setIsPaused(true);
+    startXRef.current = e.pageX - scrollContainerRef.current!.offsetLeft;
+    scrollStartRef.current = scrollContainerRef.current!.scrollLeft;
   };
-  const onInteractionEnd = () => {
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isInteractingRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current!.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5; // multiplicador de sensibilidad
+    scrollLeftRef.current = scrollStartRef.current - walk;
+    
+    // Mantener dentro del bucle durante el drag
+    const originalWidth = scrollContainerRef.current!.scrollWidth / 2;
+    if (scrollLeftRef.current < 0) scrollLeftRef.current += originalWidth;
+    if (scrollLeftRef.current >= originalWidth) scrollLeftRef.current -= originalWidth;
+    
+    scrollContainerRef.current!.scrollLeft = scrollLeftRef.current;
+  };
+
+  const stopInteraction = () => {
     isInteractingRef.current = false;
-    // Damos un pequeño respiro antes de reanudar la animación automática
-    setTimeout(() => {
-      if (!isInteractingRef.current) setIsPaused(false);
-    }, 1500);
   };
 
   return (
-    <section className="kin-section relative overflow-hidden">
-      <div className="kin-container">
-        <div className="text-center mb-12 sm:mb-16">
+    <section className="kin-section relative overflow-hidden pointer-events-auto">
+      <div className="kin-container pointer-events-auto">
+        <div className="text-center mb-12 sm:mb-16 pointer-events-none">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
             {copy.title.toUpperCase().replace(/\.$/, "")}
           </h2>
@@ -195,60 +208,51 @@ const Testimonials = () => {
         <div 
           role="region" 
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
-          className="relative kin-fade-x"
+          className="relative kin-fade-x pointer-events-auto"
         >
-          {/* Contenedor de Scroll Nativo con Animación JS */}
+          {/* Contenedor Maestro: No Scroll Nativo, Todo JS */}
           <div 
             ref={scrollContainerRef}
-            onMouseEnter={() => setIsPaused(true)}
-            onMouseLeave={() => setIsPaused(false)}
-            onMouseDown={onInteractionStart}
-            onMouseUp={onInteractionEnd}
-            onTouchStart={onInteractionStart}
-            onTouchEnd={onInteractionEnd}
-            className="overflow-x-auto no-scrollbar scroll-smooth flex select-none cursor-grab active:cursor-grabbing"
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={stopInteraction}
+            onMouseLeave={stopInteraction}
+            onMouseEnter={() => (isInteractingRef.current = true)}
+            onMouseOut={() => { if(!startXRef.current) isInteractingRef.current = false }}
+            className="overflow-hidden whitespace-nowrap flex cursor-grab active:cursor-grabbing select-none hover:pause-on-hover pointer-events-auto"
             style={{ 
-              scrollSnapType: isInteractingRef.current ? 'none' : 'x mandatory',
-              WebkitOverflowScrolling: 'touch',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-              // Aseguramos que no haya transiciones CSS de transform interfiriendo
+              display: 'flex',
+              touchAction: 'pan-y'
             }}
           >
-            {/* El track simplemente contiene los elementos, el movimiento es por scrollLeft del padre */}
-            <div className="flex gap-8 py-4 w-max">
+            {/* Track de testimonios */}
+            <div ref={trackRef} className="flex gap-8 py-4 w-max pointer-events-auto">
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0"
-                  style={{ 
-                    scrollSnapAlign: 'start',
-                    scrollSnapStop: 'normal' 
-                  }}
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-auto"
                 >
-                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
+                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-auto">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: (i % 3) * 0.08 }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-none"
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto"
                     >
-                      <div className="flex gap-1 mb-6" aria-hidden="true">
+                      <div className="flex gap-1 mb-6 pointer-events-none" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}
                       </div>
-                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed">
+                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed pointer-events-none whitespace-normal">
                         "{t.content}"
                       </p>
-                      <div className="mt-auto flex items-center gap-4">
+                      <div className="mt-auto flex items-center gap-4 pointer-events-none">
                         <img
                           src={t.avatar}
                           alt={t.name}
                           className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
-                          loading="lazy"
-                          decoding="async"
                           width={48}
                           height={48}
                         />
