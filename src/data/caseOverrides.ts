@@ -26,8 +26,9 @@ export const caseContentOverrides: Record<
       "<h2>Resultados de un Liderazgo Continuado</h2>",
       "<p>El éxito sostenido de Elixir Games confirma el valor de una dirección creativa impecable. Durante estos 3 años, logramos hitos que han redefinido el mercado:</p>",
       "<ul>",
-      "<li><strong>Ventas realizadas:</strong> +14 Millones de Dólares</li>",
+      "<li><strong>Ronda Semilla Total Cerrada:</strong> +14 Millones de Dólares</li>",
       "<li><strong>Impacto Orgánico:</strong> +5,1 Millones de visualizaciones</li>",
+      "<li><strong>Usuarios Únicos Registrados:</strong> +500.000</li>",
       "</ul>",
     ].join(""),
     esMediaHtml: [
@@ -54,8 +55,9 @@ export const caseContentOverrides: Record<
       "<h2>Results of Continued Leadership</h2>",
       "<p>Elixir Games' sustained success confirms the value of flawless creative direction. Over these 3 years, we achieved milestones that have redefined the market:</p>",
       "<ul>",
-      "<li><strong>Sales:</strong> +$14 Million</li>",
+      "<li><strong>Total Seed Round Closed:</strong> +$14 Million</li>",
       "<li><strong>Organic Reach:</strong> +5.1 Million views</li>",
+      "<li><strong>Unique Registered Users:</strong> +500,000</li>",
       "</ul>",
     ].join(""),
     enMediaHtml: [
