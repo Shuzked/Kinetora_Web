@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
@@ -8,6 +8,9 @@ import MouseParallax from "@/components/MouseParallax";
 
 const Testimonials = () => {
   const { lang } = useI18n();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const copy =
     lang === "es"
@@ -125,9 +128,24 @@ const Testimonials = () => {
   const items = copy.testimonials;
   const duplicatedItems = [...items, ...items];
 
+  // Sincronización: pausar animación al interactuar
+  const handleInteraction = () => {
+    setIsPaused(true);
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 3000); // 3 segundos de inactividad
+  };
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   return (
     <section className="kin-section relative overflow-hidden">
-      <div className="kin-container pointer-events-auto">
+      <div className="kin-container">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
             {copy.title.toUpperCase().replace(/\.$/, "")}
@@ -138,51 +156,55 @@ const Testimonials = () => {
         <div 
           role="region" 
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
-          className="relative kin-fade-x pointer-events-auto"
+          className="relative kin-fade-x"
         >
-          {/* Contenedor Principal con Scroll Nativo */}
+          {/* Contenedor con Scroll Nativo y Ocultación de Scrollbar */}
           <div 
-            className="overflow-x-auto no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing pointer-events-auto"
+            ref={scrollContainerRef}
+            onScroll={handleInteraction}
+            onMouseDown={handleInteraction}
+            onTouchStart={handleInteraction}
+            className="overflow-x-auto no-scrollbar scroll-smooth cursor-grab active:cursor-grabbing"
             style={{ 
               scrollSnapType: 'x mandatory',
-              WebkitOverflowScrolling: 'touch'
+              WebkitOverflowScrolling: 'touch',
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none'
             }}
           >
-            {/* Track Animado con CSS Puro */}
+            {/* CSS Marquee Track que se pausa mediante clase condicional o inline style */}
             <div 
-              className="flex gap-8 py-4 w-max animate-marquee-testimonials hover:pause-on-hover pointer-events-auto"
-              style={{ '--marquee-duration': '40s' } as React.CSSProperties}
+              className={`flex gap-8 py-4 w-max ${isPaused ? "" : "animate-marquee-testimonials"}`}
+              style={{ 
+                '--marquee-duration': '40s',
+                animationPlayState: isPaused ? 'paused' : 'running'
+              } as React.CSSProperties}
             >
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-auto"
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0"
                   style={{ 
                     scrollSnapAlign: 'start',
                     scrollSnapStop: 'normal' 
                   }}
                 >
-                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-auto">
+                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: (i % 3) * 0.08 }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto"
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col"
                     >
-                      {/* Cabecera: Estrellas */}
                       <div className="flex gap-1 mb-6" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}
                       </div>
-
-                      {/* Contenido */}
                       <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed select-none">
                         "{t.content}"
                       </p>
-
-                      {/* Autor */}
                       <div className="mt-auto flex items-center gap-4">
                         <img
                           src={t.avatar}
