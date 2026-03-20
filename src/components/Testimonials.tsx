@@ -9,14 +9,17 @@ import MouseParallax from "@/components/MouseParallax";
 const Testimonials = () => {
   const { lang } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
   
-  // Refs para estado de animación y drag sin causar re-renders
-  const isInteractingRef = useRef(false);
+  // Refs para estado de animación y drag sin causar re-renders excesivos
+  const isPausedRef = useRef(false);
+  const isDownRef = useRef(false);
   const scrollLeftRef = useRef(0);
   const rafIdRef = useRef<number | null>(null);
   const startXRef = useRef(0);
   const scrollStartRef = useRef(0);
+
+  // Estado para feedback visual del cursor
+  const [isGrabbing, setIsGrabbing] = useState(false);
 
   const copy =
     lang === "es"
@@ -147,13 +150,14 @@ const Testimonials = () => {
       const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
 
-      if (!isInteractingRef.current) {
+      // El movimiento automático solo ocurre si no se está pausado por hover/drag
+      if (!isPausedRef.current && !isDownRef.current) {
         scrollLeftRef.current += speed * deltaTime;
         
         // Lógica de Bucle: ancho original
         const originalWidth = container.scrollWidth / 2;
         if (scrollLeftRef.current >= originalWidth) {
-          scrollLeftRef.current = 0;
+          scrollLeftRef.current -= originalWidth;
         }
         
         container.scrollLeft = scrollLeftRef.current;
@@ -169,21 +173,24 @@ const Testimonials = () => {
     };
   }, []);
 
-  // Handlers de Drag Manual (Copia del comportamiento de Stripe/Framer)
+  // Handlers de Drag Manual ("True Drag-to-Scroll")
   const handleMouseDown = (e: React.MouseEvent) => {
-    isInteractingRef.current = true;
+    isDownRef.current = true;
+    setIsGrabbing(true);
     startXRef.current = e.pageX - scrollContainerRef.current!.offsetLeft;
     scrollStartRef.current = scrollContainerRef.current!.scrollLeft;
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isInteractingRef.current) return;
+    // Si NO está pulsado, el movimiento manual se bloquea por completo
+    if (!isDownRef.current) return;
+    
     e.preventDefault();
     const x = e.pageX - scrollContainerRef.current!.offsetLeft;
     const walk = (x - startXRef.current) * 1.5; // multiplicador de sensibilidad
     scrollLeftRef.current = scrollStartRef.current - walk;
     
-    // Mantener dentro del bucle durante el drag
+    // Mantener dentro del bucle elásticamente durante el drag
     const originalWidth = scrollContainerRef.current!.scrollWidth / 2;
     if (scrollLeftRef.current < 0) scrollLeftRef.current += originalWidth;
     if (scrollLeftRef.current >= originalWidth) scrollLeftRef.current -= originalWidth;
@@ -191,8 +198,15 @@ const Testimonials = () => {
     scrollContainerRef.current!.scrollLeft = scrollLeftRef.current;
   };
 
-  const stopInteraction = () => {
-    isInteractingRef.current = false;
+  const handleMouseUp = () => {
+    isDownRef.current = false;
+    setIsGrabbing(false);
+  };
+
+  const handleMouseLeave = () => {
+    isDownRef.current = false;
+    isPausedRef.current = false;
+    setIsGrabbing(false);
   };
 
   return (
@@ -215,18 +229,18 @@ const Testimonials = () => {
             ref={scrollContainerRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
-            onMouseUp={stopInteraction}
-            onMouseLeave={stopInteraction}
-            onMouseEnter={() => (isInteractingRef.current = true)}
-            onMouseOut={() => { if(!startXRef.current) isInteractingRef.current = false }}
-            className="overflow-hidden whitespace-nowrap flex cursor-grab active:cursor-grabbing select-none hover:pause-on-hover pointer-events-auto"
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => (isPausedRef.current = true)}
+            onMouseOut={() => { if(!isDownRef.current) isPausedRef.current = false; }}
+            className={`overflow-hidden whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{ 
               display: 'flex',
               touchAction: 'pan-y'
             }}
           >
-            {/* Track de testimonios */}
-            <div ref={trackRef} className="flex gap-8 py-4 w-max pointer-events-auto">
+            {/* Track de testimonios con Cards */}
+            <div className="flex gap-8 py-4 w-max pointer-events-auto">
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
@@ -240,14 +254,19 @@ const Testimonials = () => {
                       transition={{ delay: (i % 3) * 0.08 }}
                       className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto"
                     >
+                      {/* Cabecera */}
                       <div className="flex gap-1 mb-6 pointer-events-none" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}
                       </div>
-                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed pointer-events-none whitespace-normal">
+
+                      {/* Contenido */}
+                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed select-none pointer-events-none whitespace-normal">
                         "{t.content}"
                       </p>
+
+                      {/* Footer */}
                       <div className="mt-auto flex items-center gap-4 pointer-events-none">
                         <img
                           src={t.avatar}
