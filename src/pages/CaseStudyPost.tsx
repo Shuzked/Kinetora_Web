@@ -169,9 +169,48 @@ const CaseStudyPost = () => {
     ]
   };
 
-  // Refs necesarias por CaseStudyColumns (para medidas si fuera el caso)
+  // Refs necesarias por CaseStudyColumns (para sticky y medidas)
   const textWrapRef = React.useRef<HTMLElement | null>(null);
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
+
+  // --- Lógica para Sticky Column ---
+  const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
+
+  React.useEffect(() => {
+    const updateStickySide = () => {
+      if (window.innerWidth < 1024) {
+        setStickySide(null);
+        return;
+      }
+
+      const textHeight = textWrapRef.current?.offsetHeight || 0;
+      const mediaHeight = mediaWrapRef.current?.offsetHeight || 0;
+
+      if (textHeight > 0 && mediaHeight > 0) {
+        // La columna más corta es la que se queda fija
+        if (textHeight < mediaHeight - 60) {
+          setStickySide("left");
+        } else if (mediaHeight < textHeight - 60) {
+          setStickySide("right");
+        } else {
+          setStickySide(null);
+        }
+      }
+    };
+
+    const observer = new ResizeObserver(updateStickySide);
+    if (textWrapRef.current) observer.observe(textWrapRef.current);
+    if (mediaWrapRef.current) observer.observe(mediaWrapRef.current);
+    
+    window.addEventListener("resize", updateStickySide);
+    const timer = setTimeout(updateStickySide, 300);
+    
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateStickySide);
+      clearTimeout(timer);
+    };
+  }, [slug, lang, textHtml, mediaHtml]);
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -251,6 +290,7 @@ const CaseStudyPost = () => {
                     loading={loading}
                     textHtml={textHtml}
                     mediaHtml={mediaHtml}
+                    stickySide={stickySide}
                     textLabel={ui.textCol}
                     mediaLabel={ui.mediaCol}
                     textWrapRef={textWrapRef}
