@@ -10,7 +10,7 @@ const Testimonials = () => {
   const { lang } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // Refs para estado de animación y drag sin causar re-renders excesivos
+  // Refs para estado de animación y drag
   const isPausedRef = useRef(false);
   const isDownRef = useRef(false);
   const scrollLeftRef = useRef(0);
@@ -66,7 +66,7 @@ const Testimonials = () => {
               name: "Victor Merino",
               role: "CTO @ BUU AI",
               content:
-                "En el mundo de la IA todo cambia muy rápido y necesitas partners que no solo sigan el ritmo, sino que propongan. Con Kinetora la comunicación fluye de verdad y técnicamente están a un nivel altísimo. Da mucha tranquilidad delegar partes críticas del desarrollo en gente que sabe tanto de lo suyo.",
+                "En el mundo de la IA todo cambia muy rápido y necesitas partners que no solo sigan el ritmo, sino que proponen. Con Kinetora la comunicación fluye de verdad y técnicamente están a un nivel altísimo. Da mucha tranquilidad delegar partes críticas del desarrollo en gente que sabe tanto de lo suyo.",
               avatar: "/assets/testimonials/victor-merino.webp",
             },
             {
@@ -134,9 +134,7 @@ const Testimonials = () => {
           ],
         };
 
-  // Duplicamos el contenido para el efecto bucle infinito
-  const items = copy.testimonials;
-  const duplicatedItems = [...items, ...items];
+  const duplicatedItems = [...copy.testimonials, ...copy.testimonials];
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -150,11 +148,10 @@ const Testimonials = () => {
       const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
 
-      // El movimiento automático solo ocurre si no se está pausado por hover/drag
+      // El movimiento solo ocurre si NO se está pausado por hover Y NO se está moviendo manualmente
       if (!isPausedRef.current && !isDownRef.current) {
         scrollLeftRef.current += speed * deltaTime;
         
-        // Lógica de Bucle: ancho original
         const originalWidth = container.scrollWidth / 2;
         if (scrollLeftRef.current >= originalWidth) {
           scrollLeftRef.current -= originalWidth;
@@ -173,7 +170,7 @@ const Testimonials = () => {
     };
   }, []);
 
-  // Handlers de Drag Manual ("True Drag-to-Scroll")
+  // Handlers de Drag
   const handleMouseDown = (e: React.MouseEvent) => {
     isDownRef.current = true;
     setIsGrabbing(true);
@@ -182,15 +179,13 @@ const Testimonials = () => {
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    // Si NO está pulsado, el movimiento manual se bloquea por completo
     if (!isDownRef.current) return;
     
     e.preventDefault();
     const x = e.pageX - scrollContainerRef.current!.offsetLeft;
-    const walk = (x - startXRef.current) * 1.5; // multiplicador de sensibilidad
+    const walk = (x - startXRef.current) * 1.5;
     scrollLeftRef.current = scrollStartRef.current - walk;
     
-    // Mantener dentro del bucle elásticamente durante el drag
     const originalWidth = scrollContainerRef.current!.scrollWidth / 2;
     if (scrollLeftRef.current < 0) scrollLeftRef.current += originalWidth;
     if (scrollLeftRef.current >= originalWidth) scrollLeftRef.current -= originalWidth;
@@ -198,14 +193,8 @@ const Testimonials = () => {
     scrollContainerRef.current!.scrollLeft = scrollLeftRef.current;
   };
 
-  const handleMouseUp = () => {
+  const stopInteraction = () => {
     isDownRef.current = false;
-    setIsGrabbing(false);
-  };
-
-  const handleMouseLeave = () => {
-    isDownRef.current = false;
-    isPausedRef.current = false;
     setIsGrabbing(false);
   };
 
@@ -219,54 +208,52 @@ const Testimonials = () => {
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
 
+        {/* Zona de Interacción Definida por el Usuario: Parent de todo el track */}
         <div 
           role="region" 
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
           className="relative kin-fade-x pointer-events-auto"
+          onMouseEnter={() => (isPausedRef.current = true)}
+          onMouseLeave={() => {
+            isPausedRef.current = false;
+            stopInteraction(); // Por si el usuario sale del area mientras draguea
+          }}
         >
-          {/* Contenedor Maestro: No Scroll Nativo, Todo JS */}
+          {/* Contenedor de Scroll */}
           <div 
             ref={scrollContainerRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onMouseEnter={() => (isPausedRef.current = true)}
-            onMouseOut={() => { if(!isDownRef.current) isPausedRef.current = false; }}
+            onMouseUp={stopInteraction}
             className={`overflow-hidden whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{ 
               display: 'flex',
-              touchAction: 'pan-y'
+              touchAction: 'pan-y',
+              pointerEvents: 'auto'
             }}
           >
-            {/* Track de testimonios con Cards */}
-            <div className="flex gap-8 py-4 w-max pointer-events-auto">
+            <div className="flex gap-8 py-4 w-max pointer-events-none">
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-auto"
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-none"
                 >
-                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-auto">
+                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-none">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: (i % 3) * 0.08 }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto"
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-none"
                     >
-                      {/* Cabecera */}
                       <div className="flex gap-1 mb-6 pointer-events-none" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}
                       </div>
-
-                      {/* Contenido */}
                       <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed select-none pointer-events-none whitespace-normal">
                         "{t.content}"
                       </p>
-
-                      {/* Footer */}
                       <div className="mt-auto flex items-center gap-4 pointer-events-none">
                         <img
                           src={t.avatar}
