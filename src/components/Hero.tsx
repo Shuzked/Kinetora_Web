@@ -74,7 +74,7 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0D0D0D]"
+      className="relative overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col"
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
@@ -91,7 +91,7 @@ const Hero = () => {
 
       <div className="kin-container">
         <div
-          className="relative z-10 min-h-[calc(100vh-68px)] md:min-h-[calc(100vh-88px)] flex flex-col items-center justify-center text-center"
+          className="relative z-10 flex-1 min-h-[100dvh] flex flex-col items-center justify-center text-center"
         >
           <h1
             className="text-3xl sm:text-5xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-5 sm:mb-7 tracking-tighter uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 overflow-visible"
