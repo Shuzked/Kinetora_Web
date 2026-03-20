@@ -397,4 +397,22 @@
       rgba(0,0,0,0) 100%
     );
   }
+
+  .kin-fade-x {
+    --kin-fade-size: 80px; 
+    -webkit-mask-image: linear-gradient(
+      to right,
+      rgba(0,0,0,0) 0,
+      rgba(0,0,0,1) var(--kin-fade-size),
+      rgba(0,0,0,1) calc(100% - var(--kin-fade-size)),
+      rgba(0,0,0,0) 100%
+    );
+    mask-image: linear-gradient(
+      to right,
+      rgba(0,0,0,0) 0,
+      rgba(0,0,0,1) var(--kin-fade-size),
+      rgba(0,0,0,1) calc(100% - var(--kin-fade-size)),
+      rgba(0,0,0,0) 100%
+    );
+  }
 }

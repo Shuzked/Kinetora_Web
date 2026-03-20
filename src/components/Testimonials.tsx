@@ -166,15 +166,11 @@ const Testimonials = () => {
         <div 
           role="region" 
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
-          className="relative"
+          className="relative kin-fade-x"
         >
-          {/* Fades laterales para visual suave */}
-          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#0D0D0D] to-transparent z-10 pointer-events-none" />
-          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#0D0D0D] to-transparent z-10 pointer-events-none" />
-          
           <div className="overflow-hidden">
             <div 
-              className={`flex gap-6 py-4 ${prefersReduced ? "" : "animate-marquee-testimonials pause-on-hover"} w-max`}
+              className={`flex gap-8 py-4 ${prefersReduced ? "" : "animate-marquee-testimonials pause-on-hover"} w-max`}
               style={{ '--marquee-duration': '40s' } as React.CSSProperties}
             >
               {duplicatedItems.map((t, i) => (
