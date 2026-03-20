@@ -32,7 +32,6 @@ export const caseContentOverrides: Record<
       "</ul>",
     ].join(""),
     esMediaHtml: [
-      '<figure class="wp-block-image"><img src="/assets/portfolio/elixir-games.jpg" alt="ELIXIR GAMES — Evolución Visual y Crecimiento" loading="lazy" /></figure>',
       '<figure class="wp-block-image"><img src="/assets/cases/elixir-games/ux-reimagined.png" alt="ELIXIR GAMES — Interfaz de Usuario y Experiencia de Aplicación" loading="lazy" /></figure>',
       '<figure class="wp-block-image"><img src="/assets/cases/elixir-games/kbw-event.png" alt="ELIXIR GAMES — Evento Korean Blockchain Week y Networking" loading="lazy" /></figure>',
       '<figure class="wp-block-image"><img src="/assets/cases/elixir-games/hoodie-design.png" alt="ELIXIR GAMES — Diseño de Merchandising y Ropa Oficial" loading="lazy" /></figure>',
@@ -82,7 +81,6 @@ export const caseContentOverrides: Record<
       "</ul>",
     ].join(""),
     enMediaHtml: [
-      '<figure class="wp-block-image"><img src="/assets/portfolio/elixir-games.jpg" alt="ELIXIR GAMES — Visual Evolution and Growth" loading="lazy" /></figure>',
       '<figure class="wp-block-image"><img src="/assets/cases/elixir-games/ux-reimagined.png" alt="ELIXIR GAMES — User Interface and Application Experience" loading="lazy" /></figure>',
       '<figure class="wp-block-image"><img src="/assets/cases/elixir-games/kbw-event.png" alt="ELIXIR GAMES — Korean Blockchain Week Event & Networking" loading="lazy" /></figure>',
       '<figure class="wp-block-image"><img src="/assets/cases/elixir-games/hoodie-design.png" alt="ELIXIR GAMES — Official Merchandise and Apparel Design" loading="lazy" /></figure>',
