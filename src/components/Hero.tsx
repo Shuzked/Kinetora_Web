@@ -77,24 +77,16 @@ const Hero = () => {
       className="relative overflow-hidden bg-[#0D0D0D]"
     >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute inset-0">
-          <ImageWithSkeleton
-            src="/assets/hero/hero-kinetora-bg.webp"
-            alt=""
-            loading="eager"
-            fetchPriority="high"
-            width={1920}
-            height={1080}
-            srcSet="/assets/hero/hero-kinetora-bg-mobile.webp 600w, /assets/hero/hero-kinetora-bg.webp 1920w"
-            sizes="100vw"
-            containerClassName="h-full w-full"
-            skeletonClassName="bg-white/5"
-            className="h-full w-full object-cover object-center filter brightness-[0.45]"
-          />
+        {/* Animated Liquid Aura */}
+        <div className="liquid-bg-container">
+          <div className="liquid-blob blob-purple" />
+          <div className="liquid-blob blob-blue" />
+          <div className="liquid-blob blob-coral" />
         </div>
 
-        <div className="absolute inset-0 bg-black/60 md:bg-black/50" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.82)_100%)]" />
+        {/* Visibility Layer */}
+        <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
       </div>
 
       <div className="kin-container">
