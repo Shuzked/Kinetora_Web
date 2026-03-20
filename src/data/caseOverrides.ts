@@ -330,8 +330,8 @@ export const caseContentOverrides: Record<
     ].join(""),
     esMediaHtml: [
       '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/BsNW-a8h96Q?si=khApu-RFQsst2eJC" title="CYBERTITANS CLASH — Tráiler de actualización" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
-      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lobby-banner.webp" alt="CYBERTITANS CLASH — Banner de lobby" loading="lazy" /></figure>',
-      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lateral-banner.webp" alt="CYBERTITANS CLASH — Banner lateral" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/Clash_lobby_banner.png" alt="CYBERTITANS CLASH — Banner de lobby" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/Clash_lateral_banner.png" alt="CYBERTITANS CLASH — Banner lateral" loading="lazy" /></figure>',
     ].join(""),
     enTextHtml: [
       "<p>Updating a video game demands strong visual impact. Presenting a new game mode is a major challenge—one that requires a solid Web3 Marketing strategy. LitLab Games entrusted our agency once again to launch their new update. The \"Clash\" mode was built to revolutionize gameplay and keep the world in constant evolution.</p>",
@@ -354,8 +354,8 @@ export const caseContentOverrides: Record<
     ].join(""),
     enMediaHtml: [
       '<figure class="wp-block-embed"><iframe class="wp-embed" src="https://www.youtube.com/embed/BsNW-a8h96Q?si=khApu-RFQsst2eJC" title="CYBERTITANS CLASH — Tráiler de actualización" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></figure>',
-      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lobby-banner.webp" alt="CYBERTITANS CLASH — Banner de lobby" loading="lazy" /></figure>',
-      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/clash-lateral-banner.webp" alt="CYBERTITANS CLASH — Banner lateral" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/Clash_lobby_banner.png" alt="CYBERTITANS CLASH — Banner de lobby" loading="lazy" /></figure>',
+      '<figure class="wp-block-image"><img src="/assets/cases/cybertitans-clash/Clash_lateral_banner.png" alt="CYBERTITANS CLASH — Banner lateral" loading="lazy" /></figure>',
     ].join(""),
   },
 
