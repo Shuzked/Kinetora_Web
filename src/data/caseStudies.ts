@@ -23,6 +23,25 @@ export type CaseStudy = {
 
 export const caseStudies: CaseStudy[] = [
   {
+    slug: "elixir-games",
+    sourceUrl: "https://kinetora.tech/elixir-games/",
+    label: "ELIXIR GAMES",
+    labelEn: "ELIXIR GAMES",
+    title: "ECOSISTEMA GLOBAL & LIDERAZGO WEB3",
+    titleEn: "GLOBAL ECOSYSTEM & WEB3 LEADERSHIP",
+    summaryFallback: "Evolución de Producto & Crecimiento Masivo",
+    summaryFallbackEn: "Product Evolution & Massive Growth",
+    coverAlt: "Elixir Games Evolution",
+    coverAltEn: "Elixir Games Evolution",
+    coverImage: "/assets/portfolio/elixir-games.jpg",
+    highlightFallback: "Dirección Creativa Integral (2023-2026)",
+    highlightFallbackEn: "Comprehensive Creative Direction (2023-2026)",
+    accent: "purple",
+    metricLabel: "Ventas realizadas",
+    metricLabelEn: "Sales",
+    metricValue: "+$14M",
+  },
+  {
     slug: "dunk-low-elixir-edition",
     sourceUrl: "https://kinetora.tech/dunk-low-elixir-edition/",
     label: "DUNK LOW ELIXIR",
