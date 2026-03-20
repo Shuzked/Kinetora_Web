@@ -5,18 +5,9 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
-import {
-  type CarouselApi,
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
 
 const Testimonials = () => {
   const { lang } = useI18n();
-  const [api, setApi] = React.useState<CarouselApi>();
 
   const copy =
     lang === "es"
@@ -154,29 +145,17 @@ const Testimonials = () => {
     ...(derived[i] || {}),
   }));
 
+  // Duplicar items para scroll infinito suave
+  const duplicatedItems = [...items, ...items];
+
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const isMobile =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(max-width: 767px)").matches;
-  const off = prefersReduced || isMobile;
-
-  React.useEffect(() => {
-    if (!api || prefersReduced) return;
-
-    const autoplay = window.setInterval(() => {
-      api.scrollNext();
-    }, 5000);
-
-    return () => window.clearInterval(autoplay);
-  }, [api, prefersReduced]);
 
   return (
     <section className="kin-section relative overflow-hidden">
-      <div className="kin-container">
+      <div className="kin-container overflow-hidden">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
             {copy.title.toUpperCase().replace(/\.$/, "")}
@@ -184,14 +163,28 @@ const Testimonials = () => {
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
 
-        <div role="region" aria-roledescription="carousel" aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}>
-          <Carousel opts={{ align: "start", loop: true }} setApi={setApi} className="relative">
-            <CarouselContent className="-ml-4">
-              {items.map((t, i) => (
-                <CarouselItem key={i} className="pl-4 basis-full sm:basis-1/2 lg:basis-1/3">
+        <div 
+          role="region" 
+          aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
+          className="relative"
+        >
+          {/* Fades laterales para visual suave */}
+          <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-[#0D0D0D] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-[#0D0D0D] to-transparent z-10 pointer-events-none" />
+          
+          <div className="overflow-hidden">
+            <div 
+              className={`flex gap-6 py-4 ${prefersReduced ? "" : "animate-marquee-testimonials pause-on-hover"} w-max`}
+              style={{ '--marquee-duration': '40s' } as React.CSSProperties}
+            >
+              {duplicatedItems.map((t, i) => (
+                <div 
+                  key={i} 
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0"
+                >
                   <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform">
                     <motion.div
-                      initial={{ opacity: 0, y: off ? 0 : 20 }}
+                      initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: (i % 3) * 0.08 }}
@@ -222,20 +215,10 @@ const Testimonials = () => {
                       </div>
                     </motion.div>
                   </MouseParallax>
-                </CarouselItem>
+                </div>
               ))}
-            </CarouselContent>
-            <CarouselPrevious
-              className="hidden sm:inline-flex -left-4 md:-left-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
-              aria-label={lang === "es" ? "Anterior" : "Previous"}
-              title={lang === "es" ? "Anterior" : "Previous"}
-            />
-            <CarouselNext
-              className="hidden sm:inline-flex -right-4 md:-right-6 h-11 w-11 rounded-full border border-white/10 bg-[#0D0D0D]/80 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20"
-              aria-label={lang === "es" ? "Siguiente" : "Next"}
-              title={lang === "es" ? "Siguiente" : "Next"}
-            />
-          </Carousel>
+            </div>
+          </div>
         </div>
       </div>
     </section>

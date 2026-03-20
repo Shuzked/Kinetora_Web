@@ -320,6 +320,19 @@
   }
 }
 
+@keyframes marquee-testimonials {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee-testimonials {
+  animation: marquee-testimonials var(--marquee-duration, 50s) linear infinite;
+}
+
+.pause-on-hover:hover {
+  animation-play-state: paused;
+}
+
 @keyframes pulse-slow {
   0%, 100% {
     opacity: 1;
