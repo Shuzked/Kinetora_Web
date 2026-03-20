@@ -66,7 +66,7 @@ const Testimonials = () => {
               name: "Victor Merino",
               role: "CTO @ BUU AI",
               content:
-                "En el mundo de la IA todo cambia muy rápido y necesitas partners que no solo sigan el ritmo, sino que proponen. Con Kinetora la comunicación fluye de verdad y técnicamente están a un nivel altísimo. Da mucha tranquilidad delegar partes críticas del desarrollo en gente que sabe tanto de lo suyo.",
+                "En el mundo de la IA todo cambia muy rápido y necesitas partners que no solo sigan el ritmo, sino que propongan. Con Kinetora la comunicación fluye de verdad y técnicamente están a un nivel altísimo. Da mucha tranquilidad delegar partes críticas del desarrollo en gente que sabe tanto de lo suyo.",
               avatar: "/assets/testimonials/victor-merino.webp",
             },
             {
@@ -208,7 +208,6 @@ const Testimonials = () => {
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
 
-        {/* Zona de Interacción Definida por el Usuario: Parent de todo el track */}
         <div 
           role="region" 
           aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
@@ -216,7 +215,7 @@ const Testimonials = () => {
           onMouseEnter={() => (isPausedRef.current = true)}
           onMouseLeave={() => {
             isPausedRef.current = false;
-            stopInteraction(); // Por si el usuario sale del area mientras draguea
+            stopInteraction();
           }}
         >
           {/* Contenedor de Scroll */}
@@ -232,28 +231,47 @@ const Testimonials = () => {
               pointerEvents: 'auto'
             }}
           >
-            <div className="flex gap-8 py-4 w-max pointer-events-none">
+            <div className="flex gap-8 py-10 w-max pointer-events-auto">
               {duplicatedItems.map((t, i) => (
                 <div 
                   key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-none"
+                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-auto"
                 >
-                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-none">
+                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-auto">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
+                      whileHover={{ 
+                        y: -8, 
+                        scale: 1.02, 
+                        zIndex: 10,
+                        boxShadow: "0 10px 30px rgba(168, 85, 247, 0.15)",
+                        borderColor: "rgba(255, 255, 255, 0.2)"
+                      }}
                       viewport={{ once: true }}
-                      transition={{ delay: (i % 3) * 0.08 }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:border-white/15 hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-none"
+                      transition={{ 
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 25,
+                        delay: (i % 3) * 0.08,
+                        y: { duration: 0.3 },
+                        scale: { duration: 0.3 }
+                      }}
+                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto cursor-default"
                     >
+                      {/* Cabecera */}
                       <div className="flex gap-1 mb-6 pointer-events-none" aria-hidden="true">
                         {[...Array(5)].map((_, idx) => (
                           <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
                         ))}
                       </div>
+
+                      {/* Contenido */}
                       <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed select-none pointer-events-none whitespace-normal">
                         "{t.content}"
                       </p>
+
+                      {/* Footer */}
                       <div className="mt-auto flex items-center gap-4 pointer-events-none">
                         <img
                           src={t.avatar}
