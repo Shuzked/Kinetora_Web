@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 // New Components
 import TaskList, { type Task, type TaskStatus, type TaskPriority, type TaskHistoryEntry } from "@/components/portal/TaskList";
@@ -64,7 +65,6 @@ const PortalDashboard = () => {
   const handleUpdateTask = (taskId: number, updates: Partial<Task>, historyEntry?: Omit<TaskHistoryEntry, 'id' | 'createdAt'>) => {
     setTasks(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
     
-    // Si la tarea seleccionada es la que se está editando, actualizamos también el estado local del drawer
     if (selectedTask?.id === taskId) {
         setSelectedTask(prev => prev ? { ...prev, ...updates } : null);
     }
@@ -72,9 +72,17 @@ const PortalDashboard = () => {
     console.log("Auditoría registrada:", historyEntry);
   };
 
-  const handleCreateTask = (data: { title: string; description: string; priority: TaskPriority; deadline_requested: string; drive_links: string }) => {
+  const handleCreateTask = async (data: { 
+    title: string; 
+    description: string; 
+    priority: TaskPriority; 
+    deadline_requested: string; 
+    drive_links: string;
+    files: File[] 
+  }) => {
+    const taskId = tasks.length + 1;
     const newTask: Task = {
-        id: tasks.length + 1,
+        id: taskId,
         title: data.title,
         description: data.description,
         status: 'OPEN',
@@ -83,8 +91,34 @@ const PortalDashboard = () => {
         drive_links: data.drive_links,
         created_at: new Date().toISOString(),
     };
+
+    // Subida de archivos al servidor Node.js
+    if (data.files.length > 0) {
+        const formData = new FormData();
+        data.files.forEach(file => formData.append("files", file));
+        formData.append("userId", "1"); // En un entorno real, ID de la sesión
+        formData.append("taskId", taskId.toString());
+
+        try {
+            const response = await fetch("http://localhost:3001/api/portal/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                toast.success("Archivos subidos correctamente");
+            } else {
+                toast.error("Error al subir los archivos");
+            }
+        } catch (error) {
+            console.error("Upload error:", error);
+            toast.error("No se pudo conectar con el servidor de archivos");
+        }
+    }
+
     setTasks(prev => [newTask, ...prev]);
     setIsNewTaskModalOpen(false);
+    toast.success("Petición lanzada con éxito");
   };
 
   const filteredTasks = tasks.filter(task => 

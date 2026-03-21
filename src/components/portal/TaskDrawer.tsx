@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { 
   X, 
   Clock, 
@@ -6,22 +6,27 @@ import {
   MessageSquare, 
   Paperclip, 
   MoreVertical,
-  Trash2,
-  CheckCircle2,
   ExternalLink,
   Save,
   History,
-  AlertCircle
+  AlertCircle,
+  Send
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import type { Task, TaskPriority, TaskStatus, TaskHistoryEntry } from "./TaskList";
+import { io, Socket } from "socket.io-client";
+
+interface Comment {
+    taskId: number;
+    text: string;
+    sender: string;
+    timestamp: string;
+}
 
 interface TaskDrawerProps {
   task: Task | null;
@@ -34,6 +39,35 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
   const [editedTask, setEditedTask] = useState<Partial<Task>>({});
   const [activeTab, setActiveTab] = useState<'details' | 'comments' | 'history'>('details');
   const [isEditing, setIsEditing] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [newComment, setNewComment] = useState("");
+  const socketRef = useRef<Socket | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Initialize socket connection
+  useEffect(() => {
+    if (isOpen && task) {
+      // En un entorno real, la URL vendría de una variable de entorno
+      socketRef.current = io("http://localhost:3001");
+      
+      socketRef.current.emit("join-task", task.id);
+
+      socketRef.current.on("new-comment", (comment: Comment) => {
+        setComments(prev => [...prev, comment]);
+      });
+
+      return () => {
+        socketRef.current?.disconnect();
+      };
+    }
+  }, [isOpen, task?.id]);
+
+  // Auto-scroll to bottom of comments
+  useEffect(() => {
+    if (activeTab === 'comments' && scrollRef.current) {
+        scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [comments, activeTab]);
 
   // Initialize editing state
   useEffect(() => {
@@ -46,16 +80,38 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
         drive_links: task.drive_links,
       });
       setIsEditing(false);
+      // Reset comments for the new task
+      setComments([
+        { 
+            taskId: task.id, 
+            text: "Hola John, estamos revisando la estructura y el plazo solicitado parece correcto. Confirmaremos en breve.", 
+            sender: "Kinetora Tech", 
+            timestamp: new Date().toISOString() 
+        }
+      ]);
     }
   }, [task]);
 
   if (!task) return null;
 
+  const handleSendComment = () => {
+    if (!newComment.trim() || !socketRef.current) return;
+
+    const data: Comment = {
+        taskId: task.id,
+        text: newComment,
+        sender: "Cliente", // En un entorno real, vendría de la sesión del usuario
+        timestamp: new Date().toISOString()
+    };
+
+    socketRef.current.emit("send-comment", data);
+    setNewComment("");
+  };
+
   const handleSave = () => {
     const changes: Partial<Task> = {};
     const historyEntries: Omit<TaskHistoryEntry, 'id' | 'createdAt'>[] = [];
 
-    // Detect changes and build history
     if (editedTask.title !== task.title) {
         changes.title = editedTask.title;
         historyEntries.push({ taskId: task.id, changedBy: "Cliente", changeType: "content", oldValue: task.title, newValue: editedTask.title! });
@@ -78,8 +134,7 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
     }
 
     if (Object.keys(changes).length > 0) {
-        // En un escenario real enviaríamos estos cambios a la DB
-        onUpdate(task.id, changes, historyEntries[0]); // Por simplicidad pasamos el primer cambio o podrías pasar el array
+        onUpdate(task.id, changes, historyEntries[0]);
         setIsEditing(false);
     }
   };
@@ -174,7 +229,6 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
               <div className="p-8 space-y-10">
                 {activeTab === 'details' && (
                   <>
-                    {/* Title & Description */}
                     <div className="space-y-6">
                         <div className="space-y-2">
                             <label className="text-[10px] font-black text-[#B454FF] uppercase tracking-widest ml-1">Título de la Petición</label>
@@ -206,7 +260,6 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                         </div>
                     </div>
 
-                    {/* Metadata Grid */}
                     <div className="grid grid-cols-2 gap-4">
                         <div className="p-5 bg-white/[0.02] rounded-2xl border border-white/5 space-y-3">
                             <span className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] block">Prioridad</span>
@@ -287,36 +340,64 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                 )}
 
                 {activeTab === 'comments' && (
-                    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-400">
-                        <div className="flex items-center gap-3 p-4 bg-orange-500/5 rounded-2xl border border-orange-500/10">
+                    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-400 h-full flex flex-col">
+                        <div className="flex items-center gap-3 p-4 bg-orange-500/5 rounded-2xl border border-orange-500/10 shrink-0">
                             <AlertCircle className="w-5 h-5 text-orange-400" />
                             <p className="text-[11px] font-bold text-orange-400/80 uppercase tracking-widest leading-relaxed">
                                 Utiliza este chat para solicitar cambios o consensuar plazos con el equipo de Kinetora.
                             </p>
                         </div>
                         
-                        {/* Fake Comment Feed */}
-                        <div className="space-y-6">
-                            <div className="flex gap-4">
-                                <div className="w-8 h-8 rounded-full bg-[#B454FF] flex items-center justify-center shrink-0">
-                                    <span className="text-[10px] font-black text-white">K</span>
-                                </div>
-                                <div className="bg-white/[0.03] p-4 rounded-2xl rounded-tl-none border border-white/5 max-w-[85%]">
-                                    <p className="text-xs text-white/80 leading-relaxed font-medium">
-                                        Hola John, estamos revisando la estructura y el plazo solicitado parece correcto. Confirmaremos en breve.
-                                    </p>
-                                    <span className="text-[9px] font-bold text-white/20 mt-2 block">Kinetora Tech • 14:20</span>
-                                </div>
-                            </div>
+                        <div className="space-y-6 flex-1">
+                            {comments.map((comment, index) => (
+                                <motion.div 
+                                    initial={{ opacity: 0, x: comment.sender === "Cliente" ? 10 : -10 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    key={index} 
+                                    className={cn("flex gap-4", comment.sender === "Cliente" ? "flex-row-reverse" : "")}
+                                >
+                                    <div className={cn(
+                                        "w-8 h-8 rounded-full flex items-center justify-center shrink-0",
+                                        comment.sender === "Cliente" ? "bg-white/10" : "bg-[#B454FF]"
+                                    )}>
+                                        <span className="text-[10px] font-black text-white">{comment.sender[0]}</span>
+                                    </div>
+                                    <div className={cn(
+                                        "p-4 rounded-2xl border border-white/5 max-w-[85%]",
+                                        comment.sender === "Cliente" ? "bg-white/[0.05] rounded-tr-none" : "bg-[#B454FF]/5 rounded-tl-none border-[#B454FF]/10"
+                                    )}>
+                                        <p className="text-xs text-white/80 leading-relaxed font-medium">
+                                            {comment.text}
+                                        </p>
+                                        <div className="flex items-center gap-2 mt-2">
+                                            <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">
+                                                {comment.sender} • {new Date(comment.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                            <div ref={scrollRef} />
                         </div>
 
-                        <div className="relative pt-10">
+                        <div className="relative pt-6 shrink-0">
                             <Textarea 
                                 placeholder="Escribe un mensaje..."
-                                className="bg-[#1A1A1A] border-white/10 rounded-2xl p-6 min-h-[120px] focus:border-[#B454FF]/30 transition-all text-sm"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        handleSendComment();
+                                    }
+                                }}
+                                className="bg-[#1A1A1A] border-white/10 rounded-2xl p-6 min-h-[100px] focus:border-[#B454FF]/40 transition-all text-sm pr-16"
                             />
-                            <Button className="absolute bottom-4 right-4 bg-white hover:bg-white/90 text-black font-black text-[10px] uppercase tracking-widest px-6 rounded-xl">
-                                Enviar
+                            <Button 
+                                onClick={handleSendComment}
+                                className="absolute bottom-4 right-4 bg-[#B454FF] hover:bg-[#A342FF] text-white w-10 h-10 rounded-xl shadow-lg flex items-center justify-center p-0"
+                            >
+                                <Send className="w-4 h-4" />
                             </Button>
                         </div>
                     </div>
@@ -334,7 +415,7 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                                         <div className="bg-white/[0.02] p-5 rounded-2xl border border-white/5 space-y-3 transition-colors hover:border-white/10">
                                             <div className="flex justify-between items-center">
                                                 <span className="text-[10px] font-black text-[#B454FF] uppercase tracking-widest">Cambio de Estado</span>
-                                                <span className="text-[9px] font-bold text-white/20">21 MAR, 23:30</span>
+                                                <span className="text-[9px] font-bold text-white/20">21 MAR, {23 - i}:30</span>
                                             </div>
                                             <p className="text-xs text-white/60 font-medium">
                                                 <span className="text-white">Cliente</span> cambió el estado de <span className="line-through opacity-40">OPEN</span> a <span className="text-[#B454FF]">IN SPRINT</span>

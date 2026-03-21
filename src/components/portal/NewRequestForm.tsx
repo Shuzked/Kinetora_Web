@@ -57,6 +57,10 @@ const NewRequestForm: React.FC<NewRequestFormProps> = ({ onSubmit, onCancel }) =
     }
   };
 
+  const removeFile = (index: number) => {
+    setFiles(prev => prev.filter((_, i) => i !== index));
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-8 p-1">
         <div className="space-y-6">
@@ -153,6 +157,7 @@ const NewRequestForm: React.FC<NewRequestFormProps> = ({ onSubmit, onCancel }) =
                     <input 
                         type="file" 
                         multiple 
+                        ref={fileInputRef}
                         onChange={handleFileChange}
                         className="absolute inset-0 opacity-0 cursor-pointer z-20"
                     />
@@ -174,9 +179,16 @@ const NewRequestForm: React.FC<NewRequestFormProps> = ({ onSubmit, onCancel }) =
                         className="flex flex-wrap gap-2 pt-2"
                     >
                         {files.map((file, i) => (
-                            <Badge key={i} variant="secondary" className="bg-[#B454FF]/10 text-[#B454FF] border border-[#B454FF]/20 px-3 py-1.5 rounded-lg flex gap-2 items-center">
+                            <Badge key={i} variant="secondary" className="bg-[#B454FF]/10 text-[#B454FF] border border-[#B454FF]/20 px-3 py-1.5 rounded-lg flex gap-2 items-center group relative overflow-hidden">
                                 <FileText className="w-3 h-3" />
-                                <span className="text-[10px] font-bold">{file.name}</span>
+                                <span className="text-[10px] font-bold truncate max-w-[150px]">{file.name}</span>
+                                <button 
+                                    type="button"
+                                    onClick={() => removeFile(i)}
+                                    className="hover:text-red-400 p-0.5 transition-colors"
+                                >
+                                    <X className="w-3 h-3" />
+                                </button>
                             </Badge>
                         ))}
                     </motion.div>

@@ -18,6 +18,7 @@ import PortalLogin from "./pages/portal/PortalLogin";
 import ProtectedRoute from "./components/portal/ProtectedRoute";
 import PortalLayout from "./components/portal/PortalLayout";
 import BillingView from "./components/portal/BillingView";
+import Deliverables from "./pages/portal/Deliverables";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -66,12 +67,7 @@ const App = () => (
                 <Route index element={<Navigate to="/portal/dashboard" replace />} />
                 <Route path="dashboard" element={<PortalDashboard />} />
                 <Route path="billing" element={<BillingView />} />
-                <Route path="entregables" element={
-                  <div className="py-20 text-center">
-                    <h2 className="text-4xl font-black uppercase tracking-tighter">Mis Entregables</h2>
-                    <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
-                  </div>
-                } />
+                <Route path="entregables" element={<Deliverables />} />
                 <Route path="settings" element={
                   <div className="py-20 text-center">
                     <h2 className="text-4xl font-black uppercase tracking-tighter">Ajustes</h2>
