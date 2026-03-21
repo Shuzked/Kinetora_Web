@@ -59,17 +59,17 @@ const Sidebar = () => {
   return (
     <aside className="fixed left-0 top-0 h-screen w-64 bg-[#0D0D0D]/40 backdrop-blur-2xl border-r border-white/5 flex flex-col py-10 px-6 z-50">
       {/* Brand & User */}
-      <div className="flex flex-col items-center mb-12">
-        <div className="relative group mb-4">
-          <div className="absolute -inset-1 bg-gradient-to-r from-[#B454FF] to-[#8A2BE2] rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-          <Avatar className="w-20 h-20 border-2 border-white/10 ring-4 ring-black/40 relative">
+      <Link to="/portal/settings" className="flex flex-col items-center mb-12 group/avatar">
+        <div className="relative mb-4">
+          <div className="absolute -inset-1 bg-gradient-to-r from-[#B454FF] to-[#8A2BE2] rounded-full blur opacity-20 group-hover/avatar:opacity-60 transition duration-500"></div>
+          <Avatar className="w-20 h-20 border-2 border-white/10 ring-4 ring-black/40 relative transition-transform duration-500 group-hover/avatar:scale-105">
             <AvatarImage src="/assets/logo.svg" className="p-4" />
             <AvatarFallback className="bg-[#1A1A1A] text-white font-bold">JD</AvatarFallback>
           </Avatar>
         </div>
-        <h3 className="text-white font-bold tracking-tight text-lg mb-0.5">{MOCK_USER.name}</h3>
+        <h3 className="text-white font-bold tracking-tight text-lg mb-0.5 group-hover/avatar:text-[#B454FF] transition-colors">{MOCK_USER.name}</h3>
         <p className="text-white/40 text-[10px] uppercase font-black tracking-widest">Plan {MOCK_USER.plan}</p>
-      </div>
+      </Link>
 
       {/* Subscription Progress */}
       <div className="mb-12 px-2">
