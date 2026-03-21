@@ -31,19 +31,19 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
   ...props
 }) => {
   const base =
-    "inline-flex items-center justify-center gap-2 font-bold uppercase tracking-[0.18em] md:tracking-[0.24em] rounded-xl transition-all duration-200 cubic-bezier(0.4, 0, 0.2, 1) focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.97]";
+    "inline-flex items-center justify-center gap-2 font-black uppercase tracking-[0.18em] md:tracking-[0.24em] rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]";
 
   const variants: Record<NonNullable<PremiumButtonProps["variant"]>, string> = {
     primary:
       "text-white bg-[#B454FF] border border-white/10 " +
-      "shadow-[0_2px_8px_rgba(180,84,255,0.25),0_1px_2px_rgba(0,0,0,0.1)] hover:brightness-110",
+      "shadow-[0_12px_44px_rgba(180,84,255,0.22)] hover:bg-[#A74CFF] hover:shadow-[0_16px_54px_rgba(180,84,255,0.30)]",
     glass:
-      "text-[#F5F5F5] bg-white/10 border border-white/15 backdrop-blur-xl hover:bg-white/15 " +
-      "shadow-[0_4px_12px_rgba(0,0,0,0.1),0_2px_4px_rgba(0,0,0,0.05)]",
-    outline: "text-[#F5F5F5] border border-[#B454FF] hover:bg-[#B454FF]/10",
+      "text-[#F5F5F5] bg-white/10 border border-white/15 backdrop-blur-xl hover:bg-white/14 " +
+      "shadow-[0_6px_24px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]",
+    outline: "text-[#F5F5F5] border border-white/15 hover:bg-white/5",
     white:
       "text-[#0D0D0D] bg-white border border-white/10 " +
-      "shadow-[0_4px_12px_rgba(255,255,255,0.1),0_2px_4px_rgba(0,0,0,0.05)] hover:bg-white/95",
+      "shadow-[0_12px_44px_rgba(255,255,255,0.12)] hover:bg-white/95 hover:shadow-[0_16px_54px_rgba(255,255,255,0.16)]",
   };
 
   return (

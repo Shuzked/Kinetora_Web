@@ -21,11 +21,11 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
-    { name: t("nav.services"), href: "/#servicios" },
-    { name: t("nav.method"), href: "/#como-funciona" },
+    { name: t("nav.services"), href: "#servicios" },
+    { name: t("nav.method"), href: "#como-funciona" },
     // Éxitos: scroll suave al bloque de casos en la home
-    { name: t("nav.successes"), href: "/#casos" },
-    { name: t("nav.contact"), href: "/#contacto" },
+    { name: t("nav.successes"), href: "#casos" },
+    { name: t("nav.contact"), href: "#contacto" },
   ];
 
   const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "contacto"]);
@@ -102,7 +102,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-[#F5F5F5] h-10 w-10 rounded-xl kin-touch-target"
+                  className="text-[#F5F5F5] h-10 w-10 rounded-full kin-touch-target"
                   aria-label={lang === "es" ? "Abrir menú" : "Open menu"}
                 >
                   <Menu className="w-5 h-5" />

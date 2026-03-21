@@ -3,11 +3,6 @@
 @tailwind utilities;
 
 /* Global base improvements for responsiveness */
-:root {
-  --kinetora-purple: #B454FF;
-  --kinetora-purple-dark: #9B30FF;
-}
-
 @layer base {
   html {
     /* Slightly tighter default letter spacing for better density on mobile */
@@ -109,46 +104,6 @@
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-duration: var(--marquee-duration, 55s);
-  }
-
-  /* Estilos Base Apple (Kinetora Palette) */
-  button, .btn, input[type='submit'] {
-    @apply inline-flex items-center justify-center cursor-pointer border-none outline-none;
-    padding: 12px 24px;
-    border-radius: 12px; /* iOS-style smooth radius */
-    font-weight: 600;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: var(--kinetora-purple);
-    color: #FFFFFF;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
-  }
-
-  /* Micro-interacciones: Hover */
-  button:hover, .btn:hover {
-    filter: brightness(92%);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
-  }
-
-  /* Micro-interacciones: Active (Clic) */
-  button:active, .btn:active {
-    transform: scale(0.97);
-    filter: brightness(85%);
-    transition-duration: 0.1s;
-  }
-
-  /* Secondary / Outline Variant */
-  .btn-secondary {
-    @apply bg-transparent border border-solid !important;
-    border-color: var(--kinetora-purple);
-    color: var(--kinetora-purple);
-    box-shadow: none;
-  }
-
-  .btn-secondary:hover {
-    @apply bg-[rgba(180,84,255,0.05)];
-    box-shadow: none;
-    transform: none;
   }
 
   /* WP-style post typography (case studies) */

@@ -320,7 +320,7 @@ const Contact = () => {
             <button
               type="button"
               onClick={() => setOpenModal(false)}
-              className="inline-flex h-10 items-center justify-center px-4 rounded-xl bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-all active:scale-95"
+              className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-colors"
             >
               {lang === "es" ? "Cerrar" : "Close"}
             </button>
@@ -328,7 +328,7 @@ const Contact = () => {
               href={calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center px-4 rounded-xl bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-all hover:brightness-110 active:scale-95 shadow-[0_2px_8px_rgba(180,84,255,0.25)]"
+              className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-colors"
             >
               {lang === "es" ? "Reservar reunión" : "Book a meeting"}
             </a>

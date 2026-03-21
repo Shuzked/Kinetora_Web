@@ -169,7 +169,7 @@ const Cases = () => {
                             <PremiumButton
                               variant="glass"
                               size="sm"
-                              className="w-full h-11 rounded-xl border-white/15 bg-white/5 hover:bg-white/10"
+                              className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
                               onClick={() => navigate(`/casos/${cs.slug}`)}
                               aria-label={ui.ariaReadMore(title)}
                             >

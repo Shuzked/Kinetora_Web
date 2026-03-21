@@ -242,7 +242,7 @@ const CaseStudyPost = () => {
             <div className="flex flex-col gap-7">
               <div className="flex items-center justify-between gap-4">
                 <Link to="/casos" className="inline-flex">
-                  <PremiumButton variant="glass" size="sm" className="h-11 rounded-xl">
+                  <PremiumButton variant="glass" size="sm" className="h-11 rounded-full">
                     {ui.back.toUpperCase()}
                   </PremiumButton>
                 </Link>
