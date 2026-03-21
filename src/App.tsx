@@ -12,6 +12,7 @@ import LegalNotice from "./pages/LegalNotice";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import SocialPrivacyPolicy from "./pages/SocialPrivacyPolicy";
+import PortalDashboard from "./pages/PortalDashboard";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
               <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
               <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
+              <Route path="/portal/dashboard" element={<PortalDashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
