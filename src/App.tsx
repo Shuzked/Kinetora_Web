@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import Cases from "./pages/Cases";
 import CaseStudyPost from "./pages/CaseStudyPost";
@@ -13,6 +13,10 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookiesPolicy from "./pages/CookiesPolicy";
 import SocialPrivacyPolicy from "./pages/SocialPrivacyPolicy";
 import PortalDashboard from "./pages/PortalDashboard";
+import PortalLogin from "./pages/portal/PortalLogin";
+import ProtectedRoute from "./components/portal/ProtectedRoute";
+import PortalLayout from "./components/portal/PortalLayout";
+import BillingView from "./components/portal/BillingView";
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -40,6 +44,7 @@ const App = () => (
             <ScrollProgress />
             <ScrollToTop />
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<Index />} />
               <Route path="/casos" element={<Cases />} />
               <Route path="/casos/:slug" element={<CaseStudyPost />} />
@@ -47,7 +52,58 @@ const App = () => (
               <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
               <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
               <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
-              <Route path="/portal/dashboard" element={<PortalDashboard />} />
+              
+              {/* Portal Login */}
+              <Route path="/portal/login" element={<PortalLogin />} />
+
+              {/* Protected Portal Routes */}
+              <Route path="/portal" element={
+                <ProtectedRoute>
+                  <PortalLayout>
+                    <Navigate to="/portal/dashboard" replace />
+                  </PortalLayout>
+                </ProtectedRoute>
+              } />
+              
+              <Route path="/portal/dashboard" element={
+                <ProtectedRoute>
+                  <PortalLayout>
+                    <PortalDashboard />
+                  </PortalLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/portal/billing" element={
+                <ProtectedRoute>
+                  <PortalLayout>
+                    <BillingView />
+                  </PortalLayout>
+                </ProtectedRoute>
+              } />
+
+              {/* Placeholders for other portal routes */}
+              <Route path="/portal/entregables" element={
+                <ProtectedRoute>
+                  <PortalLayout>
+                    <div className="py-20 text-center">
+                        <h2 className="text-4xl font-black uppercase tracking-tighter">Mis Entregables</h2>
+                        <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
+                    </div>
+                  </PortalLayout>
+                </ProtectedRoute>
+              } />
+
+              <Route path="/portal/settings" element={
+                <ProtectedRoute>
+                  <PortalLayout>
+                    <div className="py-20 text-center">
+                        <h2 className="text-4xl font-black uppercase tracking-tighter">Ajustes</h2>
+                        <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
+                    </div>
+                  </PortalLayout>
+                </ProtectedRoute>
+              } />
+
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
