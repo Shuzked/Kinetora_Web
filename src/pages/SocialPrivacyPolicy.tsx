@@ -98,7 +98,7 @@ const SocialPrivacyPolicy = () => {
                   className="group rounded-2xl border border-white/10 bg-white/[0.04] p-4 flex items-center justify-between hover:border-[#B454FF]/40 hover:bg-white/[0.07] transition-all duration-200"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white/50 group-hover:bg-[#B454FF]/20 group-hover:text-[#B454FF] transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-white/50 group-hover:bg-[#B454FF]/20 group-hover:text-[#B454FF] transition-colors">
                       {icon}
                     </div>
                     <div>
@@ -194,7 +194,7 @@ const SocialPrivacyPolicy = () => {
                   className="group flex items-center justify-between bg-white/[0.03] border border-white/10 rounded-2xl px-6 py-4 hover:border-[#B454FF]/40 hover:bg-white/[0.06] transition-all duration-200"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-white/50 group-hover:bg-[#B454FF]/20 group-hover:text-[#B454FF] transition-colors">
+                    <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center text-white/50 group-hover:bg-[#B454FF]/20 group-hover:text-[#B454FF] transition-colors">
                       {icon}
                     </div>
                     <span className="text-white font-semibold text-sm md:text-base">{t(nameKey)}</span>

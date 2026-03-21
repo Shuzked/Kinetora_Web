@@ -138,7 +138,7 @@ const Portfolio = () => {
                               <PremiumButton
                                 variant="glass"
                                 size="sm"
-                                className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10"
+                                className="w-full h-11 rounded-xl border-white/15 bg-white/5 hover:bg-white/10"
                                 onClick={() => navigate(`/casos/${cs.slug}`)}
                                 aria-label={ui.ariaReadMore(title)}
                               >
@@ -154,8 +154,8 @@ const Portfolio = () => {
               ))}
             </CarouselContent>
 
-            <CarouselPrevious className="-left-2 sm:-left-4 md:-left-6 h-10 w-10 sm:h-11 sm:w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" aria-label={lang === "es" ? "Anterior" : "Previous"} title={lang === "es" ? "Anterior" : "Previous"} />
-            <CarouselNext className="-right-2 sm:-right-4 md:-right-6 h-10 w-10 sm:h-11 sm:w-11 rounded-full border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20" aria-label={lang === "es" ? "Siguiente" : "Next"} title={lang === "es" ? "Siguiente" : "Next"} />
+            <CarouselPrevious className="-left-2 sm:-left-4 md:-left-6 h-10 w-10 sm:h-11 sm:w-11 rounded-xl border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20 transition-all active:scale-90" aria-label={lang === "es" ? "Anterior" : "Previous"} title={lang === "es" ? "Anterior" : "Previous"} />
+            <CarouselNext className="-right-2 sm:-right-4 md:-right-6 h-10 w-10 sm:h-11 sm:w-11 rounded-xl border border-white/10 bg-[#0D0D0D]/70 text-[#F5F5F5] hover:bg-[#0D0D0D] hover:border-white/20 transition-all active:scale-90" aria-label={lang === "es" ? "Siguiente" : "Next"} title={lang === "es" ? "Siguiente" : "Next"} />
           </Carousel>
         </div>
 

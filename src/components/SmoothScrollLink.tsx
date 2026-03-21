@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Encuentra el contenedor desplazable (window o un elemento con overflow).
@@ -59,31 +60,39 @@ type Props = {
 };
 
 const SmoothScrollLink: React.FC<Props> = ({ href, className = "", children }) => {
-  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!href.startsWith("#")) return; // Enlaces externos/rutas normales
-    e.preventDefault();
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const isHomeAnchor = href.startsWith("#") || href.startsWith("/#");
+    if (!isHomeAnchor) return; 
+    
+    e.preventDefault();
+    const anchorId = href.includes("#") ? href.split("#")[1] : "";
+    if (!anchorId) return;
+
+    // Si no estamos en la Home, navegamos a la Home con el hash
+    if (location.pathname !== "/") {
+      navigate(`/#${anchorId}`);
+      return;
+    }
+
+    // Si estamos en la Home, ejecutamos el scroll suave
     // Cerrar menú móvil si está abierto (sheet radix)
     const anySheet = document.querySelector("[data-radix-sheet-content]");
     if (anySheet) {
-      const closeBtn = anySheet.parentElement?.querySelector("button,[data-state='open']");
-      // Dispara un click fuera o cambia el estado abriendo/cerrando con el trigger si existe
       (document.activeElement as HTMLElement | null)?.blur();
-      // Forzamos cerrar con escape
       const esc = new KeyboardEvent("keydown", { key: "Escape" });
       document.dispatchEvent(esc);
-      // Pequeño delay para que cierre y no afecte al scroll
-      setTimeout(() => scrollToAnchor(), 50);
+      setTimeout(() => scrollToAnchor(anchorId), 50);
     } else {
-      scrollToAnchor();
+      scrollToAnchor(anchorId);
     }
 
-    function scrollToAnchor() {
-      const id = href.slice(1);
+    function scrollToAnchor(id: string) {
       const el = document.getElementById(id);
       if (!el) {
-        // Si no está en la página actual, navegamos por hash y dejamos al navegador
-        window.location.hash = href;
+        window.location.hash = id;
         return;
       }
 
@@ -91,11 +100,8 @@ const SmoothScrollLink: React.FC<Props> = ({ href, className = "", children }) =
       const rect = el.getBoundingClientRect();
       const absoluteY = rect.top + window.scrollY - navOffset;
 
-      // Polyfill smooth scroll
       smoothScrollTo(absoluteY, 650);
-
-      // Actualiza hash sin salto
-      history.replaceState(null, "", href);
+      window.history.replaceState(null, "", `/#${id}`);
     }
   };
 

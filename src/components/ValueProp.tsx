@@ -123,7 +123,7 @@ const ValueProp = () => {
             >
               <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
+                  <div className="w-11 h-11 rounded-xl bg-red-500/10 border border-red-500/15 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-red-300/70" />
                   </div>
                   <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
@@ -138,7 +138,7 @@ const ValueProp = () => {
               <ul className="space-y-6 sm:space-y-7">
                 {copy.left.items.map((item, i) => (
                   <li key={i} className="flex items-start gap-4">
-                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/5 border border-white/10">
+                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10">
                       <X className="w-4 h-4 text-red-300/70" />
                     </span>
                     <div>
@@ -195,7 +195,7 @@ const ValueProp = () => {
               <ul className="space-y-6 sm:space-y-7 relative z-10">
                 {copy.right.items.map((item, i) => (
                   <li key={i} className="flex items-start gap-4">
-                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#B454FF]/10 border border-[#B454FF]/20">
+                    <span className="mt-0.5 inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#B454FF]/10 border border-[#B454FF]/20">
                       <Check className="w-4 h-4 text-[#B454FF]" />
                     </span>
                     <div>
