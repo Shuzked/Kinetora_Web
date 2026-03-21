@@ -1,21 +1,11 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, 
-  MessageSquare, 
-  Clock, 
-  Play, 
-  CheckCircle2, 
-  Send,
-  LayoutDashboard,
-  Settings,
-  LogOut,
-  CreditCard,
-  Download,
-  AlertTriangle,
   Search,
-  Filter,
-  Users
+  LayoutDashboard,
+  Play,
+  AlertTriangle,
+  CheckCircle2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -24,26 +14,25 @@ import {
   DialogTrigger 
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { useI18n } from "@/i18n/I18nProvider";
 import { cn } from "@/lib/utils";
 
 // New Components
-import TaskList, { type Task, type TaskStatus } from "@/components/portal/TaskList";
+import TaskList, { type Task, type TaskStatus, type TaskPriority, type TaskHistoryEntry } from "@/components/portal/TaskList";
 import TaskDrawer from "@/components/portal/TaskDrawer";
 import NewRequestForm from "@/components/portal/NewRequestForm";
 
 // Mock Data
-const MOCK_TASKS: Task[] = [
+const INITIAL_TASKS: Task[] = [
   {
     id: 1,
     title: "Implementación de Diseño Mobile en Hero",
     description: "Ajustar los márgenes y el tamaño de fuente para dispositivos iOS y Android.",
     status: 'IN_SPRINT',
     priority: 'HIGH',
+    deadline_requested: "2024-04-15",
+    deadline_final: "2024-04-12",
+    drive_links: "https://figma.com/file/...",
     created_at: "2024-03-21T10:30:00Z",
-    comment_count: 3,
-    attachment_count: 2
   },
   {
     id: 2,
@@ -51,38 +40,52 @@ const MOCK_TASKS: Task[] = [
     description: "El validador de email no acepta dominios .tech.",
     status: 'OPEN',
     priority: 'URGENT',
+    deadline_requested: "2024-03-25",
     created_at: "2024-03-21T11:45:00Z",
-    comment_count: 0,
-    attachment_count: 1
   },
   {
     id: 3,
     title: "Optimización de Imágenes (WebP)",
     description: "Convertir todos los assets del portfolio a formato WebP para mejorar velocidad.",
     status: 'IN_REVIEW',
-    priority: 'MEDIUM',
+    priority: 'MED',
+    deadline_requested: "2024-03-30",
+    deadline_final: "2024-03-28",
     created_at: "2024-03-20T09:15:00Z",
-    comment_count: 5,
-    attachment_count: 0
   },
-  {
-    id: 4,
-    title: "Integración de Google Analytics 4",
-    description: "Configurar eventos personalizados para el seguimiento de clics en botones.",
-    status: 'DONE',
-    priority: 'LOW',
-    created_at: "2024-03-19T14:20:00Z",
-    comment_count: 2,
-    attachment_count: 1
-  }
 ];
 
 const PortalDashboard = () => {
-  const { lang } = useI18n();
-  const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
+  const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const handleUpdateTask = (taskId: number, updates: Partial<Task>, historyEntry?: Omit<TaskHistoryEntry, 'id' | 'createdAt'>) => {
+    setTasks(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
+    
+    // Si la tarea seleccionada es la que se está editando, actualizamos también el estado local del drawer
+    if (selectedTask?.id === taskId) {
+        setSelectedTask(prev => prev ? { ...prev, ...updates } : null);
+    }
+    
+    console.log("Auditoría registrada:", historyEntry);
+  };
+
+  const handleCreateTask = (data: { title: string; description: string; priority: TaskPriority; deadline_requested: string; drive_links: string }) => {
+    const newTask: Task = {
+        id: tasks.length + 1,
+        title: data.title,
+        description: data.description,
+        status: 'OPEN',
+        priority: data.priority,
+        deadline_requested: data.deadline_requested,
+        drive_links: data.drive_links,
+        created_at: new Date().toISOString(),
+    };
+    setTasks(prev => [newTask, ...prev]);
+    setIsNewTaskModalOpen(false);
+  };
 
   const filteredTasks = tasks.filter(task => 
     task.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -90,12 +93,12 @@ const PortalDashboard = () => {
 
   return (
     <div className="space-y-10">
-      {/* Header Statistics Overlay */}
+      {/* Header Statistics */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[
             { label: "Total Tareas", value: tasks.length, icon: LayoutDashboard, color: "text-[#B454FF]" },
             { label: "En SPRINT", value: tasks.filter(t => t.status === 'IN_SPRINT').length, icon: Play, color: "text-[#B454FF]" },
-            { label: "Pendiente Revisión", value: tasks.filter(t => t.status === 'IN_REVIEW').length, icon: AlertTriangle, color: "text-amber-400" },
+            { label: "Pendiente Revisión", value: tasks.filter(t => t.status === 'IN_REVIEW').length, icon: AlertTriangle, color: "text-orange-400" },
             { label: "Completado", value: tasks.filter(t => t.status === 'DONE').length, icon: CheckCircle2, color: "text-emerald-400" },
         ].map((stat, i) => (
             <div key={i} className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-sm group hover:bg-white/[0.04] transition-all">
@@ -129,10 +132,10 @@ const PortalDashboard = () => {
                     NUEVA PETICIÓN
                 </Button>
             </DialogTrigger>
-            <DialogContent className="bg-[#0D0D0D] border-white/10 text-[#F5F5F5] rounded-[2.5rem] max-w-2xl overflow-hidden shadow-2xl">
+            <DialogContent className="bg-[#0D0D0D] border-white/10 text-[#F5F5F5] p-8 rounded-[2.5rem] max-w-2xl overflow-hidden shadow-2xl">
                 <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#B454FF] via-[#8A2BE2] to-transparent" />
                 <NewRequestForm 
-                    onSubmit={() => setIsNewTaskModalOpen(false)} 
+                    onSubmit={handleCreateTask} 
                     onCancel={() => setIsNewTaskModalOpen(false)} 
                 />
             </DialogContent>
@@ -146,14 +149,12 @@ const PortalDashboard = () => {
       />
 
       {/* Interactive Side Drawer */}
-      <AnimatePresence>
-        {selectedTask && (
-            <TaskDrawer 
-                task={selectedTask} 
-                onClose={() => setSelectedTask(null)} 
-            />
-        )}
-      </AnimatePresence>
+      <TaskDrawer 
+        task={selectedTask} 
+        isOpen={!!selectedTask}
+        onClose={() => setSelectedTask(null)} 
+        onUpdate={handleUpdateTask}
+      />
     </div>
   );
 };
