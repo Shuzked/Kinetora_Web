@@ -198,6 +198,36 @@ const Testimonials = () => {
     setIsGrabbing(false);
   };
 
+  // Handlers de Touch (Móvil)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    isDownRef.current = true;
+    isPausedRef.current = true; // Pausar también en touch
+    startXRef.current = e.touches[0].pageX - scrollContainerRef.current!.offsetLeft;
+    scrollStartRef.current = scrollContainerRef.current!.scrollLeft;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDownRef.current) return;
+    
+    // Evitar scroll vertical mientras se arrastra el carrusel horizontalmente
+    e.preventDefault();
+    
+    const x = e.touches[0].pageX - scrollContainerRef.current!.offsetLeft;
+    const walk = (x - startXRef.current) * 1.5;
+    scrollLeftRef.current = scrollStartRef.current - walk;
+    
+    const originalWidth = scrollContainerRef.current!.scrollWidth / 2;
+    if (scrollLeftRef.current < 0) scrollLeftRef.current += originalWidth;
+    if (scrollLeftRef.current >= originalWidth) scrollLeftRef.current -= originalWidth;
+    
+    scrollContainerRef.current!.scrollLeft = scrollLeftRef.current;
+  };
+
+  const handleTouchEnd = () => {
+    isDownRef.current = false;
+    isPausedRef.current = false; // Reanudar al soltar
+  };
+
   return (
     <section className="kin-section relative overflow-hidden pointer-events-auto">
       <div className="kin-container pointer-events-auto">
@@ -224,11 +254,16 @@ const Testimonials = () => {
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={stopInteraction}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
             className={`overflow-hidden whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{ 
               display: 'flex',
               touchAction: 'pan-y',
-              pointerEvents: 'auto'
+              pointerEvents: 'auto',
+              WebkitOverflowScrolling: 'touch',
+              userSelect: 'none'
             }}
           >
             <div className="flex gap-8 py-10 w-max pointer-events-auto">
