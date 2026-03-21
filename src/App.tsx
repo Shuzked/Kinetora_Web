@@ -3,7 +3,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
-import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { HashRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+// ... (imports remain the same, ensure Outlet is there)
 import Index from "./pages/Index";
 import Cases from "./pages/Cases";
 import CaseStudyPost from "./pages/CaseStudyPost";
@@ -59,50 +60,25 @@ const App = () => (
               {/* Protected Portal Routes */}
               <Route path="/portal" element={
                 <ProtectedRoute>
-                  <PortalLayout>
-                    <Navigate to="/portal/dashboard" replace />
-                  </PortalLayout>
+                  <PortalLayout />
                 </ProtectedRoute>
-              } />
-              
-              <Route path="/portal/dashboard" element={
-                <ProtectedRoute>
-                  <PortalLayout>
-                    <PortalDashboard />
-                  </PortalLayout>
-                </ProtectedRoute>
-              } />
-
-              <Route path="/portal/billing" element={
-                <ProtectedRoute>
-                  <PortalLayout>
-                    <BillingView />
-                  </PortalLayout>
-                </ProtectedRoute>
-              } />
-
-              {/* Placeholders for other portal routes */}
-              <Route path="/portal/entregables" element={
-                <ProtectedRoute>
-                  <PortalLayout>
-                    <div className="py-20 text-center">
-                        <h2 className="text-4xl font-black uppercase tracking-tighter">Mis Entregables</h2>
-                        <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
-                    </div>
-                  </PortalLayout>
-                </ProtectedRoute>
-              } />
-
-              <Route path="/portal/settings" element={
-                <ProtectedRoute>
-                  <PortalLayout>
-                    <div className="py-20 text-center">
-                        <h2 className="text-4xl font-black uppercase tracking-tighter">Ajustes</h2>
-                        <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
-                    </div>
-                  </PortalLayout>
-                </ProtectedRoute>
-              } />
+              }>
+                <Route index element={<Navigate to="/portal/dashboard" replace />} />
+                <Route path="dashboard" element={<PortalDashboard />} />
+                <Route path="billing" element={<BillingView />} />
+                <Route path="entregables" element={
+                  <div className="py-20 text-center">
+                    <h2 className="text-4xl font-black uppercase tracking-tighter">Mis Entregables</h2>
+                    <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
+                  </div>
+                } />
+                <Route path="settings" element={
+                  <div className="py-20 text-center">
+                    <h2 className="text-4xl font-black uppercase tracking-tighter">Ajustes</h2>
+                    <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
+                  </div>
+                } />
+              </Route>
 
               <Route path="*" element={<NotFound />} />
             </Routes>

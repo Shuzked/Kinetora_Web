@@ -2,13 +2,9 @@ import React from "react";
 import Sidebar from "./Sidebar";
 import SEO from "@/components/SEO";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocation } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 
-interface PortalLayoutProps {
-  children: React.ReactNode;
-}
-
-const PortalLayout: React.FC<PortalLayoutProps> = ({ children }) => {
+const PortalLayout: React.FC = () => {
   const location = useLocation();
 
   return (
@@ -36,7 +32,7 @@ const PortalLayout: React.FC<PortalLayoutProps> = ({ children }) => {
                     exit={{ opacity: 0, y: -10, filter: "blur(10px)" }}
                     transition={{ duration: 0.4, ease: "easeOut" }}
                 >
-                    {children}
+                    <Outlet />
                 </motion.div>
             </AnimatePresence>
         </div>
