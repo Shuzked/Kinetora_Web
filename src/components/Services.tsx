@@ -7,6 +7,7 @@ import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from '@/components/MouseParallax';
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import RevealText from "@/components/ui/RevealText";
+import ScrollParallax from "@/components/ui/ScrollParallax";
 
 const Services = () => {
   const { lang } = useI18n();
@@ -48,6 +49,9 @@ const Services = () => {
 
   return (
     <section id="servicios" className="kin-section relative overflow-hidden">
+      <ScrollParallax speed={0.05} invert={true} className="absolute -top-24 -right-24">
+        <div className="pointer-events-none h-96 w-96 rounded-full bg-[#B454FF]/5 blur-[100px]" />
+      </ScrollParallax>
       <div className="kin-container">
         <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24">
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
@@ -87,9 +91,11 @@ const Services = () => {
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
-                  <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                    <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-                  </div>
+                  <ScrollParallax speed={0.15}>
+                    <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+                      <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                    </div>
+                  </ScrollParallax>
                 </div>
                 <div>
                   <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">
@@ -123,9 +129,11 @@ const Services = () => {
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
-                  <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                    <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-                  </div>
+                  <ScrollParallax speed={0.15}>
+                    <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+                      <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                    </div>
+                  </ScrollParallax>
                 </div>
                 <div>
                   <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.digitalTitle}</h3>
@@ -157,9 +165,11 @@ const Services = () => {
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
-                  <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                    <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-                  </div>
+                  <ScrollParallax speed={0.15}>
+                    <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+                      <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                    </div>
+                  </ScrollParallax>
                 </div>
                 <div>
                   <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.multimediaTitle}</h3>
@@ -191,9 +201,11 @@ const Services = () => {
                 <div className="light-sweep" />
                 
                 <div className="relative mb-8">
-                  <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                    <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-                  </div>
+                  <ScrollParallax speed={0.15}>
+                    <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
+                      <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                    </div>
+                  </ScrollParallax>
                 </div>
                 <div>
                   <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">

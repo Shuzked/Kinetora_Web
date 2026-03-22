@@ -7,6 +7,7 @@ import PremiumButton from '@/components/PremiumButton';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import RevealText from "@/components/ui/RevealText";
+import ScrollParallax from "@/components/ui/ScrollParallax";
 
 const Pricing = () => {
   const { lang } = useI18n();
@@ -110,7 +111,10 @@ const Pricing = () => {
   };
 
   return (
-    <section id="precios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28">
+    <section id="precios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden">
+      <ScrollParallax speed={0.08} invert={true} className="absolute top-1/2 -right-32">
+        <div className="pointer-events-none h-80 w-80 rounded-full bg-[#B454FF]/5 blur-[120px]" />
+      </ScrollParallax>
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">

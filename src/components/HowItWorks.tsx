@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import RevealText from "@/components/ui/RevealText";
+import ScrollParallax from "@/components/ui/ScrollParallax";
 
 const HowItWorks = () => {
   const { lang } = useI18n();
@@ -81,7 +82,9 @@ const HowItWorks = () => {
       id="como-funciona"
       className="py-20 sm:py-24 lg:py-28 bg-[#0D0D0D] border-y border-white/10 scroll-mt-24 md:scroll-mt-28 relative overflow-hidden"
     >
-      <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />
+      <ScrollParallax speed={0.05} invert={true} className="absolute -bottom-24 -left-24">
+        <div className="pointer-events-none h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />
+      </ScrollParallax>
       <div className="kin-container">
         <div className="text-center mb-14 sm:mb-16 lg:mb-20">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-0 tracking-tighter leading-tight flex flex-col items-center">

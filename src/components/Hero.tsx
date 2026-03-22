@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import PremiumButton from '@/components/PremiumButton';
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
+import ScrollParallax from "@/components/ui/ScrollParallax";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -16,7 +17,7 @@ const Hero = () => {
   const blur = useTransform(scrollY, [0, 600], [0, 5]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0.8]);
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
-  const yBg = useTransform(scrollY, [0, 1000], [0, 100]); // 0.1 speed
+  const yBg = useTransform(scrollY, [0, 1000], [0, -50]); // 0.05 speed inverted
 
 
 
@@ -121,43 +122,47 @@ const Hero = () => {
             {copy.sub}
           </p>
 
-          <div
-            className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-4 duration-800 delay-700 fill-mode-both"
-          >
-            <PremiumButton
-              variant="primary"
-              size="lg"
-              className="w-full sm:w-auto hover:scale-[1.02] active:scale-95"
-              leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
-              onClick={() => handleScrollTo("contacto")}
+          <ScrollParallax speed={0.15}>
+            <div
+              className="flex flex-col sm:flex-row justify-center items-stretch sm:items-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-4 duration-800 delay-700 fill-mode-both"
             >
-              {copy.ctaPrimary.toUpperCase()}
-            </PremiumButton>
-            <PremiumButton
-              variant="glass"
-              size="lg"
-              className="w-full sm:w-auto"
-              onClick={() => handleScrollTo("casos")}
-            >
-              {copy.ctaSecondary.toUpperCase()}
-            </PremiumButton>
-          </div>
-
-          <div
-            className="mt-6 sm:mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both"
-          >
-            {copy.pills.map(({ Icon, text }, i) => (
-              <div
-                key={i}
-                className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"
+              <PremiumButton
+                variant="primary"
+                size="lg"
+                className="w-full sm:w-auto hover:scale-[1.02] active:scale-95"
+                leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
+                onClick={() => handleScrollTo("contacto")}
               >
-                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
-                <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.22em] uppercase">
-                  {text}
-                </span>
-              </div>
-            ))}
-          </div>
+                {copy.ctaPrimary.toUpperCase()}
+              </PremiumButton>
+              <PremiumButton
+                variant="glass"
+                size="lg"
+                className="w-full sm:w-auto"
+                onClick={() => handleScrollTo("casos")}
+              >
+                {copy.ctaSecondary.toUpperCase()}
+              </PremiumButton>
+            </div>
+          </ScrollParallax>
+
+          <ScrollParallax speed={0.1}>
+            <div
+              className="mt-6 sm:mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both"
+            >
+              {copy.pills.map(({ Icon, text }, i) => (
+                <div
+                  key={i}
+                  className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"
+                >
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
+                  <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.22em] uppercase">
+                    {text}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </ScrollParallax>
           </div>
         </div>
       </motion.div>
