@@ -2,16 +2,39 @@
 
 import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform, useSpring, useMotionValue } from "framer-motion";
+import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import RevealText from "@/components/ui/RevealText";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Portfolio = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const [isPaused, setIsPaused] = React.useState(false);
+  const timerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const total = caseStudies.length;
+
+  const nextSlide = React.useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % total);
+  }, [total]);
+
+  const prevSlide = React.useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + total) % total);
+  }, [total]);
+
+  React.useEffect(() => {
+    if (!isPaused) {
+      timerRef.current = setInterval(nextSlide, 5000);
+    }
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused, nextSlide]);
 
   const ui =
     lang === "es"
@@ -19,37 +42,35 @@ const Portfolio = () => {
           badge: "Casos de éxito",
           titleA: "Diseño creado para",
           titleB: "convertir",
-          sub:
-            "Proyectos reales con impacto medible. Desliza para ver más y entra al post para conocer el proceso.",
+          sub: "Proyectos reales con impacto medible. Explora nuestra selección de casos destacados.",
           viewAll: "Ver todos",
           readMore: "Leer más",
-          swipe: "Haz scroll para explorar los proyectos",
           ariaReadMore: (t: string) => `Leer más: ${t}`,
         }
       : {
           badge: "Case studies",
           titleA: "Design built to",
           titleB: "convert",
-          sub:
-            "Real projects with measurable impact. Swipe to see more and open the post to learn the process.",
+          sub: "Real projects with measurable impact. Explore our selection of featured cases.",
           viewAll: "View all",
           readMore: "Read more",
-          swipe: "Scroll to explore our projects",
           ariaReadMore: (t: string) => `Read more: ${t}`,
         };
 
   return (
     <section
       id="casos"
-      className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28"
+      className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden group/portfolio"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          <div>
+          <div className="max-w-xl">
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
               {ui.badge}
             </div>
-            <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-none flex flex-col">
+            <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.9] flex flex-col">
               <RevealText text={ui.titleA.toUpperCase()} />
               <RevealText 
                 text={ui.titleB.toUpperCase()} 
@@ -57,22 +78,74 @@ const Portfolio = () => {
                 delay={0.2} 
               />
             </h2>
+            <p className="mt-6 text-[#F5F5F5]/60 text-lg font-medium max-w-md leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
+              {ui.sub}
+            </p>
           </div>
 
-          <Link to="/casos" className="shrink-0">
-            <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
-              {ui.viewAll.toUpperCase()}
-            </PremiumButton>
-          </Link>
+          <div className="flex items-center gap-4">
+             <Link to="/casos" className="shrink-0">
+              <PremiumButton variant="glass" size="md" className="hidden sm:inline-flex">
+                {ui.viewAll.toUpperCase()}
+              </PremiumButton>
+            </Link>
+            
+            {/* Controls */}
+            <div className="flex gap-2">
+              <button 
+                onClick={prevSlide}
+                className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button 
+                onClick={nextSlide}
+                className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="kin-container">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
-          {caseStudies.map((cs) => (
-            <div key={cs.slug} className="h-full">
-              <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
-            </div>
+      <div className="relative px-4 sm:px-[10vw]">
+        <div className="overflow-hidden sm:overflow-visible">
+          <motion.div 
+            className="flex gap-6 sm:gap-10"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            onDragEnd={(_, info) => {
+               if (info.offset.x < -100) nextSlide();
+               else if (info.offset.x > 100) prevSlide();
+            }}
+            animate={{ x: `calc(-${activeIndex * 100}% - ${activeIndex * (lang === 'es' ? 2.5 : 2.5)}rem)` }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          >
+            {caseStudies.map((cs, i) => (
+              <div 
+                key={cs.slug} 
+                className={`w-full shrink-0 transition-opacity duration-700 ${i === activeIndex ? "opacity-100" : "opacity-30 blur-[2px] scale-[0.98]"}`}
+              >
+                <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        {/* Pagination Dots */}
+        <div className="mt-12 flex justify-center gap-3">
+          {caseStudies.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveIndex(i)}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                i === activeIndex 
+                  ? "w-8 bg-[#B454FF] shadow-[0_0_12px_rgba(180,84,255,0.5)]" 
+                  : "w-2 bg-white/20 hover:bg-white/40"
+              }`}
+              aria-label={`Go to slide ${i + 1}`}
+            />
           ))}
         </div>
       </div>
