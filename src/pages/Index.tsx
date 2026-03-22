@@ -92,41 +92,18 @@ const Index = () => {
       <main id="main-content" role="main" aria-label="Main content" className="relative">
         <Hero />
         
-        <StackingSection index={1} className="mt-[-100vh]">
+        {/* Content Shield (Layer 1) covers the Sticky Hero (Layer 0) */}
+        <div className="relative z-10 bg-[#0D0D0D] shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
           <Reveal as="div"><Brands /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={2}>
           <Reveal as="div"><Stats /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={3}>
           <Reveal as="div"><ValueProp /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={4}>
           <Reveal as="div"><Services /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={5}>
           <Reveal as="div"><HowItWorks /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={6}>
           <Reveal as="div"><Portfolio /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={7}>
           <Reveal as="div"><Testimonials /></Reveal>
-        </StackingSection>
-        
-        <StackingSection index={8}>
           <Contact />
-        </StackingSection>
-        
-        <StackingSection index={9}>
           <FAQ />
-        </StackingSection>
+        </div>
       </main>
       <Footer />
       <FloatingCTA />
