@@ -162,22 +162,32 @@ const PortalDashboard = () => {
     toast.success(`${selectedTasksCount} tareas eliminadas`);
   };
 
-  const handleCreateTask = async (data: any) => {
+   const handleCreateTask = async (data: any) => {
+    // If data is a string, it's a quick-add title
+    const isQuickAdd = typeof data === 'string';
+    const title = isQuickAdd ? data : data.title;
+    
     const taskId = tasks.length + 1;
     const newTask: Task = {
         id: taskId,
-        title: data.title,
-        description: data.description,
-        statusId: data.statusId || 'OPEN',
-        priority: data.priority,
-        deadline_requested: data.deadline_requested,
-        drive_links: data.drive_links,
+        title: title || "Nueva Tarea",
+        description: isQuickAdd ? "" : data.description,
+        statusId: isQuickAdd ? (data as any).statusId || 'OPEN' : data.statusId || 'OPEN',
+        priority: isQuickAdd ? 'MED' : data.priority,
+        deadline_requested: isQuickAdd ? null : data.deadline_requested,
+        drive_links: isQuickAdd ? "" : data.drive_links,
         created_at: new Date().toISOString(),
+        subtasks: []
     };
 
     setTasks(prev => [newTask, ...prev]);
-    setIsNewTaskModalOpen(false);
-    toast.success("Petición lanzada con éxito");
+    if (!isQuickAdd) setIsNewTaskModalOpen(false);
+    
+    if (socketRef.current) {
+        socketRef.current.emit("create-task", newTask);
+    }
+
+    toast.success("Petición creada con éxito");
   };
 
   const filteredTasks = tasks.filter(task => 
