@@ -521,3 +521,21 @@
   66% { transform: translate(-10vw, 18vh) scale(0.92) rotate(240deg); }
   100% { transform: translate(0, 0) scale(1) rotate(360deg); }
 }
+
+/* Film Grain (Noise Texture) - Paso 4 Implementation */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  filter: url(#grainyNoise);
+  will-change: transform;
+  mix-blend-mode: soft-light;
+  background-repeat: repeat;
+}
+}
