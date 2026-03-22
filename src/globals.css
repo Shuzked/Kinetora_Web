@@ -68,37 +68,38 @@
 
   /* Clamp heading sizes for better scaling between mobile and desktop */
   h1 {
-  @apply font-black tracking-tighter uppercase;
-  font-size: clamp(1.2rem, 10vw, 4rem);
-  line-height: clamp(0.85, 0.9vw, 0.95);
-  letter-spacing: -0.04em;
-  word-wrap: normal !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  hyphens: none !important;
-}
+    @apply font-black tracking-tighter uppercase;
+    font-size: clamp(1.2rem, 10vw, 4rem);
 
-h2 {
-  @apply font-black tracking-tighter uppercase;
-  font-size: clamp(1.15rem, 8vw, 3.2rem);
-  line-height: clamp(0.9, 0.95vw, 1);
-  letter-spacing: -0.03em;
-  word-wrap: normal !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  hyphens: none !important;
-}
+    letter-spacing: -0.04em;
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+  }
 
-h3 {
-  @apply font-black tracking-tight uppercase;
-  font-size: clamp(1.1rem, 6vw, 2.2rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  word-wrap: normal !important;
-  word-break: normal !important;
-  overflow-wrap: normal !important;
-  hyphens: none !important;
-}
+  h2 {
+    @apply font-black tracking-tighter uppercase;
+    font-size: clamp(1.15rem, 8vw, 3.2rem);
+
+    letter-spacing: -0.03em;
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+  }
+
+  h3 {
+    @apply font-black tracking-tight uppercase;
+    font-size: clamp(1.1rem, 6vw, 2.2rem);
+
+    letter-spacing: -0.02em;
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+  }
+
   p {
     font-size: clamp(1rem, 1.1vw + 0.5rem, 1.25rem);
     line-height: 1.6;
@@ -108,13 +109,15 @@ h3 {
 
 /* Components: shared responsive utilities */
 @layer components {
+
   /* Unified container with safe gutters */
   .kin-container {
-  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
-}
-    /* max-width: 88rem; /* ~1408px */
-    /* padding-left: clamp(1.25rem, 5vw, 4rem); */
-    /* padding-right: clamp(1.25rem, 5vw, 4rem); */
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* max-width: 88rem; /* ~1408px */
+  /* padding-left: clamp(1.25rem, 5vw, 4rem); */
+  /* padding-right: clamp(1.25rem, 5vw, 4rem); */
   /* } */
 
   /* Full width container for sliders that touch edges but align content */
@@ -130,19 +133,19 @@ h3 {
   }
 
   /* Landing: ensure consistent section margin collapse handling when nested in ParallaxSection */
-  .kin-section > .kin-container {
+  .kin-section>.kin-container {
     @apply relative z-10;
   }
 
   /* Rounded, bordered blocks spacing standard */
   .kin-card {
-    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.37)];
+    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_rgba(0, 0, 0, 0.37)];
     padding: clamp(1.25rem, 2.5vw, 2.5rem);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .premium-glass {
-    @apply bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.4)];
+    @apply bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0, 0, 0, 0.4)];
   }
 
   /* Grid gaps standard across breakpoints */
@@ -160,9 +163,12 @@ h3 {
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
+
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none;    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 
   /* Marquee (Brands) */
@@ -195,11 +201,11 @@ h3 {
     font-size: 0.95rem;
   }
 
-  .wp-post__media > * + * {
+  .wp-post__media>*+* {
     margin-top: 1.25rem;
   }
 
-  .wp-post__content > * + * {
+  .wp-post__content>*+* {
     margin-top: 1.15rem;
   }
 
@@ -241,7 +247,7 @@ h3 {
     margin-top: 1rem;
   }
 
-  .wp-post__content li + li {
+  .wp-post__content li+li {
     margin-top: 0.45rem;
   }
 
@@ -312,6 +318,7 @@ h3 {
       flex-direction: row;
       gap: 1.5rem;
     }
+
     .wp-post__content .wp-block-column {
       flex: 1 1 0;
       min-width: 0;
@@ -328,6 +335,7 @@ h3 {
   }
 
   @media (min-width: 768px) {
+
     .wp-post__content .wp-block-gallery,
     .wp-post__content .blocks-gallery-grid {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -382,14 +390,20 @@ h3 {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-50%);
   }
 }
 
 @keyframes marquee-testimonials {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .animate-marquee-testimonials {
@@ -401,10 +415,13 @@ h3 {
 }
 
 @keyframes pulse-slow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     filter: brightness(1);
   }
+
   50% {
     opacity: 0.85;
     filter: brightness(1.15);
@@ -416,11 +433,13 @@ h3 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   /* Antes: desactivaba por completo la animación y forzaba transform, lo que impedía reactivarla */
   /* Ahora: pausamos por defecto, pero permitimos reactivarla con data-animate="always" */
   .marquee-track {
     animation-play-state: paused !important;
   }
+
   [data-animate="always"] .marquee-track {
     animation-play-state: running !important;
   }
@@ -428,6 +447,7 @@ h3 {
 
 /* Utilities overrides and small helpers */
 @layer utilities {
+
   /* Slightly larger tap targets on touch devices */
   @media (pointer: coarse) {
     .kin-touch-target {
@@ -448,38 +468,31 @@ h3 {
 
   /* Soft vertical fade using mask-image to avoid visible color cuts between sections */
   .kin-fade-y {
-    --kin-fade-size: 72px; /* controls how long the fade is on top/bottom */
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 0,
-      rgba(0,0,0,1) var(--kin-fade-size),
-      rgba(0,0,0,1) calc(100% - var(--kin-fade-size)),
-      rgba(0,0,0,0) 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      rgba(0,0,0,0) 0,
-      rgba(0,0,0,1) var(--kin-fade-size),
-      rgba(0,0,0,1) calc(100% - var(--kin-fade-size)),
-      rgba(0,0,0,0) 100%
-    );
+    --kin-fade-size: 72px;
+    /* controls how long the fade is on top/bottom */
+    -webkit-mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 1) var(--kin-fade-size),
+        rgba(0, 0, 0, 1) calc(100% - var(--kin-fade-size)),
+        rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 1) var(--kin-fade-size),
+        rgba(0, 0, 0, 1) calc(100% - var(--kin-fade-size)),
+        rgba(0, 0, 0, 0) 100%);
   }
 
   .kin-fade-x {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,1) 15%,
-      rgba(0,0,0,1) 85%,
-      rgba(0,0,0,0) 100%
-    );
-    mask-image: linear-gradient(
-      to right,
-      rgba(0,0,0,0) 0%,
-      rgba(0,0,0,1) 15%,
-      rgba(0,0,0,1) 85%,
-      rgba(0,0,0,0) 100%
-    );
+    -webkit-mask-image: linear-gradient(to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 1) 15%,
+        rgba(0, 0, 0, 1) 85%,
+        rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 1) 15%,
+        rgba(0, 0, 0, 1) 85%,
+        rgba(0, 0, 0, 0) 100%);
   }
 
   .premium-apple-button {
@@ -488,7 +501,7 @@ h3 {
   }
 
   .premium-apple-button-primary {
-    @apply bg-[#B454FF] text-white hover:bg-[#A342FF] shadow-[0_4px_20px_rgba(180,84,255,0.3)];
+    @apply bg-[#B454FF] text-white hover:bg-[#A342FF] shadow-[0_4px_20px_rgba(180, 84, 255, 0.3)];
   }
 
   .premium-apple-button-ghost {
@@ -536,10 +549,21 @@ h3 {
 }
 
 @keyframes liquid-move {
-  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-  33% { transform: translate(14vw, 10vh) scale(1.18) rotate(120deg); }
-  66% { transform: translate(-10vw, 18vh) scale(0.92) rotate(240deg); }
-  100% { transform: translate(0, 0) scale(1) rotate(360deg); }
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+
+  33% {
+    transform: translate(14vw, 10vh) scale(1.18) rotate(120deg);
+  }
+
+  66% {
+    transform: translate(-10vw, 18vh) scale(0.92) rotate(240deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+  }
 }
 
 /* Film Grain (Noise Texture) - Paso 4 Implementation */
