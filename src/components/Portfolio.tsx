@@ -100,9 +100,9 @@ const Portfolio = () => {
 
       <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
         <div className="relative overflow-hidden py-4">
-          {/* Edge Masks */}
-          <div className="absolute left-0 top-0 h-full w-[10%] sm:w-[15%] z-10 pointer-events-none bg-gradient-to-r from-[#0D0D0D] to-transparent" />
-          <div className="absolute right-0 top-0 h-full w-[10%] sm:w-[15%] z-10 pointer-events-none bg-gradient-to-l from-[#0D0D0D] to-transparent" />
+          {/* Edge Masks - Fine-tuned for cinematic fade */}
+          <div className="absolute left-0 top-0 h-full w-[15%] lg:w-[20%] z-10 pointer-events-none bg-gradient-to-r from-[#0D0D0D] to-transparent" />
+          <div className="absolute right-0 top-0 h-full w-[15%] lg:w-[20%] z-10 pointer-events-none bg-gradient-to-l from-[#0D0D0D] to-transparent" />
 
           <Swiper
             onSwiper={setSwiperRef}
