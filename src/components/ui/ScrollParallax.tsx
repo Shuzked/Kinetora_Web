@@ -32,7 +32,11 @@ const ScrollParallax = ({ children, speed = 0.1, className = "", invert = false,
   });
 
   return (
-    <motion.div ref={ref} style={{ y }} className={className}>
+    <motion.div 
+      ref={ref} 
+      style={{ y, willChange: "transform" }} 
+      className={className}
+    >
       {children}
     </motion.div>
   );

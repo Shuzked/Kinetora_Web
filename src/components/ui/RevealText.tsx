@@ -51,9 +51,9 @@ const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
           key={index}
           variants={childVariants}
           className="inline-block"
-          style={{ whiteSpace: char === " " ? "pre" : "normal" }}
+          style={{ willChange: "transform" }}
         >
-          {char}
+          {char === " " ? "\u00A0" : char}
         </motion.span>
       ))}
     </motion.span>
