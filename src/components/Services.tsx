@@ -48,7 +48,7 @@ const Services = () => {
         };
 
   return (
-    <section id="servicios" className="kin-section relative overflow-hidden">
+    <section id="servicios" className="kin-section relative">
       <ScrollParallax speed={0.05} invert={true} className="absolute -top-24 -right-24">
         <div className="pointer-events-none h-96 w-96 rounded-full bg-[#B454FF]/5 blur-[100px]" />
       </ScrollParallax>
