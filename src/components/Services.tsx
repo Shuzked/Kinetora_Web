@@ -137,7 +137,7 @@ const Services = () => {
                 </div>
                 <div>
                   <h3 className="mb-4 uppercase">{copy.cards.digitalTitle}</h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-[280px]">
+                  <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-[280px]">
                     {copy.cards.digitalDesc}
                   </p>
                 </div>

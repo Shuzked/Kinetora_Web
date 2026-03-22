@@ -303,7 +303,7 @@ const Testimonials = () => {
                       </div>
 
                       {/* Contenido */}
-                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium text-base sm:text-lg leading-relaxed select-none pointer-events-none whitespace-normal">
+                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium leading-relaxed select-none pointer-events-none whitespace-normal">
                         "{t.content}"
                       </p>
 

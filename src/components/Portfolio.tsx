@@ -59,7 +59,7 @@ const Portfolio = () => {
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
               {ui.badge}
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.25rem] font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.85] flex flex-col">
+            <h2 className="leading-[0.85] flex flex-col">
               <span className="whitespace-nowrap">
                 <RevealText text={ui.titleA.toUpperCase()} />
               </span>
@@ -69,7 +69,7 @@ const Portfolio = () => {
                 delay={0.2} 
               />
             </h2>
-            <p className="mt-6 text-[#F5F5F5]/60 text-lg md:text-xl font-medium max-w-lg leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
+            <p className="mt-6 text-[#F5F5F5]/60 font-medium max-w-lg leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
               {ui.sub}
             </p>
           </div>
@@ -263,9 +263,9 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
                   <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
                     {metricLabel}
                   </div>
-                    <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                    <h3 className="text-xl sm:text-2xl font-black text-[#F5F5F5] leading-[1.1] tracking-tighter">
                       {formattedMetricValue}
-                    </div>
+                    </h3>
                 </>
               ) : null}
             </div>

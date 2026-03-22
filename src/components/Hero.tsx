@@ -114,7 +114,7 @@ const Hero = () => {
              </span>
           </h1>
 
-          <p className="text-sm md:text-xl text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-10 sm:mb-12 animate-in fade-in duration-1000 delay-500 fill-mode-both">
+          <p className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-10 sm:mb-12 animate-in fade-in duration-1000 delay-500 fill-mode-both">
             {copy.sub}
           </p>
 
