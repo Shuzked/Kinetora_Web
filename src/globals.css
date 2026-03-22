@@ -532,7 +532,7 @@ body::before {
   height: 100%;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.035;
+  opacity: 0.1;
   filter: url(#grainyNoise);
   will-change: transform;
   mix-blend-mode: soft-light;
