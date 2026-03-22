@@ -98,12 +98,12 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative w-full">
+      <div className="relative w-full overflow-hidden">
         <div 
           className="relative py-4"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 5vw, black 95vw, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5vw, black 95vw, transparent 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)'
           }}
         >
           {/* Internal alignment container to match parent margins */}
@@ -122,15 +122,18 @@ const Portfolio = () => {
             }}
             grabCursor={true}
             slidesPerView={1.2}
-            spaceBetween={24}
+            spaceBetween={20}
+            centeredSlides={true}
             breakpoints={{
               640: {
                 slidesPerView: 2,
-                spaceBetween: 32,
+                spaceBetween: 24,
+                centeredSlides: false,
               },
               1024: {
                 slidesPerView: 3,
                 spaceBetween: 32,
+                centeredSlides: false,
               },
             }}
             className="w-full !overflow-visible"
@@ -211,6 +214,14 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
   const metricValue = cs.metricValue ?? null;
   const title = lang === "es" ? cs.title : cs.titleEn ?? cs.title;
 
+  const formattedMetricValue = (() => {
+    if (!metricValue) return null;
+    if (metricLabel?.toLowerCase().includes("ventas") || metricLabel?.toLowerCase().includes("sales")) {
+      return metricValue.replace('$', '').trim() + ' €';
+    }
+    return metricValue;
+  })();
+
   return (
     <motion.div 
       ref={cardRef} 
@@ -259,9 +270,9 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
                   <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
                     {metricLabel}
                   </div>
-                  <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
-                    {metricValue}
-                  </div>
+                    <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                      {formattedMetricValue}
+                    </div>
                 </>
               ) : null}
             </div>
