@@ -102,8 +102,8 @@ const Portfolio = () => {
         <div 
           className="relative overflow-hidden py-4"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)'
           }}
         >
 
@@ -136,13 +136,11 @@ const Portfolio = () => {
             {baseCards.map((cs, i) => (
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
                 {({ isActive, isPrev, isNext }) => {
-                  const isVisible = isActive || isPrev || isNext;
+                  // Broaden visibility to ensure 3 cards are always sharp
+                  // In Swiper with slidesPerView: 3, the visible ones are active, next, and next+1
+                  // However, it's safer to just control opacity/blur globally and let mask-image handle the edges
                   return (
-                    <div 
-                      className={`h-full transition-all duration-700 ${
-                        isVisible ? "opacity-100 scale-100 blur-0" : "opacity-30 blur-[2px] scale-[0.96]"
-                      }`}
-                    >
+                    <div className="h-full transition-all duration-700 opacity-100 blur-0 scale-100">
                       <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
                     </div>
                   );
