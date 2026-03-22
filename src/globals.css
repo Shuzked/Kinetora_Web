@@ -69,29 +69,35 @@
   /* Clamp heading sizes for better scaling between mobile and desktop */
   h1 {
   @apply font-black tracking-tighter uppercase;
-  font-size: clamp(1.85rem, 9vw, 4.5rem);
+  font-size: clamp(1.4rem, 10vw, 4rem);
   line-height: clamp(0.85, 0.9vw, 0.95);
   letter-spacing: -0.04em;
-  hyphens: none;
-  overflow-wrap: break-word;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
 }
 
 h2 {
   @apply font-black tracking-tighter uppercase;
-  font-size: clamp(1.65rem, 7vw, 3.4rem);
+  font-size: clamp(1.25rem, 8vw, 3.2rem);
   line-height: clamp(0.9, 0.95vw, 1);
   letter-spacing: -0.03em;
-  hyphens: none;
-  overflow-wrap: break-word;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
 }
 
 h3 {
   @apply font-black tracking-tight uppercase;
-  font-size: clamp(1.35rem, 5vw, 2.2rem);
+  font-size: clamp(1.15rem, 6vw, 2.2rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
-  hyphens: none;
-  overflow-wrap: break-word;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  hyphens: none !important;
 }
   p {
     font-size: clamp(1rem, 1.1vw + 0.5rem, 1.25rem);
