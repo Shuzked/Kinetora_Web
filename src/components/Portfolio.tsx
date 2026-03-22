@@ -99,7 +99,7 @@ const Portfolio = () => {
       </div>
 
       <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
-        <div className="overflow-visible py-4">
+        <div className="overflow-hidden py-4">
           <Swiper
             onSwiper={setSwiperRef}
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
@@ -124,7 +124,7 @@ const Portfolio = () => {
                 spaceBetween: 32,
               },
             }}
-            className="!overflow-visible"
+            className="w-full"
           >
             {baseCards.map((cs, i) => (
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
