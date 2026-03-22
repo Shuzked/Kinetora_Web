@@ -90,12 +90,10 @@ const ValueProp = () => {
 
   return (
     <section className="kin-section relative">
-      <div className="pointer-events-none absolute inset-x-0 inset-y-[-10%] z-0" aria-hidden="true">
+      <div className="pointer-events-none absolute inset-0 z-0" aria-hidden="true">
         <div className="absolute left-1/2 top-[-14rem] h-[32rem] w-[32rem] -translate-x-1/2 rounded-full bg-[#B454FF]/14 blur-[120px] md:h-[42rem] md:w-[42rem] md:blur-[160px]" />
         <div className="absolute left-[-10%] top-[18%] h-[22rem] w-[22rem] rounded-full bg-[#7C3AED]/10 blur-[110px] md:h-[30rem] md:w-[30rem] md:blur-[150px]" />
         <div className="absolute right-[-8%] bottom-[4%] h-[24rem] w-[24rem] rounded-full bg-[#5EEAD4]/7 blur-[120px] md:h-[34rem] md:w-[34rem] md:blur-[160px]" />
-        <div className="absolute inset-x-0 top-0 h-48 md:h-64 bg-gradient-to-b from-[#0D0D0D] via-[#0D0D0D]/70 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-48 md:h-64 bg-gradient-to-t from-[#0D0D0D] via-[#0D0D0D]/70 to-transparent" />
       </div>
 
       <div className="kin-container relative z-10">
