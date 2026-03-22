@@ -38,23 +38,29 @@ const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
     },
   };
 
+  const words = text.split(" ");
+
   return (
     <motion.span
-      className={`inline-block overflow-hidden ${className}`}
+      className={`inline-block ${className}`}
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-10%" }}
     >
-      {text.split("").map((char, index) => (
-        <motion.span
-          key={index}
-          variants={childVariants}
-          className="inline-block"
-          style={{ willChange: "transform" }}
-        >
-          {char === " " ? "\u00A0" : char}
-        </motion.span>
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
+          {word.split("").map((char, charIndex) => (
+            <motion.span
+              key={charIndex}
+              variants={childVariants}
+              className="inline-block"
+              style={{ willChange: "transform" }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </span>
       ))}
     </motion.span>
   );
