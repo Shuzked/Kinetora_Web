@@ -54,33 +54,34 @@ const Portfolio = () => {
       className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden group/portfolio"
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-              {ui.badge}
-            </div>
-            <h2 className="mt-5 text-4xl md:text-[5.25rem] font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.85] flex flex-col">
+        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+            {ui.badge}
+          </div>
+          <h2 className="mt-6 text-4xl md:text-7xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.85] flex flex-col items-center">
+            <span className="block mb-1">
               <RevealText text={ui.titleA.toUpperCase()} />
+            </span>
+            <span className="block text-[#B454FF]">
               <RevealText 
                 text={ui.titleB.toUpperCase()} 
-                className="text-[#B454FF]" 
-                delay={0.2} 
+                delay={0.4} 
               />
-            </h2>
-            <p className="mt-6 text-[#F5F5F5]/60 text-lg font-medium max-w-md leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
-              {ui.sub}
-            </p>
-          </div>
+            </span>
+          </h2>
+          <p className="mt-8 text-[#F5F5F5]/60 text-lg font-medium max-w-2xl leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+            {ui.sub}
+          </p>
           
-          <div className="flex items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
              <Link to="/casos" className="shrink-0">
-              <PremiumButton variant="glass" size="md" className="hidden sm:inline-flex">
+              <PremiumButton variant="glass" size="md" className="h-12 px-8">
                 {ui.viewAll.toUpperCase()}
               </PremiumButton>
             </Link>
             
             {/* Controls */}
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button 
                 onClick={() => swiperRef?.slidePrev()}
                 className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
