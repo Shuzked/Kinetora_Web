@@ -82,7 +82,7 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="sticky top-0 z-10 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
+      className="sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
       style={{ willChange: 'transform' }}
     >
       <motion.div 
