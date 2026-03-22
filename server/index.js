@@ -6,6 +6,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { initSocket } from "./socket.js";
 import authMiddleware from "./middleware/auth.js";
+import { initDb } from "../database/db.js";
 import multer from "multer";
 import fs from "fs";
 
@@ -80,6 +81,7 @@ app.get("/api/portal/deliverables/:userId", (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, async () => {
+  await initDb();
   console.log(`Server running on port ${PORT}`);
 });

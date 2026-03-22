@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, 
   Search,
@@ -6,6 +7,12 @@ import {
   Play,
   AlertTriangle,
   CheckCircle2,
+  Calendar,
+  MoreVertical,
+  Eye,
+  Check,
+  Trash2,
+  X as CloseIcon
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -18,103 +25,151 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 // New Components
-import TaskList, { type Task, type TaskStatus, type TaskPriority, type TaskHistoryEntry } from "@/components/portal/TaskList";
+import TaskBoard, { type Task, type Status, type TaskPriority } from "@/components/portal/TaskList";
 import TaskDrawer from "@/components/portal/TaskDrawer";
 import NewRequestForm from "@/components/portal/NewRequestForm";
+import { 
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-// Mock Data
+import { io, Socket } from "socket.io-client";
+
+// Initial Configuration
+const INITIAL_STATUSES: Status[] = [
+  { id: 'OPEN', label: 'ABIERTO', color: '#FFFFFF', category: 'ACTIVE' },
+  { id: 'IN_SPRINT', label: 'EN SPRINT', color: '#B454FF', category: 'ACTIVE' },
+  { id: 'IN_REVIEW', label: 'EN REVISIÓN', color: '#F97316', category: 'ACTIVE' },
+  { id: 'DONE', label: 'COMPLETADO', color: '#22C55E', category: 'DONE' },
+];
+
 const INITIAL_TASKS: Task[] = [
   {
     id: 1,
     title: "Implementación de Diseño Mobile en Hero",
     description: "Ajustar los márgenes y el tamaño de fuente para dispositivos iOS y Android.",
-    status: 'IN_SPRINT',
+    statusId: 'IN_SPRINT',
     priority: 'HIGH',
     deadline_requested: "2024-04-15",
     deadline_final: "2024-04-12",
     drive_links: "https://figma.com/file/...",
     created_at: "2024-03-21T10:30:00Z",
+    subtasks: [{ id: '1', title: 'Ajustar padding', isDone: true }, { id: '2', title: 'Font sizes', isDone: false }]
   },
   {
     id: 2,
     title: "Corrección de Bug en Formulario de Contacto",
     description: "El validador de email no acepta dominios .tech.",
-    status: 'OPEN',
+    statusId: 'OPEN',
     priority: 'URGENT',
     deadline_requested: "2024-03-25",
     created_at: "2024-03-21T11:45:00Z",
-  },
-  {
-    id: 3,
-    title: "Optimización de Imágenes (WebP)",
-    description: "Convertir todos los assets del portfolio a formato WebP para mejorar velocidad.",
-    status: 'IN_REVIEW',
-    priority: 'MED',
-    deadline_requested: "2024-03-30",
-    deadline_final: "2024-03-28",
-    created_at: "2024-03-20T09:15:00Z",
   },
 ];
 
 const PortalDashboard = () => {
   const [tasks, setTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [statuses, setStatuses] = useState<Status[]>(INITIAL_STATUSES);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState<string[]>([]); // Status IDs to hide
+  const socketRef = useRef<Socket | null>(null);
 
-  const handleUpdateTask = (taskId: number, updates: Partial<Task>, historyEntry?: Omit<TaskHistoryEntry, 'id' | 'createdAt'>) => {
+  useEffect(() => {
+    socketRef.current = io("http://localhost:3001");
+
+    socketRef.current.on("task-updated", ({ taskId, updates }) => {
+        setTasks(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
+    });
+
+    socketRef.current.on("board-task-updated", ({ taskId, updates }) => {
+        setTasks(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
+    });
+
+    socketRef.current.on("subtask-synced", ({ taskId, subtask, action }) => {
+        setTasks(prev => prev.map(t => {
+            if (t.id !== taskId) return t;
+            let newSubtasks = [...(t.subtasks || [])];
+            if (action === 'add') newSubtasks.push(subtask);
+            else if (action === 'toggle') newSubtasks = newSubtasks.map(s => s.id === subtask.id ? subtask : s);
+            else if (action === 'delete') newSubtasks = newSubtasks.filter(s => s.id !== subtask.id);
+            return { ...t, subtasks: newSubtasks };
+        }));
+    });
+
+    return () => {
+        socketRef.current?.disconnect();
+    };
+  }, []);
+
+  const selectedTasksCount = tasks.filter(t => t.selected).length;
+
+  const handleUpdateTask = (taskId: number, updates: Partial<Task>, changeType?: string, oldValue?: any, newValue?: any) => {
     setTasks(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
-    
     if (selectedTask?.id === taskId) {
         setSelectedTask(prev => prev ? { ...prev, ...updates } : null);
     }
-    
-    console.log("Auditoría registrada:", historyEntry);
+
+    if (socketRef.current) {
+        socketRef.current.emit("update-task", {
+            taskId,
+            updates,
+            changeType,
+            oldValue,
+            newValue,
+            userId: 1
+        });
+    }
   };
 
-  const handleCreateTask = async (data: { 
-    title: string; 
-    description: string; 
-    priority: TaskPriority; 
-    deadline_requested: string; 
-    drive_links: string;
-    files: File[] 
-  }) => {
+  const handleUpdateStatus = (statusId: string, updates: Partial<Status>) => {
+    setStatuses(prev => prev.map(s => s.id === statusId ? { ...s, ...updates } : s));
+  };
+
+  const handleSelectTask = (taskId: number, isSelected: boolean) => {
+    setTasks(prev => prev.map(t => t.id === taskId ? { ...t, selected: isSelected } : t));
+  };
+
+  const handleBulkUpdateStatus = (newStatusId: string) => {
+    const selectedIds = tasks.filter(t => t.selected).map(t => t.id);
+    setTasks(prev => prev.map(t => t.selected ? { ...t, statusId: newStatusId, selected: false } : t));
+    
+    selectedIds.forEach(id => {
+        if (socketRef.current) {
+            socketRef.current.emit("update-task", {
+                taskId: id,
+                updates: { statusId: newStatusId },
+                changeType: 'status',
+                oldValue: tasks.find(t => t.id === id)?.statusId,
+                newValue: newStatusId,
+                userId: 1
+            });
+        }
+    });
+
+    toast.success(`${selectedTasksCount} tareas movidas a ${statuses.find(s => s.id === newStatusId)?.label}`);
+  };
+
+  const handleBulkDelete = () => {
+    setTasks(prev => prev.filter(t => !t.selected));
+    toast.success(`${selectedTasksCount} tareas eliminadas`);
+  };
+
+  const handleCreateTask = async (data: any) => {
     const taskId = tasks.length + 1;
     const newTask: Task = {
         id: taskId,
         title: data.title,
         description: data.description,
-        status: 'OPEN',
+        statusId: data.statusId || 'OPEN',
         priority: data.priority,
         deadline_requested: data.deadline_requested,
         drive_links: data.drive_links,
         created_at: new Date().toISOString(),
     };
-
-    // Subida de archivos al servidor Node.js
-    if (data.files.length > 0) {
-        const formData = new FormData();
-        data.files.forEach(file => formData.append("files", file));
-        formData.append("userId", "1"); // En un entorno real, ID de la sesión
-        formData.append("taskId", taskId.toString());
-
-        try {
-            const response = await fetch("http://localhost:3001/api/portal/upload", {
-                method: "POST",
-                body: formData
-            });
-
-            if (response.ok) {
-                toast.success("Archivos subidos correctamente");
-            } else {
-                toast.error("Error al subir los archivos");
-            }
-        } catch (error) {
-            console.error("Upload error:", error);
-            toast.error("No se pudo conectar con el servidor de archivos");
-        }
-    }
 
     setTasks(prev => [newTask, ...prev]);
     setIsNewTaskModalOpen(false);
@@ -122,73 +177,195 @@ const PortalDashboard = () => {
   };
 
   const filteredTasks = tasks.filter(task => 
-    task.title.toLowerCase().includes(searchQuery.toLowerCase())
+    task.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
+    !activeFilters.includes(task.statusId)
   );
 
   return (
-    <div className="space-y-10">
-      {/* Header Statistics */}
-      <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {[
-            { label: "Total Tareas", value: tasks.length, icon: LayoutDashboard, color: "text-[#B454FF]" },
-            { label: "En SPRINT", value: tasks.filter(t => t.status === 'IN_SPRINT').length, icon: Play, color: "text-[#B454FF]" },
-            { label: "Pendiente Revisión", value: tasks.filter(t => t.status === 'IN_REVIEW').length, icon: AlertTriangle, color: "text-orange-400" },
-            { label: "Completado", value: tasks.filter(t => t.status === 'DONE').length, icon: CheckCircle2, color: "text-emerald-400" },
-        ].map((stat, i) => (
-            <div key={i} className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-sm group hover:bg-white/[0.04] transition-all">
-                <div className="flex justify-between items-start mb-2">
-                    <stat.icon className={cn("w-5 h-5", stat.color)} />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-white/20">{stat.label}</span>
+    <div className="relative pb-24">
+      <div className="space-y-10">
+        {/* Header Statistics */}
+        <section className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          {[
+              { label: "Total Tareas", value: tasks.length, icon: LayoutDashboard, color: "text-[#B454FF]" },
+              { label: "Activas", value: tasks.filter(t => statuses.find(s => s.id === t.statusId)?.category === 'ACTIVE').length, icon: Play, color: "text-[#B454FF]" },
+              { label: "Hecho", value: tasks.filter(t => statuses.find(s => s.id === t.statusId)?.category === 'DONE').length, icon: CheckCircle2, color: "text-emerald-400" },
+              { label: "Seleccionadas", value: selectedTasksCount, icon: Check, color: "text-blue-400" },
+          ].map((stat, i) => (
+              <div key={i} className="bg-white/[0.02] border border-white/5 rounded-3xl p-6 backdrop-blur-sm group hover:bg-white/[0.04] transition-all">
+                  <div className="flex justify-between items-start mb-2">
+                      <stat.icon className={cn("w-5 h-5", stat.color)} />
+                      <span className="text-[10px] font-black uppercase tracking-widest text-white/20">{stat.label}</span>
+                  </div>
+                  <div className="text-3xl font-black text-white">{stat.value}</div>
+              </div>
+          ))}
+        </section>
+
+        {/* Main Actions Bar */}
+        <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 w-full md:w-auto flex-1">
+            <div className="relative w-full md:w-96 group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+                    <Search className="w-4 h-4 text-white/20 group-focus-within:text-[#B454FF] transition-colors" />
                 </div>
-                <div className="text-3xl font-black text-white">{stat.value}</div>
-            </div>
-        ))}
-      </section>
-
-      {/* Main Actions Bar */}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-        <div className="relative w-full md:w-96 group">
-            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                <Search className="w-4 h-4 text-white/20 group-focus-within:text-[#B454FF] transition-colors" />
-            </div>
-            <Input 
-                placeholder="Buscar peticiones..." 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-white/5 border-white/10 rounded-2xl pl-11 h-12 focus:border-[#B454FF]/30 transition-all font-bold text-sm"
-            />
-        </div>
-
-        <Dialog open={isNewTaskModalOpen} onOpenChange={setIsNewTaskModalOpen}>
-            <DialogTrigger asChild>
-                <Button className="bg-[#B454FF] hover:bg-[#A74CFF] text-white rounded-2xl px-8 h-12 font-black uppercase tracking-[0.2em] shadow-[0_4px_20px_rgba(180,84,255,0.4)] transition-all active:scale-95 gap-3 w-full md:w-auto">
-                    <Plus className="w-5 h-5" />
-                    NUEVA PETICIÓN
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="bg-[#0D0D0D] border-white/10 text-[#F5F5F5] p-8 rounded-[2.5rem] max-w-2xl overflow-hidden shadow-2xl">
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#B454FF] via-[#8A2BE2] to-transparent" />
-                <NewRequestForm 
-                    onSubmit={handleCreateTask} 
-                    onCancel={() => setIsNewTaskModalOpen(false)} 
+                <Input 
+                    placeholder="Buscar peticiones..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-white/5 border-white/10 rounded-2xl pl-11 h-12 focus:border-[#B454FF]/30 transition-all font-bold text-sm"
                 />
-            </DialogContent>
-        </Dialog>
-      </header>
+            </div>
 
-      {/* Task List Section */}
-      <TaskList 
-        tasks={filteredTasks} 
-        onTaskClick={(task) => setSelectedTask(task)} 
-      />
+            {/* Smart Filters */}
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="h-12 px-6 rounded-2xl bg-white/5 border border-white/10 text-[10px] font-black uppercase tracking-widest text-white/40 hover:text-white hover:bg-white/10 transition-all gap-2">
+                        <MoreVertical className="w-4 h-4" />
+                        Filtros
+                        {activeFilters.length > 0 && (
+                            <span className="w-4 h-4 rounded-full bg-[#B454FF] text-white text-[9px] flex items-center justify-center">
+                                {activeFilters.length}
+                            </span>
+                        )}
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-[#141414] border-white/10 w-56">
+                    <div className="p-2 border-b border-white/5 mb-1">
+                        <span className="text-[9px] font-black text-white/20 uppercase tracking-widest pl-2">Ocultar Estados</span>
+                    </div>
+                    {statuses.map(s => (
+                        <DropdownMenuItem 
+                            key={s.id} 
+                            onClick={(e) => {
+                                e.preventDefault();
+                                setActiveFilters(prev => 
+                                    prev.includes(s.id) ? prev.filter(id => id !== s.id) : [...prev, s.id]
+                                );
+                            }}
+                            className="flex items-center justify-between text-white"
+                        >
+                            <span className="text-xs font-bold">{s.label}</span>
+                            {activeFilters.includes(s.id) ? (
+                                <Eye className="w-3.5 h-3.5 text-red-400" />
+                            ) : (
+                                <Check className="w-3.5 h-3.5 text-[#B454FF]" />
+                            )}
+                        </DropdownMenuItem>
+                    ))}
+                    {activeFilters.length > 0 && (
+                        <DropdownMenuItem 
+                            onClick={() => setActiveFilters([])}
+                            className="text-white/40 justify-center text-[10px] font-black uppercase mt-1 border-t border-white/5"
+                        >
+                            Limpiar Filtros
+                        </DropdownMenuItem>
+                    )}
+                </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
 
-      {/* Interactive Side Drawer */}
-      <TaskDrawer 
-        task={selectedTask} 
-        isOpen={!!selectedTask}
-        onClose={() => setSelectedTask(null)} 
-        onUpdate={handleUpdateTask}
-      />
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <Dialog open={isNewTaskModalOpen} onOpenChange={setIsNewTaskModalOpen}>
+                <DialogTrigger asChild>
+                    <Button className="bg-[#B454FF] hover:bg-[#A74CFF] text-white rounded-2xl px-8 h-12 font-black uppercase tracking-[0.2em] shadow-[0_4px_20px_rgba(180,84,255,0.4)] transition-all active:scale-95 gap-3 w-full md:w-auto">
+                        <Plus className="w-5 h-5" />
+                        NUEVA PETICIÓN
+                    </Button>
+                </DialogTrigger>
+                <DialogContent className="bg-[#0D0D0D] border-white/10 text-[#F5F5F5] p-8 rounded-[2.5rem] max-w-2xl overflow-hidden shadow-2xl">
+                    <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-[#B454FF] via-[#8A2BE2] to-transparent" />
+                    <NewRequestForm 
+                        onSubmit={handleCreateTask} 
+                        onCancel={() => setIsNewTaskModalOpen(false)} 
+                    />
+                </DialogContent>
+            </Dialog>
+          </div>
+        </header>
+
+        {/* Task Board Section */}
+        <TaskBoard 
+          tasks={filteredTasks} 
+          statuses={statuses}
+          onTaskClick={(task) => setSelectedTask(task)} 
+          onUpdateTask={handleUpdateTask}
+          onUpdateStatus={handleUpdateStatus}
+          onSelectTask={handleSelectTask}
+          onCreateTask={(statusId) => {
+              setIsNewTaskModalOpen(true);
+          }}
+        />
+
+        {/* Task Drawer */}
+        <TaskDrawer 
+          task={selectedTask} 
+          isOpen={!!selectedTask}
+          onClose={() => setSelectedTask(null)} 
+          onUpdate={handleUpdateTask}
+          statuses={statuses}
+        />
+      </div>
+
+      {/* Multitask Toolbar */}
+      <AnimatePresence>
+        {selectedTasksCount > 0 && (
+          <motion.div 
+            initial={{ y: 100, x: "-50%", opacity: 0 }}
+            animate={{ y: 0, x: "-50%", opacity: 1 }}
+            exit={{ y: 100, x: "-50%", opacity: 0 }}
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#1A1A1A]/90 backdrop-blur-2xl border border-white/10 px-8 py-5 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[90] flex items-center gap-10 min-w-[500px]"
+          >
+            <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-2xl bg-[#B454FF] flex items-center justify-center font-black text-white shadow-[0_0_20px_rgba(180,84,255,0.4)]">
+                    {selectedTasksCount}
+                </div>
+                <div className="flex flex-col">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#B454FF]">Tareas Seleccionadas</span>
+                    <span className="text-xs font-bold text-white">Edición Masiva</span>
+                </div>
+            </div>
+
+            <div className="h-10 w-px bg-white/10" />
+
+            <div className="flex items-center gap-4">
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-white hover:bg-white/5 gap-2 h-10 pr-4 rounded-xl transition-all">
+                            <Play className="w-3.5 h-3.5" />
+                            Mover a...
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="bg-[#141414] border-white/10">
+                        {statuses.map(s => (
+                            <DropdownMenuItem key={s.id} onClick={() => handleBulkUpdateStatus(s.id)} className="text-white hover:bg-[#B454FF]/10 hover:text-[#B454FF]">
+                                {s.label}
+                            </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                </DropdownMenu>
+
+                <Button 
+                    onClick={handleBulkDelete}
+                    variant="ghost" 
+                    className="text-[10px] font-black uppercase tracking-widest text-red-400 hover:bg-red-400/10 gap-2 h-10 pr-4 rounded-xl transition-all"
+                >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    Eliminar
+                </Button>
+            </div>
+
+            <Button 
+                onClick={() => setTasks(tasks.map(t => ({ ...t, selected: false })))}
+                variant="ghost" 
+                size="icon" 
+                className="rounded-full hover:bg-white/5 ml-auto"
+            >
+                <CloseIcon className="w-4 h-4 text-white/20" />
+            </Button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

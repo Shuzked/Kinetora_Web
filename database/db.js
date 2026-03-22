@@ -1,5 +1,6 @@
-const mysql = require('mysql2/promise');
-require('dotenv').config();
+import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+dotenv.config();
 
 /**
  * KINETORA OS - Database Connection Module
@@ -7,10 +8,10 @@ require('dotenv').config();
  */
 
 const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'kinetora_db',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
@@ -22,7 +23,7 @@ const dbConfig = {
 const pool = mysql.createPool(dbConfig);
 
 // Helper function to execute queries
-async function query(sql, params) {
+export async function query(sql, params) {
     try {
         const [results] = await pool.execute(sql, params);
         return results;
@@ -32,7 +33,24 @@ async function query(sql, params) {
     }
 }
 
-module.exports = {
+// Initialize tables if they don't exist
+export async function initDb() {
+    const subtasksTable = `
+        CREATE TABLE IF NOT EXISTS subtasks (
+            id VARCHAR(50) PRIMARY KEY,
+            task_id INT,
+            title VARCHAR(255) NOT NULL,
+            is_done BOOLEAN DEFAULT FALSE,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+        );
+    `;
+    await query(subtasksTable);
+    console.log("Database initialized: subtasks table ready.");
+}
+
+export default {
     pool,
-    query
+    query,
+    initDb
 };

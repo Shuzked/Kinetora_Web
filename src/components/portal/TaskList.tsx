@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Clock, 
@@ -6,27 +6,43 @@ import {
   Eye, 
   CheckCircle2, 
   Calendar,
+  MoreHorizontal,
+  Plus,
+  ChevronDown,
+  ChevronRight,
+  GripVertical
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { 
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-export type TaskStatus = 'OPEN' | 'IN_SPRINT' | 'IN_REVIEW' | 'DONE';
+export type StatusCategory = 'ACTIVE' | 'DONE' | 'CLOSED';
 export type TaskPriority = "LOW" | "MED" | "HIGH" | "URGENT";
 
-export interface TaskHistoryEntry {
-    id: number;
-    taskId: number;
-    changedBy: string;
-    changeType: 'status' | 'deadline' | 'priority' | 'content' | 'general';
-    oldValue: string;
-    newValue: string;
-    createdAt: string;
+export interface Status {
+    id: string;
+    label: string;
+    color: string;
+    category: StatusCategory;
+    isCollapsed?: boolean;
+}
+
+export interface Subtask {
+    id: string;
+    title: string;
+    isDone: boolean;
 }
 
 export interface Task {
   id: number;
   title: string;
   description: string;
-  status: TaskStatus;
+  statusId: string;
   priority: TaskPriority;
   deadline_requested?: string;
   deadline_final?: string;
@@ -34,175 +50,249 @@ export interface Task {
   created_at: string;
   comment_count?: number;
   attachment_count?: number;
+  subtasks?: Subtask[];
+  selected?: boolean;
 }
 
-interface TaskListProps {
+interface TaskBoardProps {
   tasks: Task[];
+  statuses: Status[];
   onTaskClick: (task: Task) => void;
+  onUpdateTask: (taskId: number, updates: Partial<Task>, changeType?: string, oldValue?: any, newValue?: any) => void;
+  onUpdateStatus: (statusId: string, updates: Partial<Status>) => void;
+  onCreateTask: (statusId: string) => void;
+  onSelectTask: (taskId: number, selected: boolean) => void;
 }
 
-const statusColors: Record<TaskStatus, { label: string; bg: string; text: string; border: string; glow: string; icon: React.ElementType }> = {
-  OPEN: { 
-    label: "ABIERTO",
-    bg: "bg-white/5", 
-    text: "text-white/60", 
-    border: "border-white/10",
-    glow: "",
-    icon: Clock
-  },
-  IN_SPRINT: { 
-    label: "EN SPRINT",
-    bg: "bg-[#B454FF]/10", 
-    text: "text-[#B454FF]", 
-    border: "border-[#B454FF]/30",
-    glow: "shadow-[0_0_15px_rgba(180,84,255,0.3)]",
-    icon: Play
-  },
-  IN_REVIEW: { 
-    label: "EN REVISIÓN",
-    bg: "bg-orange-500/10", 
-    text: "text-orange-400", 
-    border: "border-orange-500/30",
-    glow: "shadow-[0_0_15px_rgba(249,115,22,0.2)]",
-    icon: Eye
-  },
-  DONE: { 
-    label: "COMPLETADO",
-    bg: "bg-emerald-500/10", 
-    text: "text-emerald-400", 
-    border: "border-emerald-500/30",
-    glow: "shadow-[0_0_15px_rgba(34,197,94,0.2)]",
-    icon: CheckCircle2
-  },
+const statusIcons: Record<string, any> = {
+    'OPEN': Clock,
+    'IN_SPRINT': Play,
+    'IN_REVIEW': Eye,
+    'DONE': CheckCircle2,
+    'DEFAULT': Clock
 };
 
-const TaskCard = ({ task, onClick }: { task: Task; onClick: () => void }) => {
-  const statusInfo = statusColors[task.status];
-  
+const TaskCard = ({ 
+    task, 
+    statusColor, 
+    statuses,
+    onClick, 
+    onSelect,
+    onMove
+}: { 
+    task: Task; 
+    statusColor: string; 
+    statuses: Status[];
+    onClick: () => void; 
+    onSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onMove: (taskId: number, newStatusId: string, oldStatusId: string) => void;
+}) => {
   return (
     <motion.div
       layout
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      onClick={onClick}
+      whileHover={{ y: -2, transition: { duration: 0.2 } }}
       className={cn(
-        "group relative p-5 rounded-2xl border bg-[#0D0D0D] cursor-pointer transition-all duration-300",
-        statusInfo.border,
-        statusInfo.glow,
-        "hover:border-[#B454FF]/40 hover:bg-[#111111]"
+        "group relative p-4 rounded-xl border border-white/5 bg-[#141414] cursor-pointer transition-all duration-300",
+        "hover:border-white/20 hover:bg-[#1A1A1A]",
+        task.selected && "border-[#B454FF]/50 bg-[#B454FF]/5 ring-1 ring-[#B454FF]/20"
       )}
+      onClick={onClick}
     >
-      <div className="flex items-start justify-between gap-4 mb-4">
-        <h4 className="text-[13px] font-bold text-white group-hover:text-[#B454FF] transition-colors line-clamp-2 leading-snug">
+      <div className="flex items-start gap-3 mb-3">
+        <input 
+            type="checkbox" 
+            checked={task.selected || false} 
+            onChange={onSelect}
+            onClick={(e) => e.stopPropagation()}
+            className="mt-1 w-3.5 h-3.5 rounded border-white/10 bg-white/5 checked:bg-[#B454FF] cursor-pointer"
+        />
+        <h4 className="text-[12px] font-bold text-white group-hover:text-[#B454FF] transition-colors line-clamp-2 leading-snug flex-1">
           {task.title}
         </h4>
-        <div className={cn(
-            "px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border shrink-0",
-            statusInfo.bg,
-            statusInfo.text,
-            statusInfo.border
-        )}>
-            {statusInfo.label}
-        </div>
       </div>
-
-      <p className="text-[11px] text-white/40 line-clamp-2 mb-6 h-8 leading-relaxed">
-        {task.description.replace(/<[^>]*>/g, '')}
-      </p>
 
       <div className="flex items-center justify-between mt-auto">
         <div className="flex items-center gap-2">
-            <span className={cn(
-                "px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider border",
-                task.priority === "URGENT" ? "bg-red-500/20 text-red-400 border-red-500/20" :
-                task.priority === "HIGH" ? "bg-orange-500/20 text-orange-400 border-orange-500/20" :
-                task.priority === "MED" ? "bg-blue-500/20 text-blue-400 border-blue-500/20" :
-                "bg-white/5 text-white/30 border-white/5"
-            )}>
-                {task.priority}
-            </span>
+            <div className={cn(
+                "w-1.5 h-1.5 rounded-full",
+                task.priority === "URGENT" ? "bg-red-500" :
+                task.priority === "HIGH" ? "bg-orange-500" :
+                task.priority === "MED" ? "bg-blue-400" : "bg-white/20"
+            )} />
+            
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button 
+                        onClick={(e) => e.stopPropagation()}
+                        className="p-1 hover:bg-white/5 rounded-md transition-colors"
+                    >
+                        <MoreHorizontal className="w-3 h-3 text-white/20 group-hover:text-white/40" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="bg-[#141414] border-white/10">
+                    <div className="p-2 border-b border-white/5 mb-1">
+                        <span className="text-[8px] font-black text-white/20 uppercase tracking-widest pl-1">Mover a...</span>
+                    </div>
+                    {statuses.filter(s => s.id !== task.statusId).map(s => (
+                        <DropdownMenuItem 
+                            key={s.id} 
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onMove(task.id, s.id, task.statusId);
+                            }}
+                            className="text-[10px] font-bold text-white/60 hover:text-[#B454FF]"
+                        >
+                            {s.label}
+                        </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+            </DropdownMenu>
+
             {task.deadline_final && (
-                <div className="flex items-center gap-1.5 text-white/30">
-                    <Calendar className="w-3 h-3" />
-                    <span className="text-[10px] font-bold uppercase tracking-tighter">
-                        {new Date(task.deadline_final).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
-                    </span>
-                </div>
+                <span className="text-[9px] font-bold text-white/30 uppercase tracking-tighter ml-1">
+                    {new Date(task.deadline_final).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                </span>
             )}
         </div>
         
-        <div className="flex -space-x-1.5">
-            {[1, 2].map(i => (
-                <div key={i} className="w-5 h-5 rounded-full border border-[#0D0D0D] bg-[#1A1A1A] flex items-center justify-center ring-1 ring-white/5">
-                    <span className="text-[7px] font-black text-white/40">K</span>
-                </div>
-            ))}
-        </div>
+        {task.subtasks && task.subtasks.length > 0 && (
+            <div className="text-[9px] font-black text-white/20">
+                {task.subtasks.filter(s => s.isDone).length}/{task.subtasks.length}
+            </div>
+        )}
       </div>
     </motion.div>
   );
 };
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, onTaskClick }) => {
-  const statuses: TaskStatus[] = ['OPEN', 'IN_SPRINT', 'IN_REVIEW', 'DONE'];
-
+const TaskBoard: React.FC<TaskBoardProps> = ({ 
+    tasks, 
+    statuses, 
+    onTaskClick, 
+    onUpdateTask, 
+    onUpdateStatus,
+    onCreateTask,
+    onSelectTask
+}) => {
   return (
-    <div className="space-y-16">
+    <div className="flex gap-6 overflow-x-auto pb-8 no-scrollbar min-h-[70vh] items-start">
       {statuses.map((status) => {
-        const filteredTasks = tasks.filter((t) => t.status === status);
-        const statusInfo = statusColors[status];
+        const filteredTasks = tasks.filter((t) => t.statusId === status.id);
+        const Icon = statusIcons[status.id] || statusIcons.DEFAULT;
         
         return (
-          <div key={status} className="space-y-6">
+          <div 
+            key={status.id} 
+            className={cn(
+                "flex-shrink-0 transition-all duration-500",
+                status.isCollapsed ? "w-12" : "w-80"
+            )}
+          >
             {/* Status Header */}
-            <div className="flex items-center gap-4 px-2">
-              <div className={cn(
-                "flex items-center gap-2.5 px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] border transition-all duration-500",
-                statusInfo.bg, 
-                statusInfo.text,
-                statusInfo.border,
-                statusInfo.glow
-              )}>
-                <statusInfo.icon className="w-3.5 h-3.5" />
-                {statusInfo.label}
-              </div>
-              <span className="text-white/20 text-[10px] font-black tracking-widest bg-white/5 px-2 py-0.5 rounded-lg border border-white/5">
-                {filteredTasks.length}
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent" />
+            <div className="mb-4 flex items-center justify-between group">
+                <div 
+                    className="flex items-center gap-2 cursor-pointer"
+                    onClick={() => onUpdateStatus(status.id, { isCollapsed: !status.isCollapsed })}
+                >
+                    {status.isCollapsed ? (
+                        <div className="flex flex-col items-center gap-4 py-4">
+                            <ChevronRight className="w-4 h-4 text-white/20" />
+                            <div className="h-px w-4 bg-white/10" />
+                            <span 
+                                className="text-[10px] font-black uppercase tracking-[0.3em] whitespace-nowrap rotate-90 origin-left ml-4"
+                                style={{ color: status.color }}
+                            >
+                                {status.label}
+                            </span>
+                        </div>
+                    ) : (
+                        <>
+                            <ChevronDown className="w-4 h-4 text-white/20" />
+                            <div 
+                                className="text-[11px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-lg border flex items-center gap-2"
+                                style={{ 
+                                    backgroundColor: `${status.color}15`, 
+                                    color: status.color,
+                                    borderColor: `${status.color}30`
+                                }}
+                            >
+                                <Icon className="w-3.5 h-3.5" />
+                                {status.label}
+                            </div>
+                            <span className="text-[10px] font-bold text-white/20">{filteredTasks.length}</span>
+                        </>
+                    )}
+                </div>
+
+                {!status.isCollapsed && (
+                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-7 w-7 rounded-lg hover:bg-white/5">
+                                    <MoreHorizontal className="w-4 h-4 text-white/20" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className="bg-[#141414] border-white/10 text-white">
+                                <DropdownMenuItem onClick={() => {
+                                    const newName = prompt("Nuevo nombre:", status.label);
+                                    if (newName) onUpdateStatus(status.id, { label: newName });
+                                }}>
+                                    Renombrar
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => onUpdateStatus(status.id, { isCollapsed: true })}>
+                                    Contraer
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                )}
             </div>
 
-            {/* Task Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              <AnimatePresence mode="popLayout">
-                {filteredTasks.length > 0 ? (
-                  filteredTasks.map((task) => (
-                    <TaskCard
-                      key={task.id}
-                      task={task}
-                      onClick={() => onTaskClick(task)}
-                    />
-                  ))
-                ) : (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="col-span-full py-12 px-6 rounded-2xl border border-dashed border-white/5 flex flex-col items-center justify-center opacity-40"
-                  >
-                    <div className="text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
-                      Sin peticiones en este estado
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+            {/* Task Column */}
+            {!status.isCollapsed && (
+                <div className="space-y-3">
+                    <AnimatePresence mode="popLayout">
+                        {filteredTasks.map((task) => (
+                            <TaskCard
+                                key={task.id}
+                                task={task}
+                                statusColor={status.color}
+                                statuses={statuses}
+                                onClick={() => onTaskClick(task)}
+                                onSelect={(e) => onSelectTask(task.id, e.target.checked)}
+                                onMove={(taskId, newStatusId, oldStatusId) => {
+                                    onUpdateTask(taskId, { statusId: newStatusId }, 'status', oldStatusId, newStatusId);
+                                }}
+                            />
+                        ))}
+                    </AnimatePresence>
+
+                    {/* Quick Add Button */}
+                    <button 
+                        onClick={() => onCreateTask(status.id)}
+                        className="w-full py-3 rounded-xl border border-dashed border-white/5 text-white/10 hover:text-[#B454FF]/60 hover:border-[#B454FF]/20 hover:bg-[#B454FF]/5 transition-all flex items-center justify-center gap-2 group"
+                    >
+                        <Plus className="w-4 h-4 group-hover:scale-110 transition-transform" />
+                        <span className="text-[10px] font-black uppercase tracking-widest">Nueva Tarea</span>
+                    </button>
+                </div>
+            )}
           </div>
         );
       })}
+
+      {/* Add New Status Column */}
+      <div className="flex-shrink-0 w-80">
+          <button className="w-full h-12 rounded-xl border border-dashed border-white/5 text-white/20 hover:text-white hover:border-white/20 hover:bg-white/5 transition-all flex items-center justify-center gap-2 group">
+              <Plus className="w-4 h-4" />
+              <span className="text-[10px] font-black uppercase tracking-widest">Añadir Estado</span>
+          </button>
+      </div>
     </div>
   );
 };
 
-export default TaskList;
+export default TaskBoard;
