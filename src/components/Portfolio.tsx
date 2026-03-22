@@ -98,11 +98,14 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-[calc(80rem+120px)] lg:mx-auto">
-        <div className="relative overflow-hidden py-4 px-[60px]">
-          {/* Narrow Edge Masks for Sharpness - Fade only at the very edge */}
-          <div className="absolute left-0 top-0 h-full w-[60px] z-10 pointer-events-none bg-gradient-to-r from-[#0D0D0D] via-[#0D0D0D]/10 to-transparent" />
-          <div className="absolute right-0 top-0 h-full w-[60px] z-10 pointer-events-none bg-gradient-to-l from-[#0D0D0D] via-[#0D0D0D]/10 to-transparent" />
+      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-[calc(80rem+160px)] lg:mx-auto">
+        <div 
+          className="relative overflow-hidden py-4 px-10 sm:px-20"
+          style={{
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%)',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 80px, black calc(100% - 80px), transparent 100%)'
+          }}
+        >
 
           <Swiper
             onSwiper={setSwiperRef}
@@ -137,8 +140,9 @@ const Portfolio = () => {
                   return (
                     <div 
                       className={`h-full transition-all duration-700 ${
-                        isVisible ? "opacity-100 scale-100 blur-0" : "opacity-30 blur-[2px] scale-[0.96]"
+                        isVisible ? "opacity-100 scale-100 blur-0" : "opacity-30 blur-[4px] scale-[0.94]"
                       }`}
+                      style={{ filter: isVisible ? 'blur(0)' : 'blur(4px)' }}
                     >
                       <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
                     </div>
@@ -220,6 +224,9 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
         rotateY,
         transformStyle: "preserve-3d",
         backfaceVisibility: "hidden",
+        willChange: "transform",
+        WebkitFontSmoothing: "antialiased",
+        MozOsxFontSmoothing: "grayscale",
       }}
       className="h-full relative group"
     >
