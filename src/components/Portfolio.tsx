@@ -54,45 +54,42 @@ const Portfolio = () => {
       className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden group/portfolio"
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
-        <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-            {ui.badge}
-          </div>
-          <h2 className="mt-6 text-4xl md:text-7xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.85] flex flex-col items-center">
-            <span className="block mb-1">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+              {ui.badge}
+            </div>
+            <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.9] flex flex-col">
               <RevealText text={ui.titleA.toUpperCase()} />
-            </span>
-            <span className="block text-[#B454FF]">
               <RevealText 
                 text={ui.titleB.toUpperCase()} 
-                delay={0.4} 
+                className="text-[#B454FF]" 
+                delay={0.2} 
               />
-            </span>
-          </h2>
-          <p className="mt-8 text-[#F5F5F5]/60 text-lg font-medium max-w-2xl leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
-            {ui.sub}
-          </p>
+            </h2>
+            <p className="mt-6 text-[#F5F5F5]/60 text-lg font-medium max-w-md leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
+              {ui.sub}
+            </p>
+          </div>
           
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <div className="flex items-center gap-4">
              <Link to="/casos" className="shrink-0">
-              <PremiumButton variant="glass" size="md" className="h-12 px-8">
+              <PremiumButton variant="glass" size="md" className="hidden sm:inline-flex">
                 {ui.viewAll.toUpperCase()}
               </PremiumButton>
             </Link>
             
             {/* Controls */}
-            <div className="flex gap-3">
+            <div className="flex gap-2">
               <button 
                 onClick={() => swiperRef?.slidePrev()}
                 className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
-                aria-label="Previous slide"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => swiperRef?.slideNext()}
                 className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
-                aria-label="Next slide"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -101,11 +98,12 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative w-full overflow-hidden">
+      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
         <div 
-          className="relative py-4 px-4 sm:px-10 lg:px-20"
+          className="relative overflow-hidden py-4"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 120px, black calc(100% - 120px), transparent 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 60px, black calc(100% - 60px), transparent 100%)'
           }}
         >
 
@@ -114,29 +112,26 @@ const Portfolio = () => {
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
             modules={[Autoplay, Navigation, Pagination]}
             loop={true}
-            speed={800}
+            speed={600}
             autoplay={{
               delay: 5000,
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
             grabCursor={true}
-            slidesPerView={1}
-            spaceBetween={20}
-            centeredSlides={true}
+            slidesPerView={1.2}
+            spaceBetween={24}
             breakpoints={{
               640: {
                 slidesPerView: 2,
                 spaceBetween: 32,
-                centeredSlides: false
               },
               1024: {
                 slidesPerView: 3,
-                spaceBetween: 40,
-                centeredSlides: false
+                spaceBetween: 32,
               },
             }}
-            className="w-full max-w-[90rem] mx-auto !overflow-visible"
+            className="w-full"
           >
             {baseCards.map((cs, i) => (
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
@@ -145,9 +140,8 @@ const Portfolio = () => {
                   return (
                     <div 
                       className={`h-full transition-all duration-700 ${
-                        isVisible ? "opacity-100 scale-100 blur-0" : "opacity-30 blur-[4px] scale-[0.94]"
+                        isVisible ? "opacity-100 scale-100 blur-0" : "opacity-30 blur-[2px] scale-[0.96]"
                       }`}
-                      style={{ filter: isVisible ? 'blur(0)' : 'blur(4px)' }}
                     >
                       <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
                     </div>
