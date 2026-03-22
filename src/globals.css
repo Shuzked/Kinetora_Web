@@ -139,13 +139,15 @@
 
   /* Rounded, bordered blocks spacing standard */
   .kin-card {
-    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl shadow-[0_8px_32px_rgba(0, 0, 0, 0.37)];
+    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
     padding: clamp(1.25rem, 2.5vw, 2.5rem);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .premium-glass {
-    @apply bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0, 0, 0, 0.4)];
+    @apply bg-white/[0.03] border border-white/10 backdrop-blur-2xl;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   }
 
   /* Grid gaps standard across breakpoints */
@@ -501,7 +503,8 @@
   }
 
   .premium-apple-button-primary {
-    @apply bg-[#B454FF] text-white hover:bg-[#A342FF] shadow-[0_4px_20px_rgba(180, 84, 255, 0.3)];
+    @apply bg-[#B454FF] text-white hover:bg-[#A342FF];
+    box-shadow: 0 4px 20px rgba(180, 84, 255, 0.3);
   }
 
   .premium-apple-button-ghost {
