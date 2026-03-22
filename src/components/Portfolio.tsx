@@ -17,6 +17,7 @@ const Portfolio = () => {
   const [winWidth, setWinWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [isAnimating, setIsAnimating] = React.useState(false);
   const controls = useAnimation();
+  const trackRef = React.useRef<HTMLDivElement>(null);
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   // Constants
@@ -65,9 +66,12 @@ const Portfolio = () => {
 
     setIsAnimating(false);
 
-    // Seamless Jump
+    // Seamless Jump with Forced Reflow
     if (nextIdx >= totalOriginal + clonesAtEdge) {
       controls.set({ x: getXOffset(clonesAtEdge) });
+      if (trackRef.current) {
+        void trackRef.current.offsetWidth; // FORCED REFLOW: Synchronizes layout
+      }
       setCurrentIndex(clonesAtEdge);
     }
   }, [currentIndex, isAnimating, controls, getXOffset, totalOriginal]);
@@ -86,10 +90,13 @@ const Portfolio = () => {
 
     setIsAnimating(false);
 
-    // Seamless Jump
+    // Seamless Jump with Forced Reflow
     if (prevIdx < clonesAtEdge) {
       const jumpIdx = totalOriginal + prevIdx;
       controls.set({ x: getXOffset(jumpIdx) });
+      if (trackRef.current) {
+        void trackRef.current.offsetWidth; // FORCED REFLOW
+      }
       setCurrentIndex(jumpIdx);
     }
   }, [currentIndex, isAnimating, controls, getXOffset, totalOriginal]);
@@ -177,11 +184,15 @@ const Portfolio = () => {
       </div>
 
       <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
-        <div className="overflow-hidden lg:overflow-visible">
+        <div className="overflow-hidden lg:overflow-visible py-4" style={{ perspective: "1000px" }}>
           <motion.div 
+            ref={trackRef}
             className="flex gap-6 sm:gap-8 translate-z-0"
             animate={controls}
-            style={{ willChange: "transform" }}
+            style={{ 
+              willChange: "transform",
+              transformStyle: "preserve-3d" 
+            }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={(_, info) => {
@@ -294,15 +305,16 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
         rotateX,
         rotateY,
         transformStyle: "preserve-3d",
+        backfaceVisibility: "hidden",
       }}
       className="h-full relative group"
     >
-      <div className="block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0 relative">
-        <div className="aspect-[16/9] overflow-hidden relative" style={{ transform: "translateZ(40px)" }}>
+      <div className="block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0 relative transform-gpu" style={{ transform: "translateZ(0)" }}>
+        <div className="aspect-[16/9] overflow-hidden relative" style={{ transform: "translateZ(40px)", backfaceVisibility: "hidden" }}>
           <ImageWithSkeleton
             src={cover}
             alt={alt}
-            loading="lazy"
+            loading="eager"
             width={600}
             height={375}
             containerClassName="h-full w-full"
