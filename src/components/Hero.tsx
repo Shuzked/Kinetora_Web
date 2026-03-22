@@ -25,7 +25,7 @@ const Hero = () => {
   const copy =
     lang === "es"
       ? {
-          headlineTop: "Diseño que convierte,",
+          headlineTop: "Diseño que convierte",
           headlineAccent: "velocidad que escala",
           sub:
             "Te ayudamos a crecer. Creamos tu marca, tus campañas y tus plataformas. Rápido, sin dramas y con resultados.",
@@ -38,7 +38,7 @@ const Hero = () => {
           ],
         }
       : {
-          headlineTop: "Design that converts,",
+          headlineTop: "Design that converts",
           headlineAccent: "speed that scales",
           sub:
             "We help you grow. We create your brand, your campaigns, and your platforms. Fast, drama-free, and results-driven.",
