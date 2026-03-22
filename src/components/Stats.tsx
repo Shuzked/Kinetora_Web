@@ -24,11 +24,8 @@ const Stats = () => {
         ];
 
   return (
-    <section className="kin-section relative overflow-hidden">
+    <section className="relative py-12 sm:py-16 md:py-20 bg-transparent overflow-hidden">
       <div className="kin-container">
-        {/* Background Accents */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-px bg-white/10" />
-
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 sm:gap-12 md:gap-8">
             {stats.map((stat, i) => (
