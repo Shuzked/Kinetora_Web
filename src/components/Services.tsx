@@ -6,6 +6,7 @@ import { Palette, Globe, Video, MessageSquare } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from '@/components/MouseParallax';
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
+import RevealText from "@/components/ui/RevealText";
 
 const Services = () => {
   const { lang } = useI18n();
@@ -52,11 +53,13 @@ const Services = () => {
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
             {copy.badge}
           </div>
-          <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter leading-[1.1]">
-            {copy.titleTop.toUpperCase()} <br />
-            <span className="text-[#B454FF]">
-              {copy.titleBottom.toUpperCase().replace(/\.$/, "")}
-            </span>
+          <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter leading-[1.1] flex flex-col">
+            <RevealText text={copy.titleTop.toUpperCase()} />
+            <RevealText 
+              text={copy.titleBottom.toUpperCase().replace(/\.$/, "")} 
+              className="text-[#B454FF]" 
+              delay={0.2} 
+            />
           </h2>
           <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
             {copy.sub}

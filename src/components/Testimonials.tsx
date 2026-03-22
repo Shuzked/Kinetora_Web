@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import RevealText from "@/components/ui/RevealText";
 
 const Testimonials = () => {
   const { lang } = useI18n();
@@ -233,7 +234,7 @@ const Testimonials = () => {
       <div className="kin-container pointer-events-auto">
         <div className="text-center mb-12 sm:mb-16 pointer-events-none">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
-            {copy.title.toUpperCase().replace(/\.$/, "")}
+            <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} />
           </h2>
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>

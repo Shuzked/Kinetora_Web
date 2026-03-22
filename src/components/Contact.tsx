@@ -22,6 +22,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import RevealText from "@/components/ui/RevealText";
 
 const Contact = () => {
   const { lang } = useI18n();
@@ -188,9 +189,13 @@ const Contact = () => {
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
             {strings.badge}
           </div>
-          <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase">
-            {strings.title.split(" ").slice(0, -1).join(" ")}{" "}
-            <span className="text-[#B454FF]">{strings.title.split(" ").slice(-1)[0]}</span>
+          <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase flex flex-col items-center leading-tight">
+            <RevealText text={strings.title.split(" ").slice(0, -1).join(" ").toUpperCase()} />
+            <RevealText 
+              text={strings.title.split(" ").slice(-1)[0].toUpperCase()} 
+              className="text-[#B454FF]" 
+              delay={0.2}
+            />
           </h2>
           <p className="mt-3 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
             {strings.sub}

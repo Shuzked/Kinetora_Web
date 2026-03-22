@@ -4,6 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import RevealText from "@/components/ui/RevealText";
 
 const HowItWorks = () => {
   const { lang } = useI18n();
@@ -83,11 +84,13 @@ const HowItWorks = () => {
       <div className="pointer-events-none absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />
       <div className="kin-container">
         <div className="text-center mb-14 sm:mb-16 lg:mb-20">
-          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-0 tracking-tighter">
-            {copy.title.toUpperCase().replace(/\.$/, "")} <br />
-            <span className="text-[#B454FF]">
-              {copy.titleAccent.toUpperCase().replace(/\.$/, "")}
-            </span>
+          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-0 tracking-tighter leading-tight flex flex-col items-center">
+            <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} />
+            <RevealText 
+              text={copy.titleAccent.toUpperCase().replace(/\.$/, "")} 
+              className="text-[#B454FF]" 
+              delay={0.2} 
+            />
           </h2>
           <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             {copy.sub}

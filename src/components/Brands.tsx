@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect } from 'react';
 import { useI18n } from "@/i18n/I18nProvider";
+import RevealText from "@/components/ui/RevealText";
 
 const brands = [
   { name: "Square Enix", src: "/assets/brands/square-enix.svg" },
@@ -54,11 +55,12 @@ const Brands = () => {
       className="py-14 sm:py-16 bg-[#0D0D0D] border-y border-white/10 overflow-hidden"
     >
       <div className="kin-container">
-        <p className="text-center text-[10px] font-bold text-[#F5F5F5]/75 uppercase tracking-[0.4em] mb-8 sm:mb-10">
-          {lang === "es"
-            ? "Marcas que confían en nuestra velocidad"
-            : "Brands that trust our speed"}
-        </p>
+        <div className="text-center mb-8 sm:mb-10">
+          <RevealText 
+            text={lang === "es" ? "Marcas que confían en nuestra velocidad" : "Brands that trust our speed"} 
+            className="text-[10px] font-bold text-[#F5F5F5]/75 uppercase tracking-[0.4em]"
+          />
+        </div>
       </div>
 
       <div className="relative overflow-hidden">

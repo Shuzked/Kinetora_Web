@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useI18n } from "@/i18n/I18nProvider";
+import RevealText from "@/components/ui/RevealText";
 
 const FAQ = () => {
   const { lang } = useI18n();
@@ -104,7 +105,7 @@ const FAQ = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-black text-[#F5F5F5] text-center mb-12 sm:mb-16 tracking-tighter uppercase">
-            {lang === "es" ? "Preguntas frecuentes" : "Frequently asked questions"}
+            <RevealText text={lang === "es" ? "Preguntas frecuentes" : "Frequently asked questions"} />
           </h2>
           <Accordion type="single" collapsible className="w-full space-y-4">
             {faqs.map((faq, i) => (

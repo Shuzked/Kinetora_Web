@@ -7,6 +7,7 @@ import PremiumButton from "@/components/PremiumButton";
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
+import RevealText from "@/components/ui/RevealText";
 
 const Portfolio = () => {
   const { lang } = useI18n();
@@ -59,9 +60,13 @@ const Portfolio = () => {
               <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
                 {ui.badge}
               </div>
-              <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-none">
-                {ui.titleA}{" "}
-                <span className="text-[#B454FF]">{ui.titleB}</span>
+              <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-none flex flex-col">
+                <RevealText text={ui.titleA.toUpperCase()} />
+                <RevealText 
+                  text={ui.titleB.toUpperCase()} 
+                  className="text-[#B454FF]" 
+                  delay={0.2} 
+                />
               </h2>
             </div>
 

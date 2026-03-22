@@ -6,6 +6,7 @@ import { Check } from 'lucide-react';
 import PremiumButton from '@/components/PremiumButton';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import RevealText from "@/components/ui/RevealText";
 
 const Pricing = () => {
   const { lang } = useI18n();
@@ -113,7 +114,7 @@ const Pricing = () => {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
-            {copy.title.toUpperCase()}
+            <RevealText text={copy.title.toUpperCase()} />
           </h2>
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
         </div>
