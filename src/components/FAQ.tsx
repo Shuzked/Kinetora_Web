@@ -104,7 +104,7 @@ const FAQ = () => {
     <section className="kin-section bg-[#0D0D0D] border-t border-white/10">
       <div className="kin-container">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-center mb-16 lg:mb-24">
+          <h2 className="text-center mb-12 sm:mb-16 lg:mb-24">
             <RevealText text={lang === "es" ? "Preguntas frecuentes" : "Frequently asked questions"} />
           </h2>
           <Accordion type="single" collapsible className="w-full space-y-4">
@@ -114,7 +114,7 @@ const FAQ = () => {
                 value={`item-${i}`}
                 className="border-white/10 bg-white/[0.04] px-5 sm:px-6 rounded-2xl hover:bg-white/[0.06] transition-colors"
               >
-                <AccordionTrigger className="text-[#F5F5F5] hover:text-[#B454FF] data-[state=open]:text-[#B454FF] transition-colors text-left font-bold uppercase tracking-tight py-5 sm:py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-xl px-2 -mx-2">
+                <AccordionTrigger className="text-[#F5F5F5] hover:text-[#B454FF] data-[state=open]:text-[#B454FF] transition-colors text-left font-bold uppercase tracking-tight py-4 sm:py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-xl px-1 sm:px-2 -mx-1 sm:-mx-2 text-sm sm:text-base">
                   {faq.q}
                 </AccordionTrigger>
                 <AccordionContent className="group/acc text-[#F5F5F5]/70 leading-relaxed font-medium pb-5 sm:pb-6 overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">

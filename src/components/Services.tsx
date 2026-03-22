@@ -101,7 +101,7 @@ const Services = () => {
                   <h3 className="mb-4 uppercase">
                     {copy.cards.brandingTitle}
                   </h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-sm">
+                  <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-sm">
                     {copy.cards.brandingDesc}
                   </p>
                 </div>
@@ -173,7 +173,7 @@ const Services = () => {
                 </div>
                 <div>
                   <h3 className="mb-4 uppercase">{copy.cards.multimediaTitle}</h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-[280px]">
+                  <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-[280px]">
                     {copy.cards.multimediaDesc}
                   </p>
                 </div>
@@ -211,7 +211,7 @@ const Services = () => {
                   <h3 className="mb-4 uppercase">
                     {copy.cards.commsTitle}
                   </h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-sm">
+                  <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-sm">
                     {copy.cards.commsDesc}
                   </p>
                 </div>

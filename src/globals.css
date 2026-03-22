@@ -68,25 +68,31 @@
 
   /* Clamp heading sizes for better scaling between mobile and desktop */
   h1 {
-    @apply font-black tracking-tight text-[#F5F5F5] uppercase;
-    font-size: clamp(2.25rem, 6vw, 3.75rem);
-    line-height: 1.1;
-    letter-spacing: -0.04em;
-  }
+  @apply font-black tracking-tighter uppercase;
+  font-size: clamp(1.85rem, 9vw, 4.5rem);
+  line-height: clamp(0.85, 0.9vw, 0.95);
+  letter-spacing: -0.04em;
+  hyphens: none;
+  overflow-wrap: break-word;
+}
 
-  h2 {
-    @apply font-black tracking-tight text-[#F5F5F5] uppercase;
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
-    line-height: 1.15;
-    letter-spacing: -0.03em;
-  }
+h2 {
+  @apply font-black tracking-tighter uppercase;
+  font-size: clamp(1.65rem, 7vw, 3.4rem);
+  line-height: clamp(0.9, 0.95vw, 1);
+  letter-spacing: -0.03em;
+  hyphens: none;
+  overflow-wrap: break-word;
+}
 
-  h3 {
-    @apply font-black tracking-tight text-[#F5F5F5] uppercase;
-    font-size: clamp(1.25rem, 3.5vw, 1.875rem);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-  }
+h3 {
+  @apply font-black tracking-tight uppercase;
+  font-size: clamp(1.35rem, 5vw, 2.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  hyphens: none;
+  overflow-wrap: break-word;
+}
   p {
     font-size: clamp(1rem, 1.1vw + 0.5rem, 1.25rem);
     line-height: 1.6;
@@ -98,11 +104,12 @@
 @layer components {
   /* Unified container with safe gutters */
   .kin-container {
-    @apply w-full mx-auto;
-    max-width: 88rem; /* ~1408px */
-    padding-left: clamp(1.25rem, 5vw, 4rem);
-    padding-right: clamp(1.25rem, 5vw, 4rem);
-  }
+  @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+}
+    /* max-width: 88rem; /* ~1408px */
+    /* padding-left: clamp(1.25rem, 5vw, 4rem); */
+    /* padding-right: clamp(1.25rem, 5vw, 4rem); */
+  /* } */
 
   /* Full width container for sliders that touch edges but align content */
   .kin-container-fluid {
