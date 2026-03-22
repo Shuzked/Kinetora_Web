@@ -98,17 +98,14 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative w-full overflow-hidden">
+      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
         <div 
-          className="relative py-4"
+          className="relative overflow-hidden py-4"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)'
           }}
         >
-          {/* Internal alignment container to match parent margins */}
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
           <Swiper
             onSwiper={setSwiperRef}
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
@@ -122,21 +119,18 @@ const Portfolio = () => {
             }}
             grabCursor={true}
             slidesPerView={1.2}
-            spaceBetween={20}
-            centeredSlides={true}
+            spaceBetween={24}
             breakpoints={{
               640: {
                 slidesPerView: 2,
-                spaceBetween: 24,
-                centeredSlides: false,
+                spaceBetween: 32,
               },
               1024: {
                 slidesPerView: 3,
                 spaceBetween: 32,
-                centeredSlides: false,
               },
             }}
-            className="w-full !overflow-visible"
+            className="w-full"
           >
             {baseCards.map((cs, i) => (
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
@@ -150,7 +144,6 @@ const Portfolio = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          </div>
         </div>
 
         {/* Pagination Dots */}
