@@ -196,18 +196,18 @@ const NewRequestForm: React.FC<NewRequestFormProps> = ({ onSubmit, onCancel }) =
             </AnimatePresence>
         </div>
 
-        <div className="flex gap-4 pt-4">
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button 
                 type="button" 
                 variant="ghost" 
                 onClick={onCancel}
-                className="flex-1 h-14 rounded-2xl text-white/40 hover:text-white hover:bg-white/5 font-black text-[10px] uppercase tracking-[0.2em]"
+                className="flex-1 h-14 rounded-2xl text-white/40 hover:text-white hover:bg-white/5 font-black text-[10px] uppercase tracking-[0.2em] premium-apple-button premium-apple-button-ghost"
             >
                 Cancelar
             </Button>
             <Button 
                 type="submit"
-                className="flex-[2] h-14 rounded-2xl bg-[#B454FF] hover:bg-[#A342FF] text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(180,84,255,0.3)] gap-3 group"
+                className="flex-[2] h-14 rounded-2xl bg-[#B454FF] hover:bg-[#A342FF] text-white font-black text-[10px] uppercase tracking-[0.2em] shadow-[0_0_30px_rgba(180,84,255,0.3)] gap-3 group premium-apple-button"
             >
                 <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 Lanzar Petición

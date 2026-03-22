@@ -22,7 +22,8 @@ import {
   Zap,
   CheckCircle,
   Hash,
-  Smile
+  Smile,
+  Type
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -192,152 +193,160 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
             </header>
 
             <div className="flex-1 flex overflow-hidden">
-                {/* Left Panel: Content (70%) */}
-                <div className="flex-1 overflow-y-auto bg-[#0A0A0A] custom-scrollbar">
-                    <div className="p-12 max-w-4xl mx-auto space-y-12">
+                {/* Left Panel: Content (70%) - Description Focus */}
+                <div className="flex-1 overflow-y-auto bg-[#0A0A0A] custom-scrollbar scroll-smooth">
+                    <div className="p-10 md:p-16 max-w-4xl mx-auto space-y-12 pb-32">
                         {/* Title Section */}
                         <div className="space-y-6">
                             <Input 
                                 value={editedTask.title || ""}
                                 onChange={(e) => setEditedTask({...editedTask, title: e.target.value})}
                                 onBlur={(e) => handleUpdateField('title', e.target.value, task.title, 'content')}
-                                className="text-4xl font-black bg-transparent border-none p-0 focus-visible:ring-0 text-white placeholder:text-white/10 h-auto leading-tight"
+                                className="text-4xl md:text-5xl font-black bg-transparent border-none p-0 focus-visible:ring-0 text-white placeholder:text-white/[0.05] h-auto leading-[1.1] tracking-tight"
                                 placeholder="Título de la petición"
                             />
                             
-                            <div className="flex flex-wrap gap-4 items-center">
-                                <div className="flex items-center gap-2 p-2 px-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition-all cursor-pointer group">
-                                    <Clock className="w-3.5 h-3.5 text-orange-400" />
+                            <div className="flex flex-wrap gap-3 items-center">
+                                <div className="flex items-center gap-2 p-2 px-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/10 transition-all cursor-pointer group premium-apple-button">
+                                    <Clock className="w-3.5 h-3.5 text-amber-500" />
                                     <div className="flex flex-col">
-                                        <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">VENCIMIENTO</span>
+                                        <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.2em]">FECHA TOPE</span>
                                         <span className="text-[10px] font-bold text-white/80 group-hover:text-white">
-                                            {task.deadline_final ? new Date(task.deadline_final).toLocaleDateString() : 'Añadir fecha'}
+                                            {task.deadline_final ? new Date(task.deadline_final).toLocaleDateString('es-ES', { day: '2-digit', month: 'long' }) : 'Asignar fecha'}
                                         </span>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-2 p-2 px-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition-all cursor-pointer group">
-                                    <Flag className="w-3.5 h-3.5 text-blue-400" />
+                                <div className="flex items-center gap-2 p-2 px-3 rounded-xl bg-white/[0.03] border border-white/5 hover:bg-white/10 transition-all cursor-pointer group premium-apple-button">
+                                    <Flag className="w-3.5 h-3.5 text-blue-500" />
                                     <div className="flex flex-col">
-                                        <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">PRIORIDAD</span>
+                                        <span className="text-[8px] font-black text-white/30 uppercase tracking-[0.2em]">PRIORIDAD</span>
                                         <span className="text-[10px] font-bold text-white/80 group-hover:text-white capitalize">{task.priority.toLowerCase()}</span>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-2 p-2 px-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/5 transition-all cursor-pointer group">
-                                    <Paperclip className="w-3.5 h-3.5 text-emerald-400" />
-                                    <div className="flex flex-col">
-                                        <span className="text-[8px] font-black text-white/20 uppercase tracking-widest">ADJUNTOS</span>
-                                        <span className="text-[10px] font-bold text-white/80 group-hover:text-white">0 archivos</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Description with / Commands */}
-                        <div className="space-y-4 relative">
-                            <div className="flex items-center gap-2">
-                                <Type className="w-4 h-4 text-[#B454FF]" />
-                                <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]">Descripción Detallada</span>
-                                <div className="h-px flex-1 bg-white/5" />
+                        {/* Description with Advanced Slash Commands */}
+                        <div className="space-y-6 relative group">
+                            <div className="flex items-center gap-3">
+                                <div className="w-1 h-4 bg-[#B454FF] rounded-full" />
+                                <span className="text-[10px] font-black text-white/40 uppercase tracking-[0.15em]">Notas y Descripción</span>
                             </div>
                             
-                            <div className="min-h-[300px] group">
+                            <div className="min-h-[400px] relative px-1">
                                 <Textarea 
                                     ref={textareaRef}
                                     value={editedTask.description || ""}
                                     onChange={handleDescriptionChange}
                                     onBlur={(e) => handleUpdateField('description', e.target.value, task.description, 'content')}
-                                    className="w-full h-full bg-transparent border-none p-0 focus-visible:ring-0 text-base text-white/70 leading-relaxed resize-none placeholder:text-white/5"
-                                    placeholder="Escribe '/' para insertar bloques mágicos o describe tu petición aquí..."
+                                    className="w-full h-full min-h-[400px] bg-transparent border-none p-0 focus-visible:ring-0 text-[15px] text-white/80 leading-[1.8] resize-none placeholder:text-white/10 font-medium"
+                                    placeholder="Escribe '/' para insertar bloques... o describe el problema."
                                 />
 
                                 <AnimatePresence>
                                     {showSlashCommands && (
                                         <motion.div 
-                                            initial={{ opacity: 0, scale: 0.95 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.95 }}
-                                            className="absolute z-50 bg-[#141414] border border-white/10 rounded-2xl shadow-2xl p-2 w-64 translate-y-2"
+                                            initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                                            exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                                            className="absolute z-50 bg-[#161616] border border-white/10 rounded-2xl shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)] p-2 w-72 backdrop-blur-3xl overflow-hidden"
+                                            style={{ top: `${cursorPosition.top}px`, left: `${cursorPosition.left}px` }}
                                         >
-                                            <div className="p-2 border-b border-white/5 mb-2">
-                                                <span className="text-[9px] font-black text-white/20 uppercase tracking-widest">BLOQUES DE CONTENIDO</span>
+                                            <div className="p-2 border-b border-white/5 mb-1 bg-white/[0.02]">
+                                                <span className="text-[9px] font-black text-white/30 uppercase tracking-widest pl-1">BLOQUES DE CLICkUP</span>
                                             </div>
-                                            {[
-                                                { icon: Hash, label: "Título 1", desc: "Encabezado grande", color: "text-[#B454FF]" },
-                                                { icon: CheckCircle, label: "Lista tareas", desc: "Checklist interactivo", color: "text-emerald-400" },
-                                                { icon: Zap, label: "Banner AI", desc: "Resumen con IA", color: "text-blue-400" },
-                                                { icon: Layout, label: "Tabla", desc: "Organiza datos", color: "text-orange-400" },
-                                            ].map((cmd, i) => (
-                                                <button key={i} className="flex items-center gap-3 w-full p-2 hover:bg-white/5 rounded-xl transition-all group/cmd">
-                                                    <div className={cn("w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center", cmd.color)}>
-                                                        <cmd.icon className="w-4 h-4" />
-                                                    </div>
-                                                    <div className="flex flex-col items-start">
-                                                        <span className="text-xs font-bold text-white">{cmd.label}</span>
-                                                        <span className="text-[10px] text-white/30">{cmd.desc}</span>
-                                                    </div>
-                                                </button>
-                                            ))}
+                                            <div className="space-y-1">
+                                                {[
+                                                    { icon: Type, label: "Texto", desc: "Escritura normal", shortcut: "T", color: "text-white/40" },
+                                                    { icon: CheckCircle, label: "Checklist", desc: "Lista de tareas", shortcut: "C", color: "text-emerald-400" },
+                                                    { icon: Hash, label: "Encabezado", desc: "Título grande", shortcut: "H", color: "text-[#B454FF]" },
+                                                    { icon: Paperclip, label: "Adjuntos", desc: "Sube archivos", shortcut: "A", color: "text-blue-400" },
+                                                    { icon: Zap, label: "Smart AI", desc: "Resumir con IA", shortcut: "S", color: "text-amber-400" },
+                                                ].map((cmd, i) => (
+                                                    <button 
+                                                        key={i} 
+                                                        className="flex items-center gap-3 w-full p-2.5 hover:bg-white/5 rounded-xl transition-all group/cmd relative"
+                                                        onClick={() => setShowSlashCommands(false)}
+                                                    >
+                                                        <div className={cn("w-9 h-9 rounded-lg bg-white/[0.03] border border-white/5 flex items-center justify-center shrink-0 group-hover/cmd:scale-110 transition-transform", cmd.color)}>
+                                                            <cmd.icon className="w-4.5 h-4.5" />
+                                                        </div>
+                                                        <div className="flex flex-col items-start min-w-0">
+                                                            <span className="text-xs font-bold text-white group-hover/cmd:text-[#B454FF] transition-colors">{cmd.label}</span>
+                                                            <span className="text-[10px] text-white/30 truncate w-full">{cmd.desc}</span>
+                                                        </div>
+                                                        <span className="ml-auto text-[9px] font-black text-white/10 bg-white/5 px-1.5 py-0.5 rounded uppercase">{cmd.shortcut}</span>
+                                                    </button>
+                                                ))}
+                                            </div>
                                         </motion.div>
                                     )}
                                 </AnimatePresence>
                             </div>
                         </div>
 
-                        {/* Advanced Subtasks Section */}
-                        <div className="space-y-6">
+                        {/* Interactive Subtasks and Requirements */}
+                        <div className="space-y-6 pt-6 border-t border-white/[0.03]">
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                                    <div className="w-10 h-10 rounded-2xl bg-[#22C55E]/10 flex items-center justify-center border border-[#22C55E]/20">
+                                        <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-[10px] font-black text-white uppercase tracking-widest">Subtareas y Requerimientos</span>
-                                        <span className="text-[9px] font-bold text-white/20">{task.subtasks?.length || 0} ITEMS EN TOTAL</span>
+                                        <span className="text-[11px] font-black text-white uppercase tracking-widest">LISTA DE REQUERIMIENTOS</span>
+                                        <span className="text-[9px] font-bold text-white/40">{task.subtasks?.length || 0} ITEMS EN CURSO</span>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-[10px] font-black text-[#B454FF]">{Math.round(((task.subtasks?.filter(s => s.isDone).length || 0) / (task.subtasks?.length || 1)) * 100)}%</span>
-                                    <div className="w-32 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div className="flex flex-col items-end gap-1.5">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[10px] font-black text-[#22C55E]">
+                                            {task.subtasks?.length ? Math.round((task.subtasks.filter(s => s.isDone).length / task.subtasks.length) * 100) : 0}%
+                                        </span>
+                                    </div>
+                                    <div className="w-40 h-1.5 bg-white/[0.05] rounded-full overflow-hidden">
                                         <motion.div 
                                             initial={{ width: 0 }}
-                                            animate={{ width: `${((task.subtasks?.filter(s => s.isDone).length || 0) / (task.subtasks?.length || 1)) * 100}%` }}
-                                            className="h-full bg-gradient-to-r from-[#B454FF] to-emerald-400"
+                                            animate={{ width: `${task.subtasks?.length ? (task.subtasks.filter(s => s.isDone).length / task.subtasks.length) * 100 : 0}%` }}
+                                            className="h-full bg-[#22C55E] shadow-[0_0_10px_rgba(34,197,94,0.3)] transition-all duration-500"
                                         />
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="bg-white/[0.02] border border-white/5 rounded-[1.5rem] p-4 space-y-2">
+                            <div className="bg-white/[0.01] border border-white/[0.03] rounded-[2rem] p-6 space-y-1">
                                 {task.subtasks?.map((sub) => (
-                                    <motion.div key={sub.id} className="flex items-center gap-4 group p-2 hover:bg-white/[0.03] rounded-xl transition-all">
-                                        <button className="shrink-0 p-1">
+                                    <motion.div 
+                                        key={sub.id} 
+                                        className="flex items-center gap-4 group p-3 hover:bg-white/[0.02] rounded-2xl transition-all cursor-pointer"
+                                    >
+                                        <button className="shrink-0 p-1 group-hover:scale-125 transition-transform">
                                             {sub.isDone ? (
-                                                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                                                <CheckCircle2 className="w-5 h-5 text-[#22C55E]" />
                                             ) : (
-                                                <Circle className="w-4 h-4 text-white/10 group-hover:text-white/40 transition-colors" />
+                                                <Circle className="w-5 h-5 text-white/10 group-hover:text-white/30 transition-colors" />
                                             )}
                                         </button>
                                         <span className={cn(
-                                            "text-[13px] font-medium transition-all flex-1",
-                                            sub.isDone ? "text-white/20 line-through" : "text-white/70"
+                                            "text-[14px] font-medium transition-all flex-1",
+                                            sub.isDone ? "text-white/20 line-through" : "text-white/70 group-hover:text-white"
                                         )}>
                                             {sub.title}
                                         </span>
                                         <div className="opacity-0 group-hover:opacity-100 flex items-center gap-2 transition-opacity">
-                                            <Button variant="ghost" size="icon" className="w-7 h-7 rounded-lg hover:bg-red-500/10 text-white/10 hover:text-red-400">
-                                                <Trash2 className="w-3.5 h-3.5" />
+                                            <Button variant="ghost" size="icon" className="w-8 h-8 rounded-xl hover:bg-red-500/10 text-white/10 hover:text-red-400 premium-apple-button">
+                                                <Trash2 className="w-4 h-4" />
                                             </Button>
                                         </div>
                                     </motion.div>
                                 ))}
                                 
-                                <div className="flex items-center gap-4 p-2 focus-within:bg-white/[0.03] rounded-xl transition-all">
-                                    <Plus className="w-4 h-4 text-white/10" />
+                                <div className="flex items-center gap-4 p-3 focus-within:bg-white/[0.02] rounded-2xl transition-all">
+                                    <Plus className="w-5 h-5 text-white/10" />
                                     <Input 
                                         value={newSubtask}
                                         onChange={(e) => setNewSubtask(e.target.value)}
-                                        placeholder="Añadir un requerimiento o subtarea..."
-                                        className="bg-transparent border-none p-0 focus-visible:ring-0 text-[13px] text-white/40 h-auto placeholder:text-white/5"
+                                        placeholder="+ Añadir un requerimiento..."
+                                        className="bg-transparent border-none p-0 focus-visible:ring-0 text-[14px] text-white/40 h-auto placeholder:text-white/5 font-medium"
                                     />
                                 </div>
                             </div>
@@ -345,56 +354,56 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                     </div>
                 </div>
 
-                {/* Right Panel: Sidebar (30%) */}
-                <div className="w-[450px] bg-[#0E0E0E] border-l border-white/5 flex flex-col">
-                    {/* Tabs Navigation */}
-                    <div className="flex p-3 gap-2 bg-[#0C0C0C] border-b border-white/5">
+                {/* Right Panel: Sidebar (30%) - Activity & Chat Combined Panel */}
+                <div className="w-[480px] bg-[#0C0C0C] border-l border-white/5 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.2)]">
+                    {/* Tabs Navigation - High Precision */}
+                    <div className="flex p-4 gap-2 bg-[#0C0C0C] border-b border-white/[0.03]">
                         <button 
                             onClick={() => setActiveTab('COMMENTS')}
                             className={cn(
-                                "flex-1 flex items-center justify-center gap-2 h-10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                                activeTab === 'COMMENTS' ? "bg-white/5 text-[#B454FF]" : "text-white/20 hover:text-white"
+                                "flex-1 flex items-center justify-center gap-2.5 h-11 rounded-[14px] text-[10px] font-black uppercase tracking-[0.15em] transition-all premium-apple-button",
+                                activeTab === 'COMMENTS' ? "bg-white/5 text-[#B454FF] border border-white/5" : "text-white/20 hover:text-white"
                             )}
                         >
-                            <MessageSquare className="w-3.5 h-3.5" />
-                            Chat
+                            <MessageSquare className="w-4 h-4" />
+                            Feed de Chat
                         </button>
                         <button 
                             onClick={() => setActiveTab('ACTIVITY')}
                             className={cn(
-                                "flex-1 flex items-center justify-center gap-2 h-10 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
-                                activeTab === 'ACTIVITY' ? "bg-white/5 text-blue-400" : "text-white/20 hover:text-white"
+                                "flex-1 flex items-center justify-center gap-2.5 h-11 rounded-[14px] text-[10px] font-black uppercase tracking-[0.15em] transition-all premium-apple-button",
+                                activeTab === 'ACTIVITY' ? "bg-white/5 text-blue-400 border border-white/5" : "text-white/20 hover:text-white"
                             )}
                         >
-                            <HistoryIcon className="w-3.5 h-3.5" />
-                            Auditoría
+                            <HistoryIcon className="w-4 h-4" />
+                            Historial
                         </button>
                     </div>
 
                     <ScrollArea className="flex-1">
                         <div className="p-8 pb-32 space-y-10">
                             {activeTab === 'COMMENTS' ? (
-                                <div className="space-y-8">
+                                <div className="space-y-10">
                                     {comments.length === 0 && (
-                                        <div className="h-[200px] flex flex-col items-center justify-center text-center space-y-4 opacity-20">
-                                            <Smile className="w-12 h-12" />
-                                            <p className="text-xs font-bold">No hay comentarios aún.<br/>¡Sé el primero en saludar!</p>
+                                        <div className="h-[300px] flex flex-col items-center justify-center text-center space-y-4 opacity-10">
+                                            <Send className="w-16 h-16" />
+                                            <p className="text-xs font-black uppercase tracking-widest">No hay actividad aún</p>
                                         </div>
                                     )}
                                     {comments.map((comment, i) => (
-                                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} key={i} className="flex gap-4">
-                                            <div className="w-9 h-9 rounded-[0.85rem] bg-gradient-to-br from-[#B454FF] to-blue-500 shrink-0 flex items-center justify-center text-white font-black text-xs shadow-lg">
+                                        <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} key={i} className="flex gap-4 group/msg">
+                                            <div className="w-10 h-10 rounded-[12px] bg-gradient-to-br from-[#B454FF] to-[#8A2BE2] shrink-0 flex items-center justify-center text-white font-black text-xs shadow-xl ring-2 ring-white/5">
                                                 {comment.sender[0]}
                                             </div>
-                                            <div className="flex-1 space-y-2">
-                                                <div className="flex items-center justify-between">
+                                            <div className="flex-1 space-y-2.5">
+                                                <div className="flex items-center justify-between ml-1">
                                                     <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">{comment.sender}</span>
-                                                    <span className="text-[9px] font-bold text-white/20">{new Date(comment.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                                    <span className="text-[9px] font-bold text-white/10">{new Date(comment.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                                 </div>
-                                                <div className="p-4 bg-white/[0.03] border border-white/5 rounded-2xl rounded-tl-none text-xs text-white/80 leading-relaxed group relative">
+                                                <div className="p-4 p-5 bg-white/[0.03] border border-white/[0.05] rounded-[22px] rounded-tl-none text-[13px] text-white/80 leading-relaxed relative group hover:bg-white/[0.05] transition-all">
                                                     {comment.text}
-                                                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                        <Smile className="w-3.5 h-3.5 text-white/20 hover:text-[#B454FF] cursor-pointer" />
+                                                    <div className="absolute -right-2 top-2 opacity-0 group-hover/msg:opacity-100 transition-all hover:scale-110">
+                                                        <Smile className="w-5 h-5 text-white/20 hover:text-[#B454FF] cursor-pointer drop-shadow-xl" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -405,15 +414,17 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                             ) : (
                                 <div className="space-y-8">
                                     {[1,2,3].map(i => (
-                                        <div key={i} className="flex gap-4 group">
-                                            <div className="w-8 h-8 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center shrink-0">
-                                                <HistoryIcon className="w-3.5 h-3.5 text-white/20" />
+                                        <div key={i} className="flex gap-4 group relative items-start">
+                                            <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-center shrink-0">
+                                                <HistoryIcon className="w-4 h-4 text-white/20" />
                                             </div>
-                                            <div className="space-y-1">
-                                                <p className="text-[11px] text-white/40 leading-snug">
-                                                    <span className="text-white/80 font-bold">Sistema</span> cambió el estado a <span className="text-[#B454FF] font-black">PRODUCCIÓN</span>
+                                            <div className="space-y-1.5 pt-1">
+                                                <p className="text-[13px] text-white/50 leading-tight">
+                                                    <span className="text-white font-bold">Bot Kinetora</span> actualizó el estado a <span className="text-[#B454FF] font-black">IMPLEMENTACIÓN</span>
                                                 </p>
-                                                <span className="text-[9px] font-black text-white/10 uppercase">Hace 2 horas</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-[9px] font-black text-white/10 uppercase tracking-widest">Hoy a las 10:3{i} AM</span>
+                                                </div>
                                             </div>
                                         </div>
                                     ))}
@@ -422,25 +433,26 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                         </div>
                     </ScrollArea>
 
-                    {/* Interaction Bar */}
-                    <div className="p-6 bg-[#0E0E0E] border-t border-white/5 shrink-0">
-                        <div className="flex flex-col gap-3">
-                            <div className="flex items-center gap-2 mb-1">
-                                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-white/20 hover:text-white hover:bg-white/5">
-                                    <AtSign className="w-4 h-4" />
+                    {/* Enhanced Interaction Bar */}
+                    <div className="p-6 bg-[#0E0E0E] border-t border-white/[0.05] shrink-0">
+                        <div className="flex flex-col gap-4">
+                            <div className="flex items-center gap-1">
+                                <Button variant="ghost" size="icon" className="w-9 h-9 rounded-xl text-white/20 hover:text-white hover:bg-white/5 transition-all">
+                                    <AtSign className="w-4.5 h-4.5" />
                                 </Button>
-                                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-white/20 hover:text-white hover:bg-white/5">
-                                    <Mail className="w-4 h-4" />
+                                <Button variant="ghost" size="icon" className="w-9 h-9 rounded-xl text-white/20 hover:text-white hover:bg-white/5 transition-all">
+                                    <Smile className="w-4.5 h-4.5" />
                                 </Button>
-                                <div className="h-4 w-px bg-white/5 mx-1" />
-                                <Button variant="ghost" size="icon" className="w-8 h-8 rounded-lg text-white/20 hover:text-white hover:bg-white/5">
-                                    <Smile className="w-4 h-4" />
+                                <Button variant="ghost" size="icon" className="w-9 h-9 rounded-xl text-white/20 hover:text-white hover:bg-white/5 transition-all">
+                                    <Paperclip className="w-4.5 h-4.5" />
                                 </Button>
+                                <div className="h-4 w-px bg-white/10 mx-2" />
+                                <span className="text-[9px] font-black text-white/10 uppercase tracking-widest">Pulsa Enter para enviar</span>
                             </div>
 
                             <div className="relative group">
                                 <Textarea 
-                                    placeholder={activeTab === 'COMMENTS' ? "Escribe @ para mencionar..." : "Busca en el historial..."}
+                                    placeholder={activeTab === 'COMMENTS' ? "Explica algo o menciona al equipo..." : "Anotar en bitácora..."}
                                     value={newComment}
                                     onChange={(e) => setNewComment(e.target.value)}
                                     onKeyDown={(e) => {
@@ -449,13 +461,13 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                                             handleSendComment();
                                         }
                                     }}
-                                    className="bg-[#141414] border-white/5 rounded-2xl p-4 pr-12 min-h-[100px] focus:border-[#B454FF]/40 transition-all text-sm resize-none placeholder:text-white/5"
+                                    className="bg-white/[0.02] border border-white/[0.05] rounded-[24px] p-5 pr-14 min-h-[120px] focus:border-[#B454FF]/30 transition-all text-sm resize-none placeholder:text-white/10 leading-relaxed font-medium"
                                 />
                                 <Button 
                                     onClick={handleSendComment}
-                                    className="absolute bottom-3 right-3 bg-[#B454FF] hover:bg-[#9E38FF] text-white w-9 h-9 rounded-xl shadow-[0_0_15px_rgba(180,84,255,0.4)] transition-all active:scale-95"
+                                    className="absolute bottom-4 right-4 bg-[#B454FF] hover:bg-[#8A2BE2] text-white w-10 h-10 rounded-[14px] shadow-[0_10px_30px_rgba(180,84,255,0.4)] transition-all active:scale-90 premium-apple-button"
                                 >
-                                    <Send className="w-4 h-4" />
+                                    <Send className="w-4.5 h-4.5" />
                                 </Button>
                             </div>
                         </div>

@@ -461,6 +461,19 @@
       rgba(0,0,0,0) 100%
     );
   }
+
+  .premium-apple-button {
+    @apply transition-all duration-200 active:scale-95 shadow-sm hover:shadow-lg;
+    border-radius: 12px;
+  }
+
+  .premium-apple-button-primary {
+    @apply bg-[#B454FF] text-white hover:bg-[#A342FF] shadow-[0_4px_20px_rgba(180,84,255,0.3)];
+  }
+
+  .premium-apple-button-ghost {
+    @apply bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10;
+  }
 }
 
 /* Liquid Hero Background Animation */

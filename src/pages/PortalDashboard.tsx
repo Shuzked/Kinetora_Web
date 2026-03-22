@@ -350,8 +350,12 @@ const PortalDashboard = () => {
                 onUpdateTask={handleUpdateTask}
                 onUpdateStatus={handleUpdateStatus}
                 onSelectTask={handleSelectTask}
-                onCreateTask={(statusId) => {
-                    setIsNewTaskModalOpen(true);
+                onCreateTask={(statusId, title) => {
+                    if (title) {
+                        handleCreateTask({ title, statusId });
+                    } else {
+                        setIsNewTaskModalOpen(true);
+                    }
                 }}
               />
             )}
@@ -368,38 +372,44 @@ const PortalDashboard = () => {
         />
       </div>
 
-      {/* Multitask Toolbar */}
+      {/* Floating Bulk Actions Toolbar - ClickUp Style Precision */}
       <AnimatePresence>
         {selectedTasksCount > 0 && (
-          <motion.div 
-            initial={{ y: 100, x: "-50%", opacity: 0 }}
-            animate={{ y: 0, x: "-50%", opacity: 1 }}
-            exit={{ y: 100, x: "-50%", opacity: 0 }}
-            className="fixed bottom-10 left-1/2 -translate-x-1/2 bg-[#1A1A1A]/90 backdrop-blur-2xl border border-white/10 px-8 py-5 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[90] flex items-center gap-10 min-w-[500px]"
+          <motion.div
+            initial={{ y: 100, opacity: 0, x: "-50%" }}
+            animate={{ y: 0, opacity: 1, x: "-50%" }}
+            exit={{ y: 100, opacity: 0, x: "-50%" }}
+            className="fixed bottom-6 md:bottom-10 left-1/2 z-[200] flex flex-wrap md:flex-nowrap items-center gap-4 md:gap-8 px-6 md:px-10 py-4 md:py-5 bg-[#111111]/90 border border-white/10 rounded-[1.5rem] md:rounded-[2.5rem] shadow-[0_20px_60px_rgba(0,0,0,0.6)] backdrop-blur-3xl ring-1 ring-white/5 w-[90vw] md:w-auto md:min-w-[600px] justify-between md:justify-start"
           >
-            <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-2xl bg-[#B454FF] flex items-center justify-center font-black text-white shadow-[0_0_20px_rgba(180,84,255,0.4)]">
+            <div className="flex items-center gap-4 pr-8 border-r border-white/10">
+                <div className="w-10 h-10 rounded-2xl bg-[#B454FF] flex items-center justify-center text-xs font-black shadow-[0_0_20px_rgba(180,84,255,0.4)] text-white">
                     {selectedTasksCount}
                 </div>
                 <div className="flex flex-col">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-[#B454FF]">Tareas Seleccionadas</span>
-                    <span className="text-xs font-bold text-white">Edición Masiva</span>
+                    <span className="text-[10px] font-black text-[#B454FF] uppercase tracking-[0.2em]">Seleccionadas</span>
+                    <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest">Acciones Masivas</span>
                 </div>
             </div>
 
-            <div className="h-10 w-px bg-white/10" />
-
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="text-[10px] font-black uppercase tracking-widest text-white/60 hover:text-white hover:bg-white/5 gap-2 h-10 pr-4 rounded-xl transition-all">
-                            <Play className="w-3.5 h-3.5" />
+                        <Button 
+                            variant="ghost" 
+                            className="premium-apple-button premium-apple-button-ghost h-12 px-6 gap-2.5 text-[10px] font-black uppercase tracking-widest"
+                        >
+                            <Play className="w-4 h-4 text-[#B454FF]" />
                             Mover a...
                         </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="bg-[#141414] border-white/10">
+                    <DropdownMenuContent className="bg-[#141414] border-white/10 p-2 rounded-2xl min-w-[200px]">
                         {statuses.map(s => (
-                            <DropdownMenuItem key={s.id} onClick={() => handleBulkUpdateStatus(s.id)} className="text-white hover:bg-[#B454FF]/10 hover:text-[#B454FF]">
+                            <DropdownMenuItem 
+                                key={s.id} 
+                                onClick={() => handleBulkUpdateStatus(s.id)} 
+                                className="text-[11px] font-bold text-white/60 hover:text-white hover:bg-white/5 rounded-xl p-3 cursor-pointer gap-2"
+                            >
+                                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: s.color }} />
                                 {s.label}
                             </DropdownMenuItem>
                         ))}
@@ -407,22 +417,22 @@ const PortalDashboard = () => {
                 </DropdownMenu>
 
                 <Button 
-                    onClick={handleBulkDelete}
                     variant="ghost" 
-                    className="text-[10px] font-black uppercase tracking-widest text-red-400 hover:bg-red-400/10 gap-2 h-10 pr-4 rounded-xl transition-all"
+                    className="premium-apple-button premium-apple-button-ghost h-12 px-6 gap-2.5 text-[10px] font-black uppercase tracking-widest text-red-400 hover:text-red-300 hover:bg-red-500/10"
+                    onClick={handleBulkDelete}
                 >
-                    <Trash2 className="w-3.5 h-3.5" />
+                    <Trash2 className="w-4 h-4" />
                     Eliminar
                 </Button>
             </div>
 
             <Button 
-                onClick={() => setTasks(tasks.map(t => ({ ...t, selected: false })))}
                 variant="ghost" 
                 size="icon" 
-                className="rounded-full hover:bg-white/5 ml-auto"
+                onClick={() => setTasks(tasks.map(t => ({ ...t, selected: false })))}
+                className="ml-auto w-10 h-10 rounded-full hover:bg-white/5 text-white/20 hover:text-white transition-all premium-apple-button"
             >
-                <CloseIcon className="w-4 h-4 text-white/20" />
+                <CloseIcon className="w-5 h-5" />
             </Button>
           </motion.div>
         )}
