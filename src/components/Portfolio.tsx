@@ -17,6 +17,7 @@ const Portfolio = () => {
   const [isPaused, setIsPaused] = React.useState(false);
   const [winWidth, setWinWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [isAnimating, setIsAnimating] = React.useState(false);
+  const [transitionConfig, setTransitionConfig] = React.useState<{ duration: number, ease: any }>({ duration: 0.6, ease: "easeInOut" });
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   // Constants
@@ -55,11 +56,19 @@ const Portfolio = () => {
   const handleAnimationComplete = () => {
     setIsAnimating(false);
     
-    // Seamless Jump logic
+    // Check if we need a seamless jump
     if (currentIndex >= totalOriginal + clonesAtEdge) {
+      // Instant reset to the start of original cards
+      setTransitionConfig({ duration: 0, ease: "linear" });
       setCurrentIndex(clonesAtEdge);
+      // Wait for the next tick to restore transition
+      setTimeout(() => setTransitionConfig({ duration: 0.6, ease: "easeInOut" }), 50);
     } else if (currentIndex < clonesAtEdge) {
-      setCurrentIndex(totalOriginal + currentIndex);
+      // Instant reset to the end of original cards
+      setTransitionConfig({ duration: 0, ease: "linear" });
+      const newIdx = totalOriginal + currentIndex;
+      setCurrentIndex(newIdx);
+      setTimeout(() => setTransitionConfig({ duration: 0.6, ease: "easeInOut" }), 50);
     }
   };
 
@@ -159,7 +168,7 @@ const Portfolio = () => {
               x: `calc(-${currentIndex * (winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33)}% - ${currentIndex * 2}rem)` 
             }}
             onAnimationComplete={handleAnimationComplete}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={transitionConfig}
           >
             {displayCards.map((cs, i) => {
               // On desktop (winWidth >= 1024), we show 3 items
