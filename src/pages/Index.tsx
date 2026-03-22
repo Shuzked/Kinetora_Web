@@ -16,7 +16,7 @@ import Contact from '@/components/Contact';
 import FAQ from '@/components/FAQ';
 import Footer from '@/components/Footer';
 import FloatingCTA from '@/components/FloatingCTA';
-import ParallaxSection from '@/components/ParallaxSection';
+import StackingSection from '@/components/StackingSection';
 import SEO from '@/components/SEO';
 import { getSeoDefaults } from '@/seo/defaults';
 import { useI18n } from '@/i18n/I18nProvider';
@@ -92,36 +92,41 @@ const Index = () => {
       <main id="main-content" role="main" aria-label="Main content" className="relative">
         <Hero />
         
-        {/* Reveal Overlay Sections */}
-        <div className="relative z-20 bg-[#0D0D0D] shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
-          <ParallaxSection intensity={10} className="relative z-10">
-            <Reveal as="div"><Brands /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={12}>
-            <Reveal as="div"><Stats /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={18}>
-            <Reveal as="div"><ValueProp /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={14}>
-            <Reveal as="div"><Services /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={16}>
-            <Reveal as="div"><HowItWorks /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={20}>
-            <Reveal as="div"><Portfolio /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={16}>
-            <Reveal as="div"><Testimonials /></Reveal>
-          </ParallaxSection>
-          <ParallaxSection intensity={14}>
-            <Contact />
-          </ParallaxSection>
-          <ParallaxSection intensity={12}>
-            <FAQ />
-          </ParallaxSection>
-        </div>
+        <StackingSection index={1} className="mt-[-100vh]">
+          <Reveal as="div"><Brands /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={2}>
+          <Reveal as="div"><Stats /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={3}>
+          <Reveal as="div"><ValueProp /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={4}>
+          <Reveal as="div"><Services /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={5}>
+          <Reveal as="div"><HowItWorks /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={6}>
+          <Reveal as="div"><Portfolio /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={7}>
+          <Reveal as="div"><Testimonials /></Reveal>
+        </StackingSection>
+        
+        <StackingSection index={8}>
+          <Contact />
+        </StackingSection>
+        
+        <StackingSection index={9}>
+          <FAQ />
+        </StackingSection>
       </main>
       <Footer />
       <FloatingCTA />
