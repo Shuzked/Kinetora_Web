@@ -15,7 +15,14 @@ const Portfolio = () => {
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [isPaused, setIsPaused] = React.useState(false);
+  const [winWidth, setWinWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    const handleResize = () => setWinWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const total = caseStudies.length;
 
@@ -109,23 +116,31 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative px-4 sm:px-[10vw]">
-        <div className="overflow-hidden sm:overflow-visible">
+      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
+        <div className="overflow-hidden lg:overflow-visible">
           <motion.div 
-            className="flex gap-6 sm:gap-10"
+            className="flex gap-6 sm:gap-8"
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={(_, info) => {
                if (info.offset.x < -100) nextSlide();
                else if (info.offset.x > 100) prevSlide();
             }}
-            animate={{ x: `calc(-${activeIndex * 100}% - ${activeIndex * (lang === 'es' ? 2.5 : 2.5)}rem)` }}
+            animate={{ 
+              x: activeIndex === 0 
+                ? 0 
+                : `calc(-${activeIndex * (winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33)}% - ${activeIndex * 2}rem)` 
+            }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
           >
             {caseStudies.map((cs, i) => (
               <div 
                 key={cs.slug} 
-                className={`w-full shrink-0 transition-opacity duration-700 ${i === activeIndex ? "opacity-100" : "opacity-30 blur-[2px] scale-[0.98]"}`}
+                className={`w-[85%] sm:w-[48%] lg:w-[31.33%] shrink-0 transition-all duration-700 ${
+                  i === activeIndex || (winWidth >= 1024 && (i === activeIndex + 1 || i === activeIndex + 2)) || (winWidth >= 640 && winWidth < 1024 && i === activeIndex + 1)
+                    ? "opacity-100 scale-100" 
+                    : "opacity-30 blur-[1px] scale-[0.96]"
+                }`}
               >
                 <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
               </div>
@@ -204,7 +219,7 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
       className="h-full relative group"
     >
       <div className="block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0 relative">
-        <div className="aspect-[16/10] overflow-hidden relative" style={{ transform: "translateZ(50px)" }}>
+        <div className="aspect-[16/9] overflow-hidden relative" style={{ transform: "translateZ(40px)" }}>
           <ImageWithSkeleton
             src={cover}
             alt={alt}
