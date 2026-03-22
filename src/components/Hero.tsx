@@ -86,11 +86,7 @@ const Hero = () => {
       className="sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
       style={{ willChange: 'transform' }}
     >
-      <motion.div 
-        style={{ scale, filter, opacity }}
-        className="flex-1 flex flex-col"
-      >
-      <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <motion.div style={{ opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
         <motion.div style={{ y: yBg }} className="liquid-bg-container">
           <div className="liquid-blob blob-purple" />
@@ -101,7 +97,12 @@ const Hero = () => {
         {/* Visibility Layer */}
         <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
-      </div>
+      </motion.div>
+
+      <motion.div 
+        style={{ scale, filter, opacity }}
+        className="flex-1 flex flex-col relative z-10"
+      >
 
       <div className="kin-container">
         <div
