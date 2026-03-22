@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from "framer-motion";
+import { motion, useAnimation, useSpring, useMotionValue, useTransform } from "framer-motion";
 import PremiumButton from "@/components/PremiumButton";
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { caseStudies } from "@/data/caseStudies";
@@ -13,11 +13,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 const Portfolio = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
-  const [activeIndex, setActiveIndex] = React.useState(0);
   const [isPaused, setIsPaused] = React.useState(false);
   const [winWidth, setWinWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
   const [isAnimating, setIsAnimating] = React.useState(false);
-  const [transitionConfig, setTransitionConfig] = React.useState<{ duration: number, ease: any }>({ duration: 0.6, ease: "easeInOut" });
+  const controls = useAnimation();
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
 
   // Constants
@@ -35,42 +34,65 @@ const Portfolio = () => {
   // Initial index starts after the 3 clones
   const [currentIndex, setCurrentIndex] = React.useState(clonesAtEdge);
 
+  const getXOffset = React.useCallback((index: number) => {
+    const cardWidthPct = winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33;
+    const gapRem = 2; // Assuming 2rem gap (gap-8)
+    return `calc(-${index * cardWidthPct}% - ${index * gapRem}rem)`;
+  }, [winWidth]);
+
   React.useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const nextSlide = React.useCallback(() => {
+  // Sync animation with state
+  React.useEffect(() => {
+    controls.set({ x: getXOffset(currentIndex) });
+  }, []); // Initial set
+
+  const nextSlide = React.useCallback(async () => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prev) => prev + 1);
-  }, [isAnimating]);
-
-  const prevSlide = React.useCallback(() => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    setCurrentIndex((prev) => prev - 1);
-  }, [isAnimating]);
-
-  const handleAnimationComplete = () => {
-    setIsAnimating(false);
     
-    // Check if we need a seamless jump
-    if (currentIndex >= totalOriginal + clonesAtEdge) {
-      // Instant reset to the start of original cards
-      setTransitionConfig({ duration: 0, ease: "linear" });
+    const nextIdx = currentIndex + 1;
+    setCurrentIndex(nextIdx);
+    
+    await controls.start({ 
+      x: getXOffset(nextIdx),
+      transition: { duration: 0.6, ease: "easeInOut" }
+    });
+
+    setIsAnimating(false);
+
+    // Seamless Jump
+    if (nextIdx >= totalOriginal + clonesAtEdge) {
+      controls.set({ x: getXOffset(clonesAtEdge) });
       setCurrentIndex(clonesAtEdge);
-      // Wait for the next tick to restore transition
-      setTimeout(() => setTransitionConfig({ duration: 0.6, ease: "easeInOut" }), 50);
-    } else if (currentIndex < clonesAtEdge) {
-      // Instant reset to the end of original cards
-      setTransitionConfig({ duration: 0, ease: "linear" });
-      const newIdx = totalOriginal + currentIndex;
-      setCurrentIndex(newIdx);
-      setTimeout(() => setTransitionConfig({ duration: 0.6, ease: "easeInOut" }), 50);
     }
-  };
+  }, [currentIndex, isAnimating, controls, getXOffset, totalOriginal]);
+
+  const prevSlide = React.useCallback(async () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
+    
+    const prevIdx = currentIndex - 1;
+    setCurrentIndex(prevIdx);
+    
+    await controls.start({ 
+      x: getXOffset(prevIdx),
+      transition: { duration: 0.6, ease: "easeInOut" }
+    });
+
+    setIsAnimating(false);
+
+    // Seamless Jump
+    if (prevIdx < clonesAtEdge) {
+      const jumpIdx = totalOriginal + prevIdx;
+      controls.set({ x: getXOffset(jumpIdx) });
+      setCurrentIndex(jumpIdx);
+    }
+  }, [currentIndex, isAnimating, controls, getXOffset, totalOriginal]);
 
   React.useEffect(() => {
     if (!isPaused) {
@@ -157,21 +179,18 @@ const Portfolio = () => {
       <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
         <div className="overflow-hidden lg:overflow-visible">
           <motion.div 
-            className="flex gap-6 sm:gap-8"
+            className="flex gap-6 sm:gap-8 translate-z-0"
+            animate={controls}
+            style={{ willChange: "transform" }}
             drag="x"
             dragConstraints={{ left: 0, right: 0 }}
             onDragEnd={(_, info) => {
-               if (info.offset.x < -100) nextSlide();
-               else if (info.offset.x > 100) prevSlide();
+              if (info.offset.x < -100) nextSlide();
+              else if (info.offset.x > 100) prevSlide();
             }}
-            animate={{ 
-              x: `calc(-${currentIndex * (winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33)}% - ${currentIndex * 2}rem)` 
-            }}
-            onAnimationComplete={handleAnimationComplete}
-            transition={transitionConfig}
           >
             {displayCards.map((cs, i) => {
-              // On desktop (winWidth >= 1024), we show 3 items
+              // Visible logic for desktop/tablet/mobile
               const isVisible = winWidth >= 1024 
                 ? (i >= currentIndex && i < currentIndex + 3)
                 : winWidth >= 640 
@@ -182,9 +201,7 @@ const Portfolio = () => {
                 <div 
                   key={`${cs.slug}-${i}`} 
                   className={`w-[85%] sm:w-[48%] lg:w-[31.33%] shrink-0 transition-all duration-700 ${
-                    isVisible
-                      ? "opacity-100 scale-100" 
-                      : "opacity-30 blur-[1px] scale-[0.96]"
+                    isVisible ? "opacity-100 scale-100" : "opacity-30 blur-[1px] scale-[0.96]"
                   }`}
                 >
                   <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
@@ -205,10 +222,15 @@ const Portfolio = () => {
             return (
               <button
                 key={i}
-                onClick={() => {
+                onClick={async () => {
                   if (isAnimating) return;
                   setIsAnimating(true);
                   setCurrentIndex(actualIndexInDisplay);
+                  await controls.start({
+                    x: getXOffset(actualIndexInDisplay),
+                    transition: { duration: 0.6, ease: "easeInOut" }
+                  });
+                  setIsAnimating(false);
                 }}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
                   isActive
