@@ -55,11 +55,11 @@ const Portfolio = () => {
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          <div className="max-w-xl">
+          <div className="max-w-3xl">
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
               {ui.badge}
             </div>
-            <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.9] flex flex-col">
+            <h2 className="mt-5 text-4xl md:text-[5.25rem] font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.85] flex flex-col">
               <RevealText text={ui.titleA.toUpperCase()} />
               <RevealText 
                 text={ui.titleB.toUpperCase()} 
@@ -98,14 +98,16 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
+      <div className="relative w-full">
         <div 
-          className="relative overflow-hidden py-4"
+          className="relative py-4"
           style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)'
+            maskImage: 'linear-gradient(to right, transparent 0%, black 5vw, black 95vw, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 5vw, black 95vw, transparent 100%)'
           }}
         >
+          {/* Internal alignment container to match parent margins */}
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
           <Swiper
             onSwiper={setSwiperRef}
@@ -131,14 +133,11 @@ const Portfolio = () => {
                 spaceBetween: 32,
               },
             }}
-            className="w-full"
+            className="w-full !overflow-visible"
           >
             {baseCards.map((cs, i) => (
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
                 {({ isActive, isPrev, isNext }) => {
-                  // Broaden visibility to ensure 3 cards are always sharp
-                  // In Swiper with slidesPerView: 3, the visible ones are active, next, and next+1
-                  // However, it's safer to just control opacity/blur globally and let mask-image handle the edges
                   return (
                     <div className="h-full transition-all duration-700 opacity-100 blur-0 scale-100">
                       <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
@@ -148,6 +147,7 @@ const Portfolio = () => {
               </SwiperSlide>
             ))}
           </Swiper>
+          </div>
         </div>
 
         {/* Pagination Dots */}
