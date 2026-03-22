@@ -66,12 +66,17 @@ const Portfolio = () => {
 
     setIsAnimating(false);
 
-    // Seamless Jump with Forced Reflow
+    // Seamless Snap with Forced Reflow: Animation to CLONE A completed, now snap to REAL A
     if (nextIdx >= totalOriginal + clonesAtEdge) {
+      // Step 1: Instant move to initial original position (no transition)
       controls.set({ x: getXOffset(clonesAtEdge) });
+      
+      // Step 2: Force Reflow to ensure browser registers the jump
       if (trackRef.current) {
-        void trackRef.current.offsetWidth; // FORCED REFLOW: Synchronizes layout
+        void trackRef.current.offsetWidth;
       }
+      
+      // Step 3: Update state ONLY after the hardware jump is done
       setCurrentIndex(clonesAtEdge);
     }
   }, [currentIndex, isAnimating, controls, getXOffset, totalOriginal]);
@@ -90,14 +95,16 @@ const Portfolio = () => {
 
     setIsAnimating(false);
 
-    // Seamless Jump with Forced Reflow
+    // Seamless Snap with Forced Reflow: Animation to CLONE C completed, now snap to REAL C
     if (prevIdx < clonesAtEdge) {
-      const jumpIdx = totalOriginal + prevIdx;
-      controls.set({ x: getXOffset(jumpIdx) });
-      if (trackRef.current) {
-        void trackRef.current.offsetWidth; // FORCED REFLOW
-      }
-      setCurrentIndex(jumpIdx);
+       const jumpIdx = totalOriginal + prevIdx;
+       controls.set({ x: getXOffset(jumpIdx) });
+       
+       if (trackRef.current) {
+         void trackRef.current.offsetWidth;
+       }
+       
+       setCurrentIndex(jumpIdx);
     }
   }, [currentIndex, isAnimating, controls, getXOffset, totalOriginal]);
 
