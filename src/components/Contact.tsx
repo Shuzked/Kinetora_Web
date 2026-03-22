@@ -182,14 +182,14 @@ const Contact = () => {
   return (
     <section
       id="contacto"
-      className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden"
+      className="kin-section bg-[#0D0D0D] relative overflow-hidden"
     >
       <div className="kin-container relative z-10">
-        <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+        <div className="max-w-3xl mx-auto text-center mb-16 lg:mb-24">
+          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
             {strings.badge}
           </div>
-          <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase flex flex-col items-center leading-tight">
+          <h2 className="flex flex-col items-center">
             <RevealText text={strings.title.split(" ").slice(0, -1).join(" ").toUpperCase()} />
             <RevealText 
               text={strings.title.split(" ").slice(-1)[0].toUpperCase()} 
@@ -197,7 +197,7 @@ const Contact = () => {
               delay={0.2}
             />
           </h2>
-          <p className="mt-3 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
+          <p className="mt-6 text-[#F5F5F5]/70 leading-relaxed underline-offset-4">
             {strings.sub}
           </p>
         </div>

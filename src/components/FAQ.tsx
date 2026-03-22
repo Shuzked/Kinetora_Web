@@ -101,10 +101,10 @@ const FAQ = () => {
         ];
 
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] border-t border-white/10">
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-black text-[#F5F5F5] text-center mb-12 sm:mb-16 tracking-tighter uppercase">
+    <section className="kin-section bg-[#0D0D0D] border-t border-white/10">
+      <div className="kin-container">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-center mb-16 lg:mb-24">
             <RevealText text={lang === "es" ? "Preguntas frecuentes" : "Frequently asked questions"} />
           </h2>
           <Accordion type="single" collapsible className="w-full space-y-4">

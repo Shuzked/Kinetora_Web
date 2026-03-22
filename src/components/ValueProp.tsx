@@ -99,15 +99,15 @@ const ValueProp = () => {
       </div>
 
       <div className="kin-container relative z-10">
-        <div className="max-w-4xl mx-auto text-center mb-14 sm:mb-16 lg:mb-20">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+        <div className="max-w-4xl mx-auto text-center mb-16 lg:mb-24">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
             {copy.pill}
           </div>
-          <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] mb-4 tracking-tighter uppercase break-words">
-            {copy.titleTop} <br className="hidden sm:block" />
+          <h2 className="mb-6 flex flex-col items-center">
+            <span>{copy.titleTop}</span>
             <span className="text-[#B454FF]">{copy.titleAccent}</span>
           </h2>
-          <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed break-words">
+          <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto leading-relaxed underline-offset-4">
             {copy.sub}
           </p>
         </div>
@@ -126,7 +126,7 @@ const ValueProp = () => {
                   <div className="w-11 h-11 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-red-300/70" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
+                  <h3 className="uppercase">
                     {copy.left.title}
                   </h3>
                 </div>
@@ -183,7 +183,7 @@ const ValueProp = () => {
                   <div className="w-11 h-11 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
                     <Zap className="w-5 h-5 text-[#B454FF]" />
                   </div>
-                  <h3 className="text-sm sm:text-base font-black text-[#F5F5F5] uppercase tracking-[0.22em]">
+                  <h3 className="uppercase">
                     {copy.right.title}
                   </h3>
                 </div>

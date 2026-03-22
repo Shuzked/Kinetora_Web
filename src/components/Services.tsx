@@ -53,11 +53,11 @@ const Services = () => {
         <div className="pointer-events-none h-96 w-96 rounded-full bg-[#B454FF]/5 blur-[100px]" />
       </ScrollParallax>
       <div className="kin-container">
-        <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24">
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
+        <div className="max-w-4xl mb-12 sm:mb-16 lg:mb-24">
+          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
             {copy.badge}
           </div>
-          <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter leading-[1.1] flex flex-col">
+          <h2 className="flex flex-col">
             <RevealText text={copy.titleTop.toUpperCase()} />
             <RevealText 
               text={copy.titleBottom.toUpperCase().replace(/\.$/, "")} 
@@ -65,7 +65,7 @@ const Services = () => {
               delay={0.2} 
             />
           </h2>
-          <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
+          <p className="mt-6 text-[#F5F5F5]/70 max-w-2xl leading-relaxed">
             {copy.sub}
           </p>
         </div>
@@ -98,10 +98,10 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">
+                  <h3 className="mb-4 uppercase">
                     {copy.cards.brandingTitle}
                   </h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
+                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-sm">
                     {copy.cards.brandingDesc}
                   </p>
                 </div>
@@ -136,8 +136,8 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.digitalTitle}</h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
+                  <h3 className="mb-4 uppercase">{copy.cards.digitalTitle}</h3>
+                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-[280px]">
                     {copy.cards.digitalDesc}
                   </p>
                 </div>
@@ -172,8 +172,8 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.multimediaTitle}</h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
+                  <h3 className="mb-4 uppercase">{copy.cards.multimediaTitle}</h3>
+                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-[280px]">
                     {copy.cards.multimediaDesc}
                   </p>
                 </div>
@@ -208,10 +208,10 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
+                  <h3 className="mb-4 uppercase">
                     {copy.cards.commsTitle}
                   </h3>
-                  <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
+                  <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed max-w-sm">
                     {copy.cards.commsDesc}
                   </p>
                 </div>

@@ -118,7 +118,7 @@ const Footer = () => {
       role="contentinfo"
       aria-label={lang === "es" ? "Pie de página" : "Footer"}
     >
-      <div className="kin-container py-10 sm:py-12">
+      <div className="kin-container pt-16 pb-12 md:pt-24 md:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
@@ -203,10 +203,10 @@ const Footer = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B454FF]/10 border border-[#B454FF]/30 text-[#B454FF] text-[11px] font-extrabold tracking-widest uppercase mb-3">
               {strings.badge}
             </div>
-            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line">
+            <h3 className="tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line mb-6">
               {strings.title}
             </h3>
-            <p className="text-[#F5F5F5]/70 mt-3 mb-6 max-w-xl">
+            <p className="text-[#F5F5F5]/70 mb-8 max-w-xl">
               {strings.sub}
             </p>
 

@@ -111,16 +111,16 @@ const Pricing = () => {
   };
 
   return (
-    <section id="precios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden">
+    <section id="precios" className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden">
       <ScrollParallax speed={0.08} invert={true} className="absolute top-1/2 -right-32">
         <div className="pointer-events-none h-80 w-80 rounded-full bg-[#B454FF]/5 blur-[120px]" />
       </ScrollParallax>
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12 sm:mb-16">
-          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
+      <div className="kin-container">
+        <div className="text-center mb-16 lg:mb-24">
+          <h2 className="mb-6">
             <RevealText text={copy.title.toUpperCase()} />
           </h2>
-          <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>
+          <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs underline-offset-4">{copy.sub}</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 md:gap-8">
@@ -140,7 +140,7 @@ const Pricing = () => {
                 </div>
               )}
               <div className="flex-1">
-                <h3 className="text-xl font-bold text-[#F5F5F5] mb-2">{plan.name}</h3>
+                  <h3 className="mb-2">{plan.name}</h3>
                 <div className="text-4xl font-black text-[#F5F5F5] mb-4">
                   {plan.price}
                   {(plan as any).perMonth !== false && (

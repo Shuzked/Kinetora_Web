@@ -107,18 +107,14 @@ const Hero = () => {
         <div
           className="relative z-10 flex-1 min-h-[100dvh] flex flex-col items-center justify-center text-center"
         >
-          <h1
-            className="text-3xl sm:text-5xl lg:text-7xl font-black text-[#F5F5F5] leading-[1.08] sm:leading-[1.05] mb-5 sm:mb-7 tracking-tighter uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 overflow-visible"
-          >
+          <h1 className="mb-6 sm:mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000">
             {copy.headlineTop.replace(/\.$/, "")} <br />
-            <span className="inline-block pr-[0.1em] text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow leading-[1.05]">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
                {copy.headlineAccent.replace(/\.$/, "")}
              </span>
           </h1>
 
-          <p
-            className="text-sm md:text-lg text-[#F5F5F5]/80 max-w-[32rem] leading-relaxed font-medium mb-7 sm:mb-10 animate-in fade-in duration-1000 delay-500 fill-mode-both"
-          >
+          <p className="text-sm md:text-xl text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-10 sm:mb-12 animate-in fade-in duration-1000 delay-500 fill-mode-both">
             {copy.sub}
           </p>
 

@@ -52,7 +52,7 @@ const Brands = () => {
       aria-label={
         lang === "es" ? "Marcas que confían en Kinetora" : "Brands that trust Kinetora"
       }
-      className="py-14 sm:py-16 bg-[#0D0D0D] border-y border-white/10 overflow-hidden"
+      className="kin-section bg-[#0D0D0D] border-y border-white/10 overflow-hidden"
     >
       <div className="kin-container">
         <div className="text-center mb-8 sm:mb-10">

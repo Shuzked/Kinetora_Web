@@ -232,8 +232,8 @@ const Testimonials = () => {
   return (
     <section className="kin-section relative overflow-hidden pointer-events-auto">
       <div className="kin-container pointer-events-auto">
-        <div className="text-center mb-12 sm:mb-16 pointer-events-none">
-          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-4 tracking-tighter">
+        <div className="text-center mb-16 lg:mb-20 pointer-events-none">
+          <h2 className="mb-6">
             <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} />
           </h2>
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-xs">{copy.sub}</p>

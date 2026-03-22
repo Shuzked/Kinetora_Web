@@ -54,42 +54,44 @@ const Portfolio = () => {
       className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden group/portfolio"
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
               {ui.badge}
             </div>
-            <h2 className="mt-5 text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.9] flex flex-col">
-              <RevealText text={ui.titleA.toUpperCase()} />
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5.25rem] font-black text-[#F5F5F5] tracking-tighter uppercase leading-[0.85] flex flex-col">
+              <span className="whitespace-nowrap">
+                <RevealText text={ui.titleA.toUpperCase()} />
+              </span>
               <RevealText 
                 text={ui.titleB.toUpperCase()} 
                 className="text-[#B454FF]" 
                 delay={0.2} 
               />
             </h2>
-            <p className="mt-6 text-[#F5F5F5]/60 text-lg font-medium max-w-md leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
+            <p className="mt-6 text-[#F5F5F5]/60 text-lg md:text-xl font-medium max-w-lg leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
               {ui.sub}
             </p>
           </div>
           
-          <div className="flex items-center gap-4">
-             <Link to="/casos" className="shrink-0">
-              <PremiumButton variant="glass" size="md" className="hidden sm:inline-flex">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+             <Link to="/casos" className="shrink-0 w-full sm:w-auto">
+              <PremiumButton variant="glass" size="md" className="w-full sm:w-auto h-12 px-8">
                 {ui.viewAll.toUpperCase()}
               </PremiumButton>
             </Link>
             
             {/* Controls */}
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button 
                 onClick={() => swiperRef?.slidePrev()}
-                className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
+                className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-95"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button 
                 onClick={() => swiperRef?.slideNext()}
-                className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-90"
+                className="h-12 w-12 rounded-full border border-white/10 bg-white/5 flex items-center justify-center text-white hover:bg-white/10 hover:border-[#B454FF]/40 transition-all active:scale-95"
               >
                 <ChevronRight className="w-5 h-5" />
               </button>
@@ -98,14 +100,8 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
-        <div 
-          className="relative overflow-hidden py-4"
-          style={{
-            maskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 40px, black calc(100% - 40px), transparent 100%)'
-          }}
-        >
+      <div className="kin-container-fluid">
+        <div className="relative py-4">
           <Swiper
             onSwiper={setSwiperRef}
             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
@@ -118,19 +114,23 @@ const Portfolio = () => {
               pauseOnMouseEnter: true,
             }}
             grabCursor={true}
-            slidesPerView={1.2}
-            spaceBetween={24}
+            slidesPerView={1.1}
+            spaceBetween={16}
             breakpoints={{
               640: {
-                slidesPerView: 2,
-                spaceBetween: 32,
+                slidesPerView: 1.5,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 2.2,
+                spaceBetween: 24,
               },
               1024: {
                 slidesPerView: 3,
                 spaceBetween: 32,
               },
             }}
-            className="w-full"
+            className="w-full px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto !overflow-visible"
           >
             {baseCards.map((cs, i) => (
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">

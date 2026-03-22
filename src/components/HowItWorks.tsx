@@ -80,14 +80,14 @@ const HowItWorks = () => {
   return (
     <section
       id="como-funciona"
-      className="py-20 sm:py-24 lg:py-28 bg-[#0D0D0D] border-y border-white/10 scroll-mt-24 md:scroll-mt-28 relative overflow-hidden"
+      className="kin-section bg-[#0D0D0D] border-y border-white/10 scroll-mt-24 md:scroll-mt-28 relative overflow-hidden"
     >
       <ScrollParallax speed={0.05} invert={true} className="absolute -bottom-24 -left-24">
         <div className="pointer-events-none h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />
       </ScrollParallax>
       <div className="kin-container">
-        <div className="text-center mb-14 sm:mb-16 lg:mb-20">
-          <h2 className="text-3xl md:text-5xl font-black text-[#F5F5F5] mb-0 tracking-tighter leading-tight flex flex-col items-center">
+        <div className="text-center mb-16 lg:mb-24">
+          <h2 className="flex flex-col items-center">
             <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} />
             <RevealText 
               text={copy.titleAccent.toUpperCase().replace(/\.$/, "")} 
@@ -95,7 +95,7 @@ const HowItWorks = () => {
               delay={0.2} 
             />
           </h2>
-          <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+          <p className="mt-6 text-[#F5F5F5]/70 max-w-2xl mx-auto leading-relaxed underline-offset-4">
             {copy.sub}
           </p>
         </div>
@@ -114,7 +114,7 @@ const HowItWorks = () => {
                 {step.number}
               </div>
               <div className="relative z-10 pl-2 sm:pl-0">
-                <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tight">
+                <h3 className="mb-4 uppercase">
                   {step.title}
                 </h3>
                 <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>
