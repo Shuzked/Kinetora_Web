@@ -12,15 +12,6 @@ import RevealText from "@/components/ui/RevealText";
 const Portfolio = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
-  const targetRef = useRef<HTMLDivElement | null>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-  });
-
-  // Calculate the horizontal translation. 
-  // We move from 0% (start) to -70% (approx end of track)
-  const x = useTransform(scrollYProgress, [0.1, 0.9], ["0%", "-70%"]);
 
   const ui =
     lang === "es"
@@ -50,51 +41,39 @@ const Portfolio = () => {
   return (
     <section
       id="casos"
-      ref={targetRef}
-      className="relative h-[300vh] bg-[#0D0D0D]"
+      className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28"
     >
-      <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <div className="kin-container mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-            <div>
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
-                {ui.badge}
-              </div>
-              <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-none flex flex-col">
-                <RevealText text={ui.titleA.toUpperCase()} />
-                <RevealText 
-                  text={ui.titleB.toUpperCase()} 
-                  className="text-[#B454FF]" 
-                  delay={0.2} 
-                />
-              </h2>
+      <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div>
+            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80">
+              {ui.badge}
             </div>
-
-            <Link to="/casos" className="shrink-0">
-              <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
-                {ui.viewAll.toUpperCase()}
-              </PremiumButton>
-            </Link>
+            <h2 className="mt-5 text-3xl md:text-5xl font-black text-[#F5F5F5] tracking-tighter uppercase leading-none flex flex-col">
+              <RevealText text={ui.titleA.toUpperCase()} />
+              <RevealText 
+                text={ui.titleB.toUpperCase()} 
+                className="text-[#B454FF]" 
+                delay={0.2} 
+              />
+            </h2>
           </div>
-        </div>
 
-        <div className="relative">
-          <motion.div 
-            style={{ x }} 
-            className="flex gap-8 px-[10vw]"
-          >
-            {caseStudies.map((cs) => (
-              <div key={cs.slug} className="w-[320px] sm:w-[450px] shrink-0">
-                <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
-              </div>
-            ))}
-          </motion.div>
+          <Link to="/casos" className="shrink-0">
+            <PremiumButton variant="glass" size="md" className="w-full sm:w-auto">
+              {ui.viewAll.toUpperCase()}
+            </PremiumButton>
+          </Link>
         </div>
+      </div>
 
-        <div className="mt-12 text-center">
-            <p className="text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/35">
-              {ui.swipe}
-            </p>
+      <div className="kin-container">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+          {caseStudies.map((cs) => (
+            <div key={cs.slug} className="h-full">
+              <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
+            </div>
+          ))}
         </div>
       </div>
     </section>
