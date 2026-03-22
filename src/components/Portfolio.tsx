@@ -98,11 +98,11 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto">
-        <div className="relative overflow-hidden py-4">
-          {/* Edge Masks - Fine-tuned for cinematic fade */}
-          <div className="absolute left-0 top-0 h-full w-[15%] lg:w-[20%] z-10 pointer-events-none bg-gradient-to-r from-[#0D0D0D] to-transparent" />
-          <div className="absolute right-0 top-0 h-full w-[15%] lg:w-[20%] z-10 pointer-events-none bg-gradient-to-l from-[#0D0D0D] to-transparent" />
+      <div className="relative px-4 sm:px-[5vw] lg:px-0 lg:max-w-[calc(80rem+120px)] lg:mx-auto">
+        <div className="relative overflow-hidden py-4 px-[60px]">
+          {/* Narrow Edge Masks for Sharpness - Fade only at the very edge */}
+          <div className="absolute left-0 top-0 h-full w-[60px] z-10 pointer-events-none bg-gradient-to-r from-[#0D0D0D] via-[#0D0D0D]/10 to-transparent" />
+          <div className="absolute right-0 top-0 h-full w-[60px] z-10 pointer-events-none bg-gradient-to-l from-[#0D0D0D] via-[#0D0D0D]/10 to-transparent" />
 
           <Swiper
             onSwiper={setSwiperRef}
@@ -116,8 +116,8 @@ const Portfolio = () => {
               pauseOnMouseEnter: true,
             }}
             grabCursor={true}
-            slidesPerView={1.2}
-            spaceBetween={24}
+            slidesPerView={1.1}
+            spaceBetween={20}
             breakpoints={{
               640: {
                 slidesPerView: 2,
@@ -137,7 +137,7 @@ const Portfolio = () => {
                   return (
                     <div 
                       className={`h-full transition-all duration-700 ${
-                        isVisible ? "opacity-100 scale-100" : "opacity-30 blur-[1px] scale-[0.96]"
+                        isVisible ? "opacity-100 scale-100 blur-0" : "opacity-30 blur-[2px] scale-[0.96]"
                       }`}
                     >
                       <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
