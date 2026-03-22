@@ -12,7 +12,9 @@ import {
   Eye,
   Check,
   Trash2,
-  X as CloseIcon
+  X as CloseIcon,
+  List,
+  LayoutGrid
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -26,6 +28,7 @@ import { toast } from "sonner";
 
 // New Components
 import TaskBoard, { type Task, type Status, type TaskPriority } from "@/components/portal/TaskList";
+import TaskListView from "@/components/portal/TaskListView";
 import TaskDrawer from "@/components/portal/TaskDrawer";
 import NewRequestForm from "@/components/portal/NewRequestForm";
 import { 
@@ -76,6 +79,7 @@ const PortalDashboard = () => {
   const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilters, setActiveFilters] = useState<string[]>([]); // Status IDs to hide
+  const [viewMode, setViewMode] = useState<'BOARD' | 'LIST'>('LIST');
   const socketRef = useRef<Socket | null>(null);
 
   useEffect(() => {
@@ -217,6 +221,29 @@ const PortalDashboard = () => {
                 />
             </div>
 
+            <div className="flex items-center bg-white/5 p-1.5 rounded-2xl border border-white/10 ml-0 md:ml-auto">
+                <button 
+                  onClick={() => setViewMode('LIST')}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                    viewMode === 'LIST' ? "bg-[#B454FF] text-white shadow-[0_0_20px_rgba(180,84,255,0.3)]" : "text-white/30 hover:text-white"
+                  )}
+                >
+                  <List className="w-4 h-4" />
+                  Lista
+                </button>
+                <button 
+                  onClick={() => setViewMode('BOARD')}
+                  className={cn(
+                    "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all",
+                    viewMode === 'BOARD' ? "bg-[#B454FF] text-white shadow-[0_0_20px_rgba(180,84,255,0.3)]" : "text-white/30 hover:text-white"
+                  )}
+                >
+                  <LayoutGrid className="w-4 h-4" />
+                  Tablero
+                </button>
+            </div>
+
             {/* Smart Filters */}
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -284,18 +311,42 @@ const PortalDashboard = () => {
           </div>
         </header>
 
-        {/* Task Board Section */}
-        <TaskBoard 
-          tasks={filteredTasks} 
-          statuses={statuses}
-          onTaskClick={(task) => setSelectedTask(task)} 
-          onUpdateTask={handleUpdateTask}
-          onUpdateStatus={handleUpdateStatus}
-          onSelectTask={handleSelectTask}
-          onCreateTask={(statusId) => {
-              setIsNewTaskModalOpen(true);
-          }}
-        />
+        {/* Task View Section */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={viewMode}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ duration: 0.3 }}
+          >
+            {viewMode === 'BOARD' ? (
+              <TaskBoard 
+                tasks={filteredTasks} 
+                statuses={statuses}
+                onTaskClick={(task) => setSelectedTask(task)} 
+                onUpdateTask={handleUpdateTask}
+                onUpdateStatus={handleUpdateStatus}
+                onSelectTask={handleSelectTask}
+                onCreateTask={(statusId) => {
+                    setIsNewTaskModalOpen(true);
+                }}
+              />
+            ) : (
+              <TaskListView 
+                tasks={filteredTasks}
+                statuses={statuses}
+                onTaskClick={(task) => setSelectedTask(task)}
+                onUpdateTask={handleUpdateTask}
+                onUpdateStatus={handleUpdateStatus}
+                onSelectTask={handleSelectTask}
+                onCreateTask={(statusId) => {
+                    setIsNewTaskModalOpen(true);
+                }}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Task Drawer */}
         <TaskDrawer 
