@@ -16,6 +16,7 @@ const Hero = () => {
   const blur = useTransform(scrollY, [0, 600], [0, 5]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0.8]);
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
+  const yBg = useTransform(scrollY, [0, 1000], [0, 100]); // 0.1 speed
 
 
 
@@ -90,11 +91,11 @@ const Hero = () => {
       >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
-        <div className="liquid-bg-container">
+        <motion.div style={{ y: yBg }} className="liquid-bg-container">
           <div className="liquid-blob blob-purple" />
           <div className="liquid-blob blob-blue" />
           <div className="liquid-blob blob-coral" />
-        </div>
+        </motion.div>
 
         {/* Visibility Layer */}
         <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
