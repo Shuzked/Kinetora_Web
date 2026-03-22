@@ -74,10 +74,10 @@ const CookieBanner = () => {
                     />
                   </svg>
                 </div>
-                <h3 className="text-white font-bold tracking-tight">{t("banner.title")}</h3>
+                <h3 className="text-white font-bold text-base tracking-tight">{t("banner.title")}</h3>
               </div>
 
-              <p className="text-[#F5F5F5]/70 text-[13px] leading-relaxed">
+              <p className="text-[#F5F5F5]/60 text-sm leading-relaxed">
                 {t("banner.desc")}
               </p>
 
@@ -108,7 +108,7 @@ const CookieBanner = () => {
             /* EXPANDED VIEW */
             <div className="space-y-5">
               <div className="flex items-center justify-between">
-                <h3 className="text-white font-bold tracking-tight">{t("banner.manage")}</h3>
+                <h3 className="text-white font-bold text-base tracking-tight">{t("banner.manage")}</h3>
                 <button
                   onClick={() => setIsExpanded(false)}
                   className="text-[#F5F5F5]/40 hover:text-white transition-colors"

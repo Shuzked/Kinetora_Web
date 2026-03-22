@@ -18,85 +18,85 @@ const FAQ = () => {
       ? [
           {
             q: "¿Qué planes ofrecéis?",
-            a: "Trabajamos con tres opciones: Essential (1 petición activa en cola), Full‑Stack (2 peticiones en paralelo) y Custom para proyectos a medida. Puedes pausar o cambiar de plan según el volumen.",
+            a: "Ofrecemos planes de suscripción personalizados según tus necesidades y presupuesto. Tras una llamada de kickoff, proponemos un plan a medida que se ajusta a tus prioridades — ya sea identidad de marca, UX/UI, desarrollo web, motion graphics o una combinación de servicios.",
           },
           {
-            q: "¿Por qué no contratar simplemente a un diseñador a tiempo completo?",
-            a: "Un senior en plantilla supera 70k€/año y es difícil cubrir Branding, Web y Motion a nivel experto con una sola persona. Con Kinetora tienes un equipo multidisciplinar por una fracción del coste y la libertad de pausar cuando baje el volumen.",
+            q: "¿Por qué no contratar a un diseñador a tiempo completo?",
+            a: "Un diseñador a tiempo completo cuesta 3–5 veces más si consideras salario, beneficios, equipamiento y tiempo improductivo. Con Kinetora obtienes un equipo sénior multidisciplinar a una tarifa mensual predecible, sin demoras de contratación ni costes indirectos.",
           },
           {
-            q: "¿Hay límite de peticiones?",
-            a: "No hay límite de peticiones en tu tablero: trabajamos por cola (1 a la vez en Essential, 2 a la vez en Full‑Stack). Tú defines prioridades; nosotros mantenemos el ritmo.",
+            q: "¿Hay límite de solicitudes?",
+            a: "Sin límite. Puedes hacer cola con tantas solicitudes como necesites. Trabajamos de una en una (o en paralelo según el acuerdo), siempre con entregas en 48h.",
           },
           {
-            q: "¿Qué tan rápido entregáis?",
-            a: "Velocidad real: tareas estándar entre 24 y 48 horas. En piezas complejas (p. ej., una web completa o un vídeo de 60s) dividimos en hitos y entregamos progreso funcional cada 48 horas.",
+            q: "¿Cuánto tardáis en entregar?",
+            a: "La mayoría de entregables se completan en 48 horas desde que se inician. Los proyectos complejos como identidades de marca completas o webs se dividen en hitos, cada uno con un ciclo claro de 48h.",
           },
           {
-            q: "¿Cómo nos coordinamos si evitáis reuniones?",
-            a: "La coordinación es 100% asíncrona por email o chat. Gestionamos tareas en tu herramienta o en ClickUp: prioridades, estados y fechas claras. Podemos agendar reuniones puntuales cuando aporte valor.",
+            q: "¿Cómo nos coordinamos sin reuniones recurrentes?",
+            a: "Trabajamos async por defecto, vía Telegram o Discord y gestionamos tareas en ClickUp o en tu herramienta preferida. Al final de los dias, realizaremos un informe de lo que hemos hecho durante el día, para que estés 100% informado. Programamos reuniones solo cuando es realmente necesario, para que tu calendario quede libre.",
           },
           {
             q: "¿Quién hace realmente el trabajo?",
-            a: "Trabajo senior, sin derivar a perfiles junior ni outsourcing low‑cost. Colaboras con los fundadores e ingenieros visuales de Kinetora para garantizar criterio, consistencia y un acabado premium.",
+            a: "Tu trabajo lo realiza un equipo sénior con expertise en branding, UX/UI, desarrollo web y motion.",
           },
           {
-            q: "¿Y si el resultado no me convence?",
-            a: "Incluimos revisiones limitadas dentro de cada entrega para pulir copy, layout, color y microinteracciones hasta cerrar el alcance acordado sin fricción.",
+            q: "¿Qué pasa si no estoy satisfecho con el resultado?",
+            a: "Las revisiones ilimitadas están incluidas hasta que estés satisfecho. No cerramos una tarea hasta que la apruebes.",
           },
           {
             q: "¿Hay permanencia o costes ocultos?",
-            a: "No. Tarifa plana mensual, sin sorpresas ni contratos de permanencia. Si un mes no lo necesitas, pausas o cancelas sin penalización.",
+            a: "Sin permanencia. Puedes pausar o cancelar tu suscripción en cualquier momento con 30 días de aviso. Sin costes ocultos. El precio mensual cubre todo lo acordado en tu plan.",
           },
           {
             q: "¿Qué significa pausar la suscripción?",
-            a: "El ciclo son 31 días de servicio efectivo. Si usas 15 días y pausas, el contador se detiene y te quedan 16 días para retomar más adelante. Pagas por trabajo real, no por promesas.",
+            a: "Si tienes un período más tranquilo, puedes pausar tu suscripción y reanudarla más tarde sin perder los días restantes. Es flexible por diseño.",
           },
           {
             q: "¿Hay algo que no cubráis?",
-            a: "Nos enfocamos en activos de alto rendimiento. No realizamos modelado 3D complejo de personajes, backend a medida o maquetación/impresión de libros o revistas de gran extensión.",
+            a: "Nos enfocamos en activos de alto rendimiento. No realizamos modelado 3D complejo de personajes, backend a medida o maquetación/impresión de libros o revistas de gran extensión. Si tienes dudas, pregúntanoslo y seremos directos contigo.",
           },
         ]
       : [
           {
             q: "What plans do you offer?",
-            a: "We have three options: Essential (1 active request in queue), Full‑Stack (2 requests in parallel), and Custom for tailored projects. You can pause or switch plans as volume changes.",
+            a: "We offer personalized subscription plans tailored to your needs and budget. After a kickoff call, we propose a custom plan that fits your priorities — whether it's brand identity, UX/UI, web development, motion graphics, or a combination of services.",
           },
           {
-            q: "Why not hire a full‑time designer?",
-            a: "A senior in‑house hire easily exceeds €70k/year and it's hard for one person to cover Brand, Web and Motion at an expert level. With Kinetora you get a multidisciplinary team for a fraction of the cost—and you can pause anytime.",
+            q: "Why not hire a full-time designer?",
+            a: "A full-time designer costs 3–5 times more when you consider salary, benefits, equipment, and downtime. With Kinetora, you get a senior multidisciplinary team for a predictable monthly fee, without hiring delays or indirect costs.",
           },
           {
             q: "Is there a limit to requests?",
-            a: "No. Add as many as you want to your board: we work through your queue (1 at a time on Essential, 2 in parallel on Full‑Stack). You set priorities; we keep the pace.",
+            a: "No limit. You can queue as many requests as you need. We work through them one at a time (or in parallel depending on the agreement), always with 48h deliveries.",
           },
           {
-            q: "How fast do you deliver?",
-            a: "Real speed: standard tasks in 24–48 hours. For complex work (e.g., a full website or a 60s video), we split scope into milestones and ship functional progress every 48 hours.",
+            q: "How long does delivery take?",
+            a: "Most deliverables are completed within 48 hours of starting. Complex projects like full brand identities or websites are divided into milestones, each with a clear 48-hour cycle.",
           },
           {
-            q: "How do we coordinate with no recurring meetings?",
-            a: "We work 100% async via email or chat. We manage tasks in your tool or in ClickUp with clear priorities, statuses and due dates—and we schedule focused calls when it adds value.",
+            q: "How do we coordinate without recurring meetings?",
+            a: "We work async by default via Telegram or Discord and manage tasks in ClickUp or your preferred tool. At the end of each day, we provide a report of what we've done, so you're 100% informed. We schedule meetings only when strictly necessary, to keep your calendar free.",
           },
           {
             q: "Who actually does the work?",
-            a: "Senior team only—no junior handoffs or low‑cost outsourcing. You work directly with Kinetora's founders and visual engineers to ensure taste, consistency and a premium finish.",
+            a: "Your work is performed by a senior team with expertise in branding, UX/UI, web development, and motion.",
           },
           {
-            q: "What if I'm not happy with the result?",
-            a: "We include limited revisions within each delivery to refine copy, layout, color and micro‑interactions until the agreed scope is done without friction.",
+            q: "What if I'm not satisfied with the result?",
+            a: "Unlimited revisions are included until you're satisfied. We don't close a task until you approve it.",
           },
           {
-            q: "Any lock‑in or hidden costs?",
-            a: "No. Flat monthly pricing, no surprises and no long‑term contracts. If you don't need us for a month, you can pause or cancel with no penalty.",
+            q: "Is there a minimum stay or hidden costs?",
+            a: "No minimum stay. You can pause or cancel your subscription at any time with a 30-day notice. No hidden costs. The monthly price covers everything agreed upon in your plan.",
           },
           {
             q: "What does pausing the subscription mean?",
-            a: "Our cycle is 31 days of active service. If you use 15 days and pause, the clock stops and you keep 16 days for later. You pay for real work, not promises.",
+            a: "If you have a quieter period, you can pause your subscription and resume it later without losing the remaining days. It's flexible by design.",
           },
           {
-            q: "Anything you don't cover?",
-            a: "We focus on high‑performance creative assets. We don't do complex character 3D modeling, custom backend development, or long‑form book/magazine layout and printing.",
+            q: "Is there anything you don't cover?",
+            a: "We focus on high-performance creative assets. We don't do complex 3D character modeling, custom backend development, or long-form book/magazine layout and printing. If you have any questions, just ask and we'll be direct with you.",
           },
         ];
 
