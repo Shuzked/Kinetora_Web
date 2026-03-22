@@ -16,7 +16,33 @@ const Portfolio = () => {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [isPaused, setIsPaused] = React.useState(false);
   const [winWidth, setWinWidth] = React.useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const [isAnimating, setIsAnimating] = React.useState(false);
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  const itemsPerPage = React.useMemo(() => {
+    if (winWidth < 640) return 1;
+    if (winWidth < 1024) return 2;
+    return 3;
+  }, [winWidth]);
+
+  // Prepare cards with padding to fill blocks of 3
+  const baseCards = React.useMemo(() => {
+    const cards = [...caseStudies];
+    while (cards.length % itemsPerPage !== 0) {
+      cards.push(caseStudies[cards.length % caseStudies.length]);
+    }
+    return cards;
+  }, [itemsPerPage]);
+
+  // Add clones for infinite loop
+  const displayCards = React.useMemo(() => {
+    const endClones = baseCards.slice(0, itemsPerPage);
+    const startClones = baseCards.slice(-itemsPerPage);
+    return [...startClones, ...baseCards, ...endClones];
+  }, [baseCards, itemsPerPage]);
+
+  // Start at the first real item (index = itemsPerPage due to clones)
+  const [currentIndex, setCurrentIndex] = React.useState(itemsPerPage);
 
   React.useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
@@ -24,15 +50,33 @@ const Portfolio = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const total = caseStudies.length;
+  const totalFull = displayCards.length;
 
   const nextSlide = React.useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % total);
-  }, [total]);
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => prev + itemsPerPage);
+  }, [itemsPerPage, isAnimating]);
 
   const prevSlide = React.useCallback(() => {
-    setActiveIndex((prev) => (prev - 1 + total) % total);
-  }, [total]);
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentIndex((prev) => prev - itemsPerPage);
+  }, [itemsPerPage, isAnimating]);
+
+  // Handle instant jump for infinite loop
+  const handleAnimationComplete = () => {
+    setIsAnimating(false);
+    
+    // If we reached the end clones, jump back to the start of real items
+    if (currentIndex >= baseCards.length + itemsPerPage) {
+      setCurrentIndex(itemsPerPage);
+    }
+    // If we reached the start clones, jump to the start of end items
+    else if (currentIndex <= 0) {
+      setCurrentIndex(baseCards.length);
+    }
+  };
 
   React.useEffect(() => {
     if (!isPaused) {
@@ -127,41 +171,51 @@ const Portfolio = () => {
                else if (info.offset.x > 100) prevSlide();
             }}
             animate={{ 
-              x: activeIndex === 0 
-                ? 0 
-                : `calc(-${activeIndex * (winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33)}% - ${activeIndex * 2}rem)` 
+              x: `calc(-${currentIndex * (winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33)}% - ${currentIndex * 2}rem)` 
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            onAnimationComplete={handleAnimationComplete}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
           >
-            {caseStudies.map((cs, i) => (
-              <div 
-                key={cs.slug} 
-                className={`w-[85%] sm:w-[48%] lg:w-[31.33%] shrink-0 transition-all duration-700 ${
-                  i === activeIndex || (winWidth >= 1024 && (i === activeIndex + 1 || i === activeIndex + 2)) || (winWidth >= 640 && winWidth < 1024 && i === activeIndex + 1)
-                    ? "opacity-100 scale-100" 
-                    : "opacity-30 blur-[1px] scale-[0.96]"
-                }`}
-              >
-                <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
-              </div>
-            ))}
+            {displayCards.map((cs, i) => {
+              const isActive = i >= currentIndex && i < currentIndex + itemsPerPage;
+              return (
+                <div 
+                  key={`${cs.slug}-${i}`} 
+                  className={`w-[85%] sm:w-[48%] lg:w-[31.33%] shrink-0 transition-all duration-700 ${
+                    isActive
+                      ? "opacity-100 scale-100" 
+                      : "opacity-30 blur-[1px] scale-[0.96]"
+                  }`}
+                >
+                  <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
+                </div>
+              );
+            })}
           </motion.div>
         </div>
 
-        {/* Pagination Dots */}
+        {/* Pagination Dots (representing pages) */}
         <div className="mt-12 flex justify-center gap-3">
-          {caseStudies.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveIndex(i)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                i === activeIndex 
-                  ? "w-8 bg-[#B454FF] shadow-[0_0_12px_rgba(180,84,255,0.5)]" 
-                  : "w-2 bg-white/20 hover:bg-white/40"
-              }`}
-              aria-label={`Go to slide ${i + 1}`}
-            />
-          ))}
+          {Array.from({ length: baseCards.length / itemsPerPage }).map((_, i) => {
+            const pageIndex = i * itemsPerPage + itemsPerPage;
+            const isCurrentPage = currentIndex === pageIndex || (currentIndex >= baseCards.length + itemsPerPage && i === 0);
+            return (
+              <button
+                key={i}
+                onClick={() => {
+                  if (isAnimating) return;
+                  setIsAnimating(true);
+                  setCurrentIndex(pageIndex);
+                }}
+                className={`h-1.5 rounded-full transition-all duration-500 ${
+                  isCurrentPage
+                    ? "w-8 bg-[#B454FF] shadow-[0_0_12px_rgba(180,84,255,0.5)]" 
+                    : "w-2 bg-white/20 hover:bg-white/40"
+                }`}
+                aria-label={`Go to page ${i + 1}`}
+              />
+            );
+          })}
         </div>
       </div>
     </section>
