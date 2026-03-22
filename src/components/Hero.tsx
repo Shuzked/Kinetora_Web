@@ -1,6 +1,7 @@
-"use client";
-
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import PremiumButton from '@/components/PremiumButton';
+import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 
@@ -155,6 +156,7 @@ const Hero = () => {
                 </span>
               </div>
             ))}
+          </div>
           </div>
         </div>
       </motion.div>
