@@ -1,14 +1,20 @@
 "use client";
 
-import React, { useRef } from 'react';
-import PremiumButton from '@/components/PremiumButton';
-import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 
 const Hero = () => {
   const { lang } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
+
+  const { scrollY } = useScroll();
+  
+  // Animation: scale from 1 to 0.95 and blur from 0 to 5px as we scroll 600px
+  const scale = useTransform(scrollY, [0, 600], [1, 0.95]);
+  const blur = useTransform(scrollY, [0, 600], [0, 5]);
+  const opacity = useTransform(scrollY, [0, 400], [1, 0.8]);
+  const filter = useTransform(blur, (v) => `blur(${v}px)`);
 
 
 
@@ -74,8 +80,13 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col"
+      className="sticky top-0 z-10 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
+      style={{ willChange: 'transform' }}
     >
+      <motion.div 
+        style={{ scale, filter, opacity }}
+        className="flex-1 flex flex-col"
+      >
       <div className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
         <div className="liquid-bg-container">
@@ -146,7 +157,7 @@ const Hero = () => {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

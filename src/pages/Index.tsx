@@ -89,35 +89,39 @@ const Index = () => {
         }}
       />
       <Navbar />
-      <main id="main-content" role="main" aria-label="Main content">
+      <main id="main-content" role="main" aria-label="Main content" className="relative">
         <Hero />
-        <ParallaxSection intensity={10}>
-          <Reveal as="div"><Brands /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={12}>
-          <Reveal as="div"><Stats /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={18}>
-          <Reveal as="div"><ValueProp /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={14}>
-          <Reveal as="div"><Services /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={16}>
-          <Reveal as="div"><HowItWorks /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={20}>
-          <Reveal as="div"><Portfolio /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={16}>
-          <Reveal as="div"><Testimonials /></Reveal>
-        </ParallaxSection>
-        <ParallaxSection intensity={14}>
-          <Contact />
-        </ParallaxSection>
-        <ParallaxSection intensity={12}>
-          <FAQ />
-        </ParallaxSection>
+        
+        {/* Reveal Overlay Sections */}
+        <div className="relative z-20 bg-[#0D0D0D] shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
+          <ParallaxSection intensity={10} className="relative z-10">
+            <Reveal as="div"><Brands /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={12}>
+            <Reveal as="div"><Stats /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={18}>
+            <Reveal as="div"><ValueProp /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={14}>
+            <Reveal as="div"><Services /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={16}>
+            <Reveal as="div"><HowItWorks /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={20}>
+            <Reveal as="div"><Portfolio /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={16}>
+            <Reveal as="div"><Testimonials /></Reveal>
+          </ParallaxSection>
+          <ParallaxSection intensity={14}>
+            <Contact />
+          </ParallaxSection>
+          <ParallaxSection intensity={12}>
+            <FAQ />
+          </ParallaxSection>
+        </div>
       </main>
       <Footer />
       <FloatingCTA />
