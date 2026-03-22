@@ -25,10 +25,10 @@ const Hero = () => {
   const copy =
     lang === "es"
       ? {
-          headlineTop: "Diseño que impacta.",
-          headlineAccent: "Código que escala.",
+          headlineTop: "Diseño que convierte,",
+          headlineAccent: "velocidad que escala",
           sub:
-            "Tu partner estratégico para dominar un nuevo flujo creativo. De un kickoff ágil a una ejecución impecable en 48 horas. Cero fricción, solo resultados.",
+            "Te ayudamos a crecer. Creamos tu marca, tus campañas y tus plataformas. Rápido, sin dramas y con resultados.",
           ctaPrimary: "Contactar",
           ctaSecondary: "Éxitos",
           pills: [
@@ -38,10 +38,10 @@ const Hero = () => {
           ],
         }
       : {
-          headlineTop: "Design that impacts.",
-          headlineAccent: "Code that scales.",
+          headlineTop: "Design that converts,",
+          headlineAccent: "speed that scales",
           sub:
-            "Your strategic partner to dominate a new creative flow. From an agile kickoff to flawless execution in 48 hours. Zero friction, only results.",
+            "We help you grow. We create your brand, your campaigns, and your platforms. Fast, drama-free, and results-driven.",
           ctaPrimary: "Let's talk",
           ctaSecondary: "Case studies",
           pills: [
