@@ -19,30 +19,20 @@ const Portfolio = () => {
   const [isAnimating, setIsAnimating] = React.useState(false);
   const timerRef = React.useRef<NodeJS.Timeout | null>(null);
 
-  const itemsPerPage = React.useMemo(() => {
-    if (winWidth < 640) return 1;
-    if (winWidth < 1024) return 2;
-    return 3;
-  }, [winWidth]);
+  // Constants
+  const clonesAtEdge = 3;
+  const baseCards = caseStudies;
+  const totalOriginal = baseCards.length;
 
-  // Prepare cards with padding to fill blocks of 3
-  const baseCards = React.useMemo(() => {
-    const cards = [...caseStudies];
-    while (cards.length % itemsPerPage !== 0) {
-      cards.push(caseStudies[cards.length % caseStudies.length]);
-    }
-    return cards;
-  }, [itemsPerPage]);
-
-  // Add clones for infinite loop
+  // Prepare display array: [Last 3] + [All] + [First 3]
   const displayCards = React.useMemo(() => {
-    const endClones = baseCards.slice(0, itemsPerPage);
-    const startClones = baseCards.slice(-itemsPerPage);
+    const startClones = baseCards.slice(-clonesAtEdge);
+    const endClones = baseCards.slice(0, clonesAtEdge);
     return [...startClones, ...baseCards, ...endClones];
-  }, [baseCards, itemsPerPage]);
+  }, [baseCards]);
 
-  // Start at the first real item (index = itemsPerPage due to clones)
-  const [currentIndex, setCurrentIndex] = React.useState(itemsPerPage);
+  // Initial index starts after the 3 clones
+  const [currentIndex, setCurrentIndex] = React.useState(clonesAtEdge);
 
   React.useEffect(() => {
     const handleResize = () => setWinWidth(window.innerWidth);
@@ -50,31 +40,26 @@ const Portfolio = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const totalFull = displayCards.length;
-
   const nextSlide = React.useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prev) => prev + itemsPerPage);
-  }, [itemsPerPage, isAnimating]);
+    setCurrentIndex((prev) => prev + 1);
+  }, [isAnimating]);
 
   const prevSlide = React.useCallback(() => {
     if (isAnimating) return;
     setIsAnimating(true);
-    setCurrentIndex((prev) => prev - itemsPerPage);
-  }, [itemsPerPage, isAnimating]);
+    setCurrentIndex((prev) => prev - 1);
+  }, [isAnimating]);
 
-  // Handle instant jump for infinite loop
   const handleAnimationComplete = () => {
     setIsAnimating(false);
     
-    // If we reached the end clones, jump back to the start of real items
-    if (currentIndex >= baseCards.length + itemsPerPage) {
-      setCurrentIndex(itemsPerPage);
-    }
-    // If we reached the start clones, jump to the start of end items
-    else if (currentIndex <= 0) {
-      setCurrentIndex(baseCards.length);
+    // Seamless Jump logic
+    if (currentIndex >= totalOriginal + clonesAtEdge) {
+      setCurrentIndex(clonesAtEdge);
+    } else if (currentIndex < clonesAtEdge) {
+      setCurrentIndex(totalOriginal + currentIndex);
     }
   };
 
@@ -174,15 +159,21 @@ const Portfolio = () => {
               x: `calc(-${currentIndex * (winWidth < 640 ? 85 : winWidth < 1024 ? 48 : 31.33)}% - ${currentIndex * 2}rem)` 
             }}
             onAnimationComplete={handleAnimationComplete}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
           >
             {displayCards.map((cs, i) => {
-              const isActive = i >= currentIndex && i < currentIndex + itemsPerPage;
+              // On desktop (winWidth >= 1024), we show 3 items
+              const isVisible = winWidth >= 1024 
+                ? (i >= currentIndex && i < currentIndex + 3)
+                : winWidth >= 640 
+                  ? (i >= currentIndex && i < currentIndex + 2)
+                  : (i === currentIndex);
+
               return (
                 <div 
                   key={`${cs.slug}-${i}`} 
                   className={`w-[85%] sm:w-[48%] lg:w-[31.33%] shrink-0 transition-all duration-700 ${
-                    isActive
+                    isVisible
                       ? "opacity-100 scale-100" 
                       : "opacity-30 blur-[1px] scale-[0.96]"
                   }`}
@@ -194,25 +185,28 @@ const Portfolio = () => {
           </motion.div>
         </div>
 
-        {/* Pagination Dots (representing pages) */}
+        {/* Pagination Dots */}
         <div className="mt-12 flex justify-center gap-3">
-          {Array.from({ length: baseCards.length / itemsPerPage }).map((_, i) => {
-            const pageIndex = i * itemsPerPage + itemsPerPage;
-            const isCurrentPage = currentIndex === pageIndex || (currentIndex >= baseCards.length + itemsPerPage && i === 0);
+          {baseCards.map((_, i) => {
+            const actualIndexInDisplay = i + clonesAtEdge;
+            const isActive = currentIndex === actualIndexInDisplay || 
+              (currentIndex >= totalOriginal + clonesAtEdge && i === 0) ||
+              (currentIndex < clonesAtEdge && i === totalOriginal - 1);
+
             return (
               <button
                 key={i}
                 onClick={() => {
                   if (isAnimating) return;
                   setIsAnimating(true);
-                  setCurrentIndex(pageIndex);
+                  setCurrentIndex(actualIndexInDisplay);
                 }}
                 className={`h-1.5 rounded-full transition-all duration-500 ${
-                  isCurrentPage
+                  isActive
                     ? "w-8 bg-[#B454FF] shadow-[0_0_12px_rgba(180,84,255,0.5)]" 
                     : "w-2 bg-white/20 hover:bg-white/40"
                 }`}
-                aria-label={`Go to page ${i + 1}`}
+                aria-label={`Go to slide ${i + 1}`}
               />
             );
           })}
