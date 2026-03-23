@@ -48,7 +48,7 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             {/* <VersionWatcher /> */}
-            <DynamicImportGuard />
+            {/* <DynamicImportGuard /> */}
             {!isMobile && <CustomCursor />}
             <CookieBanner />
             <SkipToContent />
