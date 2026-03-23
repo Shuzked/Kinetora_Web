@@ -5,6 +5,7 @@ import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import ScrollParallax from "@/components/ui/ScrollParallax";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
+import Starfield from "@/components/ui/Starfield";
 
 const Hero = () => {
   const { lang } = useI18n();
@@ -97,6 +98,9 @@ const Hero = () => {
         {/* Visibility Layer */}
         <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
+        
+        {/* Starfield Layer */}
+        <Starfield />
       </motion.div>
 
       <motion.div 
