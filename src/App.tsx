@@ -47,7 +47,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <VersionWatcher />
+            <PwaManager />
             <DynamicImportGuard />
             {!isMobile && <CustomCursor />}
             <CookieBanner />
