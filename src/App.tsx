@@ -28,6 +28,7 @@ import CookieBanner from "@/components/CookieBanner";
 import VersionWatcher from "@/components/VersionWatcher";
 import DynamicImportGuard from "@/components/DynamicImportGuard";
 import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +41,7 @@ const App = () => (
         <BrowserRouter>
           <VersionWatcher />
           <DynamicImportGuard />
+          <CustomCursor />
           <CookieBanner />
           <SkipToContent />
           <BackgroundParallax />
