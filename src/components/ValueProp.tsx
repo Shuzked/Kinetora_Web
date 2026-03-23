@@ -121,7 +121,7 @@ const ValueProp = () => {
             >
               <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
+                  <div className="w-11 h-11 shrink-0 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-red-300/70" />
                   </div>
                   <h3 className="uppercase">
@@ -178,7 +178,7 @@ const ValueProp = () => {
 
               <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10 relative z-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
+                  <div className="w-11 h-11 shrink-0 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
                     <Zap className="w-5 h-5 text-[#B454FF]" />
                   </div>
                   <h3 className="uppercase">
