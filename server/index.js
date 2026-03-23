@@ -15,6 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+app.set("trust proxy", true); // Vital para detectar dominios en proxies como Hostinger
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
