@@ -12,18 +12,17 @@ const CustomCursor = () => {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
-    const wrapper = document.getElementById("custom-cursor-wrapper");
-    if (!wrapper) return;
+    const cursor = document.getElementById("custom-cursor-dot");
+    if (!cursor) return;
 
     const moveCursor = (e: MouseEvent) => {
-      // El wrapper exterior se encarga del seguimiento. Los márgenes lo centran, por lo que aquí es puro clientX/Y
-      wrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      if (wrapper) {
-        wrapper.classList.add("is-clicked");
-        setTimeout(() => wrapper.classList.remove("is-clicked"), 150);
+      if (cursor) {
+        cursor.classList.add("is-clicked");
+        setTimeout(() => cursor.classList.remove("is-clicked"), 150);
       }
       
       const newRipple = {
@@ -52,11 +51,8 @@ const CustomCursor = () => {
 
   const cursorContent = (
     <>
-      {/* WRAPPER EXCLUSIVO PARA SEGUIR EL RATÓN (X, Y) */}
-      <div id="custom-cursor-wrapper">
-        {/* DOT EXCLUSIVO PARA EL MIX-BLEND-MODE Y EL ESCALADO (Animación) */}
-        <div id="custom-cursor-dot" />
-      </div>
+      {/* DOT ÚNICO: Mantiene 'mix-blend-mode' global, se mueve con JS y se encoge con CSS scale puro */}
+      <div id="custom-cursor-dot" />
 
       {ripples.map(ripple => (
         <div
@@ -80,8 +76,8 @@ const CustomCursor = () => {
           }
         }
         
-        /* El wrapper rastrea puramente las coordenadas. Centramos aquí para evitar offsets en JS. */
-        #custom-cursor-wrapper {
+        /* Un solo elemento garantiza el mix-blend-mode y previene stacking contexts aislados */
+        #custom-cursor-dot {
           position: fixed;
           top: 0;
           left: 0;
@@ -89,31 +85,26 @@ const CustomCursor = () => {
           height: 12px;
           margin-top: -6px;
           margin-left: -6px;
+          background-color: white; /* Inversión perfecta sobre negros y blancos */
+          border-radius: 50%;
           pointer-events: none;
           z-index: 99999;
+          mix-blend-mode: difference;
+          transform-origin: center center;
           transition: transform 0.05s ease-out;
           will-change: transform;
         }
 
-        /* El dot se ocupa del color, la fusión y de escalar limpio desde el centro */
-        #custom-cursor-dot {
-          width: 100%;
-          height: 100%;
-          background-color: white; /* Debe ser blanco o gris claro para que mix-blend-mode: difference invierta colores sobre fondos negros */
-          border-radius: 50%;
-          mix-blend-mode: difference;
-          transform-origin: center center;
-          will-change: transform;
-        }
-
-        #custom-cursor-wrapper.is-clicked #custom-cursor-dot {
+        #custom-cursor-dot.is-clicked {
           animation: cursorClickAnim 0.15s ease-out forwards;
         }
 
+        /* CLAVE MAESTRA: Usar 'scale' independiente. NUNCA usar 'transform: scale()' 
+           porque machaca el 'transform: translate()' del JS, enviando el cursor al (0,0) al hacer click */
         @keyframes cursorClickAnim {
-          0% { transform: scale(1); }
-          50% { transform: scale(0.5); }
-          100% { transform: scale(1); }
+          0% { scale: 1; }
+          50% { scale: 0.5; }
+          100% { scale: 1; }
         }
 
         .cursor-ripple-anim {
