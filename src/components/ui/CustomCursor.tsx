@@ -1,37 +1,27 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
-/**
- * CustomCursor - Un cursor personalizado negro con ondas expansivas (ripples) moradas
- * 
- * Requisitos cumplidos:
- * - Oculta el cursor del sistema.
- * - Círculo negro de 12x12 ultra suave con transformaciones 3D.
- * - Ripple dinámico morado (#B454FF) creado y destruido en el JS (DOM state) tras la animación.
- * - z-index altísimo para flotar sobre todo el contenido web.
- */
 const CustomCursor = () => {
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Detectamos si es un dispositivo táctil para no renderizar el cursor en móviles
+    setMounted(true);
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
     const cursor = document.getElementById("custom-cursor-dot");
     if (!cursor) return;
 
-    // Animación fluida atada al ratón
     const moveCursor = (e: MouseEvent) => {
-      // requestAnimationFrame aquí suele no ser tan necesario si usamos GPU transforms directly,
-      // pero usar translate3d asegura renderizado ultra-rápido por hardware.
-      // Restamos 6px para centrar el punto de 12x12
-      cursor.style.transform = `translate3d(${e.clientX - 6}px, ${e.clientY - 6}px, 0)`;
+      // IMPORTANTE: Usamos 'translate' en vez de 'translate3d' porque 'translate3d' fuerza renderizado por hardware,
+      // lo cual aísla la capa y ROMPE el mix-blend-mode por completo en Safari y navegadores basados en Webkit.
+      cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      // Creamos la onda en el punto exacto
       const newRipple = {
         id: Date.now() + Math.random(),
         x: e.clientX,
@@ -40,7 +30,6 @@ const CustomCursor = () => {
       
       setRipples(prev => [...prev, newRipple]);
 
-      // Destruimos la onda después de 600ms para mantener el DOM limpio
       setTimeout(() => {
         setRipples(prev => prev.filter(r => r.id !== newRipple.id));
       }, 600);
@@ -53,13 +42,37 @@ const CustomCursor = () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mousedown", handleMouseDown);
     };
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) return null;
+
+  const cursorContent = (
+    <>
+      <div
+        id="custom-cursor-dot"
+        className="fixed top-0 left-0 w-3 h-3 bg-white rounded-full pointer-events-none z-[99999]"
+        style={{
+          mixBlendMode: "difference",
+          transition: "transform 0.05s ease-out" 
+        }}
+      />
+
+      {ripples.map(ripple => (
+        <div
+          key={ripple.id}
+          className="cursor-ripple-anim fixed w-10 h-10 border-[#B454FF] rounded-full pointer-events-none z-[99998]"
+          style={{
+            left: ripple.x + "px",
+            top: ripple.y + "px",
+          }}
+        />
+      ))}
+    </>
+  );
 
   return (
     <>
-      {/* 1. CSS INYECTADO: Ocultamos el cursor nativo globalmente y definimos la animación del Ripple */}
       <style>{`
-        /* Oculta el cursor del sistema en móviles y escritorio */
         @media (pointer: fine) {
           * {
             cursor: none !important;
@@ -83,31 +96,12 @@ const CustomCursor = () => {
           }
         }
       `}</style>
-
-      {/* 2. CURSOR NEGRO (Estático en DOM, movido por JS) */}
-      <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden" aria-hidden="true">
-        <div
-          id="custom-cursor-dot"
-          className="absolute top-0 left-0 w-3 h-3 bg-white rounded-full shadow-sm will-change-transform"
-          style={{
-            mixBlendMode: "difference",
-            // El transition transform suaviza cuando el ratón frena bruscamente 
-            transition: "transform 0.05s ease-out" 
-          }}
-        />
-
-        {/* 3. ONDAS EXPANSIVAS (Creadas y destruidas dinámicamente) */}
-        {ripples.map(ripple => (
-          <div
-            key={ripple.id}
-            className="cursor-ripple-anim absolute w-10 h-10 border-[#B454FF] rounded-full will-change-transform"
-            style={{
-              left: ripple.x + "px",
-              top: ripple.y + "px",
-            }}
-          />
-        ))}
-      </div>
+      
+      {/* 
+        El Portales clave: Montar elementos con mix-blend-mode directamente en el body, 
+        fuera de toda la jerarquía de DOM de React, asegura que ningún contenedor padre aislará la luz.
+      */}
+      {createPortal(cursorContent, document.body)}
     </>
   );
 };
