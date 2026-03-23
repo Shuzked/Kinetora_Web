@@ -85,7 +85,7 @@ const CustomCursor = () => {
           height: 12px;
           margin-top: -6px;
           margin-left: -6px;
-          background-color: white; /* Inversión perfecta sobre negros y blancos */
+          background-color: #B454FF; /* Solicitado a morado absoluto conservando modo diferencial */
           border-radius: 50%;
           pointer-events: none;
           z-index: 99999;
