@@ -48,15 +48,15 @@ const Navbar = () => {
         }`}
       />
 
-      <div className="kin-container nav-height-protection grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center py-4 md:py-5 relative">
-        <div className="h-full flex items-center justify-start min-w-0">
+      <div className="kin-container nav-height-protection grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center py-6 md:py-10 relative">
+        <div className="flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <Logo className="h-6" />
           </Link>
         </div>
 
         <div
-          className="hidden md:flex h-full items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70"
+          className="hidden md:flex items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70"
           role="menubar"
           aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}
         >
@@ -76,7 +76,7 @@ const Navbar = () => {
           })}
         </div>
 
-        <div className="h-full flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
+        <div className="flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
           <LanguageSwitcher hideOnSmall />
           <Link to="/#contacto" className="shrink-0 hidden md:inline-flex">
             <PremiumButton variant="primary" size="md" className="leading-none">
