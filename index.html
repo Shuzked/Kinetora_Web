@@ -37,11 +37,18 @@
           imagesrcset="/assets/hero/hero-kinetora-bg-mobile.webp 600w, /assets/hero/hero-kinetora-bg.webp 1920w" 
           imagesizes="100vw" fetchpriority="high" />
 
-    <!-- Performance hints -->
+    <!-- Performance hints for Fonts (Critical CSS / FCP / LCP) -->
     <link rel="preconnect" href="https://ezarpucfsasumwpcderw.supabase.co" crossorigin />
     <link rel="dns-prefetch" href="https://ezarpucfsasumwpcderw.supabase.co" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Preload Critical CSS Fonts with font-display: swap -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" />
+    </noscript>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
     <title>Kinetora — Agencia creativa por suscripción para Startups y B2B</title>

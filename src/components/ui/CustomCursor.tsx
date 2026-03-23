@@ -19,10 +19,14 @@ const CustomCursor = () => {
     const cursor = document.getElementById("custom-cursor-dot");
     if (!cursor) return;
 
+    let reqRef: number;
     const moveCursor = (e: MouseEvent) => {
-      // Usamos style.transform directo. Como eliminamos todos los setState de este componente, 
-      // React NUNCA volverá a renderizar y NUNCA nos sobreescribirá este style.
-      cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      // Usamos requestAnimationFrame para no saturar al Event Loop y mejorar INP/TBT
+      if (reqRef) cancelAnimationFrame(reqRef);
+      reqRef = requestAnimationFrame(() => {
+        // translate3d fuerza la aceleración por la GPU (Hardware Acceleration) en todos los navegadores
+        cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      });
     };
 
     const handleMouseDown = (e: MouseEvent) => {
@@ -52,6 +56,7 @@ const CustomCursor = () => {
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
+      if (reqRef) cancelAnimationFrame(reqRef);
       window.removeEventListener("mousedown", handleMouseDown);
     };
   }, [mounted]);
