@@ -22,7 +22,12 @@ const CustomCursor = () => {
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      if (cursor) cursor.style.scale = "0.35";
+      if (cursor) {
+        cursor.classList.add("is-clicked");
+        // Removemos la clase tras 150ms exactos (duración de la animación)
+        setTimeout(() => cursor.classList.remove("is-clicked"), 150);
+      }
+      
       const newRipple = {
         id: Date.now() + Math.random(),
         x: e.clientX,
@@ -36,18 +41,12 @@ const CustomCursor = () => {
       }, 600);
     };
 
-    const handleMouseUp = () => {
-      if (cursor) cursor.style.scale = "1";
-    };
-
     window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mousedown", handleMouseDown, { passive: true });
-    window.addEventListener("mouseup", handleMouseUp, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [mounted]);
 
@@ -85,7 +84,17 @@ const CustomCursor = () => {
         #custom-cursor-dot {
           mix-blend-mode: difference;
           scale: 1;
-          transition: transform 0.05s ease-out, scale 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+          transition: transform 0.05s ease-out;
+        }
+
+        #custom-cursor-dot.is-clicked {
+          animation: cursorClickAnim 0.15s ease-out forwards;
+        }
+
+        @keyframes cursorClickAnim {
+          0% { scale: 1; }
+          50% { scale: 0.6; } /* Escala reducida como feedback */
+          100% { scale: 1; }
         }
 
         .cursor-ripple-anim {
