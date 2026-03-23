@@ -18,7 +18,7 @@ const ValueProp = () => {
           sub:
             "Un modelo pensado para velocidad, claridad y consistencia visual — con kickoff claro, suscripción a medida y gestión profesional.",
           left: {
-            title: "Agencias tradicionales",
+            title: "Otras agencias",
             badge: "Fricción",
             items: [
               { t: "Briefs difusos", d: "Cambios constantes sin una alineación inicial clara." },
@@ -33,7 +33,7 @@ const ValueProp = () => {
             ],
           },
           right: {
-            title: "Kinetora OS",
+            title: "Kinetora",
             badge: "Premium",
             items: [
               { t: "Kickoff claro", d: "Reunión inicial breve para alinear objetivo y presupuesto." },
@@ -56,7 +56,7 @@ const ValueProp = () => {
           sub:
             "A model built for speed, clarity and consistency — with a clear kickoff, tailored subscription and professional management.",
           left: {
-            title: "Traditional agencies",
+            title: "Other agencies",
             badge: "Friction",
             items: [
               { t: "Vague briefs", d: "Constant changes with no clear upfront alignment." },
@@ -71,7 +71,7 @@ const ValueProp = () => {
             ],
           },
           right: {
-            title: "Kinetora OS",
+            title: "Kinetora",
             badge: "Premium",
             items: [
               { t: "Clear kickoff", d: "Short initial meeting to align scope, goals and budget." },
@@ -179,7 +179,7 @@ const ValueProp = () => {
               <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10 relative z-10">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 shrink-0 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
-                    <Zap className="w-5 h-5 text-[#B454FF]" />
+                    <img src="/Favicon_Kinetora.png" alt="Kinetora" className="w-5 h-5 object-contain" />
                   </div>
                   <h3 className="uppercase">
                     {copy.right.title}
