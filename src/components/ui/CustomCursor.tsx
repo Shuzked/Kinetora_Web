@@ -16,8 +16,9 @@ const CustomCursor = () => {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
-    const cursor = document.getElementById("custom-cursor-dot");
-    if (!cursor) return;
+    const cursor = document.getElementById("custom-cursor-container");
+    const dot = document.getElementById("custom-cursor-dot");
+    if (!cursor || !dot) return;
 
     let reqRef: number;
     const moveCursor = (e: MouseEvent) => {
@@ -30,9 +31,9 @@ const CustomCursor = () => {
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      // Animación de escala puro CSS independiente
-      cursor.classList.add("is-clicked");
-      setTimeout(() => cursor.classList.remove("is-clicked"), 150);
+      // Animación de escala puro CSS independiente sobre el DOT, no sobre el container
+      dot.classList.add("is-clicked");
+      setTimeout(() => dot.classList.remove("is-clicked"), 150);
       
       // Ripple hardware accelerated
       const ripple = document.createElement("div");
@@ -65,9 +66,9 @@ const CustomCursor = () => {
   if (!mounted) return null;
 
   const cursorContent = (
-    <>
+    <div id="custom-cursor-container">
       <div id="custom-cursor-dot" />
-    </>
+    </div>
   );
 
   return (
@@ -79,22 +80,26 @@ const CustomCursor = () => {
           }
         }
         
-        #custom-cursor-dot {
+        #custom-cursor-container {
           position: fixed;
           top: 0;
           left: 0;
+          pointer-events: none;
+          z-index: 99999;
+          will-change: transform;
+          mix-blend-mode: difference;
+          transition: transform 0.08s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        #custom-cursor-dot {
           width: 12px;
           height: 12px;
           margin-top: -6px;
           margin-left: -6px;
-          background-color: #B454FF; /* Solicitado a morado absoluto conservando modo diferencial */
-          box-shadow: 0 0 12px 2px rgba(180, 84, 255, 0.45); /* Resplandor sutil animado (Glow) */
+          background-color: #B454FF; 
+          box-shadow: 0 0 12px 2px rgba(180, 84, 255, 0.45);
           border-radius: 50%;
-          pointer-events: none;
-          z-index: 99999;
-          mix-blend-mode: difference;
           transform-origin: center center;
-          transition: transform 0.05s ease-out;
           will-change: transform;
         }
 
