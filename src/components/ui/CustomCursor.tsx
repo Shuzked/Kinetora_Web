@@ -34,18 +34,19 @@ const CustomCursor = () => {
       cursor.classList.add("is-clicked");
       setTimeout(() => cursor.classList.remove("is-clicked"), 150);
       
-      // Creamos el Ripple 100% con Vanilla JS. 
-      // Hacer state-updates de React aquí causaba re-renderizados que rompían el "transform" del cursor
+      // Ripple hardware accelerated
       const ripple = document.createElement("div");
       ripple.className = "cursor-ripple-anim fixed border-[#B454FF] rounded-full pointer-events-none z-[99998]";
       ripple.style.width = "40px";
       ripple.style.height = "40px";
-      ripple.style.left = e.clientX + "px";
-      ripple.style.top = e.clientY + "px";
+      ripple.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      ripple.style.left = "0";
+      ripple.style.top = "0";
+      ripple.style.marginLeft = "-20px";
+      ripple.style.marginTop = "-20px";
       
       document.body.appendChild(ripple);
 
-      // Limpiamos el DOM tras la animación
       setTimeout(() => {
         ripple.remove();
       }, 600);
@@ -101,35 +102,26 @@ const CustomCursor = () => {
           animation: cursorClickAnim 0.15s ease-out forwards;
         }
 
-        /* El punto mantendrá el mix-blend-mode y su transform(X,Y). 
-           La animación se hace con 'width' y 'height' para NUNCA tocar 'transform' y evitar bugs de Safari */
+        /* 🚀 ZERO REFLOW: Usamos scale() en lugar de width/height */
         @keyframes cursorClickAnim {
-          0% { 
-            width: 12px; height: 12px; 
-            margin-top: -6px; margin-left: -6px; 
-          }
-          50% { 
-            width: 6px; height: 6px; 
-            margin-top: -3px; margin-left: -3px; 
-          }
-          100% { 
-            width: 12px; height: 12px; 
-            margin-top: -6px; margin-left: -6px; 
-          }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.6); }
+          100% { transform: scale(1); }
         }
 
         .cursor-ripple-anim {
           animation: rippleExpand 0.6s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+          will-change: transform, opacity;
         }
 
         @keyframes rippleExpand {
           0% {
-            transform: translate(-50%, -50%) scale(0.5);
+            transform: translate3d(var(--x, 0), var(--y, 0), 0) scale(0.5);
             opacity: 0.8;
             border-width: 3px;
           }
           100% {
-            transform: translate(-50%, -50%) scale(3.5);
+            transform: translate3d(var(--x, 0), var(--y, 0), 0) scale(3.5);
             opacity: 0;
             border-width: 1px;
           }
