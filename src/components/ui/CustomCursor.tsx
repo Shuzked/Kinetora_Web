@@ -81,7 +81,8 @@ const CustomCursor = () => {
           height: 12px;
           margin-top: -6px;
           margin-left: -6px;
-          background-color: #B454FF; 
+          background-color: #B454FF; /* Solicitado a morado absoluto conservando modo diferencial */
+          box-shadow: 0 0 12px 2px rgba(180, 84, 255, 0.45); /* Resplandor sutil animado (Glow) */
           border-radius: 50%;
           pointer-events: none;
           z-index: 99999;
