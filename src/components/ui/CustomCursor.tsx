@@ -99,7 +99,7 @@ const CustomCursor = () => {
         #custom-cursor-dot {
           width: 100%;
           height: 100%;
-          background-color: #B454FF; /* Morado de Kinetora */
+          background-color: white; /* Debe ser blanco o gris claro para que mix-blend-mode: difference invierta colores sobre fondos negros */
           border-radius: 50%;
           mix-blend-mode: difference;
           transform-origin: center center;
