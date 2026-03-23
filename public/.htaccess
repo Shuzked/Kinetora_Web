@@ -6,7 +6,7 @@
   RewriteBase /
 
   # Force WWW to non-WWW (Domain Normalization)
-  RewriteCond % {HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
   RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
   # SPA Fallback: Send all requests to index.html
