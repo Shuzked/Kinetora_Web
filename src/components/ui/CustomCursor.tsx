@@ -4,11 +4,15 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 const CustomCursor = () => {
-  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
@@ -16,25 +20,30 @@ const CustomCursor = () => {
     if (!cursor) return;
 
     const moveCursor = (e: MouseEvent) => {
+      // Usamos style.transform directo. Como eliminamos todos los setState de este componente, 
+      // React NUNCA volverá a renderizar y NUNCA nos sobreescribirá este style.
       cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      if (cursor) {
-        cursor.classList.add("is-clicked");
-        setTimeout(() => cursor.classList.remove("is-clicked"), 150);
-      }
+      // Animación de escala puro CSS independiente
+      cursor.classList.add("is-clicked");
+      setTimeout(() => cursor.classList.remove("is-clicked"), 150);
       
-      const newRipple = {
-        id: Date.now() + Math.random(),
-        x: e.clientX,
-        y: e.clientY
-      };
+      // Creamos el Ripple 100% con Vanilla JS. 
+      // Hacer state-updates de React aquí causaba re-renderizados que rompían el "transform" del cursor
+      const ripple = document.createElement("div");
+      ripple.className = "cursor-ripple-anim fixed border-[#B454FF] rounded-full pointer-events-none z-[99998]";
+      ripple.style.width = "40px";
+      ripple.style.height = "40px";
+      ripple.style.left = e.clientX + "px";
+      ripple.style.top = e.clientY + "px";
       
-      setRipples(prev => [...prev, newRipple]);
+      document.body.appendChild(ripple);
 
+      // Limpiamos el DOM tras la animación
       setTimeout(() => {
-        setRipples(prev => prev.filter(r => r.id !== newRipple.id));
+        ripple.remove();
       }, 600);
     };
 
@@ -51,19 +60,7 @@ const CustomCursor = () => {
 
   const cursorContent = (
     <>
-      {/* DOT ÚNICO: Mantiene 'mix-blend-mode' global, se mueve con JS y se encoge con CSS scale puro */}
       <div id="custom-cursor-dot" />
-
-      {ripples.map(ripple => (
-        <div
-          key={ripple.id}
-          className="cursor-ripple-anim fixed w-10 h-10 border-[#B454FF] rounded-full pointer-events-none z-[99998]"
-          style={{
-            left: ripple.x + "px",
-            top: ripple.y + "px",
-          }}
-        />
-      ))}
     </>
   );
 
@@ -76,7 +73,6 @@ const CustomCursor = () => {
           }
         }
         
-        /* Un solo elemento garantiza el mix-blend-mode y previene stacking contexts aislados */
         #custom-cursor-dot {
           position: fixed;
           top: 0;
@@ -85,7 +81,7 @@ const CustomCursor = () => {
           height: 12px;
           margin-top: -6px;
           margin-left: -6px;
-          background-color: #B454FF; /* Solicitado a morado absoluto conservando modo diferencial */
+          background-color: #B454FF; 
           border-radius: 50%;
           pointer-events: none;
           z-index: 99999;
@@ -99,8 +95,8 @@ const CustomCursor = () => {
           animation: cursorClickAnim 0.15s ease-out forwards;
         }
 
-        /* CLAVE MAESTRA: Usar 'scale' independiente. NUNCA usar 'transform: scale()' 
-           porque machaca el 'transform: translate()' del JS, enviando el cursor al (0,0) al hacer click */
+        /* Usamos 'scale' como propiedad global de CSS3 (soportada en todos los nav modernos).
+           Esto evita sobrescribir la propiedad 'transform' que usa el código JS para mover el punto. */
         @keyframes cursorClickAnim {
           0% { scale: 1; }
           50% { scale: 0.5; }
@@ -125,10 +121,6 @@ const CustomCursor = () => {
         }
       `}</style>
       
-      {/* 
-        El Portales clave: Montar elementos con mix-blend-mode directamente en el body, 
-        fuera de toda la jerarquía de DOM de React, asegura que ningún contenedor padre aislará la luz.
-      */}
       {createPortal(cursorContent, document.body)}
     </>
   );
