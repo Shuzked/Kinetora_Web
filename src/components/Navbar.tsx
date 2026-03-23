@@ -48,7 +48,7 @@ const Navbar = () => {
         }`}
       />
 
-      <div className="kin-container grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center py-8 md:py-10 relative">
+      <div className="kin-container nav-height-protection grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center py-8 md:py-12 relative">
         <div className="flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <Logo className="h-6" />

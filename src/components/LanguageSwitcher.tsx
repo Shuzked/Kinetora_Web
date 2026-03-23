@@ -89,13 +89,13 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
   const { lang, setLang, t } = useI18n();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <button
           type="button"
           aria-label={t("lang.switch")}
           className={cn(
-            "inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]",
+            "relative flex-shrink-0 inline-flex h-10 w-10 items-center justify-center rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]",
             "bg-white/[0.03] border-white/10 hover:bg-white/[0.06] hover:border-white/20",
             hideOnSmall && "hidden sm:inline-flex",
             triggerClassName
