@@ -41,8 +41,11 @@ app.use((req, res, next) => {
 
 // 3. CABECERAS DE CACHÉ AGRESIVAS (Avoid Enormous Payloads)
 const cacheStatic = (res, path) => {
-    if (path.endsWith('.html')) {
+    // 📂 ARCHIVOS CRÍTICOS: Nunca cachear (Service Workers, Manifest, HTML)
+    if (path.match(/\.(html|sw\.js|service-worker\.js|manifest\.json)$/)) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
     } else if (path.match(/\.(js|css|webp|png|jpg|jpeg|woff2)$/)) {
         // Assets con hash -> Cache de 1 año (Inmutable)
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');

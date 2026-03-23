@@ -34,11 +34,9 @@ const VersionWatcher: React.FC = () => {
     const latest = extractBundleHashFromHtml(html);
 
     if (current && latest && latest !== current) {
-      showSuccess("Nueva versión disponible. Actualizando…");
-      // Pequeño retraso para que el usuario vea el toast
-      setTimeout(() => {
-        window.location.reload();
-      }, 1200);
+      // showSuccess("Nueva versión disponible. Recomendamos recargar para ver los cambios.");
+      // Eliminamos el reload automático para PREVENIR bucles en producción.
+      console.log("🚀 Kinetora: Nueva versión detectada:", { current, latest });
     }
   }, []);
 
