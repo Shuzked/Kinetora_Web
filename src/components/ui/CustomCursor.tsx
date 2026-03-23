@@ -40,7 +40,8 @@ const CustomCursor = () => {
       ripple.className = "cursor-ripple-anim fixed border-[#B454FF] rounded-full pointer-events-none z-[99998]";
       ripple.style.width = "40px";
       ripple.style.height = "40px";
-      ripple.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+      ripple.style.setProperty("--x", `${e.clientX}px`);
+      ripple.style.setProperty("--y", `${e.clientY}px`);
       ripple.style.left = "0";
       ripple.style.top = "0";
       ripple.style.marginLeft = "-20px";
