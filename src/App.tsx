@@ -34,67 +34,65 @@ import VersionWatcher from "@/components/VersionWatcher";
 import DynamicImportGuard from "@/components/DynamicImportGuard";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
+import { useIsMobile } from "@/hooks/use-mobile";
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <I18nProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <VersionWatcher />
+            <DynamicImportGuard />
+            {!isMobile && <CustomCursor />}
+            <CookieBanner />
+            <SkipToContent />
+            <BackgroundParallax />
+            <SmoothScroll>
+              <div className="relative z-10">
+                <ScrollProgress />
+                <ScrollToTop />
+                <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}>
+                  <Routes>
+                    {/* Public Routes */}
+                    <Route path="/" element={<Index />} />
+                    <Route path="/casos" element={<Cases />} />
+                    <Route path="/casos/:slug" element={<CaseStudyPost />} />
+                    <Route path="/legal/aviso-legal" element={<LegalNotice />} />
+                    <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
+                    <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
+                    <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
+                    
+                    {/* Portal Login */}
+                    <Route path="/portal/login" element={<PortalLogin />} />
 
-const queryClient = new QueryClient();
+                    {/* Protected Portal Routes */}
+                    <Route path="/portal" element={
+                      <ProtectedRoute>
+                        <PortalLayout />
+                      </ProtectedRoute>
+                    }>
+                      <Route index element={<Navigate to="/portal/dashboard" replace />} />
+                      <Route path="dashboard" element={<PortalDashboard />} />
+                      <Route path="billing" element={<BillingView />} />
+                      <Route path="entregables" element={<Deliverables />} />
+                      <Route path="settings" element={
+                        <div className="py-20 text-center">
+                          <h2 className="text-4xl font-black uppercase tracking-tighter">Ajustes</h2>
+                          <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
+                        </div>
+                      } />
+                    </Route>
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <I18nProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <VersionWatcher />
-          <DynamicImportGuard />
-          <CustomCursor />
-          <CookieBanner />
-          <SkipToContent />
-          <BackgroundParallax />
-          <SmoothScroll>
-            <div className="relative z-10">
-              <ScrollProgress />
-              <ScrollToTop />
-              <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}>
-                <Routes>
-                  {/* Public Routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/casos" element={<Cases />} />
-                <Route path="/casos/:slug" element={<CaseStudyPost />} />
-                <Route path="/legal/aviso-legal" element={<LegalNotice />} />
-                <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
-                <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
-                <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
-                
-                {/* Portal Login */}
-                <Route path="/portal/login" element={<PortalLogin />} />
-
-                {/* Protected Portal Routes */}
-                <Route path="/portal" element={
-                  <ProtectedRoute>
-                    <PortalLayout />
-                  </ProtectedRoute>
-                }>
-                  <Route index element={<Navigate to="/portal/dashboard" replace />} />
-                  <Route path="dashboard" element={<PortalDashboard />} />
-                  <Route path="billing" element={<BillingView />} />
-                  <Route path="entregables" element={<Deliverables />} />
-                  <Route path="settings" element={
-                    <div className="py-20 text-center">
-                      <h2 className="text-4xl font-black uppercase tracking-tighter">Ajustes</h2>
-                      <p className="text-white/40 mt-4 font-bold uppercase tracking-widest">Sección en desarrollo</p>
-                    </div>
-                  } />
-                </Route>
-
-                <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </div>
-          </SmoothScroll>
-        </BrowserRouter>
-      </I18nProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+              </div>
+            </SmoothScroll>
+          </BrowserRouter>
+        </I18nProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

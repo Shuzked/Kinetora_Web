@@ -102,8 +102,8 @@ const Hero = () => {
         <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
         
-        {/* Starfield Layer */}
-        <Starfield />
+        {/* Starfield Layer - Solo en Desktop para 90-100 PageSpeed Mobile */}
+        {!isMobile && <Starfield />}
       </motion.div>
 
       {/* Optimizacion Mobile masiva: Ignoramos el css blur() en móviles porque bloquea la GPU renderizando el árbol entero 60 veces por segundo */}

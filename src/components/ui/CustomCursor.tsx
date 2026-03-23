@@ -13,6 +13,11 @@ const CustomCursor = () => {
   useEffect(() => {
     if (!mounted) return;
 
+    // 🚀 ADAPTIVE RENDERING: El cursor JS se desactiva en Móvil (< 768px)
+    // El comportamiento táctil nativo es más rápido y ahorra batería.
+    const isMobileQuery = window.matchMedia("(max-width: 767px)");
+    if (isMobileQuery.matches) return;
+
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
