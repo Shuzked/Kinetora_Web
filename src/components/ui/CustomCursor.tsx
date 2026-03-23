@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 const CustomCursor = () => {
   const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
   const [mounted, setMounted] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -22,6 +23,7 @@ const CustomCursor = () => {
     };
 
     const handleMouseDown = (e: MouseEvent) => {
+      setIsClicking(true);
       const newRipple = {
         id: Date.now() + Math.random(),
         x: e.clientX,
@@ -35,12 +37,18 @@ const CustomCursor = () => {
       }, 600);
     };
 
+    const handleMouseUp = () => {
+      setIsClicking(false);
+    };
+
     window.addEventListener("mousemove", moveCursor, { passive: true });
     window.addEventListener("mousedown", handleMouseDown, { passive: true });
+    window.addEventListener("mouseup", handleMouseUp, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
     };
   }, [mounted]);
 
@@ -53,7 +61,8 @@ const CustomCursor = () => {
         className="fixed top-0 left-0 w-3 h-3 bg-white rounded-full pointer-events-none z-[99999]"
         style={{
           mixBlendMode: "difference",
-          transition: "transform 0.05s ease-out" 
+          scale: isClicking ? 0.35 : 1,
+          transition: "transform 0.05s ease-out, scale 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)" 
         }}
       />
 
