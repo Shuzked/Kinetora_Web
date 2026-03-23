@@ -154,7 +154,7 @@ const Hero = () => {
               {copy.pills.map(({ Icon, text }, i) => (
                 <div
                   key={i}
-                  className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/15 backdrop-blur-md text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.12] transition-colors"
+                  className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/[0.12] backdrop-blur-[16px] text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.14] hover:border-white/[0.25] hover:-translate-y-[1px] transition-all duration-300"
                 >
                   <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
                   <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.22em] uppercase">

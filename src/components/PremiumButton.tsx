@@ -38,7 +38,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
       "text-white bg-[#B454FF] border border-white/10 " +
       "shadow-[0_12px_44px_rgba(180,84,255,0.22)] hover:bg-[#A74CFF] hover:shadow-[0_16px_54px_rgba(180,84,255,0.30)]",
     glass:
-      "text-[#F5F5F5] bg-white/10 border border-white/15 backdrop-blur-xl hover:bg-white/14 " +
+      "text-[#F5F5F5] bg-white/[0.08] border border-white/[0.12] backdrop-blur-[16px] hover:bg-white/[0.14] hover:border-white/[0.25] " +
       "shadow-[0_6px_24px_rgba(0,0,0,0.15)] hover:shadow-[0_8px_28px_rgba(0,0,0,0.2)]",
     outline: "text-[#F5F5F5] border border-white/15 hover:bg-white/5",
     white:
