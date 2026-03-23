@@ -48,7 +48,7 @@ const Navbar = () => {
         }`}
       />
 
-      <div className="kin-container grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center h-[68px] md:h-[88px] relative">
+      <div className="kin-container grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center h-[74px] md:h-[104px] relative">
         <div className="h-full flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <img
@@ -62,7 +62,7 @@ const Navbar = () => {
               fetchPriority="high"
             />
             <span className="hidden md:inline-flex">
-              <Logo className="h-6" />
+              <Logo className="h-7" />
             </span>
           </Link>
         </div>
