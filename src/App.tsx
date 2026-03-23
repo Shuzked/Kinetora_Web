@@ -2,23 +2,28 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 // ... (imports remain the same, ensure Outlet is there)
-import Index from "./pages/Index";
-import Cases from "./pages/Cases";
-import CaseStudyPost from "./pages/CaseStudyPost";
-import NotFound from "./pages/NotFound";
-import LegalNotice from "./pages/LegalNotice";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import CookiesPolicy from "./pages/CookiesPolicy";
-import SocialPrivacyPolicy from "./pages/SocialPrivacyPolicy";
-import PortalDashboard from "./pages/PortalDashboard";
-import PortalLogin from "./pages/portal/PortalLogin";
-import ProtectedRoute from "./components/portal/ProtectedRoute";
-import PortalLayout from "./components/portal/PortalLayout";
-import BillingView from "./components/portal/BillingView";
-import Deliverables from "./pages/portal/Deliverables";
+
+import Index from "./pages/Index"; // Componente Crítico -> NO es Lazy
+
+// Optimizacion Lazy Loading: Las páginas secundarias y grandes dependencias se cargan bajo demanda
+const Cases = lazy(() => import("./pages/Cases"));
+const CaseStudyPost = lazy(() => import("./pages/CaseStudyPost"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const LegalNotice = lazy(() => import("./pages/LegalNotice"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
+const SocialPrivacyPolicy = lazy(() => import("./pages/SocialPrivacyPolicy"));
+
+// Portal - Rutas Pesadas diferidas
+const PortalDashboard = lazy(() => import("./pages/PortalDashboard"));
+const PortalLogin = lazy(() => import("./pages/portal/PortalLogin"));
+const ProtectedRoute = lazy(() => import("./components/portal/ProtectedRoute"));
+const PortalLayout = lazy(() => import("./components/portal/PortalLayout"));
+const BillingView = lazy(() => import("./components/portal/BillingView"));
+const Deliverables = lazy(() => import("./pages/portal/Deliverables"));
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -49,8 +54,9 @@ const App = () => (
             <div className="relative z-10">
               <ScrollProgress />
               <ScrollToTop />
-              <Routes>
-                {/* Public Routes */}
+              <Suspense fallback={<div className="min-h-screen bg-[#0A0A0A]" />}>
+                <Routes>
+                  {/* Public Routes */}
                 <Route path="/" element={<Index />} />
                 <Route path="/casos" element={<Cases />} />
                 <Route path="/casos/:slug" element={<CaseStudyPost />} />
@@ -81,7 +87,8 @@ const App = () => (
                 </Route>
 
                 <Route path="*" element={<NotFound />} />
-              </Routes>
+                </Routes>
+              </Suspense>
             </div>
           </SmoothScroll>
         </BrowserRouter>

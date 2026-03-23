@@ -14,16 +14,14 @@ export default defineConfig(() => ({
     },
   },
   build: {
-    cssCodeSplit: false,
-    modulePreload: false,
+    cssCodeSplit: true,
+    modulePreload: true,
     rollupOptions: {
       output: {
         entryFileNames: `assets/[name].[hash].js`,
         chunkFileNames: `assets/[name].[hash].js`,
         assetFileNames: `assets/[name].[hash].[ext]`,
-        // Desactivar división en chunks
-        manualChunks: undefined,
-        inlineDynamicImports: true,
+        // Vite ahora manejará la división inteligente de los manual chunks automáticamente
       },
     },
   },

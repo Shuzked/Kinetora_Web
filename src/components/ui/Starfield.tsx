@@ -13,6 +13,7 @@ const Starfield = () => {
     if (!ctx) return;
 
     let animationFrameId: number;
+    let isVisible = false;
     let stars: { x: number; y: number; radius: number; speed: number; opacity: number; opacitySpeed: number }[] = [];
 
     const resize = () => {
@@ -38,6 +39,8 @@ const Starfield = () => {
     };
 
     const animate = () => {
+      if (!isVisible) return; // Optimizacion: CPU = 0% cuando está fuera del hero
+      
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = "#ffffff";
       
@@ -59,11 +62,25 @@ const Starfield = () => {
 
     window.addEventListener("resize", resize);
     resize();
-    animate();
+
+    // Optimizacion masiva: IntersectionObserver bloquea el JS heavy cuando pasas de largo
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) {
+          animate();
+        } else {
+          cancelAnimationFrame(animationFrameId);
+        }
+      });
+    });
+    
+    observer.observe(canvas);
 
     return () => {
       window.removeEventListener("resize", resize);
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
     };
   }, []);
 
