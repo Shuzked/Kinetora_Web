@@ -36,10 +36,10 @@ const ValueProp = () => {
             title: "Kinetora",
             badge: "Premium",
             items: [
-              { t: "Kickoff claro", d: "Reunión inicial breve para alinear objetivo y presupuesto." },
+              { t: "Toma de contacto inicial", d: "Reunión inicial breve para alinear objetivo y presupuesto." },
               { t: "Suscripción a medida", d: "El plan se adapta a tu inversión y prioridades." },
               { t: "Comunicación profesional", d: "Email o chat y reuniones puntuales para decidir rápido." },
-              { t: "Gestión en ClickUp (o tu tool)", d: "Tareas, prioridades y entregas 48h con revisiones limitadas." },
+              { t: "Informamos y gestionamos", d: "Tareas, prioridades y entregas 48h con revisiones limitadas." },
             ],
             metrics: [
               { k: "Ritmo", v: "48h" },
