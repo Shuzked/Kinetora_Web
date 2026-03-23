@@ -83,6 +83,8 @@ const Services = () => {
                   <ImageWithSkeleton
                     src="/assets/service-photos/brand-identity.webp"
                     alt=""
+                    width={800}
+                    height={450}
                     containerClassName="w-full h-full"
                     skeletonClassName="bg-white/10"
                     className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
@@ -121,6 +123,8 @@ const Services = () => {
                   <ImageWithSkeleton
                     src="/assets/service-photos/digital-uxui.webp"
                     alt=""
+                    width={400}
+                    height={300}
                     containerClassName="w-full h-full"
                     skeletonClassName="bg-white/10"
                     className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
@@ -157,6 +161,8 @@ const Services = () => {
                   <ImageWithSkeleton
                     src="/assets/service-photos/video-editing.webp"
                     alt=""
+                    width={400}
+                    height={300}
                     containerClassName="w-full h-full"
                     skeletonClassName="bg-white/10"
                     className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"
@@ -193,6 +199,8 @@ const Services = () => {
                   <ImageWithSkeleton
                     src="/assets/service-photos/communication-pitch-decks.webp"
                     alt=""
+                    width={800}
+                    height={450}
                     containerClassName="w-full h-full"
                     skeletonClassName="bg-white/10"
                     className="w-full h-full object-cover opacity-25 sm:opacity-20 md:opacity-15"

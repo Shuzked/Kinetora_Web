@@ -9,18 +9,24 @@ const PORT = process.env.PORT || 8080;
 app.use(compression({
     level: 6,
     threshold: 100,
-    // Prioritize Brotli (br)
-    brotli: {
-        enabled: true,
-        zlib: {
-            level: 11
-        }
-    },
-    filter: (req, res) => {
-        if (req.headers['x-no-compression']) return false;
-        return compression.filter(req, res);
-    }
+    brotli: { enabled: true, zlib: { level: 11 } }
 }));
+
+// 1.5 SERVICIO INTELIGENTE DE WebP (Staff Level)
+app.use((req, res, next) => {
+    if (req.accepts('webp') && req.url.match(/\.(png|jpg|jpeg)$/i)) {
+        const webpPath = path.join(__dirname, 'dist', req.url.replace(/\.(png|jpg|jpeg)$/i, '.webp'));
+        fs.access(webpPath, fs.constants.F_OK, (err) => {
+            if (!err) {
+                res.setHeader('Vary', 'Accept');
+                return res.sendFile(webpPath);
+            }
+            next();
+        });
+    } else {
+        next();
+    }
+});
 
 // 2. REDIRECCIONES (Deshabilitado: .htaccess lo gestiona de forma más eficiente en Hostinger)
 /*
