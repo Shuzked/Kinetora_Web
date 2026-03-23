@@ -14,6 +14,12 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 const STORAGE_KEY = "kinetora.lang";
 
 function getInitialLang(): Lang {
+  // 1. Prioridad: Lenguaje inyectado por el servidor (Domain Mapping)
+  if (typeof window !== "undefined" && (window as any).__KINETORA_LANG__) {
+    return (window as any).__KINETORA_LANG__ as Lang;
+  }
+
+  // 2. Persistencia local
   const stored = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
   if (stored === "es" || stored === "en") return stored;
 

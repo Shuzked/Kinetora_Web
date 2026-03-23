@@ -9,6 +9,7 @@ import authMiddleware from "./middleware/auth.js";
 import { initDb } from "../database/db.js";
 import multer from "multer";
 import fs from "fs";
+import { i18nMiddleware, injectI18n } from "./middleware/i18n.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,6 +25,7 @@ const io = new Server(httpServer, {
 
 app.use(cors());
 app.use(express.json());
+app.use(i18nMiddleware); // Detecta lenguaje por dominio
 
 // Protect all /api/portal routes
 app.use("/api/portal", authMiddleware);
@@ -78,6 +80,27 @@ app.get("/api/portal/deliverables/:userId", (req, res) => {
     }));
     
     res.json(files);
+});
+
+// Serving the Frontend with i18n Injection (Production Ready)
+const DIST_PATH = path.join(__dirname, "../dist");
+const INDEX_HTML = path.join(DIST_PATH, "index.html");
+
+app.use(express.static(DIST_PATH, { index: false })); // Serve static assets but not index.html yet
+
+app.get("*", (req, res) => {
+  // If index.html doesn't exist (dev mode), just send 404 or a message
+  if (!fs.existsSync(INDEX_HTML)) {
+    return res.status(404).send("Fronted not built. Run 'npm run build' first.");
+  }
+
+  let html = fs.readFileSync(INDEX_HTML, "utf8");
+  const currentUrl = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+  
+  // Dynamic SEO Injection (hreflang + language config)
+  html = injectI18n(html, req.lang, currentUrl);
+  
+  res.send(html);
 });
 
 const PORT = process.env.PORT || 3001;
