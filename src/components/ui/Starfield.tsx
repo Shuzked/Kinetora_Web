@@ -24,7 +24,7 @@ const Starfield = () => {
 
     const initStars = () => {
       stars = [];
-      const numStars = (canvas.width * canvas.height) / 3500;
+      const numStars = (canvas.width * canvas.height) / 8000;
       for (let i = 0; i < numStars; i++) {
         stars.push({
           x: Math.random() * canvas.width,
@@ -42,16 +42,10 @@ const Starfield = () => {
       ctx.fillStyle = "#ffffff";
       
       stars.forEach(star => {
-        star.y -= star.speed;
-        
+        // Mantenemos solo el parpadeo (twinkle) pero eliminamos el movimiento (Y-axis)
         star.opacity += star.opacitySpeed;
         if (star.opacity <= 0.1 || star.opacity >= 1) {
           star.opacitySpeed = -star.opacitySpeed;
-        }
-
-        if (star.y < 0) {
-          star.y = canvas.height;
-          star.x = Math.random() * canvas.width;
         }
 
         ctx.globalAlpha = star.opacity;
