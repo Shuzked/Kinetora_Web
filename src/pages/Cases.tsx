@@ -132,6 +132,8 @@ const Cases = () => {
                               <img
                                 src={cover}
                                 alt={alt}
+                                width="1200"
+                                height="675"
                                 loading="lazy"
                                 decoding="async"
                                 fetchPriority="low"

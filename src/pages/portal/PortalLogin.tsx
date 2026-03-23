@@ -30,7 +30,7 @@ const PortalLogin = () => {
       <Card className="w-full max-w-md bg-white/[0.03] border-white/10 backdrop-blur-xl rounded-[2.5rem] p-4 shadow-2xl relative z-10">
         <CardHeader className="text-center space-y-4">
           <div className="mx-auto w-16 h-16 bg-[#B454FF]/10 rounded-2xl flex items-center justify-center border border-[#B454FF]/20">
-            <img src="/assets/logo.svg" alt="Kinetora" className="w-8 h-8" />
+            <img src="/assets/logo.svg" alt="Kinetora" className="w-8 h-8" width={32} height={32} loading="lazy" decoding="async" />
           </div>
           <div className="space-y-1">
             <CardTitle className="text-3xl font-black tracking-tighter uppercase text-white">Portal Kinetora</CardTitle>

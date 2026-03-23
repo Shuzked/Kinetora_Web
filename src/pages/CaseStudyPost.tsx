@@ -266,8 +266,10 @@ const CaseStudyPost = () => {
                       <img
                         src={cover}
                         alt={coverAlt || ""}
-                        loading="lazy"
-                        decoding="async"
+                        width="1920"
+                        height="1080"
+                        loading="eager"
+                        decoding="sync"
                         fetchPriority="high"
                         sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw"
                         onError={(e) => {
