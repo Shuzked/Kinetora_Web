@@ -5,13 +5,17 @@ import { createPortal } from "react-dom";
 
 const CustomCursor = () => {
   const [mounted, setMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+      setIsMobile(true);
+    }
   }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (!mounted || isMobile) return;
 
     // 🚀 ADAPTIVE RENDERING: El cursor JS se desactiva en Móvil (< 768px)
     // El comportamiento táctil nativo es más rápido y ahorra batería.
@@ -69,7 +73,7 @@ const CustomCursor = () => {
     };
   }, [mounted]);
 
-  if (!mounted) return null;
+  if (!mounted || isMobile) return null;
 
   const cursorContent = (
     <div id="custom-cursor-container">

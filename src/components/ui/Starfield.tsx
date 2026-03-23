@@ -5,7 +5,9 @@ import React, { useEffect, useRef } from "react";
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  if (typeof window !== 'undefined' && window.matchMedia("(max-width: 767px)").matches) {
+  // ⚡ MOBILE KILL SWITCH: Bloqueo absoluto antes de instanciar cualquier Hook o Canvas.
+  // Evita el TBT en móvil al no procesar absolutamente nada de JS de animación.
+  if (typeof window !== 'undefined' && window.innerWidth < 768) {
     return null;
   }
 

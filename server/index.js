@@ -9,6 +9,7 @@ import authMiddleware from "./middleware/auth.js";
 import { initDb } from "../database/db.js";
 import multer from "multer";
 import fs from "fs";
+import compression from "compression";
 import { i18nMiddleware, injectI18n } from "./middleware/i18n.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +26,7 @@ const io = new Server(httpServer, {
 });
 
 app.use(cors());
+app.use(compression()); // 🚀 BROTLI/GZIP COMPRESSION
 app.use(express.json());
 app.use(i18nMiddleware); // Detecta lenguaje por dominio
 
@@ -87,7 +89,17 @@ app.get("/api/portal/deliverables/:userId", (req, res) => {
 const DIST_PATH = path.join(__dirname, "../dist");
 const INDEX_HTML = path.join(DIST_PATH, "index.html");
 
-app.use(express.static(DIST_PATH, { index: false })); // Serve static assets but not index.html yet
+// 🚀 AGGRESSIVE CACHING FOR STATIC ASSETS (1 Year)
+app.use(express.static(DIST_PATH, {
+  index: false,
+  maxAge: '1y',
+  immutable: true,
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+  }
+}));
 
 app.get("*", (req, res) => {
   // If index.html doesn't exist (dev mode), just send 404 or a message
