@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import PremiumButton from '@/components/PremiumButton';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
+import KinetoraIcon from './KinetoraIcon';
 import { Link } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import {
@@ -51,7 +52,8 @@ const Navbar = () => {
       <div className="kin-container nav-height-protection grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center py-8 md:py-12 relative">
         <div className="flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
-            <Logo className="h-6" />
+            <Logo className="h-6 hidden md:flex" />
+            <KinetoraIcon className="h-8 w-8 flex md:hidden" />
           </Link>
         </div>
 
