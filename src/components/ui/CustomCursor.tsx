@@ -95,12 +95,21 @@ const CustomCursor = () => {
           animation: cursorClickAnim 0.15s ease-out forwards;
         }
 
-        /* Usamos 'scale' como propiedad global de CSS3 (soportada en todos los nav modernos).
-           Esto evita sobrescribir la propiedad 'transform' que usa el código JS para mover el punto. */
+        /* El punto mantendrá el mix-blend-mode y su transform(X,Y). 
+           La animación se hace con 'width' y 'height' para NUNCA tocar 'transform' y evitar bugs de Safari */
         @keyframes cursorClickAnim {
-          0% { scale: 1; }
-          50% { scale: 0.5; }
-          100% { scale: 1; }
+          0% { 
+            width: 12px; height: 12px; 
+            margin-top: -6px; margin-left: -6px; 
+          }
+          50% { 
+            width: 6px; height: 6px; 
+            margin-top: -3px; margin-left: -3px; 
+          }
+          100% { 
+            width: 12px; height: 12px; 
+            margin-top: -6px; margin-left: -6px; 
+          }
         }
 
         .cursor-ripple-anim {
