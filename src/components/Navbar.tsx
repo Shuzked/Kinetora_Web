@@ -48,7 +48,7 @@ const Navbar = () => {
         }`}
       />
 
-      <div className="kin-container grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center h-[74px] md:h-[104px] relative">
+      <div className="kin-container nav-height-protection grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center h-[74px] md:h-[104px] relative">
         <div className="h-full flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <img

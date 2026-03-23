@@ -5,6 +5,10 @@ import React, { useEffect, useRef } from "react";
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  if (typeof window !== 'undefined' && window.matchMedia("(max-width: 767px)").matches) {
+    return null;
+  }
+
   useEffect(() => {
 
 
