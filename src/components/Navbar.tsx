@@ -62,7 +62,7 @@ const Navbar = () => {
               fetchPriority="high"
             />
             <span className="hidden md:inline-flex">
-              <Logo className="h-7" />
+              <Logo className="h-8" />
             </span>
           </Link>
         </div>
