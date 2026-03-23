@@ -25,12 +25,16 @@ app.use(compression({
 // 2. REDIRECCIONES (Deshabilitado: .htaccess lo gestiona de forma más eficiente en Hostinger)
 /*
 app.use((req, res, next) => {
+    // Forzar HTTPS
     if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
         return res.redirect(301, `https://${req.headers.host}${req.url}`);
     }
+    
+    // Normalizar a kinetora.tech (evitar duplicidad .es / .tech que penaliza SEO y Perf)
     if (req.headers.host && req.headers.host === 'kinetora.es') {
         return res.redirect(301, `https://kinetora.tech${req.url}`);
     }
+    
     next();
 });
 */
