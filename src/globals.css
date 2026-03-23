@@ -58,6 +58,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
+    scroll-behavior: smooth; /* Garantiza navegación suave por Anchor en móvil tras desactivar JS Lenis */
   }
 
   body {

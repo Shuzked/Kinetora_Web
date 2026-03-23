@@ -179,7 +179,7 @@ const ValueProp = () => {
               <div className="flex items-center justify-between gap-3 mb-9 sm:mb-10 relative z-10">
                 <div className="flex items-center gap-3">
                   <div className="w-11 h-11 shrink-0 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
-                    <img src="/Favicon_Kinetora.png" alt="Kinetora" className="w-5 h-5 object-contain" />
+                    <img src="/Favicon_Kinetora.png" alt="Kinetora" className="w-5 h-5 object-contain" loading="lazy" decoding="async" />
                   </div>
                   <h3 className="uppercase">
                     {copy.right.title}

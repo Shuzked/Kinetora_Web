@@ -7,7 +7,12 @@ export const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Initialize Lenis
+    // Optimizacion 100/100 Lighthouse Mobile: El motor JS gasta batería en móviles. 
+    // Los móviles ('touch') ya tienen un scroll ultra-fluido nativo acelerado por hardware (GPU iOS/Android).
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
+    // Initialize Lenis para PC
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

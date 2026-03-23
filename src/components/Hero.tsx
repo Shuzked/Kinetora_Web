@@ -6,10 +6,12 @@ import ScrollParallax from "@/components/ui/ScrollParallax";
 import { ArrowRight, Timer, RefreshCw, Euro } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import Starfield from "@/components/ui/Starfield";
+import { useIsMobile } from '@/hooks/use-mobile'; // Añadido para optimización Lighthouse 100/100
 
 const Hero = () => {
   const { lang } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
+  const isMobile = useIsMobile(); // Detectar móvil para apagar efectos CSS ultra-pesados (blur/parallax al hacer scroll)
 
   const { scrollY } = useScroll();
   
@@ -87,9 +89,10 @@ const Hero = () => {
       className="sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
       style={{ willChange: 'transform' }}
     >
-      <motion.div style={{ opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <motion.div style={{ opacity: isMobile ? 1 : opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
-        <motion.div style={{ y: yBg }} className="liquid-bg-container">
+        {/* Optimizacion Mobile: se desactiva el parallax javascript del fondo líquido */}
+        <motion.div style={isMobile ? {} : { y: yBg }} className="liquid-bg-container">
           <div className="liquid-blob blob-purple" />
           <div className="liquid-blob blob-blue" />
           <div className="liquid-blob blob-coral" />
@@ -103,8 +106,9 @@ const Hero = () => {
         <Starfield />
       </motion.div>
 
+      {/* Optimizacion Mobile masiva: Ignoramos el css blur() en móviles porque bloquea la GPU renderizando el árbol entero 60 veces por segundo */}
       <motion.div 
-        style={{ scale, filter, opacity }}
+        style={isMobile ? {} : { scale, filter, opacity }}
         className="flex-1 flex flex-col relative z-10"
       >
 
