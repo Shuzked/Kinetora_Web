@@ -176,7 +176,7 @@ const Portfolio = () => {
 const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
   const cardRef = useRef<HTMLDivElement>(null);
   
-  // Tilt Effect State
+  const rectRef = useRef<DOMRect | null>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -186,9 +186,15 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
 
+  const handleMouseEnter = () => {
+    if (cardRef.current) {
+      rectRef.current = cardRef.current.getBoundingClientRect();
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
+    const rect = rectRef.current;
+    if (!rect) return;
     const width = rect.width;
     const height = rect.height;
     const mouseX = e.clientX - rect.left;
@@ -200,6 +206,7 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
   };
 
   const handleMouseLeave = () => {
+    rectRef.current = null;
     x.set(0);
     y.set(0);
   };
@@ -222,6 +229,7 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
   return (
     <motion.div 
       ref={cardRef} 
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -240,7 +248,8 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
           <ImageWithSkeleton
             src={cover}
             alt={alt}
-            loading="eager"
+            loading="lazy"
+            decoding="async"
             width={600}
             height={375}
             containerClassName="h-full w-full"

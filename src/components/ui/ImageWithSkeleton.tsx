@@ -30,6 +30,7 @@ export function ImageWithSkeleton({
       <img
         src={src}
         alt={alt}
+        decoding="async"
         onLoad={(e) => {
           setIsLoaded(true);
           onLoad?.(e);

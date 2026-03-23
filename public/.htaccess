@@ -1,29 +1,53 @@
-# Enable Rewrite Engine
+# 🚀 Kinetora - Apache/Hostinger Performance Optimization
+# Permanent HSTS, HTTPS and High Speed Caching
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteBase /
 
-  # Si la petición es a un archivo o directorio existente, servirlo directamente
-  RewriteCond %{REQUEST_FILENAME} -f [OR]
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^ - [L]
+  # Force WWW to non-WWW (Domain Normalization)
+  RewriteCond % {HTTP_HOST} ^www\.(.*)$ [NC]
+  RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
-  # Redirigir todo lo demás a index.html (fallback SPA)
-  RewriteRule ^ index.html [L]
+  # SPA Fallback: Send all requests to index.html
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
 </IfModule>
 
-# Deshabilitar listado de directorios por seguridad
-Options -Indexes
+# ⚡ Native Compression (GZIP/Brotli)
+<IfModule mod_filter.c>
+  <IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json image/svg+xml
+  </IfModule>
+</IfModule>
 
-# Cache de assets (coincide con vercel.json al usar hosts distintos)
+# 📦 Browser Caching (Immortal Cache-Control)
 <IfModule mod_expires.c>
   ExpiresActive On
-  <FilesMatch "\.(png|jpe?g|webp|svg|gif|ico|css|js|woff2?)$">
-    ExpiresDefault "access plus 1 year"
-    Header set Cache-Control "public, max-age=31536000, immutable"
-  </FilesMatch>
-  <FilesMatch "\.(html)$">
-    ExpiresDefault "access plus 0 seconds"
-    Header set Cache-Control "no-cache, no-store, must-revalidate"
-  </FilesMatch>
+  ExpiresDefault "access plus 1 month"
+  
+  # Immutable assets with Vite hashes
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+  
+  # Images (Stable)
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  
+  # Fonts
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# Header security & HSTS
+<IfModule mod_headers.c>
+  Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header set X-Content-Type-Options "nosniff"
 </IfModule>
