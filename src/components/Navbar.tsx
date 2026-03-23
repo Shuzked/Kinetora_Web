@@ -53,7 +53,7 @@ const Navbar = () => {
         <div className="flex items-center justify-start min-w-0">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <Logo className="h-6 hidden md:flex" />
-            <KinetoraIcon className="h-8 w-8 flex md:hidden" />
+            <KinetoraIcon className="h-6 w-6 flex md:hidden" />
           </Link>
         </div>
 
