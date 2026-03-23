@@ -4,7 +4,6 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
-// ... (imports remain the same, ensure Outlet is there)
 
 import Index from "./pages/Index"; // Componente Crítico -> NO es Lazy
 
@@ -35,6 +34,13 @@ import DynamicImportGuard from "@/components/DynamicImportGuard";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+const queryClient = new QueryClient();
+
+const App = () => {
+  const isMobile = useIsMobile();
+  
+  return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <I18nProvider>
