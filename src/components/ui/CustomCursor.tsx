@@ -88,8 +88,9 @@ const CustomCursor = () => {
       <div className="fixed inset-0 pointer-events-none z-[9999] overflow-hidden" aria-hidden="true">
         <div
           id="custom-cursor-dot"
-          className="absolute top-0 left-0 w-3 h-3 bg-black rounded-full shadow-sm will-change-transform"
+          className="absolute top-0 left-0 w-3 h-3 bg-white rounded-full shadow-sm will-change-transform"
           style={{
+            mixBlendMode: "difference",
             // El transition transform suaviza cuando el ratón frena bruscamente 
             transition: "transform 0.05s ease-out" 
           }}
