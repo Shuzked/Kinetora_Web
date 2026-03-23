@@ -228,7 +228,7 @@ const Footer = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={strings.placeholder}
-                  className="min-w-0 flex-1 h-11 pl-12 pr-4 bg-transparent border-0 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus:ring-0 focus:outline-none focus-visible:ring-0 focus-visible:outline-none"
+                  className="min-w-0 flex-1 h-11 pl-12 pr-4 bg-transparent border-0 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                   autoComplete="email"
                   inputMode="email"
                   aria-label={strings.inputAria}
