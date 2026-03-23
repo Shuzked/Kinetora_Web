@@ -173,7 +173,7 @@ const Portfolio = () => {
   );
 };
 
-const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
+const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: any) => {
   const cardRef = useRef<HTMLDivElement>(null);
   
   const rectRef = useRef<DOMRect | null>(null);
@@ -296,6 +296,8 @@ const PortfolioCard = ({ cs, navigate, lang, ui }: any) => {
       </div>
     </motion.div>
   );
-};
+});
+
+PortfolioCard.displayName = "PortfolioCard";
 
 export default Portfolio;

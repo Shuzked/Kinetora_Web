@@ -6,10 +6,16 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // 1. COMPRESOR MÁXIMO (Brotli/Gzip)
-// Reduce el First Contentful Paint y el payload de red drásticamente.
 app.use(compression({
     level: 6,
     threshold: 100,
+    // Prioritize Brotli (br)
+    brotli: {
+        enabled: true,
+        zlib: {
+            level: 11
+        }
+    },
     filter: (req, res) => {
         if (req.headers['x-no-compression']) return false;
         return compression.filter(req, res);

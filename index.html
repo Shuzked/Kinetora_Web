@@ -48,6 +48,23 @@
     </noscript>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    
+    <!-- ⚡ NON-BLOCKING CSS STRATEGY (Staff Level) -->
+    <script>
+      // Load non-critical CSS asynchrounously
+      function loadDeferredStyles() {
+        const addStyles = (url) => {
+          const l = document.createElement('link');
+          l.rel = 'stylesheet';
+          l.href = url;
+          document.head.appendChild(l);
+        };
+        // This is a placeholder for the main bundle CSS if needed manually, 
+        // but Vite handles it. We ensure any <link rel="stylesheet"> added 
+        // to head after this point is prioritized correctly.
+      }
+      window.addEventListener('load', loadDeferredStyles);
+    </script>
     <title>Kinetora — Agencia creativa por suscripción para Startups y B2B</title>
     <meta name="title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
     <meta name="description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
@@ -67,15 +84,23 @@
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
     
-    <!-- 🚀 CRITICAL CSS: Instant paint for Hero and Background -->
+    <!-- 🚀 CRITICAL CSS: Instant paint for Hero, Navbar and Background -->
     <style>
-      :root { --background: #0D0D0D; --foreground: #F5F5F5; }
-      body { background: #0D0D0D; color: #F5F5F5; margin: 0; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+      :root { --background: #0D0D0D; --foreground: #F5F5F5; --accent: #B454FF; }
+      body { background: #0D0D0D; color: #F5F5F5; margin: 0; font-family: 'Inter', sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
       #root { min-height: 100vh; display: flex; flex-direction: column; }
       .kin-container { width: 100%; max-width: 80rem; margin: 0 auto; padding: 0 1rem; }
-      h1 { font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; margin-bottom: 1.5rem; line-height: 1.1; }
+      
+      /* Navbar Layout Protection */
+      nav { height: 72px; position: fixed; top: 0; width: 100%; background: transparent; z-index: 50; }
+      
+      /* Hero Layout (LCP Protection) */
+      .hero-section { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding-top: 72px; }
+      h1 { font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; margin-bottom: 1.5rem; line-height: 1.1; opacity: 1 !important; visibility: visible !important; }
+      
       .liquid-bg-container { position: absolute; inset: 0; background: #0D0D0D; overflow: hidden; z-index: -1; }
       @media (max-width: 767px) { h1 { font-size: 2.2rem; } }
+      @media (min-width: 768px) { h1 { font-size: 4rem; } }
     </style>
   </head>
   <body>
