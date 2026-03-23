@@ -20,6 +20,9 @@ export function ImageWithSkeleton({
 }: ImageWithSkeletonProps) {
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Generamos la ruta WebP asumiendo que el script de conversión se ha ejecutado
+  const srcWebp = typeof src === 'string' ? src.replace(/\.(png|jpg|jpeg)$/i, '.webp') : src;
+
   return (
     <div className={cn("relative w-full h-full", containerClassName)}>
       {!isLoaded && (
@@ -27,21 +30,26 @@ export function ImageWithSkeleton({
           className={cn("absolute inset-0 z-10 w-full h-full rounded-none", skeletonClassName)}
         />
       )}
-      <img
-        src={src}
-        alt={alt}
-        decoding="async"
-        onLoad={(e) => {
-          setIsLoaded(true);
-          onLoad?.(e);
-        }}
-        className={cn(
-          "transition-opacity duration-500",
-          isLoaded ? "opacity-100" : "opacity-0",
-          className
+      <picture className="w-full h-full">
+        {typeof src === 'string' && src.match(/\.(png|jpg|jpeg)$/i) && (
+          <source srcSet={srcWebp} type="image/webp" />
         )}
-        {...props}
-      />
+        <img
+          src={src}
+          alt={alt}
+          decoding="async"
+          onLoad={(e) => {
+            setIsLoaded(true);
+            onLoad?.(e);
+          }}
+          className={cn(
+            "transition-opacity duration-500 w-full h-full",
+            isLoaded ? "opacity-100" : "opacity-0",
+            className
+          )}
+          {...props}
+        />
+      </picture>
     </div>
   );
 }
