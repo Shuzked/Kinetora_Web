@@ -12,20 +12,18 @@ const CustomCursor = () => {
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
-    const cursor = document.getElementById("custom-cursor-dot");
-    if (!cursor) return;
+    const wrapper = document.getElementById("custom-cursor-wrapper");
+    if (!wrapper) return;
 
     const moveCursor = (e: MouseEvent) => {
-      // IMPORTANTE: Usamos 'translate' en vez de 'translate3d' porque 'translate3d' fuerza renderizado por hardware,
-      // lo cual aísla la capa y ROMPE el mix-blend-mode por completo en Safari y navegadores basados en Webkit.
-      cursor.style.transform = `translate(${e.clientX - 6}px, ${e.clientY - 6}px)`;
+      // El wrapper exterior se encarga del seguimiento. Los márgenes lo centran, por lo que aquí es puro clientX/Y
+      wrapper.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
     };
 
     const handleMouseDown = (e: MouseEvent) => {
-      if (cursor) {
-        cursor.classList.add("is-clicked");
-        // Removemos la clase tras 150ms exactos (duración de la animación)
-        setTimeout(() => cursor.classList.remove("is-clicked"), 150);
+      if (wrapper) {
+        wrapper.classList.add("is-clicked");
+        setTimeout(() => wrapper.classList.remove("is-clicked"), 150);
       }
       
       const newRipple = {
@@ -54,10 +52,11 @@ const CustomCursor = () => {
 
   const cursorContent = (
     <>
-      <div
-        id="custom-cursor-dot"
-        className="fixed top-0 left-0 w-3 h-3 bg-white rounded-full pointer-events-none z-[99999]"
-      />
+      {/* WRAPPER EXCLUSIVO PARA SEGUIR EL RATÓN (X, Y) */}
+      <div id="custom-cursor-wrapper">
+        {/* DOT EXCLUSIVO PARA EL MIX-BLEND-MODE Y EL ESCALADO (Animación) */}
+        <div id="custom-cursor-dot" />
+      </div>
 
       {ripples.map(ripple => (
         <div
@@ -81,20 +80,40 @@ const CustomCursor = () => {
           }
         }
         
-        #custom-cursor-dot {
-          mix-blend-mode: difference;
-          scale: 1;
+        /* El wrapper rastrea puramente las coordenadas. Centramos aquí para evitar offsets en JS. */
+        #custom-cursor-wrapper {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 12px;
+          height: 12px;
+          margin-top: -6px;
+          margin-left: -6px;
+          pointer-events: none;
+          z-index: 99999;
           transition: transform 0.05s ease-out;
+          will-change: transform;
         }
 
-        #custom-cursor-dot.is-clicked {
+        /* El dot se ocupa del color, la fusión y de escalar limpio desde el centro */
+        #custom-cursor-dot {
+          width: 100%;
+          height: 100%;
+          background-color: white;
+          border-radius: 50%;
+          mix-blend-mode: difference;
+          transform-origin: center center;
+          will-change: transform;
+        }
+
+        #custom-cursor-wrapper.is-clicked #custom-cursor-dot {
           animation: cursorClickAnim 0.15s ease-out forwards;
         }
 
         @keyframes cursorClickAnim {
-          0% { scale: 1; }
-          50% { scale: 0.6; } /* Escala reducida como feedback */
-          100% { scale: 1; }
+          0% { transform: scale(1); }
+          50% { transform: scale(0.5); }
+          100% { transform: scale(1); }
         }
 
         .cursor-ripple-anim {
