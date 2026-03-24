@@ -26,14 +26,14 @@ const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
   const childVariants = {
     hidden: {
       opacity: 0,
-      y: "100%",
+      y: 40,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1] as any, // Custom cubic-bezier as requested
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1] as any,
       },
     },
   };
@@ -49,13 +49,12 @@ const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
       viewport={{ once: true, margin: "-10%" }}
     >
       {words.map((word, wordIndex) => (
-        <span key={wordIndex} className="inline-block whitespace-nowrap mr-[0.25em]">
+        <span key={wordIndex} className="inline-block overflow-hidden mr-[0.25em] py-1">
           {word.split("").map((char, charIndex) => (
             <motion.span
               key={charIndex}
               variants={childVariants}
               className="inline-block"
-              style={{ willChange: "transform" }}
             >
               {char}
             </motion.span>
