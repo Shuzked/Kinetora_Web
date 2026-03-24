@@ -60,7 +60,7 @@ const Navbar = () => {
 
         {/* Center: Navigation Links */}
         <div
-          className="hidden md:flex items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70 absolute left-1/2 -translate-x-1/2"
+          className="hidden md:flex items-center justify-center gap-6 lg:gap-10 text-[11px] lg:text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70 absolute left-1/2 -translate-x-1/2"
           role="menubar"
           aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}
         >

@@ -100,7 +100,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-4 gap-10 md:gap-12">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {copy.steps.map((step, i) => (
             <MouseParallax key={i} intensity={6} rotate={3} className="will-change-transform">
             <motion.div
@@ -108,13 +108,13 @@ const HowItWorks = () => {
               initial={{ opacity: 0, y: 30 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.2 }}
-              className="relative group"
+              className="relative group h-full"
             >
               <div className="text-7xl font-black text-white/5 absolute -top-10 -left-2 sm:-left-4 group-hover:text-[#B454FF]/10 transition-colors">
                 {step.number}
               </div>
               <div className="relative z-10 pl-2 sm:pl-0">
-                <h3 className="mb-4 uppercase">
+                <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight">
                   {step.title}
                 </h3>
                 <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>
