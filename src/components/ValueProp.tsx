@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { X, Check, AlertCircle, Zap } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
+import RevealText from "@/components/ui/RevealText";
 
 const ValueProp = () => {
   const { lang } = useI18n();
@@ -102,8 +103,8 @@ const ValueProp = () => {
             {copy.pill}
           </div>
           <h2 className="mb-6 flex flex-col items-center">
-            <span>{copy.titleTop}</span>
-            <span className="text-[#B454FF]">{copy.titleAccent}</span>
+            <RevealText text={copy.titleTop} className="text-white" />
+            <RevealText text={copy.titleAccent} className="text-[#B454FF]" delay={0.3} />
           </h2>
           <p className="text-[#F5F5F5]/70 max-w-2xl mx-auto leading-relaxed underline-offset-4">
             {copy.sub}
