@@ -81,7 +81,40 @@
 
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
-    <link rel="stylesheet" href="/src/globals.css" media="print" onload="this.media='all'" />
+    <link rel="stylesheet" href="/src/globals.css?v=1.1" media="print" onload="this.media='all'" />
+    <script>
+      (function() {
+        const CHECK_INTERVAL = 60000; // Check every 60 seconds
+        const VERSION_FILE = '/version.json';
+        const STORAGE_KEY = 'kinetora_app_version';
+
+        async function checkVersion() {
+          try {
+            // Fetch version with a timestamp to bypass browser cache
+            const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, { cache: 'no-store' });
+            if (!response.ok) return;
+            const data = await response.json();
+            const serverVersion = data.version;
+            const localVersion = localStorage.getItem(STORAGE_KEY);
+
+            if (localVersion && serverVersion !== localVersion) {
+              console.log('🚀 New version available. Refreshing...');
+              localStorage.setItem(STORAGE_KEY, serverVersion);
+              // Force reload from server, avoiding cache
+              window.location.reload();
+            } else if (!localVersion) {
+              localStorage.setItem(STORAGE_KEY, serverVersion);
+            }
+          } catch (e) {
+            console.error('Update check failed:', e);
+          }
+        }
+
+        // Run initial check and then periodic
+        setTimeout(checkVersion, 2000); // 2s after load
+        setInterval(checkVersion, CHECK_INTERVAL);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
@@ -92,6 +125,6 @@
         <feColorMatrix type="saturate" values="0" />
       </filter>
     </svg>
-    <script type="module" src="/src/main.tsx"></script>
+    <script type="module" src="/src/main.tsx?v=1.1"></script>
   </body>
 </html>

@@ -39,26 +39,28 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 z-50 w-full" aria-label={lang === "es" ? "Navegación principal" : "Primary navigation"}>
-      {/* Glass overlay - CSS only, no Framer Motion */}
+      {/* Solid background - No Glassmorphism */}
       <div
         aria-hidden
         className={`absolute inset-0 pointer-events-none transition-all duration-300 ${
           scrolled
-            ? 'backdrop-blur-[14px] bg-[#0D0D0D]/70 border-b border-[#2A2A2A]'
-            : 'backdrop-blur-none bg-transparent border-b border-transparent'
+            ? 'bg-[#0D0D0D] border-b border-[#2A2A2A]'
+            : 'bg-transparent border-b border-transparent'
         }`}
       />
 
-      <div className="kin-container nav-height-protection grid grid-cols-2 md:grid-cols-[1fr_auto_1fr] items-center py-4 md:py-6 relative">
-        <div className="flex items-center justify-start min-w-0">
+      <div className="kin-container nav-height-protection flex items-center justify-between py-4 md:py-6 relative">
+        {/* Left: Logo */}
+        <div className="flex-1 flex items-center justify-start">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
             <Logo className="h-6 hidden md:flex" />
             <KinetoraIcon className="h-6 w-6 flex md:hidden" />
           </Link>
         </div>
 
+        {/* Center: Navigation Links */}
         <div
-          className="hidden md:flex items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70"
+          className="hidden md:flex items-center justify-center gap-9 lg:gap-12 text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70 absolute left-1/2 -translate-x-1/2"
           role="menubar"
           aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}
         >
@@ -78,7 +80,8 @@ const Navbar = () => {
           })}
         </div>
 
-        <div className="flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
+        {/* Right: Flag + Button */}
+        <div className="flex-1 flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
           <LanguageSwitcher hideOnSmall />
           <Link to="/#contacto" className="shrink-0 hidden md:inline-flex">
             <PremiumButton variant="primary" size="md" className="leading-none">

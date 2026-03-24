@@ -1,10 +1,11 @@
 const CACHE_NAME = 'kinetora-cache-v1';
 
-// Recursos críticos que queremos que el SW ignore para que siempre vengan frescos (o los maneje el navegador)
+// Recursos críticos que NUNCA debemos cachear en el SW
 const IGNORE_CACHE = [
   'sw.js',
   'service-worker.js',
-  'index.html'
+  'index.html',
+  'version.json' // Útil para comprobaciones de versión
 ];
 
 self.addEventListener('install', (event) => {
@@ -16,14 +17,15 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
+          // Eliminamos cualquier caché que no sea la actual
           if (cacheName !== CACHE_NAME) {
+            console.log('🧹 Limpiando caché antigua:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
-  self.clients.claim(); // Tomar control de los clientes inmediatamente
 });
 
 self.addEventListener('fetch', (event) => {

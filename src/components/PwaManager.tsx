@@ -50,7 +50,10 @@ const PwaManager: React.FC = () => {
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
           refreshing = true;
-          window.location.reload();
+          // Pequeño delay para asegurar que los assets estén listos
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
         }
       });
 

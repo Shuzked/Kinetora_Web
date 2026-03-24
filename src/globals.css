@@ -142,14 +142,14 @@
 
   /* Rounded, bordered blocks spacing standard */
   .kin-card {
-    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+    @apply rounded-3xl border border-white/10 bg-[#1A1A1A];
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
     padding: clamp(1.25rem, 2.5vw, 2.5rem);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .premium-glass {
-    @apply bg-white/[0.03] border border-white/10 backdrop-blur-2xl;
+    @apply bg-[#141414] border border-white/10;
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
   }
 
