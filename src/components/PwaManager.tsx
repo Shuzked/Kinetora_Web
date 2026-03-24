@@ -27,9 +27,8 @@ const PwaManager: React.FC = () => {
         }
       };
 
-      const handleUpdate = (worker: ServiceWorker) => {
+      const handleUpdate = async (worker: ServiceWorker) => {
         // Pillar 3: Seguridad contra bucles infinitos
-        // Usamos sessionStorage: si ya intentamos recargar hace poco, paramos
         const lastReload = sessionStorage.getItem('pwa_reload_guard');
         const now = Date.now();
         
@@ -39,7 +38,15 @@ const PwaManager: React.FC = () => {
         }
 
         sessionStorage.setItem('pwa_reload_guard', now.toString());
-        showSuccess("Nueva versión cargada. Reiniciando para aplicar cambios...");
+        
+        // Purga explícita de caches del navegador antes de recargar
+        if ('caches' in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(key => caches.delete(key)));
+          console.log('🧹 CacheStorage purgado con éxito');
+        }
+
+        showSuccess("Nueva versión detectada. Limpiando caché y actualizando...");
         
         // Enviamos señal de skipWaiting al worker
         worker.postMessage({ type: 'SKIP_WAITING' });
@@ -70,9 +77,13 @@ const PwaManager: React.FC = () => {
             // Forzar actualización del SW y recarga
             const reg = await navigator.serviceWorker.getRegistration();
             if (reg && reg.waiting) {
-              handleUpdate(reg.waiting);
+              await handleUpdate(reg.waiting);
             } else {
-              // Si no hay SW esperando, simplemente recargamos para purgar caché de red
+              // Si no hay SW esperando, realizamos purga manual y recargamos
+              if ('caches' in window) {
+                const keys = await caches.keys();
+                await Promise.all(keys.map(key => caches.delete(key)));
+              }
               window.location.reload();
             }
           } else if (!localVersion) {

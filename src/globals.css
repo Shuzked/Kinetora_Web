@@ -70,24 +70,24 @@
   /* Clamp heading sizes for better scaling between mobile and desktop */
   h1 {
     @apply font-black tracking-tighter uppercase;
-    font-size: clamp(1.2rem, 5vw + 0.5rem, 4rem);
-    line-height: 1.15;
+    font-size: clamp(1.5rem, 6vw + 1rem, 3.2rem);
+    line-height: 1.05;
     letter-spacing: -0.04em;
   }
 
   h2 {
     @apply font-black tracking-tighter uppercase;
-    /* Equivale a text-4xl en móvil y text-7xl en desktop */
-    font-size: clamp(2.25rem, 6vw + 1rem, 4.5rem);
-    line-height: 1.1;
+    /* Reducción para look más compacto y sofisticado */
+    font-size: clamp(1.8rem, 5vw + 1rem, 2.8rem);
+    line-height: 1.05;
     letter-spacing: -0.03em;
   }
 
   h3 {
     @apply font-black tracking-tight uppercase;
-    /* Equivale a text-xl en móvil y text-3xl/4xl en desktop */
-    font-size: clamp(1.25rem, 3.5vw + 0.5rem, 2.5rem);
-    line-height: 1.15;
+    /* Escala reducida para jerarquía equilibrada */
+    font-size: clamp(1.15rem, 3.5vw + 0.5rem, 1.8rem);
+    line-height: 1.05;
     letter-spacing: -0.02em;
   }
 
