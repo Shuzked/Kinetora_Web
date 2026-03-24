@@ -59,13 +59,11 @@ const Portfolio = () => {
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
               {ui.badge}
             </div>
-            <h2 className="leading-[0.85] flex flex-col">
-              <span className="whitespace-nowrap">
-                <RevealText text={ui.titleA.toUpperCase()} />
-              </span>
+            <h2 className="">
+              <RevealText text={ui.titleA.toUpperCase()} className="block" />
               <RevealText 
                 text={ui.titleB.toUpperCase()} 
-                className="text-[#B454FF]" 
+                className="block text-[#B454FF]" 
                 delay={0.2} 
               />
             </h2>

@@ -87,11 +87,11 @@ const HowItWorks = () => {
       </ScrollParallax>
       <div className="kin-container">
         <div className="text-center mb-16 lg:mb-24">
-          <h2 className="flex flex-col items-center max-w-[280px] sm:max-w-none mx-auto">
-            <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} />
+          <h2 className="mx-auto">
+            <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} className="block" />
             <RevealText 
               text={copy.titleAccent.toUpperCase().replace(/\.$/, "")} 
-              className="text-[#B454FF]" 
+              className="block text-[#B454FF]" 
               delay={0.2} 
             />
           </h2>

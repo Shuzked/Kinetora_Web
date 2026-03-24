@@ -57,11 +57,11 @@ const Services = () => {
           <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
             {copy.badge}
           </div>
-          <h2 className="flex flex-col max-w-[280px] sm:max-w-none">
-            <RevealText text={copy.titleTop.toUpperCase()} />
+          <h2 className="">
+            <RevealText text={copy.titleTop.toUpperCase()} className="block" />
             <RevealText 
               text={copy.titleBottom.toUpperCase().replace(/\.$/, "")} 
-              className="text-[#B454FF]" 
+              className="block text-[#B454FF]" 
               delay={0.2} 
             />
           </h2>
