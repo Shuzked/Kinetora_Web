@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kinetora-cache-v1';
+const CACHE_NAME = 'kinetora-cache-v1.2';
 
 // Recursos críticos que NUNCA debemos cachear en el SW
 const IGNORE_CACHE = [

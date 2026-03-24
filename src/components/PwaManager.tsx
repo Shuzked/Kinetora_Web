@@ -57,7 +57,39 @@ const PwaManager: React.FC = () => {
         }
       });
 
+      const checkVersion = async () => {
+        try {
+          const resp = await fetch('/version.json', { cache: 'no-store' });
+          const data = await resp.json();
+          const localVersion = localStorage.getItem('kinetora_version');
+          
+          if (localVersion && data.version !== localVersion) {
+            console.log(`🆕 Nueva versión detectada: ${data.version} (Actual: ${localVersion})`);
+            localStorage.setItem('kinetora_version', data.version);
+            
+            // Forzar actualización del SW y recarga
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg && reg.waiting) {
+              handleUpdate(reg.waiting);
+            } else {
+              // Si no hay SW esperando, simplemente recargamos para purgar caché de red
+              window.location.reload();
+            }
+          } else if (!localVersion) {
+            localStorage.setItem('kinetora_version', data.version);
+          }
+        } catch (e) {
+          console.error('Error verificando versión:', e);
+        }
+      };
+
       registerSW();
+      
+      // Chequeo inicial y luego cada 2 minutos
+      checkVersion();
+      const interval = setInterval(checkVersion, 1000 * 60 * 2);
+      
+      return () => clearInterval(interval);
     }
   }, []);
 

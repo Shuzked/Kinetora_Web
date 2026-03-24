@@ -29,7 +29,7 @@ import { I18nProvider } from "@/i18n/I18nProvider";
 import BackgroundParallax from "@/components/BackgroundParallax";
 import SkipToContent from "@/components/SkipToContent";
 import CookieBanner from "@/components/CookieBanner";
-// import PwaManager from "./components/PwaManager";
+import PwaManager from "./components/PwaManager";
 import DynamicImportGuard from "@/components/DynamicImportGuard";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
@@ -47,7 +47,7 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            {/* <PwaManager /> */}
+            <PwaManager />
             <DynamicImportGuard />
             {!isMobile && <CustomCursor />}
             <CookieBanner />
