@@ -42,6 +42,7 @@ const RevealText = ({ text, className = "", delay = 0 }: RevealTextProps) => {
 
   return (
     <motion.span
+      key={text}
       className={`inline-block ${className}`}
       variants={containerVariants}
       initial="hidden"
