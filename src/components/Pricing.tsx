@@ -140,7 +140,7 @@ const Pricing = () => {
                 </div>
               )}
               <div className="flex-1">
-                  <h3 className="mb-2 text-lg md:text-xl lg:text-2xl leading-tight">{plan.name}</h3>
+                  <h3 className="mb-2">{plan.name}</h3>
                 <div className="text-4xl font-black text-[#F5F5F5] mb-4">
                   {plan.price}
                   {(plan as any).perMonth !== false && (

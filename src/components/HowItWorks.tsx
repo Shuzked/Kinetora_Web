@@ -114,7 +114,7 @@ const HowItWorks = () => {
                 {step.number}
               </div>
               <div className="relative z-10 pl-2 sm:pl-0">
-                <h3 className="mb-4 uppercase text-lg md:text-xl xl:text-2xl leading-tight break-words">
+                <h3 className="mb-4 uppercase break-words">
                   {step.title}
                 </h3>
                 <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>

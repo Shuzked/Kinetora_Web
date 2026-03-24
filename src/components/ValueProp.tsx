@@ -102,7 +102,7 @@ const ValueProp = () => {
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
             {copy.pill}
           </div>
-          <h2 className="mb-6 flex flex-col items-center text-4xl md:text-5xl lg:text-7xl font-black leading-[1.1]">
+          <h2 className="mb-6 flex flex-col items-center">
             <RevealText text={copy.titleTop} className="text-white" />
             <RevealText text={copy.titleAccent} className="text-[#B454FF]" delay={0.3} />
           </h2>
@@ -125,7 +125,7 @@ const ValueProp = () => {
                   <div className="w-11 h-11 shrink-0 rounded-full bg-red-500/10 border border-red-500/15 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-red-300/70" />
                   </div>
-                  <h3 className="uppercase text-lg md:text-xl lg:text-2xl leading-tight">
+                  <h3 className="uppercase">
                     {copy.left.title}
                   </h3>
                 </div>
@@ -182,7 +182,7 @@ const ValueProp = () => {
                   <div className="w-11 h-11 shrink-0 rounded-full bg-[#B454FF]/15 border border-[#B454FF]/20 flex items-center justify-center">
                     <img src="/Favicon_Kinetora.png" alt="Kinetora" className="w-5 h-5 object-contain" loading="lazy" decoding="async" />
                   </div>
-                  <h3 className="uppercase text-lg md:text-xl lg:text-2xl leading-tight">
+                  <h3 className="uppercase">
                     {copy.right.title}
                   </h3>
                 </div>

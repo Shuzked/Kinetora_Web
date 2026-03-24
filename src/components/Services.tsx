@@ -100,7 +100,7 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight">
+                  <h3 className="mb-4 uppercase">
                     {copy.cards.brandingTitle}
                   </h3>
                   <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-sm">
@@ -140,7 +140,7 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight">{copy.cards.digitalTitle}</h3>
+                  <h3 className="mb-4 uppercase">{copy.cards.digitalTitle}</h3>
                   <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-[280px]">
                     {copy.cards.digitalDesc}
                   </p>
@@ -178,7 +178,7 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight">{copy.cards.multimediaTitle}</h3>
+                  <h3 className="mb-4 uppercase">{copy.cards.multimediaTitle}</h3>
                   <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-[280px]">
                     {copy.cards.multimediaDesc}
                   </p>
@@ -216,7 +216,7 @@ const Services = () => {
                   </ScrollParallax>
                 </div>
                 <div>
-                  <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight">
+                  <h3 className="mb-4 uppercase">
                     {copy.cards.commsTitle}
                   </h3>
                   <p className="text-[#F5F5F5]/70 font-medium leading-relaxed max-w-sm">
