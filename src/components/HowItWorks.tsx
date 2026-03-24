@@ -100,7 +100,7 @@ const HowItWorks = () => {
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
+        <div className="grid sm:grid-cols-2 xl:grid-cols-4 gap-10 md:gap-12">
           {copy.steps.map((step, i) => (
             <MouseParallax key={i} intensity={6} rotate={3} className="will-change-transform">
             <motion.div
@@ -114,7 +114,7 @@ const HowItWorks = () => {
                 {step.number}
               </div>
               <div className="relative z-10 pl-2 sm:pl-0">
-                <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight">
+                <h3 className="mb-4 uppercase text-lg md:text-xl lg:text-2xl leading-tight break-words">
                   {step.title}
                 </h3>
                 <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>
