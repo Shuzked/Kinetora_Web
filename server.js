@@ -8,7 +8,10 @@ const PORT = process.env.PORT || 8080;
 
 // 1. GENERACIÓN DE VERSIÓN DINÁMICA (Caché Busting)
 // Se genera una sola vez al arrancar el proceso de Node.js
-const APP_VERSION = Date.now();
+const APP_VERSION = Date.now().toString();
+
+
+
 
 // 2. COMPRESOR MÁXIMO (Brotli/Gzip)
 app.use(compression({
@@ -53,12 +56,7 @@ app.use(express.static(path.join(__dirname, 'dist'), {
     lastModified: true
 }));
 
-// 5. API: VERSIÓN DEL SERVIDOR
-app.get('/api/version', (req, res) => {
-    res.json({ version: APP_VERSION });
-});
-
-// 6. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN
+// 5. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN
 // Forzamos que el HTML principal NUNCA se cachee y que tenga los assets actualizados.
 app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, 'dist', 'index.html');
@@ -68,17 +66,13 @@ app.get('*', (req, res) => {
             return res.status(500).send('Error loading index.html');
         }
 
-        // 1. Inyectamos la versión en un objeto global para el script de auto-update
+        // Inyectamos el Cache Busting dinámico en etiquetas <link> y <script>
         let updatedHtml = data.replace(
-            '<head>', 
-            `<head><script>window.__APP_VERSION__ = "${APP_VERSION}";</script>`
-        );
-
-        // 2. Inyectamos el Cache Busting dinámico en etiquetas <link> y <script>
-        updatedHtml = updatedHtml.replace(
             /((?:href|src)="[^"]+\.(?:css|js))"/g, 
             `$1?v=${APP_VERSION}"`
         );
+
+
 
         // Cabeceras estrictas para el HTML
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
