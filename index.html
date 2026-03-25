@@ -83,36 +83,91 @@
     <link rel="canonical" href="https://kinetora.tech/" />
     <link rel="stylesheet" href="/src/globals.css" media="print" onload="this.media='all'" />
     <script>
+      /**
+       * 🚀 KINETORA AUTO-UPDATE SYSTEM (Staff Level)
+       * Detects new deployments and notifies the user with a professional UI.
+       */
       (function() {
-        const CHECK_INTERVAL = 60000; // Check every 60 seconds
-        const VERSION_FILE = '/version.json';
-        const STORAGE_KEY = 'kinetora_app_version';
+        const POLL_INTERVAL = 15000; // 15 segundos
+        let isUpdating = false;
 
-        async function checkVersion() {
+        function createUpdateUI() {
+          if (document.getElementById('kinetora-update-banner')) return;
+
+          const banner = document.createElement('div');
+          banner.id = 'kinetora-update-banner';
+          banner.innerHTML = `
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div class="k-spinner"></div>
+              <span id="k-update-text">La página se está actualizando... (Building)</span>
+            </div>
+          `;
+          document.body.appendChild(banner);
+
+          const styles = document.createElement('style');
+          styles.textContent = `
+            #kinetora-update-banner {
+              position: fixed; bottom: 2rem; right: 2rem; z-index: 10000;
+              background: rgba(15, 15, 15, 0.75); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+              border: 1px solid rgba(180, 84, 255, 0.3); border-radius: 1.25rem;
+              padding: 1rem 1.5rem; color: #F5F5F5; font-family: 'Inter', sans-serif;
+              font-size: 13px; font-weight: 600; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+              transform: translateY(150%); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            #kinetora-update-banner.show { transform: translateY(0); }
+            #kinetora-update-banner.complete { border-color: #22c55e; background: rgba(34, 197, 94, 0.1); }
+            .k-spinner {
+              width: 16px; height: 16px; border: 2px solid rgba(180, 84, 255, 0.2);
+              border-top-color: #B454FF; border-radius: 50%; animation: k-spin 1s linear infinite;
+            }
+            #kinetora-update-banner.complete .k-spinner { border-color: rgba(34, 197, 94, 0.2); border-top-color: #22c55e; }
+            @keyframes k-spin { to { transform: rotate(360deg); } }
+          `;
+          document.head.appendChild(styles);
+          
+          // Trigger entry animation
+          setTimeout(() => banner.classList.add('show'), 100);
+        }
+
+        async function checkServerVersion() {
           try {
-            // Fetch version with a timestamp to bypass browser cache
-            const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, { cache: 'no-store' });
+            // Buscamos la versión actual del servidor
+            const response = await fetch('/api/version?t=' + Date.now(), { cache: 'no-store' });
             if (!response.ok) return;
             const data = await response.json();
+            
             const serverVersion = data.version;
-            const localVersion = localStorage.getItem(STORAGE_KEY);
+            const clientVersion = window.__APP_VERSION__; // Inyectado por server.js
 
-            if (localVersion && serverVersion !== localVersion) {
-              console.log('🚀 New version available. Refreshing...');
-              localStorage.setItem(STORAGE_KEY, serverVersion);
-              // Force reload from server, avoiding cache
-              window.location.reload();
-            } else if (!localVersion) {
-              localStorage.setItem(STORAGE_KEY, serverVersion);
+            if (serverVersion && clientVersion && serverVersion !== clientVersion) {
+              if (!isUpdating) {
+                isUpdating = true;
+                createUpdateUI();
+              }
+
+              // Una vez detectamos que el servidor ya tiene otra versión (Building -> Complete)
+              const textEl = document.getElementById('k-update-text');
+              const bannerEl = document.getElementById('kinetora-update-banner');
+              
+              if (textEl) textEl.textContent = 'Actualización completada (Complete)';
+              if (bannerEl) bannerEl.classList.add('complete');
+
+              // Recarga forzada tras 2 segundos de feedback visual
+              setTimeout(() => {
+                window.location.reload(true);
+              }, 2000);
             }
           } catch (e) {
-            console.error('Update check failed:', e);
+            // El servidor podría estar caído momentáneamente durante el Build
+            if (!isUpdating) {
+              isUpdating = true;
+              createUpdateUI();
+            }
           }
         }
 
-        // Run initial check and then periodic
-        setTimeout(checkVersion, 2000); // 2s after load
-        setInterval(checkVersion, CHECK_INTERVAL);
+        // Iniciar polling
+        setInterval(checkServerVersion, POLL_INTERVAL);
       })();
     </script>
   </head>

@@ -53,7 +53,12 @@ app.use(express.static(path.join(__dirname, 'dist'), {
     lastModified: true
 }));
 
-// 5. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN
+// 5. API: VERSIÓN DEL SERVIDOR
+app.get('/api/version', (req, res) => {
+    res.json({ version: APP_VERSION });
+});
+
+// 6. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN
 // Forzamos que el HTML principal NUNCA se cachee y que tenga los assets actualizados.
 app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, 'dist', 'index.html');
@@ -63,9 +68,14 @@ app.get('*', (req, res) => {
             return res.status(500).send('Error loading index.html');
         }
 
-        // Inyectamos el Cache Busting dinámico en etiquetas <link> y <script>
-        // Busca href/src que terminen en .css o .js e inyecta la versión
-        const updatedHtml = data.replace(
+        // 1. Inyectamos la versión en un objeto global para el script de auto-update
+        let updatedHtml = data.replace(
+            '<head>', 
+            `<head><script>window.__APP_VERSION__ = "${APP_VERSION}";</script>`
+        );
+
+        // 2. Inyectamos el Cache Busting dinámico en etiquetas <link> y <script>
+        updatedHtml = updatedHtml.replace(
             /((?:href|src)="[^"]+\.(?:css|js))"/g, 
             `$1?v=${APP_VERSION}"`
         );
