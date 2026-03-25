@@ -86,13 +86,13 @@ const Services = () => {
                 className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
               />
             </div>
-            <div className="relative mb-8">
+            <div className="relative z-10 mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
-            <div>
-              <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">
+            <div className="relative z-10">
+              <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
                 {copy.cards.brandingTitle}
               </h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
@@ -117,13 +117,13 @@ const Services = () => {
                 className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
               />
             </div>
-            <div className="relative mb-8">
+            <div className="relative z-10 mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30">
                 <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
-            <div>
-              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.digitalTitle}</h3>
+            <div className="relative z-10">
+              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">{copy.cards.digitalTitle}</h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
                 {copy.cards.digitalDesc}
               </p>
@@ -146,13 +146,13 @@ const Services = () => {
                 className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
               />
             </div>
-            <div className="relative mb-8">
+            <div className="relative z-10 mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
-            <div>
-              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-titter">{copy.cards.multimediaTitle}</h3>
+            <div className="relative z-10">
+              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">{copy.cards.multimediaTitle}</h3>
               <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
                 {copy.cards.multimediaDesc}
               </p>
@@ -175,12 +175,12 @@ const Services = () => {
                 className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
               />
             </div>
-            <div className="relative mb-8">
+            <div className="relative z-10 mb-8">
               <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
                 <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
               </div>
             </div>
-            <div>
+            <div className="relative z-10">
               <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
                 {copy.cards.commsTitle}
               </h3>
