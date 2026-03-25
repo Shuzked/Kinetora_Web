@@ -252,7 +252,7 @@ const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: any) => {
             height={375}
             containerClassName="h-full w-full"
             skeletonClassName="bg-white/10"
-            className="h-full w-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+            className="h-full w-full object-cover transition-all duration-700 hover:scale-105"
           />
           {/* Shine effect */}
           <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
