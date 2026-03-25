@@ -241,7 +241,7 @@ const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: any) => {
       }}
       className="h-full relative group"
     >
-      <div className="block h-full rounded-[2rem] border border-white/10 bg-white/[0.04] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0 relative transform-gpu" style={{ transform: "translateZ(0)" }}>
+      <div className="block h-full rounded-[2rem] border border-white/10 bg-[#111] overflow-hidden hover:bg-white/[0.06] hover:border-white/15 transition-all duration-500 focus-within:ring-2 focus-within:ring-[#B454FF]/40 focus-within:ring-offset-0 relative transform-gpu" style={{ transform: "translateZ(0)" }}>
         <div className="aspect-[16/9] overflow-hidden relative" style={{ transform: "translateZ(40px)", backfaceVisibility: "hidden" }}>
           <ImageWithSkeleton
             src={cover}

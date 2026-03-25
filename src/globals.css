@@ -166,6 +166,18 @@
     overflow-y: visible;
   }
 
+  /* Image fail-safe styles */
+  .img-fallback-container {
+    @apply bg-[#141414] relative overflow-hidden;
+    background: linear-gradient(135deg, #0D0D0D 0%, #1A1A1A 50%, #2D1A3D 100%);
+  }
+
+  .img-fallback-container::after {
+    content: "";
+    @apply absolute inset-0 opacity-20 pointer-events-none;
+    background: radial-gradient(circle at center, #B454FF 0%, transparent 70%);
+  }
+
   /* Hide native scrollbars on small screens (e.g., filter chips) */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
