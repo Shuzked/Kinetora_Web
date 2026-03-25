@@ -18,12 +18,16 @@ import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import RevealText from "@/components/ui/RevealText";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEqualizeHeights } from "@/hooks/use-equalize";
 
 const Portfolio = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
+  const sectionRef = useRef<HTMLElement>(null);
   const [swiperRef, setSwiperRef] = React.useState<SwiperType | null>(null);
   const [activeIndex, setActiveIndex] = React.useState(0);
+
+  useEqualizeHeights(sectionRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang]);
 
   const baseCards = caseStudies;
 
@@ -51,6 +55,7 @@ const Portfolio = () => {
   return (
     <section
       id="casos"
+      ref={sectionRef}
       className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden group/portfolio"
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
