@@ -18,7 +18,7 @@ import { motion } from "framer-motion";
 // Mock data integration
 const USER_SUBSCRIPTION = {
   plan: "Business Pro",
-  price: "299,00€",
+  price: "$299.00",
   startDate: "2024-03-22", // Simulado
   iban: "ESXX 0000 0000 0000 0000 0000",
   clientName: "John Doe / Kinetora Client"

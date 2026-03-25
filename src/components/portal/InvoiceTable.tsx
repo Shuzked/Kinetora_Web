@@ -18,9 +18,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const MOCK_INVOICES = [
-  { id: "INV-2024-001", date: "2024-03-01", amount: "299.00€", status: "PAID", pdf: "factura_marzo.pdf" },
-  { id: "INV-2024-002", date: "2024-02-01", amount: "299.00€", status: "PAID", pdf: "factura_febrero.pdf" },
-  { id: "INV-2024-003", date: "2024-01-01", amount: "299.00€", status: "PAID", pdf: "factura_enero.pdf" },
+  { id: "INV-2024-001", date: "2024-03-01", amount: "$299.00", status: "PAID", pdf: "factura_marzo.pdf" },
+  { id: "INV-2024-002", date: "2024-02-01", amount: "$299.00", status: "PAID", pdf: "factura_febrero.pdf" },
+  { id: "INV-2024-003", date: "2024-01-01", amount: "$299.00", status: "PAID", pdf: "factura_enero.pdf" },
 ];
 
 const InvoiceTable = () => {
