@@ -152,7 +152,7 @@ export const splitWpContentIntoTextAndMedia = (html: string) => {
 export const sanitizeWpHtml = (html: string) => {
   const clean = DOMPurify.sanitize(html, {
     USE_PROFILES: { html: true },
-    ADD_TAGS: ["iframe", "video", "source"],
+    ADD_TAGS: ["iframe", "video", "source", "picture"],
     ADD_ATTR: [
       "allow",
       "allowfullscreen",
@@ -168,6 +168,8 @@ export const sanitizeWpHtml = (html: string) => {
       "poster",
       "preload",
       "src",
+      "srcset",
+      "srcSet",
       "type",
       "title",
       "width",
