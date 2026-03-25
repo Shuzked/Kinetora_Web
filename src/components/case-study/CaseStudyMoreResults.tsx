@@ -92,6 +92,7 @@ const CaseStudyMoreResults = ({
           onSwiper={setSwiperRef}
           onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
           modules={[Autoplay, Navigation, Pagination]}
+          a11y={{ enabled: false }}
           loop={cases.length > 3}
           speed={600}
           autoplay={{

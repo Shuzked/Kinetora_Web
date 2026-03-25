@@ -98,7 +98,12 @@ const CaseStudyPost = () => {
   }, [currentCase, lang]);
 
   React.useEffect(() => {
+    // Scroll inmediato y reforzado con un rastro de retraso para evitar saltos de componentes (Swiper/Reveals)
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    const timer = setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    }, 10);
+    return () => clearTimeout(timer);
   }, [slug]);
 
   const seoDefaults = getSeoDefaults(lang);

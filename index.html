@@ -94,5 +94,12 @@
       </filter>
     </svg>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Forzar scroll al top al cargar el DOM (Salto Fantasma fix)
+      window.scrollTo({ top: 0, behavior: 'instant' });
+      document.addEventListener('DOMContentLoaded', () => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      });
+    </script>
   </body>
 </html>
