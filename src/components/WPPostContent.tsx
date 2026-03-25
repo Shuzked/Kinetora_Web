@@ -53,7 +53,7 @@ export default function WPPostContent({ html }: { html: string }) {
     () =>
       DOMPurify.sanitize(html, {
         USE_PROFILES: { html: true },
-        ADD_TAGS: ["iframe", "video", "source"],
+        ADD_TAGS: ["iframe", "video", "source", "picture"],
         ADD_ATTR: [
           "target",
           "rel",
@@ -72,6 +72,8 @@ export default function WPPostContent({ html }: { html: string }) {
           "poster",
           "preload",
           "src",
+          "srcset",
+          "srcSet",
           "type",
           "title",
           "width",
