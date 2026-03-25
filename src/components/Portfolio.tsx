@@ -279,7 +279,7 @@ const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: any) => {
                   <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
                     {metricLabel}
                   </div>
-                    <h3 className="text-xl sm:text-2xl font-black text-[#F5F5F5] leading-[1.1] tracking-tighter">
+                    <h3 className="text-xl sm:text-2xl font-black text-[#B454FF] leading-[1.1] tracking-tighter drop-shadow-[0_0_12px_rgba(180,84,255,0.4)]">
                       {formattedMetricValue}
                     </h3>
                 </>

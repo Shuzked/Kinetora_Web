@@ -25,7 +25,8 @@ const Testimonials = () => {
   const copy =
     lang === "es"
       ? {
-          title: "Lo que dicen los fundadores.",
+          titleA: "Lo que dicen",
+          titleB: "los fundadores",
           sub: "Startups que escalan con nosotros.",
           testimonials: [
             {
@@ -79,8 +80,10 @@ const Testimonials = () => {
             },
           ],
         }
-      : {
-          title: "What founders say.",
+    : {
+          titleA: "What",
+          titleB: "founders",
+          titleC: "say",
           sub: "Startups scaling with us.",
           testimonials: [
             {
@@ -234,7 +237,15 @@ const Testimonials = () => {
       <div className="kin-container pointer-events-auto">
         <div className="text-center mb-12 lg:mb-20 pointer-events-none">
           <h2 className="mb-4 sm:mb-6">
-            <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} />
+            <RevealText text={copy.titleA.toUpperCase() + " "} />
+            <RevealText 
+              text={copy.titleB.toUpperCase()} 
+              className="text-[#B454FF]" 
+              delay={0.15}
+            />
+            {lang === "en" && copy.titleC && (
+              <RevealText text={" " + copy.titleC.toUpperCase()} delay={0.3} />
+            )}
           </h2>
           <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-[10px] sm:text-xs">{copy.sub}</p>
         </div>

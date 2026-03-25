@@ -162,7 +162,7 @@ const Cases = () => {
                                   <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/75">
                                     {metricLabel}
                                   </div>
-                                  <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF]">
+                                  <div className="mt-1 text-2xl sm:text-3xl font-black text-[#B454FF] drop-shadow-[0_0_12px_rgba(180,84,255,0.4)]">
                                     {metricValue}
                                   </div>
                                 </>
