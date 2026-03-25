@@ -1,18 +1,23 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const compression = require('compression');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// 1. COMPRESOR MÁXIMO (Brotli/Gzip)
+// 1. GENERACIÓN DE VERSIÓN DINÁMICA (Caché Busting)
+// Se genera una sola vez al arrancar el proceso de Node.js
+const APP_VERSION = Date.now();
+
+// 2. COMPRESOR MÁXIMO (Brotli/Gzip)
 app.use(compression({
     level: 6,
     threshold: 100,
     brotli: { enabled: true, zlib: { level: 11 } }
 }));
 
-// 1.5 SERVICIO INTELIGENTE DE WebP (Staff Level)
+// 3. SERVICIO INTELIGENTE DE WebP (Staff Level)
 app.use((req, res, next) => {
     if (req.accepts('webp') && req.url.match(/\.(png|jpg|jpeg)$/i)) {
         const webpPath = path.join(__dirname, 'dist', req.url.replace(/\.(png|jpg|jpeg)$/i, '.webp'));
@@ -28,32 +33,16 @@ app.use((req, res, next) => {
     }
 });
 
-// 2. REDIRECCIONES (Deshabilitado: .htaccess lo gestiona de forma más eficiente en Hostinger)
-/*
-app.use((req, res, next) => {
-    // Forzar HTTPS
-    if (req.headers['x-forwarded-proto'] !== 'https' && process.env.NODE_ENV === 'production') {
-        return res.redirect(301, `https://${req.headers.host}${req.url}`);
-    }
-    
-    // Normalizar a kinetora.tech (evitar duplicidad .es / .tech que penaliza SEO y Perf)
-    if (req.headers.host && req.headers.host === 'kinetora.es') {
-        return res.redirect(301, `https://kinetora.tech${req.url}`);
-    }
-    
-    next();
-});
-*/
-
-// 3. CABECERAS DE CACHÉ AGRESIVAS (Avoid Enormous Payloads)
-const cacheStatic = (res, path) => {
-    // 📂 ARCHIVOS CRÍTICOS: Nunca cachear (Service Workers, Manifest, HTML)
-    if (path.match(/\.(html|sw\.js|service-worker\.js|manifest\.json)$/)) {
+// 4. CABECERAS DE CACHÉ PARA ASSETS
+// Los assets con hash en el nombre (Vite default) pueden cachearse agresivamente.
+// Los assets sin hash usarán el query param ?v= inyectado.
+const cacheStatic = (res, filePath) => {
+    if (filePath.match(/\.(html|sw\.js|service-worker\.js|manifest\.json)$/)) {
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
-    } else if (path.match(/\.(js|css|webp|png|jpg|jpeg|woff2)$/)) {
-        // Assets con hash -> Cache de 1 año (Inmutable)
+    } else if (filePath.match(/\.(js|css|webp|png|jpg|jpeg|woff2)$/)) {
+        // Cache de 1 año (Inmutable)
         res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     }
 };
@@ -64,11 +53,33 @@ app.use(express.static(path.join(__dirname, 'dist'), {
     lastModified: true
 }));
 
-// 4. SPA FALLBACK
+// 5. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN
+// Forzamos que el HTML principal NUNCA se cachee y que tenga los assets actualizados.
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+    const indexPath = path.join(__dirname, 'dist', 'index.html');
+    
+    fs.readFile(indexPath, 'utf8', (err, data) => {
+        if (err) {
+            return res.status(500).send('Error loading index.html');
+        }
+
+        // Inyectamos el Cache Busting dinámico en etiquetas <link> y <script>
+        // Busca href/src que terminen en .css o .js e inyecta la versión
+        const updatedHtml = data.replace(
+            /((?:href|src)="[^"]+\.(?:css|js))"/g, 
+            `$1?v=${APP_VERSION}"`
+        );
+
+        // Cabeceras estrictas para el HTML
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        res.setHeader('Content-Type', 'text/html');
+        
+        res.send(updatedHtml);
+    });
 });
 
 app.listen(PORT, () => {
-    console.log(`🚀 Kinetora Elite Server running on port ${PORT}`);
+    console.log(`🚀 Kinetora Elite Server [v${APP_VERSION}] running on port ${PORT}`);
 });
