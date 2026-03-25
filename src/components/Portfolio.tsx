@@ -219,7 +219,7 @@ const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: any) => {
   const formattedMetricValue = (() => {
     if (!metricValue) return null;
     if (metricLabel?.toLowerCase().includes("ventas") || metricLabel?.toLowerCase().includes("sales")) {
-      return metricValue.replace('$', '').trim() + ' €';
+      return metricValue;
     }
     return metricValue;
   })();

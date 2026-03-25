@@ -12,13 +12,13 @@ const Stats = () => {
     lang === "es"
       ? [
           { label: "Proyectos completados", value: 450, suffix: "+" },
-          { label: "Capital levantado", value: 12, suffix: "M€+" },
+          { label: "Capital levantado", value: 12, suffix: "$M+" },
           { label: "Tiempo de entrega", value: 48, suffix: "h" },
           { label: "Tasa de éxito", value: 99, suffix: "%" },
         ]
       : [
           { label: "Projects delivered", value: 450, suffix: "+" },
-          { label: "Capital raised", value: 12, suffix: "M€+" },
+          { label: "Capital raised", value: 12, suffix: "$M+" },
           { label: "Delivery time", value: 48, suffix: "h" },
           { label: "Success rate", value: 99, suffix: "%" },
         ];

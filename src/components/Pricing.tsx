@@ -24,7 +24,7 @@ const Pricing = () => {
             {
               key: "essential",
               name: "Diseño Esencial",
-              price: "1.995€",
+              price: "$1.995",
               description: "Ideal para startups en fase inicial.",
               features: ["Un diseño a la vez", "Revisiones ilimitadas", "Entregas en 48h", "Cancela cuando quieras"],
               perMonth: true,
@@ -32,7 +32,7 @@ const Pricing = () => {
             {
               key: "fullstack",
               name: "Full-Stack Creativo",
-              price: "3.495€",
+              price: "$3.495",
               description: "Tu equipo creativo completo bajo demanda.",
               features: [
                 "Dos diseños a la vez",
@@ -65,7 +65,7 @@ const Pricing = () => {
             {
               key: "essential",
               name: "Essential Design",
-              price: "€1,995",
+              price: "$1,995",
               description: "Perfect for early-stage startups.",
               features: ["One request at a time", "Unlimited revisions", "48h delivery", "Cancel anytime"],
               perMonth: true,
@@ -73,7 +73,7 @@ const Pricing = () => {
             {
               key: "fullstack",
               name: "Creative Full-Stack",
-              price: "€3,495",
+              price: "$3,495",
               description: "Your on-demand, end-to-end creative team.",
               features: [
                 "Two requests at a time",
