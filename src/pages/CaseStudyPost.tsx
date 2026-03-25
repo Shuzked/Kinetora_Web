@@ -26,7 +26,6 @@ const CaseStudyPost = () => {
   const currentCase = React.useMemo(() => caseStudies.find((item) => item.slug === slug), [slug]);
   const otherCases = React.useMemo(() => caseStudies.filter((item) => item.slug !== slug), [slug]);
 
-  // Sin llamadas remotas
   const loading = false;
 
   const ui =
@@ -71,7 +70,6 @@ const CaseStudyPost = () => {
   const cover = currentCase?.coverImage;
   const coverAlt = lang === "es" ? currentCase?.coverAlt : currentCase?.coverAltEn ?? currentCase?.coverAlt;
 
-  // Usar overrides locales: texto y media separados automáticamente
   const { textHtml, mediaHtml } = React.useMemo(() => {
     if (!currentCase) {
       return { textHtml: "", mediaHtml: "" };
@@ -82,11 +80,9 @@ const CaseStudyPost = () => {
         ? overrides.esTextHtml ?? null
         : overrides.enTextHtml ?? overrides.esTextHtml ?? null;
 
-    // Si hay texto con figuras/iframes dentro, los separamos con el splitter
     if (rawText) {
       const safe = sanitizeWpHtml(rawText);
       const split = splitWpContentIntoTextAndMedia(safe);
-      // Si algún caso define media extra de forma explícita, la añadimos (sin romper tipos)
       const extraMedia = (lang === "es"
         ? (overrides as any).esMediaHtml
         : (overrides as any).enMediaHtml ?? (overrides as any).esMediaHtml) as string | undefined;
@@ -94,7 +90,6 @@ const CaseStudyPost = () => {
       return { textHtml: split.textHtml, mediaHtml: mediaCombined };
     }
 
-    // Fallback sin media
     const fallbackText =
       lang === "es"
         ? `<p>Resumen del proyecto: ${currentCase.title}. Diseñamos e implementamos el sistema visual, la narrativa y los entregables principales para acelerar crecimiento.</p>`
@@ -106,24 +101,9 @@ const CaseStudyPost = () => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [slug]);
 
-  const moreMeta = React.useMemo(() => {
-    const m: Record<string, any> = {};
-    otherCases.forEach((item) => {
-      m[item.slug] = {
-        img: item.coverImage,
-        alt: lang === "es" ? item.coverAlt : item.coverAltEn ?? item.coverAlt,
-        hito: lang === "es" ? item.highlightFallback : item.highlightFallbackEn ?? item.highlightFallback,
-        metricKind: null,
-        metricValue: item.metricValue ?? null,
-      };
-    });
-    return m;
-  }, [otherCases, lang]);
-
   const seoDefaults = getSeoDefaults(lang);
   const origin = typeof window !== "undefined" ? window.location.origin : "";
   const canonical = `${origin}/casos/${slug ?? ""}`;
-  // Descripción específica del caso (mejor para SEO)
   const description =
     lang === "es"
       ? currentCase?.summaryFallback || ui.readyBody
@@ -132,12 +112,9 @@ const CaseStudyPost = () => {
     ...seoDefaults.keywords,
     ...(lang === "es" ? ["caso de éxito", "portafolio", "resultados"] : ["case study", "portfolio", "results"]),
   ];
-  // Locale y alternos para Open Graph
   const ogLocale = lang === "es" ? "es_ES" : "en_US";
   const ogLocaleAlternate = lang === "es" ? ["en_US"] : ["es_ES"];
-  // Alternates básicos (sin rutas por idioma, se apunta al canonical como x-default)
   const alternates = [{ hrefLang: "x-default", href: canonical }];
-  // JSON-LD Article y Breadcrumb
   const absoluteImage = cover ? (origin ? new URL(cover, origin).href : cover) : seoDefaults.shareImage;
   const jsonLd = {
     "@context": "https://schema.org",
@@ -169,11 +146,9 @@ const CaseStudyPost = () => {
     ]
   };
 
-  // Refs necesarias por CaseStudyColumns (para sticky y medidas)
   const textWrapRef = React.useRef<HTMLDivElement | null>(null);
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
 
-  // --- Lógica para Sticky Column ---
   const [stickySide, setStickySide] = React.useState<"left" | "right" | null>(null);
 
   React.useEffect(() => {
@@ -187,7 +162,6 @@ const CaseStudyPost = () => {
       const mediaHeight = mediaWrapRef.current?.offsetHeight || 0;
 
       if (textHeight > 0 && mediaHeight > 0) {
-        // Identificamos cual es la más corta
         if (textHeight < mediaHeight - 60) {
           setStickySide("left");
         } else if (mediaHeight < textHeight - 60) {
@@ -315,7 +289,6 @@ const CaseStudyPost = () => {
 
                   <CaseStudyMoreResults
                     cases={otherCases}
-                    meta={moreMeta}
                     lang={lang}
                     moreResultsLabel={ui.moreResults}
                     viewAllLabel={ui.viewAll}
