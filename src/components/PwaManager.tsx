@@ -27,8 +27,8 @@ const PwaManager: React.FC = () => {
         }
       };
 
-      const handleUpdate = async (worker: ServiceWorker) => {
-        // Pillar 3: Seguridad contra bucles infinitos
+      const handleUpdate = (worker: ServiceWorker) => {
+        // Seguridad contra bucles infinitos
         const lastReload = sessionStorage.getItem('pwa_reload_guard');
         const now = Date.now();
         
@@ -38,15 +38,7 @@ const PwaManager: React.FC = () => {
         }
 
         sessionStorage.setItem('pwa_reload_guard', now.toString());
-        
-        // Purga explícita de caches del navegador antes de recargar
-        if ('caches' in window) {
-          const keys = await caches.keys();
-          await Promise.all(keys.map(key => caches.delete(key)));
-          console.log('🧹 CacheStorage purgado con éxito');
-        }
-
-        showSuccess("Nueva versión detectada. Limpiando caché y actualizando...");
+        showSuccess("Nueva versión cargada. Reiniciando para aplicar cambios...");
         
         // Enviamos señal de skipWaiting al worker
         worker.postMessage({ type: 'SKIP_WAITING' });
@@ -57,50 +49,11 @@ const PwaManager: React.FC = () => {
       navigator.serviceWorker.addEventListener('controllerchange', () => {
         if (!refreshing) {
           refreshing = true;
-          // Pequeño delay para asegurar que los assets estén listos
-          setTimeout(() => {
-            window.location.reload();
-          }, 100);
+          window.location.reload();
         }
       });
 
-      const checkVersion = async () => {
-        try {
-          const resp = await fetch('/version.json', { cache: 'no-store' });
-          const data = await resp.json();
-          const localVersion = localStorage.getItem('kinetora_version');
-          
-          if (localVersion && data.version !== localVersion) {
-            console.log(`🆕 Nueva versión detectada: ${data.version} (Actual: ${localVersion})`);
-            localStorage.setItem('kinetora_version', data.version);
-            
-            // Forzar actualización del SW y recarga
-            const reg = await navigator.serviceWorker.getRegistration();
-            if (reg && reg.waiting) {
-              await handleUpdate(reg.waiting);
-            } else {
-              // Si no hay SW esperando, realizamos purga manual y recargamos
-              if ('caches' in window) {
-                const keys = await caches.keys();
-                await Promise.all(keys.map(key => caches.delete(key)));
-              }
-              window.location.reload();
-            }
-          } else if (!localVersion) {
-            localStorage.setItem('kinetora_version', data.version);
-          }
-        } catch (e) {
-          console.error('Error verificando versión:', e);
-        }
-      };
-
       registerSW();
-      
-      // Chequeo inicial y luego cada 2 minutos
-      checkVersion();
-      const interval = setInterval(checkVersion, 1000 * 60 * 2);
-      
-      return () => clearInterval(interval);
     }
   }, []);
 
