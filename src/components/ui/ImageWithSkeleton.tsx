@@ -27,7 +27,7 @@ export function ImageWithSkeleton({
   
   // If we are currently pointing to a .webp, the fallback should be the same name but .png or .jpg
   // This is a heuristic since we don't know the exact original extension
-  const srcOriginal = isWebp ? src.replace(/\.webp$/i, '.png') : src;
+  const srcOriginal = src;
   const srcWebp = isWebp ? src : (typeof src === 'string' ? src.replace(/\.(png|jpg|jpeg)$/i, '.webp') : src);
 
   const handleError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
