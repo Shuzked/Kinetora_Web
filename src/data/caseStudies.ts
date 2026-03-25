@@ -33,7 +33,7 @@ export const caseStudies: CaseStudy[] = [
     summaryFallbackEn: "Product Evolution & Massive Growth",
     coverAlt: "Elixir Games Evolution",
     coverAltEn: "Elixir Games Evolution",
-    coverImage: "/assets/portfolio/elixir-games-featured.jpg",
+    coverImage: "/assets/portfolio/Elixir-Games.webp",
     highlightFallback: "Dirección Creativa Global",
     highlightFallbackEn: "Global Creative Direction",
     accent: "purple",
