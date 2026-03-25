@@ -117,7 +117,7 @@ const CaseStudyMoreResults = ({
           {cases.map((cs) => (
             <SwiperSlide key={cs.slug} className="h-auto">
               <div className="h-full">
-                <PortfolioCard cs={cs} navigate={onNavigate} lang={lang} ui={ui} />
+                <PortfolioCard cs={cs} onNavigate={onNavigate} lang={lang} ui={ui} />
               </div>
             </SwiperSlide>
           ))}

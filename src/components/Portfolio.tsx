@@ -144,7 +144,7 @@ const Portfolio = () => {
               <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
                 {() => (
                   <div className="h-full transition-all duration-700 opacity-100 blur-0 scale-100">
-                    <PortfolioCard cs={cs} navigate={navigate} lang={lang} ui={ui} />
+                    <PortfolioCard cs={cs} onNavigate={(slug) => navigate(`/casos/${slug}`)} lang={lang} ui={ui} />
                   </div>
                 )}
               </SwiperSlide>

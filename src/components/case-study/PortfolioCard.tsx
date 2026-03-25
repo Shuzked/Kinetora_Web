@@ -8,7 +8,7 @@ import type { CaseStudy } from "@/data/caseStudies";
 
 type PortfolioCardProps = {
   cs: CaseStudy;
-  navigate: (path: string) => void;
+  onNavigate: (slug: string) => void;
   lang: "es" | "en";
   ui: {
     readMore: string;
@@ -16,7 +16,7 @@ type PortfolioCardProps = {
   };
 };
 
-export const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: PortfolioCardProps) => {
+export const PortfolioCard = React.memo(({ cs, onNavigate, lang, ui }: PortfolioCardProps) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
   const x = useMotionValue(0);
@@ -119,7 +119,7 @@ export const PortfolioCard = React.memo(({ cs, navigate, lang, ui }: PortfolioCa
               variant="glass"
               size="sm"
               className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10 shadow-lg"
-              onClick={() => navigate(`/casos/${cs.slug}`)}
+              onClick={() => onNavigate(cs.slug)}
               aria-label={ui.ariaReadMore(title)}
             >
               {ui.readMore.toUpperCase()}
