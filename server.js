@@ -120,31 +120,46 @@ app.get('*', (req, res) => {
         updatedHtml = updatedHtml.replace(/<html[^>]*>/, `<html lang="${res.locals.lang}">`);
         updatedHtml = updatedHtml.replace('<head>', `<head><script>window.__KINETORA_LANG__ = "${res.locals.lang}";</script>`);
 
-        // INYECCIÓN DINÁMICA DE TODO EL DICCIONARIO (SSR LITE GLOBAL)
+        // INYECCIÓN DINÁMICA - SSR LITE GLOBAL
         const t = res.locals.t || {};
 
-        // 1. Inyectamos claves directas (ej: {{greeting}} -> Hola)
-        // Esto permite traducir cualquier parte del index.html usando doble llave
-        Object.keys(t).forEach(key => {
-            if (typeof t[key] === 'string') {
+        // Función para aplanar el objeto de traducciones (ej: { seo: { title: "..." } } -> { "seo.title": "..." })
+        const flatten = (obj, prefix = '') => {
+            let items = {};
+            for (const [key, value] of Object.entries(obj)) {
+                const newKey = prefix ? `${prefix}.${key}` : key;
+                if (value && typeof value === 'object' && !Array.isArray(value)) {
+                    Object.assign(items, flatten(value, newKey));
+                } else {
+                    items[newKey] = value;
+                }
+            }
+            return items;
+        };
+
+        const flatDict = flatten(t);
+
+        // Reemplazo masivo de {{clave}}
+        Object.keys(flatDict).forEach(key => {
+            const value = flatDict[key];
+            if (typeof value === 'string' || typeof value === 'number') {
                 const regex = new RegExp(`{{${key}}}`, 'g');
-                updatedHtml = updatedHtml.replace(regex, t[key]);
+                updatedHtml = updatedHtml.replace(regex, value);
             }
         });
 
-        // 2. Inyección específica de SEO (para mantener compatibilidad con etiquetas existentes)
-        const seo = t.seo || {};
-        if (seo.title) {
-            updatedHtml = updatedHtml.replace(/<title>.*?<\/title>/g, `<title>${seo.title}</title>`);
-            updatedHtml = updatedHtml.replace(/content="[^"]*Kinetora[^"]*"/g, (match) => {
-                if (match.includes('title')) return `content="${seo.title}"`;
-                return match;
-            });
-        }
-        if (seo.description) {
-            updatedHtml = updatedHtml.replace(/<meta name="description" content=".*?">/g, `<meta name="description" content="${seo.description}">`);
-            updatedHtml = updatedHtml.replace(/<meta property="og:description" content=".*?">/g, `<meta property="og:description" content="${seo.description}">`);
-            updatedHtml = updatedHtml.replace(/<meta name="twitter:description" content=".*?">/g, `<meta name="twitter:description" content="${seo.description}">`);
+        // Refuerzo específico para Meta Tags por si no tienen el formato {{}}
+        if (t.seo) {
+            if (t.seo.title) {
+                updatedHtml = updatedHtml.replace(/<title>.*?<\/title>/g, `<title>${t.seo.title}</title>`);
+                updatedHtml = updatedHtml.replace(/property="og:title" content=".*?"/g, `property="og:title" content="${t.seo.title}"`);
+                updatedHtml = updatedHtml.replace(/name="twitter:title" content=".*?"/g, `name="twitter:title" content="${t.seo.title}"`);
+            }
+            if (t.seo.description) {
+                updatedHtml = updatedHtml.replace(/name="description" content=".*?"/g, `name="description" content="${t.seo.description}"`);
+                updatedHtml = updatedHtml.replace(/property="og:description" content=".*?"/g, `property="og:description" content="${t.seo.description}"`);
+                updatedHtml = updatedHtml.replace(/name="twitter:description" content=".*?"/g, `name="twitter:description" content="${t.seo.description}"`);
+            }
         }
 
         // Cabeceras estrictas para el HTML
