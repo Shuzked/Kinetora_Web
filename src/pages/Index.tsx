@@ -8,15 +8,45 @@ import Reveal from '@/components/Reveal';
 import Brands from '@/components/Brands';
 import Stats from '@/components/Stats';
 import ValueProp from '@/components/ValueProp';
-import HowItWorks from '@/components/HowItWorks';
-import Services from '@/components/Services';
-import Portfolio from '@/components/Portfolio';
-import Testimonials from '@/components/Testimonials';
-import Contact from '@/components/Contact';
-import FAQ from '@/components/FAQ';
-import Footer from '@/components/Footer';
-import FloatingCTA from '@/components/FloatingCTA';
-import StackingSection from '@/components/StackingSection';
+
+// Lazy load non-critical sections below the fold
+const HowItWorks = React.lazy(() => import('@/components/HowItWorks'));
+const Services = React.lazy(() => import('@/components/Services'));
+const Portfolio = React.lazy(() => import('@/components/Portfolio'));
+const Testimonials = React.lazy(() => import('@/components/Testimonials'));
+const Contact = React.lazy(() => import('@/components/Contact'));
+const FAQ = React.lazy(() => import('@/components/FAQ'));
+const Footer = React.lazy(() => import('@/components/Footer'));
+const FloatingCTA = React.lazy(() => import('@/components/FloatingCTA'));
+const StackingSection = React.lazy(() => import('@/components/StackingSection'));
+
+// Intersection Observer based wrapper for deeper optimization
+const SafeLazyLoad = ({ children, height = "400px" }: { children: React.ReactNode, height?: string }) => {
+  const [isIntersecting, setIntersecting] = React.useState(false);
+  const ref = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setIntersecting(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "200px" });
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={ref} style={{ minHeight: isIntersecting ? "auto" : height }}>
+      {isIntersecting ? (
+        <React.Suspense fallback={<div style={{ height }} />}>
+          {children}
+        </React.Suspense>
+      ) : null}
+    </div>
+  );
+};
 import SEO from '@/components/SEO';
 import { getSeoDefaults } from '@/seo/defaults';
 import { useI18n } from '@/i18n/I18nProvider';
@@ -97,16 +127,40 @@ const Index = () => {
           <Reveal as="div"><Brands /></Reveal>
           <Reveal as="div"><Stats /></Reveal>
           <Reveal as="div"><ValueProp /></Reveal>
-          <Reveal as="div"><Services /></Reveal>
-          <Reveal as="div"><HowItWorks /></Reveal>
-          <Reveal as="div"><Portfolio /></Reveal>
-          <Reveal as="div"><Testimonials /></Reveal>
-          <Contact />
-          <FAQ />
+          
+          <SafeLazyLoad height="600px">
+            <Reveal as="div"><Services /></Reveal>
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="400px">
+            <Reveal as="div"><HowItWorks /></Reveal>
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="800px">
+            <Reveal as="div"><Portfolio /></Reveal>
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="600px">
+            <Reveal as="div"><Testimonials /></Reveal>
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="600px">
+            <Contact />
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="400px">
+            <FAQ />
+          </SafeLazyLoad>
         </div>
       </main>
-      <Footer />
-      <FloatingCTA />
+      
+      <SafeLazyLoad height="300px">
+        <Footer />
+      </SafeLazyLoad>
+
+      <React.Suspense fallback={null}>
+        <FloatingCTA />
+      </React.Suspense>
     </div>
   );
 };
