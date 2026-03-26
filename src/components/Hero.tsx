@@ -117,7 +117,7 @@ const Hero = () => {
           className="relative z-10 flex-1 min-h-[100dvh] flex flex-col items-center justify-center text-center"
         >
           <h1 className="mb-6 sm:mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 max-w-[280px] sm:max-w-none mx-auto">
-            {lang === 'en' ? 'HELLO ENGLISH' : 'HOLA ESPAÑOL'} <br />
+            {copy.headlineTop.replace(/\.$/, "")} <br />
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
                {copy.headlineAccent.replace(/\.$/, "")}
              </span>

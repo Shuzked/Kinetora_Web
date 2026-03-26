@@ -9,19 +9,6 @@ const PORT = process.env.PORT || 8080;
 // Configuración para entornos detrás de proxy inverso
 app.set('trust proxy', true);
 
-// 1. ENDPOINT DE DEPUREACIÓN SEGURO (Mover al principio para evitar 404 de React)
-app.get('/i18n-test', (req, res) => {
-    // Intentamos todas las fuentes de host posibles
-    const host = req.hostname || req.get('host') || req.headers.host || 'No detectado';
-    const lang = host.includes('.es') ? 'es' : 'en';
-    res.json({
-        detected_host: host,
-        assigned_lang: lang,
-        trust_proxy: app.get('trust proxy'),
-        headers: req.headers
-    });
-});
-
 // 2. GENERACIÓN DE VERSIÓN DINÁMICA
 // Se genera una sola vez al arrancar el proceso de Node.js
 const APP_VERSION = Date.now().toString();
