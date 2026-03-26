@@ -1,0 +1,13 @@
+{
+  "greeting": "Hello",
+  "read_more": "Read more",
+  "nav": {
+    "services": "Services",
+    "contact": "Contact"
+  },
+  "seo": {
+    "title": "Kinetora — Subscription-based Creative Agency for Startups & B2B",
+    "description": "UX/UI, ultra-fast websites, motion graphics, and pitch decks under asynchronous subscription. 48h delivery, unlimited revisions, and results-driven.",
+    "keywords": "creative agency, subscription, startup, B2B, UX design, UI, web design, web performance, motion graphics, pitch deck, branding, brand identity, product design, interface design, SaaS design, landing page design"
+  }
+}

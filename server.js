@@ -106,7 +106,29 @@ app.get('*', (req, res) => {
         );
 
         // Inyectamos el Atributo Lang dinámico en la etiqueta <html>
-        updatedHtml = updatedHtml.replace('<html', `<html lang="${res.locals.lang}"`);
+        updatedHtml = updatedHtml.replace('<html lang="es">', `<html lang="${res.locals.lang}">`);
+        updatedHtml = updatedHtml.replace('<html lang="en">', `<html lang="${res.locals.lang}">`);
+
+        // INYECCIÓN DINÁMICA DE SEO (SSR LITE)
+        const t = res.locals.t || {};
+        const seo = t.seo || {};
+
+        if (seo.title) {
+            updatedHtml = updatedHtml.replace(/<title>.*?<\/title>/, `<title>${seo.title}</title>`);
+            updatedHtml = updatedHtml.replace(/<meta name="title" content=".*?">/, `<meta name="title" content="${seo.title}">`);
+            updatedHtml = updatedHtml.replace(/<meta property="og:title" content=".*?">/, `<meta property="og:title" content="${seo.title}">`);
+            updatedHtml = updatedHtml.replace(/<meta name="twitter:title" content=".*?">/, `<meta name="twitter:title" content="${seo.title}">`);
+        }
+
+        if (seo.description) {
+            updatedHtml = updatedHtml.replace(/<meta name="description" content=".*?">/, `<meta name="description" content="${seo.description}">`);
+            updatedHtml = updatedHtml.replace(/<meta property="og:description" content=".*?">/, `<meta property="og:description" content="${seo.description}">`);
+            updatedHtml = updatedHtml.replace(/<meta name="twitter:description" content=".*?">/, `<meta name="twitter:description" content="${seo.description}">`);
+        }
+
+        if (seo.keywords) {
+            updatedHtml = updatedHtml.replace(/<meta name="keywords" content=".*?">/, `<meta name="keywords" content="${seo.keywords}">`);
+        }
 
         // Cabeceras estrictas para el HTML
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
