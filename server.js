@@ -110,15 +110,16 @@ app.get('*', (req, res) => {
             return res.status(500).send('Error loading index.html');
         }
 
-        // Inyectamos el Cache Busting dinámico en etiquetas <link> y <script>
+        // Inyectamos el Cache Busting dinámico en etiquetas <link> y <script> LOCALES SOLAMENTE
+        // Evitamos tocar URLs externas (que empiecen por http o //)
         let updatedHtml = data.replace(
-            /((?:href|src)="[^"]+\.(?:css|js))"/g, 
-            `$1?v=${APP_VERSION}"`
+            /((?:href|src)=")(?!\/|http|https|\/\/)([^"]+\.(?:css|js))"/g, 
+            `$1$2?v=${APP_VERSION}"`
         );
 
-        // Inyectamos el Atributo Lang dinámico y la variable global para React
+        // Inyectamos el Atributo Lang dinámico y la variable global para React con un ID para asegurar reemplazo único
         updatedHtml = updatedHtml.replace(/<html[^>]*>/, `<html lang="${res.locals.lang}">`);
-        updatedHtml = updatedHtml.replace('<head>', `<head><script>window.__KINETORA_LANG__ = "${res.locals.lang}";</script>`);
+        updatedHtml = updatedHtml.replace('<head>', `<head>\n    <script id="i18n-bridge">window.__KINETORA_LANG__ = "${res.locals.lang}";</script>`);
 
         // INYECCIÓN DINÁMICA - SSR LITE GLOBAL
         const t = res.locals.t || {};
