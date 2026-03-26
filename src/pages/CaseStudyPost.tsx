@@ -102,7 +102,7 @@ const CaseStudyPost = () => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     const timer = setTimeout(() => {
       window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-    }, 10);
+    }, 50);
     return () => clearTimeout(timer);
   }, [slug]);
 

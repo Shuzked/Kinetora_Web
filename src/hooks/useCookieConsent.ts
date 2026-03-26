@@ -70,14 +70,14 @@ function loadGTM(): void {
 
   const s = document.createElement("script");
   s.async = true;
-  s.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+  s.src = `/gtm.js`;
   document.head.appendChild(s);
 
   // Also load GA4 script if not already present
   if (!document.querySelector(`script[src*="${GA_ID}"]`)) {
     const ga = document.createElement("script");
     ga.async = true;
-    ga.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+    ga.src = `/gtag.js`;
     document.head.appendChild(ga);
   }
 }
