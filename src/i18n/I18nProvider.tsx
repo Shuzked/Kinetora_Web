@@ -14,21 +14,35 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 const STORAGE_KEY = "kinetora.lang";
 
 function getInitialLang(): Lang {
+  if (typeof window === "undefined") return "en";
+
   // 1. Prioridad ABSOLUTA: Lenguaje inyectado por el servidor (Domain Mapping)
-  const serverLang = typeof window !== "undefined" ? (window as any).__KINETORA_LANG__ : null;
+  const serverLang = (window as any).__KINETORA_LANG__;
   if (serverLang === "es" || serverLang === "en") {
     console.log(`[i18n Frontend] Idioma detectado del servidor: ${serverLang}`);
     return serverLang as Lang;
   }
 
-  // 2. Persistencia local (Solo si no hay orden del servidor)
-  const stored = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
+  // 2. Persistencia local (Elección manual del usuario previa)
+  const stored = window.localStorage.getItem(STORAGE_KEY);
   if (stored === "es" || stored === "en") {
     console.log(`[i18n Frontend] Idioma detectado de localStorage: ${stored}`);
     return stored as Lang;
   }
 
-  const nav = typeof navigator !== "undefined" ? navigator.language : "";
+  // 3. Hostname detection (Salvaguarda para Mobile/SEO)
+  const hostname = window.location.hostname;
+  if (hostname.endsWith('.es')) {
+    console.log(`[i18n Frontend] Idioma detectado por dominio .es: es`);
+    return "es";
+  }
+  if (hostname.endsWith('.tech')) {
+    console.log(`[i18n Frontend] Idioma detectado por dominio .tech: en`);
+    return "en";
+  }
+
+  // 4. Fallback al navegador
+  const nav = navigator.language;
   const fallback = nav.toLowerCase().startsWith("es") ? "es" : "en";
   console.log(`[i18n Frontend] Idioma detectado del navegador (fallback): ${fallback}`);
   return fallback;
