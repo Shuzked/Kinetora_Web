@@ -6,6 +6,9 @@ const compression = require('compression');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+// Configuración para entornos detrás de proxy inverso (Hostinger, Vercel, Nginx)
+app.set('trust proxy', true);
+
 // 1. GENERACIÓN DE VERSIÓN DINÁMICA (Caché Busting)
 // Se genera una sola vez al arrancar el proceso de Node.js
 const APP_VERSION = Date.now().toString();
@@ -20,11 +23,33 @@ app.use(compression({
     brotli: { enabled: true, zlib: { level: 11 } }
 }));
 
-// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) POR DOMINIO
+// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) POR DOMINIO Y CARGA DE DICCIONARIOS
 app.use((req, res, next) => {
+    // En entornos con proxy, req.hostname lee la cabecera X-Forwarded-Host si trust proxy está activo
     const host = req.hostname;
-    // .es -> español, resto (.tech, localhost, etc) -> inglés
-    res.locals.lang = host.includes('.es') ? 'es' : 'en';
+    
+    // Debug Log Crítico para Producción
+    console.log(`[i18n Debug] Host detectado: ${host}`);
+
+    // Lógica estricta: .es -> español, resto -> inglés (.tech, etc.)
+    const lang = host.includes('.es') ? 'es' : 'en';
+    res.locals.lang = lang;
+
+    // Carga del diccionario correspondiente
+    const localePath = path.join(__dirname, 'locales', `${lang}.json`);
+    try {
+        if (fs.existsSync(localePath)) {
+            const translations = JSON.parse(fs.readFileSync(localePath, 'utf8'));
+            res.locals.t = translations;
+        } else {
+            console.warn(`[i18n Warning] Diccionario no encontrado en: ${localePath}`);
+            res.locals.t = {};
+        }
+    } catch (error) {
+        console.error(`[i18n Error] Error cargando locale ${lang}:`, error);
+        res.locals.t = {};
+    }
+    
     next();
 });
 
