@@ -63,20 +63,26 @@
     <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Kinetora — Agencia creativa por suscripción para Startups y B2B</title>
-    <meta name="title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
-    <meta name="description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
-    <meta name="keywords" content="agencia creativa, suscripción, startup, B2B, diseño UX, UI, diseño web, web performance, motion graphics, pitch deck, branding, identidad de marca, diseño de producto, diseño de interfaces, diseño SaaS, diseño landing page">
-    <meta property="og:title" content="Kinetora — Agencia creativa por suscripción">
-    <meta property="og:description" content="Tu departamento creativo bajo demanda: UX/UI, Web, Motion, Pitch Decks. 48h. Sin fricción.">
+    <title>{{seo.title}}</title>
+    <script>
+      // 1. Bloquear la memoria del navegador para evitar saltos automáticos
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    </script>
+    <meta name="title" content="{{seo.title}}">
+    <meta name="description" content="{{seo.description}}">
+    <meta name="keywords" content="{{seo.keywords}}">
+    <meta property="og:title" content="{{seo.title}}">
+    <meta property="og:description" content="{{seo.description}}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kinetora">
     <meta property="og:url" content="https://kinetora.tech/">
     <meta property="og:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
     <meta property="og:image:alt" content="Kinetora, agencia creativa y de diseño">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
-    <meta name="twitter:description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
+    <meta name="twitter:title" content="{{seo.title}}">
+    <meta name="twitter:description" content="{{seo.description}}">
     <meta name="twitter:image" content="/assets/social/kinetora-social-share.webp">
 
     <meta name="theme-color" content="#0D0D0D">
@@ -95,11 +101,12 @@
     </svg>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Forzar scroll al top al cargar el DOM (Salto Fantasma fix)
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      document.addEventListener('DOMContentLoaded', () => {
-        window.scrollTo({ top: 0, behavior: 'instant' });
-      });
+      // 2. Forzar scroll al top después de que todo el JS y assets carguen
+      window.onload = function() {
+        setTimeout(function() {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 50);
+      };
     </script>
   </body>
 </html>
