@@ -112,7 +112,7 @@ const Navbar = () => {
                     <SmoothScrollLink
                       key={link.name}
                       href={link.href}
-                      className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded"
+                      className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded py-3 px-2 -mx-2 flex items-center kin-touch-target"
                     >
                       {link.name}
                     </SmoothScrollLink>

@@ -91,11 +91,12 @@ const Hero = () => {
     >
       <motion.div style={{ opacity: isMobile ? 1 : opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
-        {/* Optimizacion Mobile: se desactiva el parallax javascript del fondo líquido */}
+        {/* Optimizacion Mobile: se desactiva el parallax javascript del fondo líquido y se reduce la opacidad/escala de los blobs */}
         <motion.div style={isMobile ? {} : { y: yBg }} className="liquid-bg-container">
-          <div className="liquid-blob blob-purple" />
-          <div className="liquid-blob blob-blue" />
-          <div className="liquid-blob blob-coral" />
+          <div className={`liquid-blob blob-purple ${isMobile ? 'scale-75 opacity-40' : ''}`} />
+          <div className={`liquid-blob blob-blue ${isMobile ? 'scale-75 opacity-40' : ''}`} />
+          {/* On very small mobile screens, we remove the third blob to save on blending/GPU power */}
+          {!isMobile && <div className="liquid-blob blob-coral" />}
         </motion.div>
 
         {/* Visibility Layer */}
