@@ -20,7 +20,15 @@ app.use(compression({
     brotli: { enabled: true, zlib: { level: 11 } }
 }));
 
-// 3. SERVICIO INTELIGENTE DE WebP (Staff Level)
+// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) POR DOMINIO
+app.use((req, res, next) => {
+    const host = req.hostname;
+    // .es -> español, resto (.tech, localhost, etc) -> inglés
+    res.locals.lang = host.includes('.es') ? 'es' : 'en';
+    next();
+});
+
+// 4. SERVICIO INTELIGENTE DE WebP (Staff Level)
 app.use((req, res, next) => {
     if (req.accepts('webp') && req.url.match(/\.(png|jpg|jpeg)$/i)) {
         const webpPath = path.join(__dirname, 'dist', req.url.replace(/\.(png|jpg|jpeg)$/i, '.webp'));
@@ -36,7 +44,7 @@ app.use((req, res, next) => {
     }
 });
 
-// 4. CABECERAS DE CACHÉ PARA ASSETS
+// 5. CABECERAS DE CACHÉ PARA ASSETS
 // Los assets con hash en el nombre (Vite default) pueden cachearse agresivamente.
 // Los assets sin hash usarán el query param ?v= inyectado.
 const cacheStatic = (res, filePath) => {
@@ -56,7 +64,7 @@ app.use(express.static(path.join(__dirname, 'dist'), {
     lastModified: true
 }));
 
-// 5. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN
+// 6. SPA FALLBACK CON INYECCIÓN DINÁMICA DE VERSIÓN E IDIOMA
 // Forzamos que el HTML principal NUNCA se cachee y que tenga los assets actualizados.
 app.get('*', (req, res) => {
     const indexPath = path.join(__dirname, 'dist', 'index.html');
@@ -72,7 +80,8 @@ app.get('*', (req, res) => {
             `$1?v=${APP_VERSION}"`
         );
 
-
+        // Inyectamos el Atributo Lang dinámico en la etiqueta <html>
+        updatedHtml = updatedHtml.replace('<html', `<html lang="${res.locals.lang}"`);
 
         // Cabeceras estrictas para el HTML
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
