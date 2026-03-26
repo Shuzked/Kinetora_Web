@@ -14,17 +14,24 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 const STORAGE_KEY = "kinetora.lang";
 
 function getInitialLang(): Lang {
-  // 1. Prioridad: Lenguaje inyectado por el servidor (Domain Mapping)
-  if (typeof window !== "undefined" && (window as any).__KINETORA_LANG__) {
-    return (window as any).__KINETORA_LANG__ as Lang;
+  // 1. Prioridad ABSOLUTA: Lenguaje inyectado por el servidor (Domain Mapping)
+  const serverLang = typeof window !== "undefined" ? (window as any).__KINETORA_LANG__ : null;
+  if (serverLang === "es" || serverLang === "en") {
+    console.log(`[i18n Frontend] Idioma detectado del servidor: ${serverLang}`);
+    return serverLang as Lang;
   }
 
-  // 2. Persistencia local
+  // 2. Persistencia local (Solo si no hay orden del servidor)
   const stored = typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
-  if (stored === "es" || stored === "en") return stored;
+  if (stored === "es" || stored === "en") {
+    console.log(`[i18n Frontend] Idioma detectado de localStorage: ${stored}`);
+    return stored as Lang;
+  }
 
   const nav = typeof navigator !== "undefined" ? navigator.language : "";
-  return nav.toLowerCase().startsWith("es") ? "es" : "en";
+  const fallback = nav.toLowerCase().startsWith("es") ? "es" : "en";
+  console.log(`[i18n Frontend] Idioma detectado del navegador (fallback): ${fallback}`);
+  return fallback;
 }
 
 function interpolate(template: string, vars?: Record<string, string | number>) {

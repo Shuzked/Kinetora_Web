@@ -116,9 +116,9 @@ app.get('*', (req, res) => {
             `$1?v=${APP_VERSION}"`
         );
 
-        // Inyectamos el Atributo Lang dinámico en la etiqueta <html>
-        updatedHtml = updatedHtml.replace('<html lang="es">', `<html lang="${res.locals.lang}">`);
-        updatedHtml = updatedHtml.replace('<html lang="en">', `<html lang="${res.locals.lang}">`);
+        // Inyectamos el Atributo Lang dinámico y la variable global para React
+        updatedHtml = updatedHtml.replace(/<html[^>]*>/, `<html lang="${res.locals.lang}">`);
+        updatedHtml = updatedHtml.replace('<head>', `<head><script>window.__KINETORA_LANG__ = "${res.locals.lang}";</script>`);
 
         // INYECCIÓN DINÁMICA DE TODO EL DICCIONARIO (SSR LITE GLOBAL)
         const t = res.locals.t || {};
