@@ -109,25 +109,31 @@ app.get('*', (req, res) => {
         updatedHtml = updatedHtml.replace('<html lang="es">', `<html lang="${res.locals.lang}">`);
         updatedHtml = updatedHtml.replace('<html lang="en">', `<html lang="${res.locals.lang}">`);
 
-        // INYECCIÓN DINÁMICA DE SEO (SSR LITE)
+        // INYECCIÓN DINÁMICA DE TODO EL DICCIONARIO (SSR LITE GLOBAL)
         const t = res.locals.t || {};
+
+        // 1. Inyectamos claves directas (ej: {{greeting}} -> Hola)
+        // Esto permite traducir cualquier parte del index.html usando doble llave
+        Object.keys(t).forEach(key => {
+            if (typeof t[key] === 'string') {
+                const regex = new RegExp(`{{${key}}}`, 'g');
+                updatedHtml = updatedHtml.replace(regex, t[key]);
+            }
+        });
+
+        // 2. Inyección específica de SEO (para mantener compatibilidad con etiquetas existentes)
         const seo = t.seo || {};
-
         if (seo.title) {
-            updatedHtml = updatedHtml.replace(/<title>.*?<\/title>/, `<title>${seo.title}</title>`);
-            updatedHtml = updatedHtml.replace(/<meta name="title" content=".*?">/, `<meta name="title" content="${seo.title}">`);
-            updatedHtml = updatedHtml.replace(/<meta property="og:title" content=".*?">/, `<meta property="og:title" content="${seo.title}">`);
-            updatedHtml = updatedHtml.replace(/<meta name="twitter:title" content=".*?">/, `<meta name="twitter:title" content="${seo.title}">`);
+            updatedHtml = updatedHtml.replace(/<title>.*?<\/title>/g, `<title>${seo.title}</title>`);
+            updatedHtml = updatedHtml.replace(/content="[^"]*Kinetora[^"]*"/g, (match) => {
+                if (match.includes('title')) return `content="${seo.title}"`;
+                return match;
+            });
         }
-
         if (seo.description) {
-            updatedHtml = updatedHtml.replace(/<meta name="description" content=".*?">/, `<meta name="description" content="${seo.description}">`);
-            updatedHtml = updatedHtml.replace(/<meta property="og:description" content=".*?">/, `<meta property="og:description" content="${seo.description}">`);
-            updatedHtml = updatedHtml.replace(/<meta name="twitter:description" content=".*?">/, `<meta name="twitter:description" content="${seo.description}">`);
-        }
-
-        if (seo.keywords) {
-            updatedHtml = updatedHtml.replace(/<meta name="keywords" content=".*?">/, `<meta name="keywords" content="${seo.keywords}">`);
+            updatedHtml = updatedHtml.replace(/<meta name="description" content=".*?">/g, `<meta name="description" content="${seo.description}">`);
+            updatedHtml = updatedHtml.replace(/<meta property="og:description" content=".*?">/g, `<meta property="og:description" content="${seo.description}">`);
+            updatedHtml = updatedHtml.replace(/<meta name="twitter:description" content=".*?">/g, `<meta name="twitter:description" content="${seo.description}">`);
         }
 
         // Cabeceras estrictas para el HTML
