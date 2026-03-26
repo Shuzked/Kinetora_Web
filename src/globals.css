@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* --- LOCAL FONTS (INTER VARIABLE) --- */
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/inter-variable.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* Fallback para navegadores antiguos o si no se usa variable */
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/inter-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/assets/fonts/inter-black.woff2') format('woff2');
+  font-weight: 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+
 @layer base {
   :root {
     --background: 240 10% 4%;
@@ -58,11 +85,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
-    scroll-behavior: smooth; /* Garantiza navegación suave por Anchor en móvil tras desactivar JS Lenis */
+    /* scroll-behavior: smooth; -> Eliminado para evitar conflictos con reset de scroll instantáneo */
   }
 
+  /* --- TYPOGRAPHY --- */
   body {
     @apply bg-[#0D0D0D] text-[#F5F5F5];
+    font-family: 'Geist', 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
     overflow-x: clip;
     font-display: swap;
   }
