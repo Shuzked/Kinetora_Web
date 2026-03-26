@@ -16,12 +16,30 @@ const APP_VERSION = Date.now().toString();
 
 
 
-// 2. COMPRESOR MÁXIMO (Brotli/Gzip)
+// 2. CONFIGURACIÓN DE SEGURIDAD Y COMPRESIÓN
+app.set('trust proxy', true);
+app.use(cors());
 app.use(compression({
     level: 6,
     threshold: 100,
+    filter: (req, res) => {
+        if (req.headers['x-no-compression']) return false;
+        return compression.filter(req, res);
+    },
     brotli: { enabled: true, zlib: { level: 11 } }
 }));
+
+// ENDPOINT DE DEPUREACIÓN SEGURO (Eliminar tras arreglar)
+app.get('/i18n-test', (req, res) => {
+    const host = req.hostname || req.get('host') || 'No detectado';
+    const lang = host.includes('.es') ? 'es' : 'en';
+    res.json({
+        detected_host: host,
+        assigned_lang: lang,
+        headers: req.headers,
+        trust_proxy: app.get('trust proxy')
+    });
+});
 
 // 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) - DETECTOR DE DOMINIO PRO
 app.use((req, res, next) => {
