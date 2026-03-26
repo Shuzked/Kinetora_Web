@@ -23,26 +23,37 @@ app.use(compression({
     brotli: { enabled: true, zlib: { level: 11 } }
 }));
 
-// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) POR DOMINIO Y CARGA DE DICCIONARIOS
+// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) - CHIVATO ULTRA-ESTRICTO
 app.use((req, res, next) => {
-    // En entornos con proxy, req.hostname lee la cabecera X-Forwarded-Host si trust proxy está activo
-    const host = req.hostname;
+    // Usamos req.get('host') para ver exactamente qué llega del proxy
+    const host = req.get('host') || '';
     
-    // Debug Log Crítico para Producción
-    console.log(`[i18n Debug] Host detectado: ${host}`);
+    // Lógica estricta: .tech forzado a 'en', .es forzado a 'es'
+    let lang = 'en'; // Default
+    if (host.includes('.es')) {
+        lang = 'es';
+    } else if (host.includes('.tech')) {
+        lang = 'en';
+    }
 
-    // Lógica estricta: .es -> español, resto -> inglés (.tech, etc.)
-    const lang = host.includes('.es') ? 'es' : 'en';
     res.locals.lang = lang;
+
+    // DEBUG LOG MANDATORIO (Mirar en los logs del servidor de Hostinger)
+    console.log(`[DEBUG i18n] Host: ${host} | Idioma asignado: ${lang} | Trust Proxy: ${app.get('trust proxy')}`);
+
+    // CABECERAS ANTI-CACHÉ (Evita que el proxy nos sirva versiones viejas en español)
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Surrogate-Control', 'no-store');
 
     // Carga del diccionario correspondiente
     const localePath = path.join(__dirname, 'locales', `${lang}.json`);
     try {
         if (fs.existsSync(localePath)) {
-            const translations = JSON.parse(fs.readFileSync(localePath, 'utf8'));
-            res.locals.t = translations;
+            res.locals.t = JSON.parse(fs.readFileSync(localePath, 'utf8'));
         } else {
-            console.warn(`[i18n Warning] Diccionario no encontrado en: ${localePath}`);
+            console.warn(`[i18n Warning] Diccionario no encontrado: ${localePath}`);
             res.locals.t = {};
         }
     } catch (error) {
