@@ -6,40 +6,28 @@ const compression = require('compression');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Configuración para entornos detrás de proxy inverso (Hostinger, Vercel, Nginx)
+// Configuración para entornos detrás de proxy inverso
 app.set('trust proxy', true);
 
-// 1. GENERACIÓN DE VERSIÓN DINÁMICA (Caché Busting)
+// 1. ENDPOINT DE DEPUREACIÓN SEGURO (Mover al principio para evitar 404 de React)
+app.get('/i18n-test', (req, res) => {
+    // Intentamos todas las fuentes de host posibles
+    const host = req.hostname || req.get('host') || req.headers.host || 'No detectado';
+    const lang = host.includes('.es') ? 'es' : 'en';
+    res.json({
+        detected_host: host,
+        assigned_lang: lang,
+        trust_proxy: app.get('trust proxy'),
+        headers: req.headers
+    });
+});
+
+// 2. GENERACIÓN DE VERSIÓN DINÁMICA
 // Se genera una sola vez al arrancar el proceso de Node.js
 const APP_VERSION = Date.now().toString();
 
 
 
-
-// 2. CONFIGURACIÓN DE SEGURIDAD Y COMPRESIÓN
-app.set('trust proxy', true);
-app.use(cors());
-app.use(compression({
-    level: 6,
-    threshold: 100,
-    filter: (req, res) => {
-        if (req.headers['x-no-compression']) return false;
-        return compression.filter(req, res);
-    },
-    brotli: { enabled: true, zlib: { level: 11 } }
-}));
-
-// ENDPOINT DE DEPUREACIÓN SEGURO (Eliminar tras arreglar)
-app.get('/i18n-test', (req, res) => {
-    const host = req.hostname || req.get('host') || 'No detectado';
-    const lang = host.includes('.es') ? 'es' : 'en';
-    res.json({
-        detected_host: host,
-        assigned_lang: lang,
-        headers: req.headers,
-        trust_proxy: app.get('trust proxy')
-    });
-});
 
 // 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) - DETECTOR DE DOMINIO PRO
 app.use((req, res, next) => {
