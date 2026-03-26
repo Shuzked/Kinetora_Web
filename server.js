@@ -23,41 +23,36 @@ app.use(compression({
     brotli: { enabled: true, zlib: { level: 11 } }
 }));
 
-// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) - CHIVATO ULTRA-ESTRICTO
+// 3. MIDDLEWARE DE INTERNACIONALIZACIÓN (i18n) - DETECTOR DE DOMINIO PRO
 app.use((req, res, next) => {
-    // Usamos req.get('host') para ver exactamente qué llega del proxy
-    const host = req.get('host') || '';
+    // Intentamos obtener el host de varias fuentes (Proxy vs Local)
+    const host = req.hostname || req.get('host') || req.headers.host || '';
     
-    // Lógica estricta: .tech forzado a 'en', .es forzado a 'es'
-    let lang = 'en'; // Default
+    // LOG DE ALTO NIVEL - Busca esto en los logs de Hostinger
+    console.log(`\n--- [PRO i18n DEBUG] ---`);
+    console.log(`Full Host: "${host}"`);
+    console.log(`X-Forwarded-Host: "${req.get('x-forwarded-host')}"`);
+    
+    // Mapeo estricto
+    let lang = 'en'; // Default para .tech y otros
     if (host.includes('.es')) {
         lang = 'es';
-    } else if (host.includes('.tech')) {
-        lang = 'en';
     }
 
     res.locals.lang = lang;
+    console.log(`Idioma asignado: ${lang.toUpperCase()}`);
+    console.log(`------------------------\n`);
 
-    // DEBUG LOG MANDATORIO (Mirar en los logs del servidor de Hostinger)
-    console.log(`[DEBUG i18n] Host: ${host} | Idioma asignado: ${lang} | Trust Proxy: ${app.get('trust proxy')}`);
-
-    // CABECERAS ANTI-CACHÉ (Evita que el proxy nos sirva versiones viejas en español)
+    // Forzamos cabeceras para evitar cualquier tipo de caché intermedia
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.setHeader('Surrogate-Control', 'no-store');
 
-    // Carga del diccionario correspondiente
+    // Carga de traducciones
     const localePath = path.join(__dirname, 'locales', `${lang}.json`);
     try {
         if (fs.existsSync(localePath)) {
             res.locals.t = JSON.parse(fs.readFileSync(localePath, 'utf8'));
-        } else {
-            console.warn(`[i18n Warning] Diccionario no encontrado: ${localePath}`);
-            res.locals.t = {};
         }
-    } catch (error) {
-        console.error(`[i18n Error] Error cargando locale ${lang}:`, error);
+    } catch (e) {
         res.locals.t = {};
     }
     
