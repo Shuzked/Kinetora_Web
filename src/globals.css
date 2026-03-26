@@ -5,7 +5,7 @@
 /* --- LOCAL FONTS (INTER) --- */
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/inter-regular.ttf') format('truetype');
+  src: url('/assets/fonts/Inter_24pt-Regular.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
   font-style: normal;
@@ -13,7 +13,7 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/inter-bold.ttf') format('truetype');
+  src: url('/assets/fonts/Inter_24pt-Bold.woff2') format('woff2');
   font-weight: 700;
   font-display: swap;
   font-style: normal;
@@ -21,11 +21,12 @@
 
 @font-face {
   font-family: 'Inter';
-  src: url('/assets/fonts/inter-black.ttf') format('truetype');
+  src: url('/assets/fonts/Inter_24pt-Black.woff2') format('woff2');
   font-weight: 900;
   font-display: swap;
   font-style: normal;
 }
+
 
 
 
