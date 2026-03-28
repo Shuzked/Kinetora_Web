@@ -181,7 +181,6 @@ const Contact = () => {
 
   return (
     <section
-      id="contacto"
       className="kin-section bg-[#0D0D0D] relative overflow-hidden"
     >
       <div className="kin-container relative z-10">

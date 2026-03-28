@@ -141,25 +141,33 @@ const Index = () => {
           <Reveal as="div"><Stats /></Reveal>
           <Reveal as="div"><ValueProp /></Reveal>
           
-          <SafeLazyLoad height="600px">
-            <Reveal as="div"><Services /></Reveal>
-          </SafeLazyLoad>
+          <div id="servicios" className="scroll-mt-24 md:scroll-mt-28">
+            <SafeLazyLoad height="600px">
+              <Reveal as="div"><Services /></Reveal>
+            </SafeLazyLoad>
+          </div>
 
-          <SafeLazyLoad height="400px">
-            <Reveal as="div"><HowItWorks /></Reveal>
-          </SafeLazyLoad>
+          <div id="como-funciona" className="scroll-mt-24 md:scroll-mt-28">
+            <SafeLazyLoad height="400px">
+              <Reveal as="div"><HowItWorks /></Reveal>
+            </SafeLazyLoad>
+          </div>
 
-          <SafeLazyLoad height="800px">
-            <Reveal as="div"><Portfolio /></Reveal>
-          </SafeLazyLoad>
+          <div id="casos" className="scroll-mt-24 md:scroll-mt-28">
+            <SafeLazyLoad height="800px">
+              <Reveal as="div"><Portfolio /></Reveal>
+            </SafeLazyLoad>
+          </div>
 
           <SafeLazyLoad height="600px">
             <Reveal as="div"><Testimonials /></Reveal>
           </SafeLazyLoad>
 
-          <SafeLazyLoad height="600px">
-            <Contact />
-          </SafeLazyLoad>
+          <div id="contacto" className="scroll-mt-24 md:scroll-mt-28">
+            <SafeLazyLoad height="600px">
+              <Contact />
+            </SafeLazyLoad>
+          </div>
 
           <SafeLazyLoad height="400px">
             <FAQ />

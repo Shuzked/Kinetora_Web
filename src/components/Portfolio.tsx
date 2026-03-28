@@ -55,9 +55,8 @@ const Portfolio = () => {
 
   return (
     <section
-      id="casos"
       ref={sectionRef}
-      className="kin-section bg-[#0D0D0D] scroll-mt-24 md:scroll-mt-28 relative overflow-hidden group/portfolio"
+      className="kin-section bg-[#0D0D0D] relative overflow-hidden group/portfolio"
     >
       <div className="kin-container mb-12 sm:mb-16 lg:mb-20">
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
