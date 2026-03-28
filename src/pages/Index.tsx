@@ -60,17 +60,30 @@ const Index = () => {
     const id = location.hash.replace("#", "");
     if (!id) return;
 
-    const el = document.getElementById(id);
-    if (!el) return;
+    // Las secciones son lazy-loaded con IntersectionObserver, por lo que el
+    // elemento puede no estar en el DOM inmediatamente. Reintentamos hasta 20
+    // veces con 100ms de espacio (~2 segundos en total).
+    let attempts = 0;
+    const maxAttempts = 20;
 
-    const nav = document.querySelector("nav") as HTMLElement | null;
-    const offset = (nav?.offsetHeight || 0) + 8;
+    const tryScroll = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        const nav = document.querySelector("nav") as HTMLElement | null;
+        const offset = (nav?.offsetHeight || 0) + 16;
+        const rect = el.getBoundingClientRect();
+        const y = rect.top + window.scrollY - offset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+        return;
+      }
+      attempts++;
+      if (attempts < maxAttempts) {
+        setTimeout(tryScroll, 100);
+      }
+    };
 
-    requestAnimationFrame(() => {
-      const rect = el.getBoundingClientRect();
-      const y = rect.top + window.scrollY - offset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    });
+    // Primer intento con pequeño delay para dejar que React monte los componentes
+    setTimeout(tryScroll, 150);
   }, [location.hash]);
 
   const seo = getSeoDefaults(lang);

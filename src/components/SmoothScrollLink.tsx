@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 /**
  * Encuentra el contenedor desplazable (window o un elemento con overflow).
@@ -59,6 +60,8 @@ type Props = {
 };
 
 const SmoothScrollLink: React.FC<Props> = ({ href, className = "", children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (!href.startsWith("#")) return; // Enlaces externos/rutas normales
     e.preventDefault();
@@ -82,8 +85,8 @@ const SmoothScrollLink: React.FC<Props> = ({ href, className = "", children }) =
       const id = href.slice(1);
       const el = document.getElementById(id);
       if (!el) {
-        // Si no está en la página actual, navegamos por hash y dejamos al navegador
-        window.location.hash = href;
+        // Si no está en la página actual, usamos React Router para navegar a la home con el hash
+        navigate("/" + href);
         return;
       }
 
