@@ -95,6 +95,15 @@
 
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
+
+    <!-- og:locale (el servidor sobreescribirá en runtime según dominio) -->
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Hreflang (estáticos): señal canónica para crawlers sin JS -->
+    <link rel="alternate" hreflang="es" href="https://kinetora.es/" />
+    <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
+    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
+
     <link rel="stylesheet" href="/src/globals.css" media="print" onload="this.media='all'" />
 
   </head>

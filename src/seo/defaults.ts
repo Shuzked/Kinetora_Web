@@ -11,33 +11,35 @@ export const seoDefaults: Record<SupportedLang, {
   shareImage?: string;
 }> = {
   es: {
-    title: "Kinetora — Agencia creativa por suscripción para Startups y B2B",
+    title: "Kinetora | Diseño Web, Cartelería y Desarrollo de Interfaces en España",
     description:
-      "UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.",
+      "Estudio de diseño vanguardista. Creamos identidades visuales, webs interactivas y cartelería premium para clientes de toda España desde Priego de Córdoba.",
     keywords: [
-      "agencia creativa", "suscripción", "startup", "B2B", "diseño UX", "UI", "diseño web",
-      "web performance", "motion graphics", "pitch deck", "branding", "identidad de marca",
-      "diseño de producto", "diseño de interfaces", "diseño SaaS", "diseño landing page"
+      "agencia creativa", "diseño web España", "diseño web Andalucía",
+      "diseño web Priego de Córdoba", "cartelería premium", "branding", "identidad de marca",
+      "diseño UX", "UI", "web performance", "interfaces interactivas", "diseño SaaS",
+      "diseño landing page", "diseño gráfico España"
     ],
     locale: "es_ES",
     siteName: "Kinetora",
-    shareImage: "/assets/social/kinetora-social-share.webp",
+    shareImage: "https://kinetora.es/assets/social/kinetora-social-share.webp",
   },
   en: {
-    title: "Kinetora — Creative agency on subscription for Startups & B2B",
+    title: "Kinetora | Global Avant-Garde Web Design & Interactive UX",
     description:
-      "UX/UI, blazing-fast websites, motion graphics and pitch decks on an async subscription. 48h turnarounds, unlimited revisions, results-driven.",
+      "Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.",
     keywords: [
-      "creative agency", "subscription", "startup", "B2B", "UX design", "UI", "web design",
-      "web performance", "motion graphics", "pitch deck", "branding", "brand identity",
-      "product design", "interface design", "SaaS design", "landing page design"
+      "avant-garde web design", "interactive UX", "global creative studio",
+      "bespoke web experiences", "premium UI design", "visual identity",
+      "brand design", "web performance", "motion design", "SaaS design",
+      "landing page design", "digital studio"
     ],
     locale: "en_US",
     siteName: "Kinetora",
-    shareImage: "/assets/social/kinetora-social-share.webp",
+    shareImage: "https://kinetora.tech/assets/social/kinetora-social-share.webp",
   },
 };
 
 export function getSeoDefaults(lang: SupportedLang = "es") {
   return seoDefaults[lang];
-}
+}

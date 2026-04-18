@@ -151,6 +151,84 @@ app.get('*', (req, res) => {
             }
         }
 
+        // ── HREFLANG INJECTION (SSR) ─────────────────────────────────────────
+        // Inyectamos las etiquetas hreflang para ambos dominios.
+        // Los crawlers (Googlebot) las leerán aunque el JS no se ejecute.
+        const isES = lang === 'es';
+        const canonicalUrl = isES ? 'https://kinetora.es/' : 'https://kinetora.tech/';
+        const ogLocale = isES ? 'es_ES' : 'en_US';
+
+        const hreflangBlock = `
+    <!-- Hreflang (SSR): bidirectional signal for Google -->
+    <link rel="alternate" hreflang="es" href="https://kinetora.es/" data-seo-ssr="true" />
+    <link rel="alternate" hreflang="en" href="https://kinetora.tech/" data-seo-ssr="true" />
+    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" data-seo-ssr="true" />`;
+
+        // Canonical dinámico por dominio
+        updatedHtml = updatedHtml
+            .replace(/<link rel="canonical" href=".*?" \/>/g, `<link rel="canonical" href="${canonicalUrl}" />`)
+            .replace(/property="og:url" content=".*?"/g, `property="og:url" content="${canonicalUrl}"`)
+            .replace(/property="og:locale" content=".*?"/g, `property="og:locale" content="${ogLocale}"`);
+
+        // Inyectamos hreflang justo antes de </head>
+        updatedHtml = updatedHtml.replace('</head>', `${hreflangBlock}
+</head>`);
+
+        // ── SCHEMA: Organization (AMBOS dominios) ───────────────────────────
+        const globalOrgJsonLd = {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Kinetora",
+            "url": canonicalUrl,
+            "logo": `${canonicalUrl}Logotipo.svg`,
+            "@id": `${canonicalUrl}#organization`,
+            "areaServed": isES
+                ? ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"]
+                : "Worldwide",
+            "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
+        };
+        const globalOrgScript = `<script type="application/ld+json" id="org-jsonld">
+${JSON.stringify(globalOrgJsonLd, null, 2)}
+</script>`;
+        updatedHtml = updatedHtml.replace('</head>', `${globalOrgScript}
+</head>`);
+
+        // ── GEOMARKETING: ProfessionalService + areaServed nacional (SOLO .es) ──
+        if (isES) {
+            const localJsonLd = {
+                "@context": "https://schema.org",
+                "@type": "ProfessionalService",
+                "name": "Kinetora",
+                "image": "https://kinetora.es/assets/social/kinetora-social-share.webp",
+                "@id": "https://kinetora.es/#professional-service",
+                "url": "https://kinetora.es",
+                "telephone": "",
+                "priceRange": "$$",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "",
+                    "addressLocality": "Priego de Córdoba",
+                    "postalCode": "14800",
+                    "addressRegion": "Andalucía",
+                    "addressCountry": "ES"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 37.4381,
+                    "longitude": -4.1942
+                },
+                "areaServed": ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"],
+                "description": "Estudio de diseño vanguardista. Creamos identidades visuales, webs interactivas y cartelería premium para clientes de toda España desde Priego de Córdoba.",
+                "knowsAbout": ["Diseño Web", "Branding", "Cartelería", "UX/UI", "Identidad Visual", "Desarrollo Frontend"],
+                "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
+            };
+            const localJsonLdScript = `<script type="application/ld+json" id="professional-service-jsonld">
+${JSON.stringify(localJsonLd, null, 2)}
+</script>`;
+            updatedHtml = updatedHtml.replace('</head>', `${localJsonLdScript}
+</head>`);
+        }
+
         // Cabeceras estrictas para el HTML
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
         res.setHeader('Pragma', 'no-cache');

@@ -1,6 +1,13 @@
 <!doctype html>
 <html lang="es">
   <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MKLGBK2S');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="UTF-8" />
     <!-- Cookie Consent Mode v2 (Prior Consent) -->
     <script>
@@ -58,67 +65,55 @@
       .liquid-bg-container { position: absolute; inset: 0; background: #0D0D0D; overflow: hidden; z-index: -1; }
     </style>
 
-    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGkyMZhrib2Bg-4.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Local Fonts Preload -->
+    <link rel="preload" href="/assets/fonts/Inter_24pt-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" type="image/png" href="/Favicon_Kinetora.png" />
     <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Kinetora — Agencia creativa por suscripción para Startups y B2B</title>
-    <meta name="title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
-    <meta name="description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
-    <meta name="keywords" content="agencia creativa, suscripción, startup, B2B, diseño UX, UI, diseño web, web performance, motion graphics, pitch deck, branding, identidad de marca, diseño de producto, diseño de interfaces, diseño SaaS, diseño landing page">
-    <meta property="og:title" content="Kinetora — Agencia creativa por suscripción">
-    <meta property="og:description" content="Tu departamento creativo bajo demanda: UX/UI, Web, Motion, Pitch Decks. 48h. Sin fricción.">
+    <title>{{seo.title}}</title>
+    <script>
+      // 1. Bloquear la memoria del navegador para evitar saltos automáticos
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    </script>
+    <meta name="title" content="{{seo.title}}">
+    <meta name="description" content="{{seo.description}}">
+    <meta name="keywords" content="{{seo.keywords}}">
+    <meta property="og:title" content="{{seo.title}}">
+    <meta property="og:description" content="{{seo.description}}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kinetora">
     <meta property="og:url" content="https://kinetora.tech/">
     <meta property="og:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
     <meta property="og:image:alt" content="Kinetora, agencia creativa y de diseño">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
-    <meta name="twitter:description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
+    <meta name="twitter:title" content="{{seo.title}}">
+    <meta name="twitter:description" content="{{seo.description}}">
     <meta name="twitter:image" content="/assets/social/kinetora-social-share.webp">
 
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
-    <link rel="stylesheet" href="/assets/globals.AtvB6DK0.css" media="print" onload="this.media='all'" />
-    <script>
-      (function() {
-        const CHECK_INTERVAL = 60000; // Check every 60 seconds
-        const VERSION_FILE = '/version.json';
-        const STORAGE_KEY = 'kinetora_app_version';
 
-        async function checkVersion() {
-          try {
-            // Fetch version with a timestamp to bypass browser cache
-            const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, { cache: 'no-store' });
-            if (!response.ok) return;
-            const data = await response.json();
-            const serverVersion = data.version;
-            const localVersion = localStorage.getItem(STORAGE_KEY);
+    <!-- og:locale (el servidor sobreescribirá en runtime según dominio) -->
+    <meta property="og:locale" content="en_US" />
 
-            if (localVersion && serverVersion !== localVersion) {
-              console.log('🚀 New version available. Refreshing...');
-              localStorage.setItem(STORAGE_KEY, serverVersion);
-              // Force reload from server, avoiding cache
-              window.location.reload();
-            } else if (!localVersion) {
-              localStorage.setItem(STORAGE_KEY, serverVersion);
-            }
-          } catch (e) {
-            console.error('Update check failed:', e);
-          }
-        }
+    <!-- Hreflang (estáticos): señal canónica para crawlers sin JS -->
+    <link rel="alternate" hreflang="es" href="https://kinetora.es/" />
+    <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
+    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
 
-        // Run initial check and then periodic
-        setTimeout(checkVersion, 2000); // 2s after load
-        setInterval(checkVersion, CHECK_INTERVAL);
-      })();
-    </script>
-    <script type="module" crossorigin src="/assets/index.Dqbuncmo.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index.iV_sxPdR.css">
+    <link rel="stylesheet" href="/assets/globals.DNOyUbZR.css" media="print" onload="this.media='all'" />
+
+    <script type="module" crossorigin src="/assets/index.B2lfXpJ9.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index.BTD2ytEk.css">
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKLGBK2S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <!-- Hidden SVG Noise Filter for Film Grain Texture -->
     <svg style="position: fixed; top: 0; left: 0; width: 0; height: 0; opacity: 0; pointer-events: none; overflow: hidden;" aria-hidden="true">
@@ -127,5 +122,13 @@
         <feColorMatrix type="saturate" values="0" />
       </filter>
     </svg>
+    <script>
+      // 2. Forzar scroll al top después de que todo el JS y assets carguen
+      window.onload = function() {
+        setTimeout(function() {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 50);
+      };
+    </script>
   </body>
 </html>

@@ -86,18 +86,61 @@ const Index = () => {
     setTimeout(tryScroll, 150);
   }, [location.hash]);
 
-  const seo = getSeoDefaults(lang);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const isES = typeof window !== 'undefined' && window.location.hostname.includes('.es');
+  const currentLang = isES ? 'es' : 'en';
+  const seo = getSeoDefaults(currentLang);
+  const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const canonical = `${origin}/`;
 
+  // ── Hreflang: "es" no "es-ES" para cobertura nacional amplia
+  const alternates = [
+    { hrefLang: 'es', href: 'https://kinetora.es/' },
+    { hrefLang: 'en', href: 'https://kinetora.tech/' },
+    { hrefLang: 'x-default', href: 'https://kinetora.tech/' }
+  ];
+
+  // ── Schema .tech: Organization global ────────────────────────────────────
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    "name": seo.siteName,
+    "name": "Kinetora",
     "url": canonical,
     "logo": `${origin}/Logotipo.svg`,
-    "@id": `${canonical}#organization`
+    "@id": `${canonical}#organization`,
+    "areaServed": isES
+      ? ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"]
+      : "Worldwide",
+    "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
   };
+
+  // ── Schema .es: ProfessionalService con geo + areaServed nacional ────────
+  const localJsonLd = isES ? {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Kinetora",
+    "image": "https://kinetora.es/assets/social/kinetora-social-share.webp",
+    "@id": "https://kinetora.es/#professional-service",
+    "url": "https://kinetora.es",
+    "telephone": "",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "",
+      "addressLocality": "Priego de Córdoba",
+      "postalCode": "14800",
+      "addressRegion": "Andalucía",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 37.4381,
+      "longitude": -4.1942
+    },
+    "areaServed": ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"],
+    "description": "Estudio de diseño vanguardista. Creamos identidades visuales, webs interactivas y cartelería premium para clientes de toda España desde Priego de Córdoba.",
+    "knowsAbout": ["Diseño Web", "Branding", "Cartelería", "UX/UI", "Identidad Visual", "Desarrollo Frontend"],
+    "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
+  } : null;
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
@@ -112,10 +155,12 @@ const Index = () => {
         ogType="website"
         twitterCard="summary_large_image"
         robots="index,follow"
+        alternates={alternates}
         jsonLd={{
           "@context": "https://schema.org",
           "@graph": [
             orgJsonLd,
+            localJsonLd,
             {
               "@type": "WebSite",
               "@id": `${canonical}#website`,
@@ -128,7 +173,7 @@ const Index = () => {
                 "query-input": "required name=search_term_string"
               }
             }
-          ]
+          ].filter(Boolean)
         }}
       />
       <Navbar />
