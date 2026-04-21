@@ -101,7 +101,7 @@ const FAQ = () => {
         ];
 
   return (
-    <section className="kin-section bg-[#0D0D0D] border-t border-white/10">
+    <section className="kin-section bg-[#0D0D0D]">
       <div className="kin-container">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-center mb-12 sm:mb-16 lg:mb-24">

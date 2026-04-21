@@ -172,13 +172,13 @@ function homepageBody(lang) {
         </div>
         <h1 id="hero-heading" class="text-5xl font-black tracking-tighter uppercase" itemscope itemtype="https://schema.org/Organization">
           ${isEs
-            ? '<span>Diseño que convierte,</span> <span class="text-[#B454FF]">velocidad que escala</span>'
-            : '<span>Design that converts,</span> <span class="text-[#B454FF]">speed that scales</span>'}
+            ? '<span>Experiencias digitales</span> <span class="text-[#B454FF]">poco convencionales</span>'
+            : '<span>Unconventional</span> <span class="text-[#B454FF]">digital experiences</span>'}
         </h1>
         <p class="text-white/75 text-lg leading-relaxed">
           ${isEs
-            ? 'Te ayudamos a crecer. Creamos tu marca, tus campañas y tus plataformas. Rápido, sin dramas y con resultados.'
-            : 'We help you grow. We create your brand, your campaigns, and your platforms. Fast, drama-free, and results-driven.'}
+            ? 'Diseñamos productos que hacen girar cabezas y convierten usuarios—para marcas que se niegan a pasar desapercibidas.'
+            : 'We design products that turn heads and convert users—exclusively for brands that refuse to go unnoticed.'}
         </p>
         <div class="flex gap-4 flex-wrap mt-6">
           <a href="#contacto" class="rounded-full bg-[#B454FF] px-6 py-3 text-sm font-black uppercase tracking-widest text-white hover:bg-[#a035ef] transition-colors">
@@ -271,7 +271,7 @@ function homepageBody(lang) {
     </main>
 
     <!-- ── FOOTER ──────────────────────────────────────────── -->
-    <footer class="bg-[#0D0D0D] border-t border-[#2A2A2A]" role="contentinfo">
+    <footer class="bg-[#0D0D0D]" role="contentinfo">
       <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4">
         <img src="/Logotipo.svg" alt="Kinetora Logo" width="120" height="24" loading="lazy" decoding="async" />
         <p class="text-white/50 text-sm">© ${new Date().getFullYear()} Kinetora Studio. ${isEs ? 'Todos los derechos reservados.' : 'All rights reserved.'}</p>
@@ -327,7 +327,7 @@ function casosBody(lang) {
       </section>
     </main>
 
-    <footer class="bg-[#0D0D0D] border-t border-[#2A2A2A]" role="contentinfo">
+    <footer class="bg-[#0D0D0D]" role="contentinfo">
       <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col sm:flex-row items-center justify-between gap-4">
         <img src="/Logotipo.svg" alt="Kinetora Logo" width="120" height="24" loading="lazy" decoding="async" />
         <p class="text-white/50 text-sm">© ${new Date().getFullYear()} Kinetora Studio. ${isEs ? 'Todos los derechos reservados.' : 'All rights reserved.'}</p>

@@ -79,7 +79,7 @@ const HowItWorks = () => {
 
   return (
     <section
-      className="kin-section bg-[#0D0D0D] border-y border-white/10 relative overflow-hidden"
+      className="kin-section bg-[#0D0D0D] relative overflow-hidden"
     >
       <ScrollParallax speed={0.05} invert={true} className="absolute -bottom-24 -left-24">
         <div className="pointer-events-none h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />

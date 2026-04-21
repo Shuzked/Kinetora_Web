@@ -147,7 +147,7 @@ const Index = () => {
       "longitude": -4.1942
     },
     "areaServed": ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"],
-    "description": "Estudio de diseño vanguardista. Creamos identidades visuales, webs interactivas y cartelería premium para clientes de toda España desde Priego de Córdoba.",
+    "description": "Estudio de experiencias digitales que convierten usuarios. Creamos identidades visuales y webs poco convencionales para clientes de toda España desde Priego de Córdoba.",
     "knowsAbout": ["Diseño Web", "Branding", "Cartelería", "UX/UI", "Identidad Visual", "Desarrollo Frontend"],
     "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
   } : null;

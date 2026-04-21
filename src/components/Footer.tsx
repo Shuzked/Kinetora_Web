@@ -114,7 +114,7 @@ const Footer = () => {
 
   return (
     <footer
-      className="bg-[#0D0D0D] border-t border-[#2A2A2A]"
+      className="bg-[#0D0D0D]"
       role="contentinfo"
       aria-label={lang === "es" ? "Pie de página" : "Footer"}
     >

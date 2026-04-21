@@ -28,10 +28,10 @@ const Hero = () => {
   const copy =
     lang === "es"
       ? {
-          headlineTop: "Diseño que convierte",
-          headlineAccent: "velocidad que escala",
+          headlineTop: "Experiencias digitales",
+          headlineAccent: "poco convencionales",
           sub:
-            "Te ayudamos a crecer. Creamos tu marca, tus campañas y tus plataformas. Rápido, sin dramas y con resultados.",
+            "Diseñamos productos que hacen girar cabezas y convierten usuarios—para marcas que se niegan a pasar desapercibidas.",
           ctaPrimary: "Contactar",
           ctaSecondary: "Éxitos",
           pills: [
@@ -41,10 +41,10 @@ const Hero = () => {
           ],
         }
       : {
-          headlineTop: "Design that converts",
-          headlineAccent: "speed that scales",
+          headlineTop: "Unconventional",
+          headlineAccent: "digital experiences",
           sub:
-            "We help you grow. We create your brand, your campaigns, and your platforms. Fast, drama-free, and results-driven.",
+            "We design products that turn heads and convert users—exclusively for brands that refuse to go unnoticed.",
           ctaPrimary: "Let's talk",
           ctaSecondary: "Case studies",
           pills: [

@@ -11,9 +11,9 @@ export const seoDefaults: Record<SupportedLang, {
   shareImage?: string;
 }> = {
   es: {
-    title: "Kinetora | Diseño Web, Cartelería y Desarrollo de Interfaces en España",
+    title: "Kinetora | Experiencias Digitales que Convierten Usuarios",
     description:
-      "Estudio de diseño vanguardista. Creamos identidades visuales, webs interactivas y cartelería premium para clientes de toda España desde Priego de Córdoba.",
+      "Diseñamos productos y experiencias digitales poco convencionales que hacen girar cabezas y convierten usuarios. Estudio para marcas que se niegan a pasar desapercibidas.",
     keywords: [
       "agencia creativa", "diseño web España", "diseño web Andalucía",
       "diseño web Priego de Córdoba", "cartelería premium", "branding", "identidad de marca",
@@ -25,9 +25,9 @@ export const seoDefaults: Record<SupportedLang, {
     shareImage: "https://kinetora.es/assets/social/kinetora-social-share.webp",
   },
   en: {
-    title: "Kinetora | Global Avant-Garde Web Design & Interactive UX",
+    title: "Kinetora | Unconventional Digital Experiences & High-Converting UX",
     description:
-      "Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.",
+      "We design unconventional digital experiences that turn heads and convert users. A digital studio exclusively for brands that refuse to go unnoticed.",
     keywords: [
       "avant-garde web design", "interactive UX", "global creative studio",
       "bespoke web experiences", "premium UI design", "visual identity",
