@@ -11,8 +11,11 @@ interface ScrollParallaxProps {
   delay?: number;
 }
 
+import { useIsMounted } from '@/hooks/use-is-mounted';
+
 const ScrollParallax = ({ children, speed = 0.1, className = "", invert = false, delay = 0 }: ScrollParallaxProps) => {
   const ref = useRef(null);
+  const isMounted = useIsMounted();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -34,7 +37,7 @@ const ScrollParallax = ({ children, speed = 0.1, className = "", invert = false,
   return (
     <motion.div 
       ref={ref} 
-      style={{ y, willChange: "transform" }} 
+      style={{ y: isMounted ? y : 0, willChange: "transform" }} 
       className={className}
     >
       {children}

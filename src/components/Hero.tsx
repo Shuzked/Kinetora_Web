@@ -8,10 +8,13 @@ import { useI18n } from "@/i18n/I18nProvider";
 import Starfield from "@/components/ui/Starfield";
 import { useIsMobile } from '@/hooks/use-mobile'; // Añadido para optimización Lighthouse 100/100
 
+import { useIsMounted } from '@/hooks/use-is-mounted';
+
 const Hero = () => {
   const { lang } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
-  const isMobile = useIsMobile(); // Detectar móvil para apagar efectos CSS ultra-pesados (blur/parallax al hacer scroll)
+  const isMobile = useIsMobile();
+  const isMounted = useIsMounted();
 
   const { scrollY } = useScroll();
   
@@ -89,14 +92,14 @@ const Hero = () => {
       className="hero-section hero-content-protection sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
       style={{ willChange: 'transform' }}
     >
-      <motion.div style={{ opacity: isMobile ? 1 : opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+      <motion.div style={{ opacity: !isMounted || isMobile ? 1 : opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         {/* Animated Liquid Aura */}
         {/* Optimizacion Mobile: se desactiva el parallax javascript del fondo líquido y se reduce la opacidad/escala de los blobs */}
-        <motion.div style={isMobile ? {} : { y: yBg }} className="liquid-bg-container">
-          <div className={`liquid-blob blob-purple ${isMobile ? 'scale-75 opacity-40' : ''}`} />
-          <div className={`liquid-blob blob-blue ${isMobile ? 'scale-75 opacity-40' : ''}`} />
+        <motion.div style={!isMounted || isMobile ? {} : { y: yBg }} className="liquid-bg-container">
+          <div className={`liquid-blob blob-purple ${!isMounted || isMobile ? 'scale-75 opacity-40' : ''}`} />
+          <div className={`liquid-blob blob-blue ${!isMounted || isMobile ? 'scale-75 opacity-40' : ''}`} />
           {/* On very small mobile screens, we remove the third blob to save on blending/GPU power */}
-          {!isMobile && <div className="liquid-blob blob-coral" />}
+          {(!isMounted || !isMobile) && <div className="liquid-blob blob-coral" />}
         </motion.div>
 
         {/* Visibility Layer */}
@@ -104,12 +107,12 @@ const Hero = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
         
         {/* Starfield Layer - Solo en Desktop para 90-100 PageSpeed Mobile */}
-        {!isMobile && <Starfield />}
+        {(!isMounted || !isMobile) && <Starfield />}
       </motion.div>
 
       {/* Optimizacion Mobile masiva: Ignoramos el css blur() en móviles porque bloquea la GPU renderizando el árbol entero 60 veces por segundo */}
       <motion.div 
-        style={isMobile ? {} : { scale, filter, opacity }}
+        style={!isMounted || isMobile ? {} : { scale, filter, opacity }}
         className="flex-1 flex flex-col relative z-10"
       >
 

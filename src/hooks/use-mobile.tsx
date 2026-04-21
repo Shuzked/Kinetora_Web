@@ -4,11 +4,7 @@ const MOBILE_BREAKPOINT = 768;
 
 export function useIsMobile() {
   // SSR/Prerender guard: Node has no viewport, treat as desktop (false)
-  const [isMobile, setIsMobile] = React.useState<boolean>(
-    typeof window !== "undefined"
-      ? window.innerWidth < MOBILE_BREAKPOINT
-      : false,
-  );
+  const [isMobile, setIsMobile] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`);
