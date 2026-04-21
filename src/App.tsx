@@ -15,6 +15,7 @@ const LegalNotice = lazy(() => import("./pages/LegalNotice"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 const SocialPrivacyPolicy = lazy(() => import("./pages/SocialPrivacyPolicy"));
+const Pricing = lazy(() => import("./pages/Pricing"));
 
 // Portal - Rutas Pesadas diferidas
 const PortalDashboard = lazy(() => import("./pages/PortalDashboard"));
@@ -67,6 +68,7 @@ const App = () => {
                     <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
                     <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
                     <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
+                    <Route path="/precios" element={<Pricing />} />
                     
                     {/* Portal Login */}
                     <Route path="/portal/login" element={<PortalLogin />} />

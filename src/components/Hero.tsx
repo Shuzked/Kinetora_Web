@@ -31,10 +31,11 @@ const Hero = () => {
   const copy =
     lang === "es"
       ? {
-          headlineTop: "Experiencias digitales",
-          headlineAccent: "poco convencionales",
+          headlineTop: "El estudio que ayuda a startups",
+          headlineAccent: "a levantar capital y convertir usuarios",
           sub:
-            "Diseñamos productos que hacen girar cabezas y convierten usuarios—para marcas que se niegan a pasar desapercibidas.",
+            "Diseñamos el sistema visual completo — marca, web y producto — para que tu startup compita en la liga de las grandes desde el primer día.",
+          pricingAnchor: "Planes desde 1.900€/mes · Sin permanencia · Pausa cuando quieras",
           ctaPrimary: "Contactar",
           ctaSecondary: "Éxitos",
           pills: [
@@ -44,10 +45,11 @@ const Hero = () => {
           ],
         }
       : {
-          headlineTop: "Unconventional",
-          headlineAccent: "digital experiences",
+          headlineTop: "The studio that helps startups",
+          headlineAccent: "raise capital and convert users",
           sub:
-            "We design products that turn heads and convert users—exclusively for brands that refuse to go unnoticed.",
+            "We engineer the full visual system — brand, web and product — so your startup competes with the big players from day one.",
+          pricingAnchor: "Plans from €1,900/mo · No lock-in · Pause anytime",
           ctaPrimary: "Let's talk",
           ctaSecondary: "Case studies",
           pills: [
@@ -127,9 +129,15 @@ const Hero = () => {
              </span>
           </h1>
 
-          <p className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-10 sm:mb-12 animate-in fade-in fill-mode-both">
+          <p className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both">
             {copy.sub}
           </p>
+          <a
+            href="/precios"
+            className="inline-flex items-center gap-2 mb-10 sm:mb-12 text-[11px] font-black tracking-[0.22em] uppercase text-[#B454FF]/80 hover:text-[#B454FF] transition-colors border-b border-[#B454FF]/30 hover:border-[#B454FF] pb-px animate-in fade-in fill-mode-both"
+          >
+            {copy.pricingAnchor}
+          </a>
 
           <ScrollParallax speed={0.15}>
             <div

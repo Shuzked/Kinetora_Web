@@ -12,13 +12,13 @@ const Stats = () => {
     lang === "es"
       ? [
           { label: "Proyectos completados", value: 450, suffix: "+" },
-          { label: "Capital levantado", value: 12, suffix: "$M+" },
+          { label: "Capital levantado por nuestros clientes", sublabel: "gracias a nuestros diseños", value: 12, suffix: "$M+" },
           { label: "Tiempo de entrega", value: 48, suffix: "h" },
           { label: "Tasa de éxito", value: 99, suffix: "%" },
         ]
       : [
           { label: "Projects delivered", value: 450, suffix: "+" },
-          { label: "Capital raised", value: 12, suffix: "$M+" },
+          { label: "Capital raised by our clients", sublabel: "thanks to our design", value: 12, suffix: "$M+" },
           { label: "Delivery time", value: 48, suffix: "h" },
           { label: "Success rate", value: 99, suffix: "%" },
         ];
@@ -44,8 +44,13 @@ const Stats = () => {
                   </div>
                   <div className="absolute -inset-4 bg-[#B454FF]/0 group-hover:bg-[#B454FF]/5 rounded-full blur-xl transition-all duration-500" />
                 </div>
-                <div className="text-[#F5F5F5]/65 group-hover:text-[#B454FF]/80 transition-colors text-[10px] font-bold uppercase tracking-[0.3em] max-w-[140px] mx-auto leading-relaxed">
+                <div className="text-[#F5F5F5]/65 group-hover:text-[#B454FF]/80 transition-colors text-[10px] font-bold uppercase tracking-[0.3em] max-w-[160px] mx-auto leading-relaxed">
                   {stat.label}
+                  {'sublabel' in stat && stat.sublabel && (
+                    <div className="mt-1 text-[9px] text-[#B454FF]/60 normal-case tracking-[0.15em] font-semibold">
+                      {stat.sublabel}
+                    </div>
+                  )}
                 </div>
               </motion.div>
             ))}
