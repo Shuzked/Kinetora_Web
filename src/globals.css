@@ -224,6 +224,7 @@
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-duration: var(--marquee-duration, 55s);
+    animation-play-state: running;
   }
 
   /* WP-style post typography (case studies) */

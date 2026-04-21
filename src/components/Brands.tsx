@@ -34,11 +34,16 @@ const Brands = () => {
   useEffect(() => {
     const el = wrapperRef.current;
     if (!el) return;
+    let hasBeenVisible = false;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) resumeTrack();
-          else pauseTrack();
+          if (e.isIntersecting) {
+            hasBeenVisible = true;
+            resumeTrack();
+          } else if (hasBeenVisible) {
+            pauseTrack();
+          }
         });
       },
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }

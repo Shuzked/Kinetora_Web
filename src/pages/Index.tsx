@@ -120,7 +120,7 @@ const Index = () => {
     "areaServed": isES
       ? ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"]
       : "Worldwide",
-    "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
+    "sameAs": ["https://www.linkedin.com/company/kinetora", "https://www.instagram.com/kinetora_studio"]
   };
 
   // ── Schema .es: ProfessionalService con geo + areaServed nacional ────────
@@ -149,7 +149,7 @@ const Index = () => {
     "areaServed": ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"],
     "description": "Estudio de experiencias digitales que convierten usuarios. Creamos identidades visuales y webs poco convencionales para clientes de toda España desde Priego de Córdoba.",
     "knowsAbout": ["Diseño Web", "Branding", "Cartelería", "UX/UI", "Identidad Visual", "Desarrollo Frontend"],
-    "sameAs": ["ENLACE_A_TU_LINKEDIN", "ENLACE_A_TU_INSTAGRAM"]
+    "sameAs": ["https://www.linkedin.com/company/kinetora", "https://www.instagram.com/kinetora_studio"]
   } : null;
 
   return (

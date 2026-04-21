@@ -6,7 +6,7 @@ import PremiumButton from '@/components/PremiumButton';
 import { Input } from "@/components/ui/input";
 import { Mail } from 'lucide-react';
 import { SiTiktok } from 'react-icons/si';
-import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube, FaLinkedinIn } from 'react-icons/fa';
 import { showSuccess } from '@/utils/toast';
 import { motion } from 'framer-motion';
 import { Label } from "@/components/ui/label";
@@ -177,6 +177,15 @@ const Footer = () => {
                 className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
               >
                 <FaInstagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/kinetora"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/5 border border-white/10 text-[#F5F5F5]/75 hover:text-[#F5F5F5] hover:bg-white/10 hover:border-white/20 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF]"
+              >
+                <FaLinkedinIn className="h-4 w-4" />
               </a>
             </div>
             <div className="flex flex-col items-center lg:items-start gap-2 text-sm font-semibold text-[#F5F5F5]/80 text-center lg:text-left">
