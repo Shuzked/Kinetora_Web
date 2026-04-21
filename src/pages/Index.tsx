@@ -22,6 +22,16 @@ const StackingSection = React.lazy(() => import('@/components/StackingSection'))
 
 // Intersection Observer based wrapper for deeper optimization
 const SafeLazyLoad = ({ children, height = "400px" }: { children: React.ReactNode, height?: string }) => {
+  // SSR / Prerender (Node.js): IntersectionObserver doesn't exist.
+  // Render children directly so the baked HTML contains all content for crawlers.
+  if (typeof window === 'undefined') {
+    return (
+      <React.Suspense fallback={null}>
+        {children}
+      </React.Suspense>
+    );
+  }
+
   const [isIntersecting, setIntersecting] = React.useState(false);
   const ref = React.useRef<HTMLDivElement>(null);
 

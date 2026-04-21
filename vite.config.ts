@@ -21,7 +21,6 @@ export default defineConfig(() => ({
         entryFileNames: `assets/[name].[hash].js`,
         chunkFileNames: `assets/[name].[hash].js`,
         assetFileNames: `assets/[name].[hash].[ext]`,
-        // Vite ahora manejará la división inteligente de los manual chunks automáticamente
       },
     },
   },
