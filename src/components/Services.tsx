@@ -17,14 +17,14 @@ const Services = () => {
           titleBottom: "que tu startup necesita.",
           sub: "Branding, producto, web y contenido — con un sistema que mantiene calidad y consistencia a escala.",
           cards: {
-            brandingTitle: "Construcción de marca",
-            brandingDesc: "Logos, branding completo y pitch decks diseñados para convencer a inversores de primer nivel.",
-            digitalTitle: "Digital",
-            digitalDesc: "UX/UI en Figma, desarrollo web y tiendas online optimizadas para conversión.",
-            multimediaTitle: "Multimedia",
-            multimediaDesc: "Motion graphics, edición de vídeo y animación 3D de alto impacto.",
-            commsTitle: "Comunicación",
-            commsDesc: "Vídeos ADs de alta retención y copywriting estratégico para escalar tus campañas.",
+            brandingTitle: "Diseño Gráfico y Branding",
+            brandingDesc: "Más allá del logotipo, construyo identidades de marca completas. Esto abarca desde pitch decks visualmente potentes para buscar financiación, hasta activos gráficos pensados específicamente para rendir en redes sociales y campañas.",
+            digitalTitle: "Diseño UX/UI y Web",
+            digitalDesc: "Creación de páginas, tiendas online y Sistemas de Diseño para apps web y móvil. Cubro desde los wireframes iniciales hasta prototipos interactivos que funcionan como una demo real del producto final.",
+            multimediaTitle: "Multimedia y Vídeo",
+            multimediaDesc: "Edición enfocada en la retención de audiencia para redes sociales, sumando motion graphics, animaciones 2D/3D y VFX.",
+            commsTitle: "Estrategia y Contenido",
+            commsDesc: "Planificación para escalar cuentas, producción y un copywriting muy directo y estratégico.",
           },
         }
       : {
@@ -33,14 +33,14 @@ const Services = () => {
           titleBottom: "your startup needs.",
           sub: "Brand, product, web and content — with a system that keeps quality and consistency at scale.",
           cards: {
-            brandingTitle: "Brand building",
-            brandingDesc: "Logos, full branding and pitch decks designed to win top-tier investors.",
-            digitalTitle: "Digital",
-            digitalDesc: "UX/UI in Figma, web development and online stores optimized for conversion.",
-            multimediaTitle: "Multimedia",
-            multimediaDesc: "Motion graphics, video editing and high-impact 3D animation.",
-            commsTitle: "Communication",
-            commsDesc: "High-retention ad videos and strategic copywriting to scale your campaigns.",
+            brandingTitle: "Graphic Design & Branding",
+            brandingDesc: "Beyond the logo, I build comprehensive brand identities. This spans from visually striking pitch decks for fundraising to graphic assets engineered to perform in social media campaigns.",
+            digitalTitle: "UX/UI & Web Design",
+            digitalDesc: "Crafting landing pages, e-commerce, and full Design Systems for web and mobile apps. I cover everything from initial wireframes to interactive prototypes acting as a high-fidelity demo of the final product.",
+            multimediaTitle: "Video & Multimedia",
+            multimediaDesc: "Retention-focused editing for social platforms, integrating motion graphics, 2D/3D animations, and VFX.",
+            commsTitle: "Content Strategy",
+            commsDesc: "Account scaling roadmaps, content production, and sharp, highly strategic copywriting.",
           },
         };
 
@@ -71,6 +71,7 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
           {/* Bloque 1: Branding */}
+          <article className="md:col-span-2 contents">
           <motion.div
             whileHover={{ y: -5 }}
             className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-all duration-300"
@@ -100,8 +101,10 @@ const Services = () => {
               </p>
             </div>
           </motion.div>
+          </article>
 
           {/* Bloque 2: Digital */}
+          <article className="contents">
           <motion.div
             whileHover={{ y: -5 }}
             className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-all duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
@@ -129,8 +132,10 @@ const Services = () => {
               </p>
             </div>
           </motion.div>
+          </article>
 
           {/* Bloque 3: Multimedia */}
+          <article className="contents">
           <motion.div
             whileHover={{ y: -5 }}
             className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-all duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
@@ -158,8 +163,10 @@ const Services = () => {
               </p>
             </div>
           </motion.div>
+          </article>
 
-          {/* Bloque 4: Comunicación */}
+          {/* Bloque 4: Estrategia/Content Strategy */}
+          <article className="md:col-span-2 contents">
           <motion.div
             whileHover={{ y: -5 }}
             className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-all duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
@@ -189,6 +196,7 @@ const Services = () => {
               </p>
             </div>
           </motion.div>
+          </article>
         </div>
       </div>
     </section>
