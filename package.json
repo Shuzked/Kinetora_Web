@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "playwright install chromium && vite build",
     "build:dev": "vite build --mode development",
     "postbuild": "node ./scripts/postbuild-seo.mjs && node ./scripts/prerender.mjs",
     "lint": "eslint .",
