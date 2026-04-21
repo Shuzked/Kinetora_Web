@@ -222,9 +222,9 @@ processFile(
   BODY_SWAPS_HOME,
 );
 
-// 2. /casos page
+// 2. /casos page (generated from base index.html template)
 processFile(
-  path.join(DIST, 'casos', 'index.html'),
+  path.join(DIST, 'index.html'), // It used to look for 'casos/index.html', but vite doesn't output it
   path.join(DIST, 'casos', 'index.es.html'),
   ES_CASOS,
   [orgJsonLdES],
