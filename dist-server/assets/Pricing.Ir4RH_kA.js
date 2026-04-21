@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { motion } from "framer-motion";
 import { Clock, Calendar, RefreshCw, Check, X, ArrowRight } from "lucide-react";
-import { u as useI18n, e as ScrollParallax, f as RevealText, M as MouseParallax, P as PremiumButton } from "./entry-server.DD-cyNZX.js";
+import { u as useI18n, e as ScrollParallax, f as RevealText, M as MouseParallax, P as PremiumButton } from "./entry-server.Dao3FwaC.js";
 import "react";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -235,9 +235,8 @@ const Pricing = () => {
             /* @__PURE__ */ jsxs("div", { className: "mb-8", children: [
               /* @__PURE__ */ jsx("h3", { className: "text-sm font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-4", children: plan.name }),
               /* @__PURE__ */ jsxs("div", { className: "flex items-baseline gap-1 mb-4", children: [
-                plan.price !== "Custom" && /* @__PURE__ */ jsx("span", { className: "text-2xl font-black text-[#B454FF] leading-none", children: isEs ? "" : "$" }),
                 /* @__PURE__ */ jsx("span", { className: "text-6xl font-black text-[#F5F5F5] tracking-tighter leading-none", children: plan.price }),
-                plan.price !== "Custom" && /* @__PURE__ */ jsx("span", { className: "text-2xl font-black text-[#B454FF] leading-none ml-1", children: isEs ? "€" : "" }),
+                plan.price !== "Custom" && /* @__PURE__ */ jsx("span", { className: "text-2xl font-black text-[#B454FF] leading-none ml-1", children: "€" }),
                 /* @__PURE__ */ jsx("span", { className: "text-[#F5F5F5]/50 font-bold text-sm ml-1", children: plan.period })
               ] }),
               /* @__PURE__ */ jsx("p", { className: "text-[#F5F5F5]/60 text-sm leading-relaxed font-medium", children: plan.desc })

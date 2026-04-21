@@ -252,12 +252,9 @@ const Pricing = () => {
                 <div className="mb-8">
                   <h3 className="text-sm font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-4">{plan.name}</h3>
                   <div className="flex items-baseline gap-1 mb-4">
-                    {plan.price !== 'Custom' && (
-                      <span className="text-2xl font-black text-[#B454FF] leading-none">{isEs ? '' : '$'}</span>
-                    )}
                     <span className="text-6xl font-black text-[#F5F5F5] tracking-tighter leading-none">{plan.price}</span>
                     {plan.price !== 'Custom' && (
-                      <span className="text-2xl font-black text-[#B454FF] leading-none ml-1">{isEs ? '€' : ''}</span>
+                      <span className="text-2xl font-black text-[#B454FF] leading-none ml-1">€</span>
                     )}
                     <span className="text-[#F5F5F5]/50 font-bold text-sm ml-1">{plan.period}</span>
                   </div>

@@ -1,8 +1,8 @@
 import { jsxs, jsx, Fragment } from "react/jsx-runtime";
 import React__default from "react";
 import { useNavigate } from "react-router-dom";
-import { u as useI18n, S as SEO, N as Navbar, R as Reveal, P as PremiumButton, g as getSeoDefaults } from "./entry-server.DD-cyNZX.js";
-import Footer from "./Footer.CoJxyP2_.js";
+import { u as useI18n, S as SEO, N as Navbar, R as Reveal, P as PremiumButton, g as getSeoDefaults } from "./entry-server.Dao3FwaC.js";
+import Footer from "./Footer.l3yW-pJU.js";
 import "clsx";
 import { u as useEqualizeHeights, c as caseStudies } from "./use-equalize.DQ81Eq-z.js";
 import "react-dom/server";
@@ -22,12 +22,12 @@ import "@radix-ui/react-dropdown-menu";
 import "framer-motion";
 import "lenis";
 import "react-dom";
-import "./input.DbWUSKtp.js";
+import "./input.BWTfiq5J.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.DDh2-1nC.js";
+import "./label.DxdIEkQZ.js";
 import "@radix-ui/react-label";
-import "./checkbox.B6uppU3e.js";
+import "./checkbox.CWbK4P9R.js";
 import "@radix-ui/react-checkbox";
 const Cases = () => {
   const { lang } = useI18n();
