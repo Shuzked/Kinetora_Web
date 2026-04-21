@@ -9,6 +9,7 @@ import Starfield from "@/components/ui/Starfield";
 import { useIsMobile } from '@/hooks/use-mobile'; // Añadido para optimización Lighthouse 100/100
 
 import { useIsMounted } from '@/hooks/use-is-mounted';
+import SafeHydration from '@/components/SafeHydration';
 
 const Hero = () => {
   const { lang } = useI18n();
@@ -94,23 +95,29 @@ const Hero = () => {
       className="hero-section hero-content-protection sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform"
       style={{ willChange: 'transform' }}
     >
-      <motion.div style={{ opacity: !isMounted || isMobile ? 1 : opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        {/* Animated Liquid Aura */}
-        {/* Optimizacion Mobile: se desactiva el parallax javascript del fondo líquido y se reduce la opacidad/escala de los blobs */}
-        <motion.div style={!isMounted || isMobile ? {} : { y: yBg }} className="liquid-bg-container">
-          <div className={`liquid-blob blob-purple ${!isMounted || isMobile ? 'scale-75 opacity-40' : ''}`} />
-          <div className={`liquid-blob blob-blue ${!isMounted || isMobile ? 'scale-75 opacity-40' : ''}`} />
-          {/* On very small mobile screens, we remove the third blob to save on blending/GPU power */}
-          {(!isMounted || !isMobile) && <div className="liquid-blob blob-coral" />}
-        </motion.div>
+      <SafeHydration name="HeroBackground">
+        <motion.div style={{ opacity: !isMounted || isMobile ? 1 : opacity }} className="absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+          {/* Animated Liquid Aura */}
+          {/* Optimizacion Mobile: se desactiva el parallax javascript del fondo líquido y se reduce la opacidad/escala de los blobs */}
+          <motion.div style={!isMounted || isMobile ? {} : { y: yBg }} className="liquid-bg-container">
+            <div className={`liquid-blob blob-purple ${!isMounted || isMobile ? 'scale-75 opacity-40' : ''}`} />
+            <div className={`liquid-blob blob-blue ${!isMounted || isMobile ? 'scale-75 opacity-40' : ''}`} />
+            {/* On very small mobile screens, we remove the third blob to save on blending/GPU power */}
+            {(!isMounted || !isMobile) && <div className="liquid-blob blob-coral" />}
+          </motion.div>
 
-        {/* Visibility Layer */}
-        <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
-        
-        {/* Starfield Layer - Solo en Desktop para 90-100 PageSpeed Mobile */}
-        {(!isMounted || !isMobile) && <Starfield />}
-      </motion.div>
+          {/* Visibility Layer */}
+          <div className="absolute inset-0 bg-black/55 md:bg-black/45" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" />
+          
+          {/* Starfield Layer - Solo en Desktop para 90-100 PageSpeed Mobile */}
+          {(!isMounted || !isMobile) && (
+            <SafeHydration name="Starfield" fallback={<div className="absolute inset-0 bg-black/20" />}>
+              <Starfield />
+            </SafeHydration>
+          )}
+        </motion.div>
+      </SafeHydration>
 
       {/* Optimizacion Mobile masiva: Ignoramos el css blur() en móviles porque bloquea la GPU renderizando el árbol entero 60 veces por segundo */}
       <motion.div 

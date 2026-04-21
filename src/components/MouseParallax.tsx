@@ -26,20 +26,23 @@ const MouseParallax: React.FC<MouseParallaxProps> = ({
   const ref = useRef<HTMLDivElement | null>(null);
   // Llamar siempre al hook
   const isMobile = useIsMobile();
-  const prefersReduced =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const off = isMobile || prefersReduced || disabled;
-
+  const [isReady, setIsReady] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+
   useEffect(() => {
     const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(mql.matches);
+    setIsReady(true);
+    
     const update = () => setReduceMotion(mql.matches);
-    update();
     mql.addEventListener("change", update);
     return () => mql.removeEventListener("change", update);
   }, []);
+
+  // Clave: Durante la hidratación, 'off' debe ser consistente con lo que el 
+  // servidor asumió (usualmente desktop/no-reduced). 
+  // Solo después de estar ready (isReady === true) aplicamos las restricciones del navegador.
+  const off = !isReady ? (disabled) : (isMobile || reduceMotion || disabled);
 
   const tx = useMotionValue(0);
   const ty = useMotionValue(0);

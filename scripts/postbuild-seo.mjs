@@ -89,51 +89,7 @@ const localJsonLdES = {
   sameAs: ['https://www.linkedin.com/company/kinetora', 'https://www.instagram.com/kinetora_studio'],
 };
 
-// ── Body text swaps: EN → ES ─────────────────────────────────────────────────
-// These match what vite-ssg rendered into the HTML body using the EN translations.
-// We replace them with the correct Spanish copy so the baked .es.html is fully bilingual.
-const BODY_SWAPS_HOME = [
-  // Hero
-  ['Design that converts', 'Diseño que convierte'],
-  ['speed that scales', 'velocidad que escala'],
-  ['We help you grow. We create your brand, your campaigns, and your platforms. Fast, drama-free, and results-driven.', 'Te ayudamos a crecer. Creamos tu marca, tus campañas y tus plataformas. Rápido, sin dramas y con resultados.'],
-  ["LET'S TALK", 'CONTACTAR'],
-  ['CASE STUDIES', 'ÉXITOS'],
-  ['48H DELIVERY', 'ENTREGA EN 48H'],
-  ['UNLIMITED REVISIONS', 'REVISIONES ILIMITADAS'],
-  ['FIXED MONTHLY PRICE', 'PRECIO MENSUAL FIJO'],
-  // Services
-  ['CAPABILITIES', 'CAPACIDADES'],
-  ['ALL THE VISUAL POWER', 'TODO EL MÚSCULO VISUAL'],
-  ['YOUR STARTUP NEEDS', 'QUE TU STARTUP NECESITA'],
-  ['Brand, product, web and content — with a system that keeps quality and consistency at scale.', 'Branding, producto, web y contenido — con un sistema que mantiene calidad y consistencia a escala.'],
-  ['GRAPHIC DESIGN &amp; BRANDING', 'DISEÑO GRÁFICO Y BRANDING'],
-  ['Beyond the logo, I build comprehensive brand identities', 'Más allá del logotipo, construyo identidades de marca completas'],
-  ['UX/UI &amp; WEB DESIGN', 'DISEÑO UX/UI Y WEB'],
-  ['Crafting landing pages, e-commerce, and full Design Systems', 'Creación de páginas, tiendas online y Sistemas de Diseño'],
-  ['VIDEO &amp; MULTIMEDIA', 'MULTIMEDIA Y VÍDEO'],
-  ['Retention-focused editing for social platforms', 'Edición enfocada en la retención de audiencia'],
-  ['CONTENT STRATEGY', 'ESTRATEGIA Y CONTENIDO'],
-  ['Account scaling roadmaps, content production, and sharp, highly strategic copywriting.', 'Planificación para escalar cuentas, producción y un copywriting muy directo y estratégico.'],
-];
-
-const BODY_SWAPS_CASOS = [
-  ['Case studies', 'Casos de éxito'],
-  ['Real projects.', 'Proyectos reales.'],
-  ['Measurable results', 'Resultados medibles'],
-  ['A selection of projects where we designed the system, product and narrative to accelerate growth.', 'Selección de proyectos donde diseñamos el sistema, el producto y la narrativa para acelerar crecimiento.'],
-  ['READ MORE', 'LEER MÁS'],
-  ['Sales', 'Ventas realizadas'],
-  ['Organic reach', 'Impacto orgánico'],
-  ['Global Creative Direction', 'Dirección Creativa Global'],
-  ['Global airdrop', 'Airdrop global'],
-  ['Global launch', 'Lanzamiento global'],
-  ['The leap to 3D', 'El gran salto al 3D'],
-  ['Rebrand + UX/UI', 'Rebranding + UX/UI'],
-  ['eSports campaign', 'Campaña eSports'],
-  ['Web3 launch', 'Lanzamiento Web3'],
-  ['Sales focus', 'Foco en ventas'],
-];
+// Body swaps removed since we now use native React SSR for i18n
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 function escapeAttr(str) {
@@ -188,21 +144,14 @@ function applyHeadOverrides(html, meta, jsonLdBlocks) {
   return html;
 }
 
-function applyBodySwaps(html, swaps) {
-  for (const [en, es] of swaps) {
-    html = html.split(en).join(es);
-  }
-  return html;
-}
 
-function processFile(srcPath, destPath, meta, jsonLdBlocks, bodySwaps) {
+function processFile(srcPath, destPath, meta, jsonLdBlocks) {
   if (!fs.existsSync(srcPath)) {
     console.warn(`[postbuild-seo] ⚠️  Skipping (not found): ${srcPath}`);
     return;
   }
   let html = fs.readFileSync(srcPath, 'utf8');
   html = applyHeadOverrides(html, meta, jsonLdBlocks);
-  html = applyBodySwaps(html, bodySwaps);
   fs.mkdirSync(path.dirname(destPath), { recursive: true });
   fs.writeFileSync(destPath, html, 'utf8');
   console.log(`[postbuild-seo] ✅  Generated: ${destPath}`);
@@ -218,8 +167,7 @@ processFile(
   path.join(DIST, 'index.html'),
   path.join(DIST, 'index.es.html'),
   ES_HOME,
-  [orgJsonLdES, localJsonLdES],
-  BODY_SWAPS_HOME,
+  [orgJsonLdES, localJsonLdES]
 );
 
 // 2. /casos page (generated from base index.html template)
@@ -227,8 +175,7 @@ processFile(
   path.join(DIST, 'index.html'), // It used to look for 'casos/index.html', but vite doesn't output it
   path.join(DIST, 'casos', 'index.es.html'),
   ES_CASOS,
-  [orgJsonLdES],
-  BODY_SWAPS_CASOS,
+  [orgJsonLdES]
 );
 
 console.log('\n[postbuild-seo] ✅  All ES variants generated successfully.');

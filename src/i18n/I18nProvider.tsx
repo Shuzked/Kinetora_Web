@@ -16,36 +16,16 @@ const STORAGE_KEY = "kinetora.lang";
 function getInitialLang(): Lang {
   if (typeof window === "undefined") return "en";
 
-  // 1. Prioridad ABSOLUTA: Lenguaje inyectado por el servidor (Domain Mapping)
+  // Identificador de SSG/SSR inyectado en index.html
   const serverLang = (window as any).__KINETORA_LANG__;
   if (serverLang === "es" || serverLang === "en") {
-    console.log(`[i18n Frontend] Idioma detectado del servidor: ${serverLang}`);
     return serverLang as Lang;
   }
 
-  // 2. Persistencia local (Elección manual del usuario previa)
-  const stored = window.localStorage.getItem(STORAGE_KEY);
-  if (stored === "es" || stored === "en") {
-    console.log(`[i18n Frontend] Idioma detectado de localStorage: ${stored}`);
-    return stored as Lang;
-  }
-
-  // 3. Hostname detection (Salvaguarda para Mobile/SEO)
-  const hostname = window.location.hostname;
-  if (hostname.endsWith('.es')) {
-    console.log(`[i18n Frontend] Idioma detectado por dominio .es: es`);
-    return "es";
-  }
-  if (hostname.endsWith('.tech')) {
-    console.log(`[i18n Frontend] Idioma detectado por dominio .tech: en`);
-    return "en";
-  }
-
-  // 4. Fallback al navegador
-  const nav = navigator.language;
-  const fallback = nav.toLowerCase().startsWith("es") ? "es" : "en";
-  console.log(`[i18n Frontend] Idioma detectado del navegador (fallback): ${fallback}`);
-  return fallback;
+  // Fallback seguro para la primera hidratación: inglés
+  // La detección real del navegador o localStorage se hará en un useEffect
+  // para evitar el "Hydration Mismatch".
+  return "en";
 }
 
 function interpolate(template: string, vars?: Record<string, string | number>) {
@@ -53,8 +33,14 @@ function interpolate(template: string, vars?: Record<string, string | number>) {
   return template.replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? `{${k}}`));
 }
 
-export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [lang, setLangState] = useState<Lang>(getInitialLang);
+export const I18nProvider: React.FC<{ children: React.ReactNode; serverLang?: Lang }> = ({ children, serverLang }) => {
+  const [lang, setLangState] = useState<Lang>(() => {
+    // Si el servidor nos pasó el idioma (SSG/SSR), usamos ese SIEMPRE para hidratar.
+    if (serverLang) return serverLang;
+    return getInitialLang();
+  });
+
+  const [isHydrated, setIsHydrated] = useState(false);
 
   const setLang = (next: Lang) => {
     setLangState(next);
@@ -66,8 +52,32 @@ export const I18nProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
+    setIsHydrated(true);
     document.documentElement.lang = lang;
-  }, [lang]);
+
+    // Solo después de la hidratación inicial, buscamos preferencias locales
+    // para evitar el mismatch si el usuario tenía guardada una elección distinta.
+    if (!serverLang) {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      if (stored === "es" || stored === "en") {
+        setLangState(stored as Lang);
+      } else {
+        const hostname = window.location.hostname;
+        if (hostname.endsWith('.es')) setLangState("es");
+        else if (hostname.endsWith('.tech')) setLangState("en");
+        else {
+          const nav = navigator.language;
+          if (nav.toLowerCase().startsWith("es")) setLangState("es");
+        }
+      }
+    }
+  }, []); // Solo al montar
+
+  useEffect(() => {
+    if (isHydrated) {
+      document.documentElement.lang = lang;
+    }
+  }, [lang, isHydrated]);
 
   const value = useMemo<I18nContextValue>(() => {
     const dict = dictionaries[lang] ?? {};

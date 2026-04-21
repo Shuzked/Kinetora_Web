@@ -6,6 +6,7 @@ import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import RevealText from "@/components/ui/RevealText";
+import SafeHydration from '@/components/SafeHydration';
 
 const Testimonials = () => {
   const { lang } = useI18n();
@@ -233,116 +234,119 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="kin-section relative overflow-hidden pointer-events-auto">
-      <div className="kin-container pointer-events-auto">
-        <div className="text-center mb-12 lg:mb-20 pointer-events-none">
-          <h2 className="mb-4 sm:mb-6">
-            <RevealText text={copy.titleA.toUpperCase() + " "} />
-            <RevealText 
-              text={copy.titleB.toUpperCase()} 
-              className="text-[#B454FF]" 
-              delay={0.15}
-            />
-            {lang === "en" && copy.titleC && (
-              <RevealText text={" " + copy.titleC.toUpperCase()} delay={0.3} />
-            )}
-          </h2>
-          <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-[10px] sm:text-xs">{copy.sub}</p>
-        </div>
+    <SafeHydration name="Testimonials">
+      <section className="kin-section relative overflow-hidden pointer-events-auto">
+        <div className="kin-container pointer-events-auto">
+          {/* ... existing content ... */}
+          <div className="text-center mb-12 lg:mb-20 pointer-events-none">
+            <h2 className="mb-4 sm:mb-6">
+              <RevealText text={copy.titleA.toUpperCase() + " "} />
+              <RevealText 
+                text={copy.titleB.toUpperCase()} 
+                className="text-[#B454FF]" 
+                delay={0.15}
+              />
+              {lang === "en" && copy.titleC && (
+                <RevealText text={" " + copy.titleC.toUpperCase()} delay={0.3} />
+              )}
+            </h2>
+            <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-[10px] sm:text-xs">{copy.sub}</p>
+          </div>
 
-        <div 
-          role="region" 
-          aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
-          className="relative kin-fade-x pointer-events-auto"
-          onMouseEnter={() => (isPausedRef.current = true)}
-          onMouseLeave={() => {
-            isPausedRef.current = false;
-            stopInteraction();
-          }}
-        >
-          {/* Contenedor de Scroll */}
           <div 
-            ref={scrollContainerRef}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={stopInteraction}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            className={`overflow-hidden whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
-            style={{ 
-              display: 'flex',
-              touchAction: 'pan-y',
-              pointerEvents: 'auto',
-              WebkitOverflowScrolling: 'touch',
-              userSelect: 'none'
+            role="region" 
+            aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
+            className="relative kin-fade-x pointer-events-auto"
+            onMouseEnter={() => (isPausedRef.current = true)}
+            onMouseLeave={() => {
+              isPausedRef.current = false;
+              stopInteraction();
             }}
           >
-            <div className="flex gap-8 py-10 w-max pointer-events-auto">
-              {duplicatedItems.map((t, i) => (
-                <div 
-                  key={i} 
-                  className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-auto"
-                >
-                  <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-auto">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      whileHover={{ 
-                        y: -8, 
-                        scale: 1.02, 
-                        zIndex: 10,
-                        boxShadow: "0 10px 30px rgba(168, 85, 247, 0.15)",
-                        borderColor: "rgba(255, 255, 255, 0.2)"
-                      }}
-                      viewport={{ once: true }}
-                      transition={{ 
-                        type: "spring",
-                        stiffness: 400,
-                        damping: 25,
-                        delay: (i % 3) * 0.08,
-                        y: { duration: 0.3 },
-                        scale: { duration: 0.3 }
-                      }}
-                      className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto cursor-default"
-                    >
-                      {/* Cabecera */}
-                      <div className="flex gap-1 mb-6 pointer-events-none" aria-hidden="true">
-                        {[...Array(5)].map((_, idx) => (
-                          <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
-                        ))}
-                      </div>
-
-                      {/* Contenido */}
-                      <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium leading-relaxed select-none pointer-events-none whitespace-normal">
-                        "{t.content}"
-                      </p>
-
-                      {/* Footer */}
-                      <div className="mt-auto flex items-center gap-4 pointer-events-none">
-                        <img
-                          src={t.avatar}
-                          alt={t.name}
-                          className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
-                          width={48}
-                          height={48}
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <div>
-                          <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
-                          <div className="text-[#F5F5F5]/75 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+            {/* Contenedor de Scroll */}
+            <div 
+              ref={scrollContainerRef}
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={stopInteraction}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              className={`overflow-hidden whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
+              style={{ 
+                display: 'flex',
+                touchAction: 'pan-y',
+                pointerEvents: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                userSelect: 'none'
+              }}
+            >
+              <div className="flex gap-8 py-10 w-max pointer-events-auto">
+                {duplicatedItems.map((t, i) => (
+                  <div 
+                    key={i} 
+                    className="w-[85vw] sm:w-[45vw] lg:w-[32vw] flex-shrink-0 pointer-events-auto"
+                  >
+                    <MouseParallax intensity={7} rotate={4} className="h-full will-change-transform pointer-events-auto">
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        whileHover={{ 
+                          y: -8, 
+                          scale: 1.02, 
+                          zIndex: 10,
+                          boxShadow: "0 10px 30px rgba(168, 85, 247, 0.15)",
+                          borderColor: "rgba(255, 255, 255, 0.2)"
+                        }}
+                        viewport={{ once: true }}
+                        transition={{ 
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 25,
+                          delay: (i % 3) * 0.08,
+                          y: { duration: 0.3 },
+                          scale: { duration: 0.3 }
+                        }}
+                        className="h-full bg-white/[0.04] border border-white/10 p-7 sm:p-8 md:p-10 rounded-[2.5rem] relative group hover:bg-white/[0.06] transition-colors flex flex-col pointer-events-auto cursor-default"
+                      >
+                        {/* Cabecera */}
+                        <div className="flex gap-1 mb-6 pointer-events-none" aria-hidden="true">
+                          {[...Array(5)].map((_, idx) => (
+                            <Star key={idx} className="w-4 h-4 fill-[#B454FF] text-[#B454FF]" />
+                          ))}
                         </div>
-                      </div>
-                    </motion.div>
-                  </MouseParallax>
-                </div>
-              ))}
+
+                        {/* Contenido */}
+                        <p className="text-[#F5F5F5] mb-8 sm:mb-10 italic font-medium leading-relaxed select-none pointer-events-none whitespace-normal">
+                          "{t.content}"
+                        </p>
+
+                        {/* Footer */}
+                        <div className="mt-auto flex items-center gap-4 pointer-events-none">
+                          <img
+                            src={t.avatar}
+                            alt={t.name}
+                            className="w-12 h-12 rounded-full border border-white/10 grayscale group-hover:grayscale-0 transition-all"
+                            width={48}
+                            height={48}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                          <div>
+                            <div className="text-[#F5F5F5] font-black uppercase text-xs tracking-widest">{t.name}</div>
+                            <div className="text-[#F5F5F5]/75 text-[10px] font-bold uppercase tracking-widest mt-1">{t.role}</div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </MouseParallax>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </SafeHydration>
   );
 };
 

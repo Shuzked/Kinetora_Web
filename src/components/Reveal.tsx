@@ -12,15 +12,26 @@ type RevealProps = React.HTMLAttributes<HTMLDivElement> & {
 const Reveal: React.FC<RevealProps> = ({ as = "div", delayMs = 0, className, style, children, ...rest }) => {
   const { ref, visible } = useReveal<HTMLDivElement>();
   const Tag: any = as;
+  
+  const [isReady, setIsReady] = React.useState(false);
+  const [prefersReduced, setPrefersReduced] = React.useState(false);
 
-  const prefersReduced =
-    typeof window !== "undefined" &&
-    window.matchMedia &&
-    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  React.useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReduced(mql?.matches || false);
+    setIsReady(true);
+    
+    const onChange = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    if (mql?.addEventListener) mql.addEventListener("change", onChange);
+    return () => {
+      if (mql?.removeEventListener) mql.removeEventListener("change", onChange);
+    };
+  }, []);
 
-  const startStyle: React.CSSProperties = prefersReduced
-    ? { opacity: 0 }
-    : { opacity: 0, transform: "translateY(20px)" };
+  const startStyle: React.CSSProperties = { 
+    opacity: 0, 
+    transform: (!isReady || !prefersReduced) ? "translateY(20px)" : "none" 
+  };
 
   const endStyle: React.CSSProperties = { opacity: 1, transform: "translateY(0)" };
 
