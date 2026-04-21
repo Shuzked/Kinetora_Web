@@ -29,7 +29,7 @@ export const dictionaries: Dictionaries = {
     "nav.services": "Servicios",
     "nav.method": "Método",
     "nav.successes": "Éxitos",
-    "nav.plans": "Planes",
+    "nav.plans": "Precios",
     "nav.contact": "Contacto",
     "nav.login": "Login",
     "nav.start": "¿Contactamos?",

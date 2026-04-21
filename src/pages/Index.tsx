@@ -19,6 +19,7 @@ const FAQ = React.lazy(() => import('@/components/FAQ'));
 const Footer = React.lazy(() => import('@/components/Footer'));
 const FloatingCTA = React.lazy(() => import('@/components/FloatingCTA'));
 const StackingSection = React.lazy(() => import('@/components/StackingSection'));
+const PricingSection = React.lazy(() => import('@/components/Pricing'));
 
 // Intersection Observer based wrapper for deeper optimization
 const SafeLazyLoad = ({ children, height = "400px" }: { children: React.ReactNode, height?: string }) => {
@@ -217,6 +218,12 @@ const Index = () => {
           <SafeLazyLoad height="600px">
             <Reveal as="div"><Testimonials /></Reveal>
           </SafeLazyLoad>
+
+          <div id="precios" className="scroll-mt-24 md:scroll-mt-28 pt-8">
+            <SafeLazyLoad height="600px">
+              <PricingSection />
+            </SafeLazyLoad>
+          </div>
 
           <div id="contacto" className="scroll-mt-24 md:scroll-mt-28">
             <SafeLazyLoad height="600px">

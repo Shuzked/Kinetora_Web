@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense, lazy } from "react";
-import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
 import Index from "./pages/Index"; // Componente Crítico -> NO es Lazy
 
@@ -15,7 +15,6 @@ const LegalNotice = lazy(() => import("./pages/LegalNotice"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
 const SocialPrivacyPolicy = lazy(() => import("./pages/SocialPrivacyPolicy"));
-const Pricing = lazy(() => import("./pages/Pricing"));
 
 // Portal - Rutas Pesadas diferidas
 const PortalDashboard = lazy(() => import("./pages/PortalDashboard"));
@@ -38,17 +37,16 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
 
-const App = () => {
+const App = ({ serverLang }: { serverLang?: "en" | "es" }) => {
   const isMobile = useIsMobile();
   
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <I18nProvider>
+        <I18nProvider serverLang={serverLang}>
           <Toaster />
           <Sonner />
-          <BrowserRouter>
-            <PwaManager />
+          <PwaManager />
             <DynamicImportGuard />
             {!isMobile && <CustomCursor />}
             <CookieBanner />
@@ -68,7 +66,7 @@ const App = () => {
                     <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
                     <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
                     <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
-                    <Route path="/precios" element={<Pricing />} />
+                    <Route path="/precios" element={<Navigate to="/#precios" replace />} />
                     
                     {/* Portal Login */}
                     <Route path="/portal/login" element={<PortalLogin />} />
@@ -96,7 +94,6 @@ const App = () => {
                 </Suspense>
               </div>
             </SmoothScroll>
-          </BrowserRouter>
         </I18nProvider>
       </TooltipProvider>
     </QueryClientProvider>
