@@ -71,38 +71,52 @@
     <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>{{seo.title}}</title>
+    <title>Kinetora | Global Avant-Garde Web Design &amp; Interactive UX</title>
     <script>
       // 1. Bloquear la memoria del navegador para evitar saltos automáticos
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
     </script>
-    <meta name="title" content="{{seo.title}}">
-    <meta name="description" content="{{seo.description}}">
-    <meta name="keywords" content="{{seo.keywords}}">
-    <meta property="og:title" content="{{seo.title}}">
-    <meta property="og:description" content="{{seo.description}}">
+    <meta name="title" content="Kinetora | Global Avant-Garde Web Design &amp; Interactive UX">
+    <meta name="description" content="Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.">
+    <meta name="keywords" content="avant-garde web design, interactive UX, global creative studio, bespoke web experiences, premium UI design, visual identity, brand design, web performance, motion design, SaaS design, landing page design, digital studio">
+    <meta property="og:title" content="Kinetora | Global Avant-Garde Web Design &amp; Interactive UX">
+    <meta property="og:description" content="Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kinetora">
     <meta property="og:url" content="https://kinetora.tech/">
     <meta property="og:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
-    <meta property="og:image:alt" content="Kinetora, agencia creativa y de diseño">
+    <meta property="og:image:alt" content="Kinetora — Global Avant-Garde Web Design Studio">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{seo.title}}">
-    <meta name="twitter:description" content="{{seo.description}}">
-    <meta name="twitter:image" content="/assets/social/kinetora-social-share.webp">
+    <meta name="twitter:title" content="Kinetora | Global Avant-Garde Web Design &amp; Interactive UX">
+    <meta name="twitter:description" content="Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.">
+    <meta name="twitter:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
 
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
 
-    <!-- og:locale (el servidor sobreescribirá en runtime según dominio) -->
+    <!-- og:locale — static fallback EN; server overrides per domain at runtime -->
     <meta property="og:locale" content="en_US" />
 
-    <!-- Hreflang (estáticos): señal canónica para crawlers sin JS -->
+    <!-- Hreflang: bidirectional canonical signal for crawlers without JS -->
     <link rel="alternate" hreflang="es" href="https://kinetora.es/" />
     <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
     <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
+
+    <!-- JSON-LD: Organization schema (static fallback .tech / EN) -->
+    <script type="application/ld+json" id="org-jsonld-static">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Kinetora",
+      "url": "https://kinetora.tech/",
+      "logo": "https://kinetora.tech/Logotipo.svg",
+      "@id": "https://kinetora.tech/#organization",
+      "areaServed": "Worldwide",
+      "sameAs": ["https://www.linkedin.com/company/kinetora", "https://www.instagram.com/kinetora_studio"]
+    }
+    </script>
 
     <link rel="stylesheet" href="/src/globals.css" media="print" onload="this.media='all'" />
 
