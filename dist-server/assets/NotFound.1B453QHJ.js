@@ -1,8 +1,8 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { u as useI18n, N as Navbar, P as PremiumButton } from "./entry-server.CjgQBIYg.js";
-import Footer from "./Footer.B11k3ri-.js";
+import { u as useI18n, N as Navbar, P as PremiumButton } from "./entry-server.DD-cyNZX.js";
+import Footer from "./Footer.CoJxyP2_.js";
 import { motion } from "framer-motion";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -21,12 +21,12 @@ import "@radix-ui/react-dialog";
 import "@radix-ui/react-dropdown-menu";
 import "lenis";
 import "react-dom";
-import "./input.Cg6WCVvE.js";
+import "./input.DbWUSKtp.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.XMLKrZYf.js";
+import "./label.DDh2-1nC.js";
 import "@radix-ui/react-label";
-import "./checkbox.DMPSUkKV.js";
+import "./checkbox.B6uppU3e.js";
 import "@radix-ui/react-checkbox";
 const NotFound = () => {
   const { lang } = useI18n();

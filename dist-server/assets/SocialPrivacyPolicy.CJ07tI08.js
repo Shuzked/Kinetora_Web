@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { u as useI18n, N as Navbar } from "./entry-server.CjgQBIYg.js";
-import Footer from "./Footer.B11k3ri-.js";
+import { u as useI18n, N as Navbar } from "./entry-server.DD-cyNZX.js";
+import Footer from "./Footer.CoJxyP2_.js";
 import { Link } from "react-router-dom";
 import { FaInstagram, FaTiktok, FaXTwitter, FaYoutube, FaFacebook } from "react-icons/fa6";
 import "react";
@@ -22,12 +22,12 @@ import "@radix-ui/react-dropdown-menu";
 import "framer-motion";
 import "lenis";
 import "react-dom";
-import "./input.Cg6WCVvE.js";
+import "./input.DbWUSKtp.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.XMLKrZYf.js";
+import "./label.DDh2-1nC.js";
 import "@radix-ui/react-label";
-import "./checkbox.DMPSUkKV.js";
+import "./checkbox.B6uppU3e.js";
 import "@radix-ui/react-checkbox";
 const ExternalIcon = () => /* @__PURE__ */ jsxs("svg", { width: "16", height: "16", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", children: [
   /* @__PURE__ */ jsx("line", { x1: "7", y1: "17", x2: "17", y2: "7" }),

@@ -1,8 +1,8 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import React__default, { useRef } from "react";
 import { useMotionValue, useSpring, useTransform, motion } from "framer-motion";
-import { I as ImageWithSkeleton } from "./ImageWithSkeleton.D8f3qhVA.js";
-import { P as PremiumButton } from "./entry-server.CjgQBIYg.js";
+import { I as ImageWithSkeleton } from "./ImageWithSkeleton.etqQ9V6y.js";
+import { P as PremiumButton } from "./entry-server.DD-cyNZX.js";
 const PortfolioCard = React__default.memo(({ cs, onNavigate, lang, ui }) => {
   const cardRef = useRef(null);
   const rectRef = useRef(null);
