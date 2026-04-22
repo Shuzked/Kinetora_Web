@@ -98,40 +98,20 @@ const About = () => {
           </div>
 
           {/* Team Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Reveal delay={0.4}>
-              <TeamMember 
-                name="Rafael Muñoz" 
-                role="Design & Strategy Lead"
-                experience={isES 
-                  ? "Especialista en interfaces de alta conversión y dirección de arte para ecosistemas tecnológicos escalables."
-                  : "Specialist in high-conversion interfaces and art direction for scalable tech ecosystems."
-                }
-                linkedin="https://www.linkedin.com/in/shuzked/"
-              />
-            </Reveal>
-            
-            <Reveal delay={0.5}>
-              <TeamMember 
-                name={isES ? "Socio Tecnológico" : "Tech Partner"} 
-                role="Creative Technologist"
-                experience={isES
-                  ? "Ingeniería frontend de alto rendimiento con foco en micro-interacciones y experiencias premium."
-                  : "High-performance frontend engineering focusing on micro-interactions and premium experiences."
-                }
-              />
-            </Reveal>
-
-            <Reveal delay={0.6}>
-              <TeamMember 
-                name={isES ? "Socio de Producto" : "Product Partner"} 
-                role="UX Architect"
-                experience={isES
-                  ? "Especialista en flujos de usuario complejos y optimización de conversión para productos SaaS y Web3."
-                  : "Specialist in complex user flows and conversion optimization for SaaS and Web3 products."
-                }
-              />
-            </Reveal>
+          <div className="flex justify-center">
+            <div className="max-w-sm w-full">
+              <Reveal delay={0.4}>
+                <TeamMember 
+                  name="Rafael Muñoz" 
+                  role="Founder & Visual Engineering Lead"
+                  experience={isES 
+                    ? "Liderando la estrategia de diseño e ingeniería visual de Kinetora. Especialista en crear interfaces de alto impacto que impulsan el crecimiento de startups tecnológicas."
+                    : "Leading the design strategy and visual engineering at Kinetora. Specialist in creating high-impact interfaces that drive growth for tech startups."
+                  }
+                  linkedin="https://www.linkedin.com/in/shuzked/"
+                />
+              </Reveal>
+            </div>
           </div>
         </div>
       </main>
