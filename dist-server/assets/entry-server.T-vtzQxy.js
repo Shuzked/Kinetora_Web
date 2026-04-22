@@ -2055,15 +2055,15 @@ const CountUp = ({ end, duration = 1.2, suffix = "", className = "" }) => {
 const Stats = () => {
   const { lang } = useI18n();
   const stats = lang === "es" ? [
-    { label: "Proyectos completados", value: 450, suffix: "+" },
-    { label: "Capital levantado por nuestros clientes", sublabel: "gracias a nuestros diseños", value: 12, suffix: "$M+" },
-    { label: "Tiempo de entrega", value: 48, suffix: "h" },
-    { label: "Tasa de éxito", value: 99, suffix: "%" }
+    { label: "Proyectos completados", value: 18, suffix: "+" },
+    { label: "Capital levantado", sublabel: "gracias a nuestros diseños", value: 14.2, suffix: "$M+" },
+    { label: "Ciclo de diseño", sublabel: "a alta fidelidad", value: 48, suffix: "h" },
+    { label: "Retención B2B", value: 94, suffix: "%" }
   ] : [
-    { label: "Projects delivered", value: 450, suffix: "+" },
-    { label: "Capital raised by our clients", sublabel: "thanks to our design", value: 12, suffix: "$M+" },
-    { label: "Delivery time", value: 48, suffix: "h" },
-    { label: "Success rate", value: 99, suffix: "%" }
+    { label: "Projects delivered", value: 18, suffix: "+" },
+    { label: "Capital raised", sublabel: "thanks to our design", value: 14.2, suffix: "$M+" },
+    { label: "Design cycle", sublabel: "to high fidelity", value: 48, suffix: "h" },
+    { label: "B2B Retention", value: 94, suffix: "%" }
   ];
   return /* @__PURE__ */ jsx("section", { className: "kin-section bg-transparent overflow-hidden", children: /* @__PURE__ */ jsx("div", { className: "kin-container", children: /* @__PURE__ */ jsx("div", { className: "relative z-10", children: /* @__PURE__ */ jsx("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-10 sm:gap-12 md:gap-8", children: stats.map((stat, i) => /* @__PURE__ */ jsxs(
     motion.div,
@@ -2526,16 +2526,16 @@ const seoDefaults = {
 function getSeoDefaults(lang = "es") {
   return seoDefaults[lang];
 }
-const HowItWorks = React__default.lazy(() => import("./HowItWorks.LTyvgobj.js"));
-const Services = React__default.lazy(() => import("./Services.Big-32ez.js"));
-const Portfolio = React__default.lazy(() => import("./Portfolio.Cs2BvrHa.js"));
-const Testimonials = React__default.lazy(() => import("./Testimonials.DZA80cqy.js"));
-const Contact = React__default.lazy(() => import("./Contact.BMYn4MeU.js"));
-const FAQ = React__default.lazy(() => import("./FAQ.By3kdIE3.js"));
-const Footer = React__default.lazy(() => import("./Footer.CcBV7TZp.js"));
+const HowItWorks = React__default.lazy(() => import("./HowItWorks.76CqAKeG.js"));
+const Services = React__default.lazy(() => import("./Services.BWlHTtmK.js"));
+const Portfolio = React__default.lazy(() => import("./Portfolio.BI_qHC5n.js"));
+const Testimonials = React__default.lazy(() => import("./Testimonials.Bjpk2v-2.js"));
+const Contact = React__default.lazy(() => import("./Contact.CmoeX1uX.js"));
+const FAQ = React__default.lazy(() => import("./FAQ.BuGJG53l.js"));
+const Footer = React__default.lazy(() => import("./Footer.zXA0MqPb.js"));
 const FloatingCTA = React__default.lazy(() => import("./FloatingCTA.RXAbL0gB.js"));
 React__default.lazy(() => import("./StackingSection.KX6lWicT.js"));
-const PricingSection = React__default.lazy(() => import("./Pricing.bTNBUZRh.js"));
+const PricingSection = React__default.lazy(() => import("./Pricing.DB-zorn5.js"));
 const SafeLazyLoad = ({ children, height = "400px" }) => {
   if (typeof window === "undefined") {
     return /* @__PURE__ */ jsx(React__default.Suspense, { fallback: null, children });
@@ -3280,19 +3280,19 @@ const CustomCursor = () => {
     createPortal(cursorContent, document.body)
   ] });
 };
-const Cases = lazy(() => import("./Cases.CnMh2tfb.js"));
-const CaseStudyPost = lazy(() => import("./CaseStudyPost.Z6-OKB7T.js"));
-const NotFound = lazy(() => import("./NotFound.D7za-YjR.js"));
-const LegalNotice = lazy(() => import("./LegalNotice.T7awa3X4.js"));
-const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.LeyzyLjY.js"));
-const CookiesPolicy = lazy(() => import("./CookiesPolicy.DZiJDEWQ.js"));
-const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.CHQ7hK7L.js"));
-const PortalDashboard = lazy(() => import("./PortalDashboard.B0Jg9du8.js"));
-const PortalLogin = lazy(() => import("./PortalLogin.Cv1Yjae9.js"));
+const Cases = lazy(() => import("./Cases.KMHB_W9D.js"));
+const CaseStudyPost = lazy(() => import("./CaseStudyPost.kwOMyaj_.js"));
+const NotFound = lazy(() => import("./NotFound.Bvc0-IaZ.js"));
+const LegalNotice = lazy(() => import("./LegalNotice.BzzIH6zW.js"));
+const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.J8g80jlf.js"));
+const CookiesPolicy = lazy(() => import("./CookiesPolicy.B48sEHl1.js"));
+const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.DeAPQo7R.js"));
+const PortalDashboard = lazy(() => import("./PortalDashboard.Bu9ehroU.js"));
+const PortalLogin = lazy(() => import("./PortalLogin.C4lf6XTZ.js"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute.D_-QwoJ1.js"));
-const PortalLayout = lazy(() => import("./PortalLayout.Oc1rkJk-.js"));
-const BillingView = lazy(() => import("./BillingView.DP6G5I1Y.js"));
-const Deliverables = lazy(() => import("./Deliverables.DvL90y4L.js"));
+const PortalLayout = lazy(() => import("./PortalLayout.nALMVVM6.js"));
+const BillingView = lazy(() => import("./BillingView.DYA4ldpP.js"));
+const Deliverables = lazy(() => import("./Deliverables.C1t_i18V.js"));
 const queryClient = new QueryClient();
 const App = ({ serverLang }) => {
   const isMobile = useIsMobile();
@@ -3372,8 +3372,8 @@ export {
   DropdownMenuContent as b,
   DropdownMenuItem as c,
   cn as d,
-  ScrollParallax as e,
-  RevealText as f,
+  RevealText as e,
+  ScrollParallax as f,
   getSeoDefaults as g,
   render,
   showSuccess as s,

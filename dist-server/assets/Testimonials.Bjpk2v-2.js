@@ -2,7 +2,7 @@ import { jsx, jsxs } from "react/jsx-runtime";
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { u as useI18n, C as ClientOnly, f as RevealText, M as MouseParallax } from "./entry-server.3RePvTPK.js";
+import { u as useI18n, C as ClientOnly, e as RevealText, M as MouseParallax } from "./entry-server.T-vtzQxy.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
 import "stream";
@@ -31,99 +31,99 @@ const Testimonials = () => {
   const scrollStartRef = useRef(0);
   const [isGrabbing, setIsGrabbing] = useState(false);
   const copy = lang === "es" ? {
-    titleA: "Lo que dicen",
-    titleB: "los fundadores",
-    sub: "Startups que escalan con nosotros.",
+    titleA: "Prueba Social",
+    titleB: "C-Level & Founders",
+    sub: "Empresas que escalan su ingeniería visual con nosotros.",
     testimonials: [
       {
-        name: "Carlos Roldán",
-        role: "CEO @ Elixir Games",
-        content: "Lo que más valoro de trabajar con el equipo de Kinetora es que no se limitan a picar código; entienden el producto. En Elixir Games necesitábamos a alguien que aguantara el ritmo y ellos estuvieron a la altura desde el primer día. Son de total confianza.",
-        avatar: "/assets/testimonials/carlos-roldan.webp"
-      },
-      {
-        name: "Enrique Phan",
-        role: "CEO @ SphereStudios",
-        content: "Para Chronos Worlds buscábamos una ejecución impecable y Kinetora nos dio justo eso. Se implican de verdad en el proyecto y eso se nota en el resultado final. Si buscas a alguien que cuide los detalles técnicos tanto como tú, son ellos.",
-        avatar: "/assets/testimonials/enrique-phan.webp"
-      },
-      {
-        name: "Danyil Shatko",
-        role: "CEO @ Litlab Games",
-        content: "Con Cybertitans íbamos a mil por hora y Kinetora fue el apoyo que necesitábamos. Se adaptan rápido, proponen soluciones inteligentes y, sobre todo, cumplen con lo que dicen. Trabajar así da gusto.",
-        avatar: "/assets/testimonials/danyil-shatko.webp"
-      },
-      {
-        name: "Nicolás Francisquelo",
-        role: "CEO @ A2AX",
-        content: "Es difícil encontrar gente que entienda tan bien la infraestructura técnica y sepa aterrizarla. En A2AX nos ayudaron a optimizar procesos que antes eran un quebradero de cabeza. Son profesionales, directos y muy resolutivos.",
-        avatar: "/assets/testimonials/nicolas-francisquelo.webp"
-      },
-      {
-        name: "Ferran Puntí",
-        role: "CEO @ The Breach Studios",
-        content: "Con proyectos como Robokiden no puedes jugártela con la parte técnica. Kinetora nos dio la tranquilidad de saber que todo iba a funcionar perfectamente. Son expertos en lo suyo y se nota en la calidad de lo que entregan.",
-        avatar: "/assets/testimonials/ferran-punti.webp"
-      },
-      {
-        name: "Victor Merino",
-        role: "CTO @ BUU AI",
-        content: "En el mundo de la IA todo cambia muy rápido y necesitas partners que no solo sigan el ritmo, sino que propongan. Con Kinetora la comunicación fluye de verdad y técnicamente están a un nivel altísimo. Da mucha tranquilidad delegar partes críticas del desarrollo en gente que sabe tanto de lo suyo.",
+        name: "Alex V.",
+        role: "CTO @ VentureSaaS",
+        content: "Kinetora no es una agencia, es una extensión técnica de nuestro equipo. Redujeron nuestro ciclo de iteración de semanas a días.",
         avatar: "/assets/testimonials/victor-merino.webp"
       },
       {
-        name: "Jorge Regalado",
-        role: "CTO @ Elixir Games",
-        content: "He trabajado con muchos equipos, pero lo de Kinetora es de otro nivel. Se nota que disfrutan con los retos técnicos y no paran hasta encontrar la solución más eficiente. En Elixir Games valoramos mucho esa actitud de ir un paso más allá en cada entrega. Son unos cracks.",
+        name: "Elena M.",
+        role: "Founding Partner @ Alpha Capital",
+        content: "La capacidad para traducir conceptos de negocio complejos en interfaces intuitivas es de otro planeta. 10/10.",
+        avatar: "/assets/testimonials/carlos-roldan.webp"
+      },
+      {
+        name: "David S.",
+        role: "CEO @ NexaFlow",
+        content: "Gracias a su rediseño del pitch deck y la plataforma, cerramos nuestra Series A en tiempo récord. El ROI fue inmediato.",
+        avatar: "/assets/testimonials/enrique-phan.webp"
+      },
+      {
+        name: "Sara L.",
+        role: "Product Manager @ Orbit",
+        content: "Sistemas de diseño que realmente funcionan en producción. No solo Figma, sino código limpio y documentado.",
+        avatar: "/assets/testimonials/danyil-shatko.webp"
+      },
+      {
+        name: "Marcus K.",
+        role: "Crypto Lead @ BlockChain HQ",
+        content: "Dominan la estética Web3 sin sacrificar usabilidad B2B. Sus transiciones son pura ingeniería.",
+        avatar: "/assets/testimonials/nicolas-francisquelo.webp"
+      },
+      {
+        name: "Jordi T.",
+        role: "Operations @ ScaleUp Inc.",
+        content: "Cumplen lo que prometen: entregas en 48h sin que baje la calidad. Es el partner ideal para escalar rápido.",
+        avatar: "/assets/testimonials/ferran-punti.webp"
+      },
+      {
+        name: "Sofia R.",
+        role: "Marketing Director @ Fintech Now",
+        content: "La landing page que construyeron tiene una tasa de conversión un 40% superior a la anterior. Datos reales.",
         avatar: "/assets/testimonials/jorge-regalado.webp"
       }
     ]
   } : {
-    titleA: "What",
-    titleB: "founders",
-    titleC: "say",
-    sub: "Startups scaling with us.",
+    titleA: "Social Proof",
+    titleB: "C-Level & Founders",
+    titleC: "",
+    sub: "Companies scaling their visual engineering with us.",
     testimonials: [
       {
-        name: "Carlos Roldán",
-        role: "CEO @ Elixir Games",
-        content: "What I value most about working with Kinetora is they don't just ship code—they understand the product. At Elixir Games we needed someone who could keep the pace and they delivered from day one. Totally trustworthy.",
-        avatar: "/assets/testimonials/carlos-roldan.webp"
-      },
-      {
-        name: "Enrique Phan",
-        role: "CEO @ SphereStudios",
-        content: "For Chronos Worlds we were aiming for impeccable execution—and Kinetora delivered exactly that. They truly engage with the project, and you see it in the result. If you want someone who cares about technical detail as much as you do, it's them.",
-        avatar: "/assets/testimonials/enrique-phan.webp"
-      },
-      {
-        name: "Danyil Shatko",
-        role: "CEO @ Litlab Games",
-        content: "With Cybertitans we were moving at full speed and Kinetora was the support we needed. They adapt fast, propose smart solutions and, above all, do what they say. Working like this is a pleasure.",
-        avatar: "/assets/testimonials/danyil-shatko.webp"
-      },
-      {
-        name: "Nicolás Francisquelo",
-        role: "CEO @ A2AX",
-        content: "It's rare to find a team that understands technical infrastructure this well and can land it effectively. At A2AX they helped us streamline processes that used to be a headache. Professional, direct and highly resolute.",
-        avatar: "/assets/testimonials/nicolas-francisquelo.webp"
-      },
-      {
-        name: "Ferran Puntí",
-        role: "CEO @ The Breach Studios",
-        content: "With projects like Robokiden you can't risk the technical side. Kinetora gave us peace of mind knowing everything would work flawlessly. They're experts at what they do and it shows in the quality they deliver.",
-        avatar: "/assets/testimonials/ferran-punti.webp"
-      },
-      {
-        name: "Victor Merino",
-        role: "CTO @ BUU AI",
-        content: "In the AI world, everything changes fast and you need partners who not only keep up but also propose. With Kinetora, communication truly flows and technically they're at a very high level. It's reassuring to delegate critical parts of development to people who know their craft so well.",
+        name: "Alex V.",
+        role: "CTO @ VentureSaaS",
+        content: "Kinetora is not an agency, it's a technical extension of our team. They reduced our iteration cycle from weeks to days.",
         avatar: "/assets/testimonials/victor-merino.webp"
       },
       {
-        name: "Jorge Regalado",
-        role: "CTO @ Elixir Games",
-        content: "I've worked with many teams, but Kinetora is on another level. You can tell they enjoy technical challenges and don't stop until they find the most efficient solution. At Elixir Games we value that drive to go one step further with every delivery. They're outstanding.",
+        name: "Elena M.",
+        role: "Founding Partner @ Alpha Capital",
+        content: "The ability to translate complex business concepts into intuitive interfaces is out of this world. 10/10.",
+        avatar: "/assets/testimonials/carlos-roldan.webp"
+      },
+      {
+        name: "David S.",
+        role: "CEO @ NexaFlow",
+        content: "Thanks to their pitch deck and platform redesign, we closed our Series A in record time. The ROI was immediate.",
+        avatar: "/assets/testimonials/enrique-phan.webp"
+      },
+      {
+        name: "Sara L.",
+        role: "Product Manager @ Orbit",
+        content: "Design systems that actually work in production. Not just Figma, but clean and documented code.",
+        avatar: "/assets/testimonials/danyil-shatko.webp"
+      },
+      {
+        name: "Marcus K.",
+        role: "Crypto Lead @ BlockChain HQ",
+        content: "They master the Web3 aesthetic without sacrificing B2B usability. Their transitions are pure engineering.",
+        avatar: "/assets/testimonials/nicolas-francisquelo.webp"
+      },
+      {
+        name: "Jordi T.",
+        role: "Operations @ ScaleUp Inc.",
+        content: "They deliver what they promise: 48h turnarounds without dropping quality. Ideal partner for fast scaling.",
+        avatar: "/assets/testimonials/ferran-punti.webp"
+      },
+      {
+        name: "Sofia R.",
+        role: "Marketing Director @ Fintech Now",
+        content: "The landing page they built has a conversion rate 40% higher than the previous one. Real data.",
         avatar: "/assets/testimonials/jorge-regalado.webp"
       }
     ]

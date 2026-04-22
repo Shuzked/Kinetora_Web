@@ -17,86 +17,70 @@ const FAQ = () => {
     lang === "es"
       ? [
           {
-            q: "¿Qué planes ofrecéis?",
-            a: "Ofrecemos planes de suscripción personalizados según tus necesidades y presupuesto. Tras una llamada de kickoff, proponemos un plan a medida que se ajusta a tus prioridades — ya sea identidad de marca, UX/UI, desarrollo web, motion graphics o una combinación de servicios.",
+            q: "¿Cómo funciona el sistema de pausas en la suscripción?",
+            a: "Entendemos la naturaleza del ecosistema startup. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y reanudarla cuando la carga de trabajo lo requiera, sin penalizaciones ni costes ocultos.",
           },
           {
-            q: "¿Por qué no contratar a un diseñador a tiempo completo?",
-            a: "Un diseñador a tiempo completo cuesta 3–5 veces más si consideras salario, beneficios, equipamiento y tiempo improductivo. Con Kinetora obtienes un equipo sénior multidisciplinar a una tarifa mensual predecible, sin demoras de contratación ni costes indirectos.",
+            q: "¿Existe algún tipo de permanencia o contrato a largo plazo?",
+            a: "No. Operamos con total transparencia y confianza en la calidad de nuestro trabajo. Los planes son mensuales y puedes cancelarlos en cualquier momento.",
           },
           {
-            q: "¿Hay límite de solicitudes?",
-            a: "Sin límite. Puedes hacer cola con tantas solicitudes como necesites. Trabajamos de una en una (o en paralelo según el acuerdo), siempre con entregas en 48h.",
+            q: "¿Qué implica exactamente la entrega en 48 horas?",
+            a: "Una vez definimos una solicitud de diseño clara en nuestro panel, recibirás la primera iteración funcional o el componente terminado en un plazo máximo de dos días laborables.",
           },
           {
-            q: "¿Cuánto tardáis en entregar?",
-            a: "La mayoría de entregables se completan en 48 horas desde que se inician. Los proyectos complejos como identidades de marca completas o webs se dividen en hitos, cada uno con un ciclo claro de 48h.",
+            q: "¿Cedéis los derechos de propiedad intelectual (IP)?",
+            a: "Absolutamente. Al finalizar y abonar el proyecto, la propiedad intelectual de diseños y código frontend es 100% tuya.",
           },
           {
-            q: "¿Cómo nos coordinamos sin reuniones recurrentes?",
-            a: "Trabajamos async por defecto, vía Telegram o Discord y gestionamos tareas en ClickUp o en tu herramienta preferida. Al final de los dias, realizaremos un informe de lo que hemos hecho durante el día, para que estés 100% informado. Programamos reuniones solo cuando es realmente necesario, para que tu calendario quede libre.",
+            q: "¿Qué incluye la \"Identidad de Marca\"?",
+            a: "Va mucho más allá de un logo. Entregamos un manual de marca, paletas, tipografías, componentes UI y aplicaciones listas para marketing.",
           },
           {
-            q: "¿Quién hace realmente el trabajo?",
-            a: "Tu trabajo lo realiza un equipo sénior con expertise en branding, UX/UI, desarrollo web y motion.",
+            q: "¿Trabajáis exclusivamente en Web3 y Gaming?",
+            a: "Aunque destacamos en Web3, nuestro enfoque de diseño orientado a la conversión aplica perfectamente a startups SaaS, Fintech y Healthtech.",
           },
           {
-            q: "¿Qué pasa si no estoy satisfecho con el resultado?",
-            a: "Las revisiones ilimitadas están incluidas hasta que estés satisfecho. No cerramos una tarea hasta que la apruebes.",
+            q: "¿Asumís el desarrollo Backend del producto?",
+            a: "Somos especialistas en la capa visual. Entregamos diseño UX/UI y Frontend (React/Tailwind). El Backend corre a cargo de tu equipo de ingeniería.",
           },
           {
-            q: "¿Hay permanencia o costes ocultos?",
-            a: "Sin permanencia. Puedes pausar o cancelar tu suscripción en cualquier momento con 30 días de aviso. Sin costes ocultos. El precio mensual cubre todo lo acordado en tu plan.",
-          },
-          {
-            q: "¿Qué significa pausar la suscripción?",
-            a: "Si tienes un período más tranquilo, puedes pausar tu suscripción y reanudarla más tarde sin perder los días restantes. Es flexible por diseño.",
-          },
-          {
-            q: "¿Hay algo que no cubráis?",
-            a: "Nos enfocamos en activos de alto rendimiento. No realizamos modelado 3D complejo de personajes, backend a medida o maquetación/impresión de libros o revistas de gran extensión. Si tienes dudas, pregúntanoslo y seremos directos contigo.",
+            q: "¿Trabajáis con proyectos Pre-Seed?",
+            a: "Nuestro ecosistema óptimo son startups en fase Seed o Series A/B que buscan escalar. No obstante, evaluamos proyectos Pre-Seed si la visión tecnológica y el alcance del rediseño están claramente definidos.",
           },
         ]
       : [
           {
-            q: "What plans do you offer?",
-            a: "We offer personalized subscription plans tailored to your needs and budget. After a kickoff call, we propose a custom plan that fits your priorities — whether it's brand identity, UX/UI, web development, motion graphics, or a combination of services.",
+            q: "How does the subscription pause system work?",
+            a: "We understand the nature of the startup ecosystem. If you don't have active design requests for a month, you can pause your subscription and resume it whenever the workload demands it, without penalties or hidden costs.",
           },
           {
-            q: "Why not hire a full-time designer?",
-            a: "A full-time designer costs 3–5 times more when you consider salary, benefits, equipment, and downtime. With Kinetora, you get a senior multidisciplinary team for a predictable monthly fee, without hiring delays or indirect costs.",
+            q: "Is there any kind of commitment or long-term contract?",
+            a: "No. We operate with total transparency and confidence in the quality of our work. Plans are monthly and you can cancel them at any time.",
           },
           {
-            q: "Is there a limit to requests?",
-            a: "No limit. You can queue as many requests as you need. We work through them one at a time (or in parallel depending on the agreement), always with 48h deliveries.",
+            q: "What exactly does 48-hour delivery entail?",
+            a: "Once we define a clear design request in our dashboard, you will receive the first functional iteration or the finished component within a maximum of two business days.",
           },
           {
-            q: "How long does delivery take?",
-            a: "Most deliverables are completed within 48 hours of starting. Complex projects like full brand identities or websites are divided into milestones, each with a clear 48-hour cycle.",
+            q: "Do you transfer Intellectual Property (IP) rights?",
+            a: "Absolutely. Upon completion and payment of the project, the intellectual property of the designs and frontend code is 100% yours.",
           },
           {
-            q: "How do we coordinate without recurring meetings?",
-            a: "We work async by default via Telegram or Discord and manage tasks in ClickUp or your preferred tool. At the end of each day, we provide a report of what we've done, so you're 100% informed. We schedule meetings only when strictly necessary, to keep your calendar free.",
+            q: "What does \"Brand Identity\" include?",
+            a: "It goes far beyond a logo. We deliver a brand manual, palettes, typography, UI components, and marketing-ready assets.",
           },
           {
-            q: "Who actually does the work?",
-            a: "Your work is performed by a senior team with expertise in branding, UX/UI, web development, and motion.",
+            q: "Do you work exclusively in Web3 and Gaming?",
+            a: "Although we excel in Web3, our conversion-oriented design focus applies perfectly to SaaS, Fintech, and Healthtech startups.",
           },
           {
-            q: "What if I'm not satisfied with the result?",
-            a: "Unlimited revisions are included until you're satisfied. We don't close a task until you approve it.",
+            q: "Do you handle the Backend development of the product?",
+            a: "We are specialists in the visual layer. We deliver UX/UI design and Frontend (React/Tailwind). The Backend is handled by your engineering team.",
           },
           {
-            q: "Is there a minimum stay or hidden costs?",
-            a: "No minimum stay. You can pause or cancel your subscription at any time with a 30-day notice. No hidden costs. The monthly price covers everything agreed upon in your plan.",
-          },
-          {
-            q: "What does pausing the subscription mean?",
-            a: "If you have a quieter period, you can pause your subscription and resume it later without losing the remaining days. It's flexible by design.",
-          },
-          {
-            q: "Is there anything you don't cover?",
-            a: "We focus on high-performance creative assets. We don't do complex 3D character modeling, custom backend development, or long-form book/magazine layout and printing. If you have any questions, just ask and we'll be direct with you.",
+            q: "Do you work with Pre-Seed projects?",
+            a: "Our optimal ecosystem is Seed or Series A/B startups looking to scale. However, we evaluate Pre-Seed projects if the technological vision and redesign scope are clearly defined.",
           },
         ];
 

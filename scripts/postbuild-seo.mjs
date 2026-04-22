@@ -92,32 +92,72 @@ const localJsonLdES = {
 const faqJsonLdES = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: [
+  'mainEntity': [
     {
       '@type': 'Question',
-      name: '¿Qué servicios ofrece Kinetora?',
-      acceptedAnswer: {
+      'name': '¿Cómo funciona el sistema de pausas en la suscripción?',
+      'acceptedAnswer': {
         '@type': 'Answer',
-        text: 'Kinetora se especializa en ingeniería visual premium, sistemas de diseño escalables y desarrollo web de alto rendimiento para startups B2B y marcas globales.',
-      },
+        'text': 'Entendemos la naturaleza del ecosistema startup. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y reanudarla cuando la carga de trabajo lo requiera, sin penalizaciones ni costes ocultos.'
+      }
     },
     {
       '@type': 'Question',
-      name: '¿Cómo es el proceso de trabajo de Kinetora?',
-      acceptedAnswer: {
+      'name': '¿Existe algún tipo de permanencia o contrato a largo plazo?',
+      'acceptedAnswer': {
         '@type': 'Answer',
-        text: 'Utilizamos un flujo de trabajo iterativo de alto impacto que incluye auditorías de marketing profundas, diseño de sistemas visuales e implementación lista para producción enfocada en levantamiento de capital y escalabilidad.',
-      },
+        'text': 'No. Operamos con total transparencia y confianza en la calidad de nuestro trabajo. Los planes son mensuales y puedes cancelarlos en cualquier momento.'
+      }
     },
     {
       '@type': 'Question',
-      name: '¿Trabajáis con clientes fuera de España?',
-      acceptedAnswer: {
+      'name': '¿Qué implica exactamente la entrega en 48 horas?',
+      'acceptedAnswer': {
         '@type': 'Answer',
-        text: 'Sí, operamos a nivel global a través de nuestro dominio kinetora.tech, dando servicio a startups y empresas de todo el mundo con un modelo de entrega remota de alto rendimiento.',
-      },
+        'text': 'Una vez definimos una solicitud de diseño clara en nuestro panel, recibirás la primera iteración funcional o el componente terminado en un plazo máximo de dos días laborables.'
+      }
     },
-  ],
+    {
+      '@type': 'Question',
+      'name': '¿Cedéis los derechos de propiedad intelectual (IP)?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Absolutamente. Al finalizar y abonar el proyecto, la propiedad intelectual de diseños y código frontend es 100% tuya.'
+      }
+    },
+    {
+      '@type': 'Question',
+      'name': '¿Qué incluye la "Identidad de Marca"?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Va mucho más allá de un logo. Entregamos un manual de marca, paletas, tipografías, componentes UI y aplicaciones listas para marketing.'
+      }
+    },
+    {
+      '@type': 'Question',
+      'name': '¿Trabajáis exclusivamente en Web3 y Gaming?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Aunque destacamos en Web3, nuestro enfoque de diseño orientado a la conversión aplica perfectamente a startups SaaS, Fintech y Healthtech.'
+      }
+    },
+    {
+      '@type': 'Question',
+      'name': '¿Asumís el desarrollo Backend del producto?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Somos especialistas en la capa visual. Entregamos diseño UX/UI y Frontend (React/Tailwind). El Backend corre a cargo de tu equipo de ingeniería.'
+      }
+    },
+    {
+      '@type': 'Question',
+      'name': '¿Trabajáis con proyectos Pre-Seed?',
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': 'Nuestro ecosistema óptimo son startups en fase Seed o Series A/B que buscan escalar. No obstante, evaluamos proyectos Pre-Seed si la visión tecnológica y el alcance del rediseño están claramente definidos.'
+      }
+    }
+  ]
 };
 
 // Body swaps removed since we now use native React SSR for i18n
@@ -206,7 +246,7 @@ processFile(
   path.join(DIST, 'index.html'), // It used to look for 'casos/index.html', but vite doesn't output it
   path.join(DIST, 'casos', 'index.es.html'),
   ES_CASOS,
-  [orgJsonLdES]
+  [orgJsonLdES, faqJsonLdES]
 );
 
 console.log('\n[postbuild-seo] ✅  All ES variants generated successfully.');

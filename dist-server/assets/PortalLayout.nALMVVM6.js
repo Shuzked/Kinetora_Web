@@ -3,7 +3,7 @@ import * as React from "react";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LayoutDashboard, FileText, CreditCard, Settings, LogOut } from "lucide-react";
-import { d as cn, B as Button, S as SEO } from "./entry-server.3RePvTPK.js";
+import { d as cn, B as Button, S as SEO } from "./entry-server.T-vtzQxy.js";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import { useLocation, Link, Outlet } from "react-router-dom";
 import { io } from "socket.io-client";

@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { u as useI18n, N as Navbar } from "./entry-server.3RePvTPK.js";
-import Footer from "./Footer.CcBV7TZp.js";
+import { u as useI18n, N as Navbar } from "./entry-server.T-vtzQxy.js";
+import Footer from "./Footer.zXA0MqPb.js";
 import { Link } from "react-router-dom";
 import "react";
 import "react-dom/server";
@@ -21,12 +21,12 @@ import "@radix-ui/react-dropdown-menu";
 import "framer-motion";
 import "lenis";
 import "react-dom";
-import "./input.C3ADBpBF.js";
+import "./input.C19rof9k.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.D4JuFzYd.js";
+import "./label.D93xiKXT.js";
 import "@radix-ui/react-label";
-import "./checkbox.BI_jaMwH.js";
+import "./checkbox.ry8aju93.js";
 import "@radix-ui/react-checkbox";
 const ExternalLinkIcon = () => /* @__PURE__ */ jsx(
   "svg",

@@ -1,7 +1,7 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { motion } from "framer-motion";
 import { Clock, Calendar, RefreshCw, Check, X, ArrowRight } from "lucide-react";
-import { u as useI18n, e as ScrollParallax, f as RevealText, M as MouseParallax, P as PremiumButton } from "./entry-server.3RePvTPK.js";
+import { u as useI18n, f as ScrollParallax, e as RevealText, M as MouseParallax, P as PremiumButton } from "./entry-server.T-vtzQxy.js";
 import "react";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -35,63 +35,55 @@ const Pricing = () => {
     ],
     plans: [
       {
-        name: "Essential",
+        name: "Starter",
         price: "1.900",
         period: "/mes",
         highlight: false,
-        desc: "Para startups que necesitan diseño recurrente de alta calidad sin complicaciones.",
+        desc: "Para startups que necesitan diseño recurrente de alta calidad.",
         includes: [
           "Un diseño a la vez",
           "Entrega en 48h por tarea",
-          "Diseño gráfico y branding",
-          "UX/UI y diseño web",
+          "UX/UI y Branding premium",
           "Revisiones ilimitadas",
-          "Gestión por Telegram / Discord",
           "Pausa o cancela cuando quieras"
         ],
         excludes: [
-          "Motion & Vídeo",
-          "Estrategia de contenido",
-          "Peticiones en paralelo"
+          "Consultoría estratégica",
+          "Solicitudes en paralelo"
         ],
         cta: "Empezar ahora"
       },
       {
-        name: "Scale",
+        name: "Growth",
         price: "3.500",
         period: "/mes",
         highlight: true,
         badge: "Más Popular",
-        desc: "Para startups en crecimiento que necesitan un equipo completo sin fricciones.",
+        desc: "Para startups que escalan rápido y necesitan un equipo completo.",
         includes: [
-          "2 peticiones en paralelo",
+          "2 solicitudes en paralelo",
           "Entrega en 48h por tarea",
-          "Diseño gráfico y branding",
-          "UX/UI y diseño web",
-          "Motion graphics y vídeo",
-          "Estrategia de contenido",
-          "Revisiones ilimitadas",
-          "Gestión por Telegram / Discord",
+          "Prioridad máxima de entrega",
+          "Consultoría estratégica mensual",
+          "UX/UI, Branding y Motion",
           "Pausa o cancela cuando quieras"
         ],
         excludes: [],
         cta: "Empezar ahora"
       },
       {
-        name: "Full Studio",
+        name: "Scale",
         price: "Custom",
         period: "",
         highlight: false,
         badge: "Enterprise",
-        desc: "Equipo dedicado a tiempo completo. Para Series A/B o marcas con alto volumen.",
+        desc: "Equipo dedicado a tiempo completo. Ideal para Series A/B.",
         includes: [
-          "Peticiones en paralelo ilimitadas",
           "Equipo senior dedicado",
-          "Todos los servicios incluidos",
-          "Reunión de estrategia semanal",
-          "Acceso a portal de cliente",
-          "SLA de entrega personalizado",
-          "Account manager dedicado"
+          "Consultoría de escalado",
+          "SLA personalizado",
+          "Account Manager 24/7",
+          "Todos los servicios incluidos"
         ],
         excludes: [],
         cta: "Hablemos"
@@ -116,63 +108,55 @@ const Pricing = () => {
     ],
     plans: [
       {
-        name: "Essential",
+        name: "Starter",
         price: "1,900",
         period: "/mo",
         highlight: false,
-        desc: "For startups that need high-quality recurring design without the hassle.",
+        desc: "For startups that need high-quality recurring design.",
         includes: [
           "One design at a time",
           "48h delivery per task",
-          "Graphic design & branding",
-          "UX/UI & web design",
+          "Premium UX/UI & Branding",
           "Unlimited revisions",
-          "Telegram / Discord management",
           "Pause or cancel anytime"
         ],
         excludes: [
-          "Motion & Video",
-          "Content strategy",
+          "Strategic consulting",
           "Parallel requests"
         ],
         cta: "Get started"
       },
       {
-        name: "Scale",
+        name: "Growth",
         price: "3,500",
         period: "/mo",
         highlight: true,
         badge: "Most Popular",
-        desc: "For growing startups that need a full team without the friction.",
+        desc: "For startups scaling fast that need a full squad.",
         includes: [
           "2 parallel requests",
           "48h delivery per task",
-          "Graphic design & branding",
-          "UX/UI & web design",
-          "Motion graphics & video",
-          "Content strategy",
-          "Unlimited revisions",
-          "Telegram / Discord management",
+          "Maximum delivery priority",
+          "Monthly strategic consulting",
+          "UX/UI, Branding & Motion",
           "Pause or cancel anytime"
         ],
         excludes: [],
         cta: "Get started"
       },
       {
-        name: "Full Studio",
+        name: "Scale",
         price: "Custom",
         period: "",
         highlight: false,
         badge: "Enterprise",
-        desc: "Dedicated full-time team. For Series A/B or brands with high production volume.",
+        desc: "Dedicated full-time team. Ideal for Series A/B.",
         includes: [
-          "Unlimited parallel requests",
-          "Dedicated senior team",
-          "All services included",
-          "Weekly strategy meeting",
-          "Client portal access",
+          "Dedicated senior squad",
+          "Scaling strategic consulting",
           "Custom delivery SLA",
-          "Dedicated account manager"
+          "24/7 Account Manager",
+          "All services included"
         ],
         excludes: [],
         cta: "Let's talk"
