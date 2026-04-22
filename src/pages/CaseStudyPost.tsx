@@ -220,11 +220,14 @@ const CaseStudyPost = () => {
           <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16">
             <div className="flex flex-col gap-7">
               <div className="flex items-center justify-between gap-4">
-                <Link to="/casos" className="inline-flex">
-                  <PremiumButton variant="glass" size="sm" className="h-11 rounded-full">
-                    {ui.back.toUpperCase()}
-                  </PremiumButton>
-                </Link>
+                <PremiumButton 
+                  variant="glass" 
+                  size="sm" 
+                  className="h-11 rounded-full"
+                  onClick={() => navigate("/casos")}
+                >
+                  {ui.back.toUpperCase()}
+                </PremiumButton>
               </div>
 
               <div className="max-w-4xl mx-auto text-center">
@@ -285,11 +288,21 @@ const CaseStudyPost = () => {
                     <p className="mt-3 text-sm sm:text-base text-[#F5F5F5]/75 leading-relaxed max-w-2xl">
                       {ui.readyBody}
                     </p>
-                    <Link to="/#contacto" className="inline-flex mt-5">
-                      <PremiumButton variant="primary" size="md" className="w-full sm:w-auto">
-                        {ui.letsTalk.toUpperCase()}
-                      </PremiumButton>
-                    </Link>
+                    <PremiumButton 
+                      variant="primary" 
+                      size="md" 
+                      className="w-full sm:w-auto mt-5"
+                      onClick={() => {
+                        const el = document.getElementById('contacto');
+                        if (el) {
+                          el.scrollIntoView({ behavior: 'smooth' });
+                        } else {
+                          navigate('/#contacto');
+                        }
+                      }}
+                    >
+                      {ui.letsTalk.toUpperCase()}
+                    </PremiumButton>
                   </div>
 
                   <CaseStudyMoreResults

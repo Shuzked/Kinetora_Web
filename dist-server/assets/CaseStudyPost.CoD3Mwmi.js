@@ -1,16 +1,16 @@
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import React__default, { useRef } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { P as PremiumButton, u as useI18n, S as SEO, N as Navbar, R as Reveal, g as getSeoDefaults } from "./entry-server.Dao3FwaC.js";
-import Footer from "./Footer.l3yW-pJU.js";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { P as PremiumButton, u as useI18n, S as SEO, N as Navbar, R as Reveal, g as getSeoDefaults } from "./entry-server.C4bir1NN.js";
+import Footer from "./Footer.Cn-AZObR.js";
 import "clsx";
-import { S as Skeleton } from "./ImageWithSkeleton.DKP7qQz4.js";
+import { S as Skeleton } from "./ImageWithSkeleton.FpXhh29V.js";
 import DOMPurify from "dompurify";
-import { D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription } from "./dialog.D12XWgPy.js";
+import { D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription } from "./dialog.CwRqNP8u.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { P as PortfolioCard } from "./PortfolioCard.AYOHloGq.js";
+import { P as PortfolioCard } from "./PortfolioCard.TEwpHHEq.js";
 import { u as useEqualizeHeights, c as caseStudies } from "./use-equalize.DQ81Eq-z.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -28,12 +28,12 @@ import "@radix-ui/react-dropdown-menu";
 import "framer-motion";
 import "lenis";
 import "react-dom";
-import "./input.BWTfiq5J.js";
+import "./input.BccdgVhc.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.DxdIEkQZ.js";
+import "./label.DTQ9oYCO.js";
 import "@radix-ui/react-label";
-import "./checkbox.CWbK4P9R.js";
+import "./checkbox.DP7XHQkW.js";
 import "@radix-ui/react-checkbox";
 function enhanceMedia(html) {
   if (typeof window === "undefined") return html;
@@ -230,7 +230,18 @@ const CaseStudyMoreResults = ({
         /* @__PURE__ */ jsx("h2", { className: "text-3xl sm:text-4xl font-black tracking-tighter uppercase whitespace-pre-line", children: moreResultsLabel })
       ] }),
       /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row items-start sm:items-center gap-6", children: [
-        /* @__PURE__ */ jsx(Link, { to: "/casos", className: "shrink-0 w-full sm:w-auto", children: /* @__PURE__ */ jsx(PremiumButton, { variant: "glass", size: "md", className: "w-full sm:w-auto h-12 px-8", children: viewAllLabel.toUpperCase() }) }),
+        /* @__PURE__ */ jsx(
+          PremiumButton,
+          {
+            variant: "glass",
+            size: "md",
+            className: "shrink-0 w-full sm:w-auto h-12 px-8",
+            onClick: () => {
+              window.location.href = "/casos";
+            },
+            children: viewAllLabel.toUpperCase()
+          }
+        ),
         /* @__PURE__ */ jsxs("div", { className: "flex gap-3", children: [
           /* @__PURE__ */ jsx(
             "button",

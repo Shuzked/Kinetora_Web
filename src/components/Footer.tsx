@@ -129,7 +129,7 @@ const Footer = () => {
           >
             <Logo className="h-6 mb-4" />
             <p className="text-[#F5F5F5]/80 text-sm mb-3">
-              © {new Date().getFullYear()} Kinetora Studio. {strings.rights}
+              © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Kinetora Studio. {strings.rights}
             </p>
             
             <div className="flex items-center gap-3 mb-6">

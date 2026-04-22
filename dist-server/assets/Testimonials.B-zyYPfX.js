@@ -2,7 +2,7 @@ import { jsx, jsxs } from "react/jsx-runtime";
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { u as useI18n, h as SafeHydration, f as RevealText, M as MouseParallax } from "./entry-server.Dao3FwaC.js";
+import { u as useI18n, h as SafeHydration, f as RevealText, M as MouseParallax } from "./entry-server.C4bir1NN.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
 import "stream";

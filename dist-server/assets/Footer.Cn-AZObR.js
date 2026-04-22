@@ -1,13 +1,13 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useState } from "react";
-import { u as useI18n, L as Logo, M as MouseParallax, P as PremiumButton, s as showSuccess } from "./entry-server.Dao3FwaC.js";
-import { I as Input } from "./input.BWTfiq5J.js";
+import { u as useI18n, L as Logo, M as MouseParallax, P as PremiumButton, s as showSuccess } from "./entry-server.C4bir1NN.js";
+import { I as Input } from "./input.BccdgVhc.js";
 import { Mail } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
 import { FaFacebookF, FaTwitter, FaYoutube, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { L as Label } from "./label.DxdIEkQZ.js";
-import { C as Checkbox } from "./checkbox.CWbK4P9R.js";
+import { L as Label } from "./label.DTQ9oYCO.js";
+import { C as Checkbox } from "./checkbox.DP7XHQkW.js";
 import { Link } from "react-router-dom";
 import "react-dom/server";
 import "react-router-dom/server.mjs";

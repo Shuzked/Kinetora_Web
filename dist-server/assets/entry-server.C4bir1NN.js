@@ -1377,7 +1377,27 @@ const Navbar = () => {
       ),
       /* @__PURE__ */ jsxs("div", { className: "flex-1 flex items-center justify-end gap-2.5 md:gap-6 min-w-0", children: [
         /* @__PURE__ */ jsx(LanguageSwitcher, { hideOnSmall: true }),
-        /* @__PURE__ */ jsx(Link, { to: "/#contacto", className: "shrink-0 hidden md:inline-flex", children: /* @__PURE__ */ jsx(PremiumButton, { variant: "primary", size: "md", className: "leading-none", children: t("nav.start").toUpperCase() }) }),
+        /* @__PURE__ */ jsx(
+          PremiumButton,
+          {
+            variant: "primary",
+            size: "md",
+            className: "shrink-0 hidden md:inline-flex leading-none",
+            onClick: () => {
+              const el = document.getElementById("contacto");
+              if (el) {
+                const nav = document.querySelector("nav");
+                const offset = ((nav == null ? void 0 : nav.offsetHeight) || 0) + 16;
+                const rect = el.getBoundingClientRect();
+                const y = rect.top + window.scrollY - offset;
+                window.scrollTo({ top: y, behavior: "smooth" });
+              } else {
+                window.location.href = "/#contacto";
+              }
+            },
+            children: t("nav.start").toUpperCase()
+          }
+        ),
         /* @__PURE__ */ jsx("div", { className: "md:hidden", children: /* @__PURE__ */ jsxs(Sheet, { children: [
           /* @__PURE__ */ jsx(SheetTrigger, { asChild: true, children: /* @__PURE__ */ jsx(
             Button,
@@ -1448,11 +1468,20 @@ const ScrollParallax = ({ children, speed = 0.1, className = "", invert = false,
 };
 const Starfield = () => {
   const canvasRef = useRef(null);
-  if (typeof window !== "undefined" && window.innerWidth < 768) {
+  const isMounted = useIsMounted();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const cb = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", cb, { passive: true });
+    return () => window.removeEventListener("resize", cb);
+  }, []);
+  if (isMounted && isMobile) {
     return null;
   }
   useEffect(() => {
     var _a, _b;
+    if (!isMounted || isMobile) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     let isVisible = false;
@@ -2516,16 +2545,16 @@ const seoDefaults = {
 function getSeoDefaults(lang = "es") {
   return seoDefaults[lang];
 }
-const HowItWorks = React__default.lazy(() => import("./HowItWorks.WklVMAsu.js"));
-const Services = React__default.lazy(() => import("./Services.CpizTgc2.js"));
-const Portfolio = React__default.lazy(() => import("./Portfolio.CB6sausW.js"));
-const Testimonials = React__default.lazy(() => import("./Testimonials.DN6Sj2ZY.js"));
-const Contact = React__default.lazy(() => import("./Contact.D0l9jtpr.js"));
-const FAQ = React__default.lazy(() => import("./FAQ.Mdth5SAB.js"));
-const Footer = React__default.lazy(() => import("./Footer.l3yW-pJU.js"));
+const HowItWorks = React__default.lazy(() => import("./HowItWorks.Bq2HlJah.js"));
+const Services = React__default.lazy(() => import("./Services.nTprGzb7.js"));
+const Portfolio = React__default.lazy(() => import("./Portfolio.DEkKlUiD.js"));
+const Testimonials = React__default.lazy(() => import("./Testimonials.B-zyYPfX.js"));
+const Contact = React__default.lazy(() => import("./Contact.Iqs2Kh-o.js"));
+const FAQ = React__default.lazy(() => import("./FAQ.DuuDQeO6.js"));
+const Footer = React__default.lazy(() => import("./Footer.Cn-AZObR.js"));
 const FloatingCTA = React__default.lazy(() => import("./FloatingCTA.RXAbL0gB.js"));
 React__default.lazy(() => import("./StackingSection.KX6lWicT.js"));
-const PricingSection = React__default.lazy(() => import("./Pricing.Ir4RH_kA.js"));
+const PricingSection = React__default.lazy(() => import("./Pricing.D4Rpr2lv.js"));
 const SafeLazyLoad = ({ children, height = "400px" }) => {
   if (typeof window === "undefined") {
     return /* @__PURE__ */ jsx(React__default.Suspense, { fallback: null, children });
@@ -2676,8 +2705,16 @@ const Index = () => {
 const ScrollProgress = () => {
   const { scrollYProgress } = useScroll();
   const isMobile = useIsMobile();
-  const prefersReduced = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (isMobile || prefersReduced) return null;
+  const isMounted = useIsMounted();
+  const [prefersReduced, setPrefersReduced] = React__default.useState(false);
+  React__default.useEffect(() => {
+    const mql = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReduced(mql.matches);
+    const update = () => setPrefersReduced(mql.matches);
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, []);
+  if (!isMounted || isMobile || prefersReduced) return null;
   return /* @__PURE__ */ jsx(
     motion.div,
     {
@@ -3262,19 +3299,19 @@ const CustomCursor = () => {
     createPortal(cursorContent, document.body)
   ] });
 };
-const Cases = lazy(() => import("./Cases.BHpAtH0q.js"));
-const CaseStudyPost = lazy(() => import("./CaseStudyPost.BemTbifw.js"));
-const NotFound = lazy(() => import("./NotFound.YRZEWO_J.js"));
-const LegalNotice = lazy(() => import("./LegalNotice.DRAYoXYi.js"));
-const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.DaG2A4fj.js"));
-const CookiesPolicy = lazy(() => import("./CookiesPolicy.DL2cozrA.js"));
-const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.DriDptVk.js"));
-const PortalDashboard = lazy(() => import("./PortalDashboard.DeIBEnda.js"));
-const PortalLogin = lazy(() => import("./PortalLogin.Cic2HiYs.js"));
+const Cases = lazy(() => import("./Cases.BnHjmapS.js"));
+const CaseStudyPost = lazy(() => import("./CaseStudyPost.CoD3Mwmi.js"));
+const NotFound = lazy(() => import("./NotFound.54ThQkWx.js"));
+const LegalNotice = lazy(() => import("./LegalNotice.Jnt_dxKW.js"));
+const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.CMZN3aNn.js"));
+const CookiesPolicy = lazy(() => import("./CookiesPolicy.BOLCw4yI.js"));
+const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.BtCfteR3.js"));
+const PortalDashboard = lazy(() => import("./PortalDashboard.CnXc6SE3.js"));
+const PortalLogin = lazy(() => import("./PortalLogin.YaloFmht.js"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute.D_-QwoJ1.js"));
-const PortalLayout = lazy(() => import("./PortalLayout.CFnwTAFg.js"));
-const BillingView = lazy(() => import("./BillingView.-DqwUY8h.js"));
-const Deliverables = lazy(() => import("./Deliverables.BRo4glGb.js"));
+const PortalLayout = lazy(() => import("./PortalLayout.CGC9qHAB.js"));
+const BillingView = lazy(() => import("./BillingView.CWVVWPvz.js"));
+const Deliverables = lazy(() => import("./Deliverables.ClACNPfr.js"));
 const queryClient = new QueryClient();
 const App = ({ serverLang }) => {
   const isMobile = useIsMobile();

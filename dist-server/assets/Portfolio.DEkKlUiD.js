@@ -1,14 +1,14 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import React__default, { useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import { P as PortfolioCard } from "./PortfolioCard.AYOHloGq.js";
-import { u as useI18n, f as RevealText, P as PremiumButton } from "./entry-server.Dao3FwaC.js";
+import { P as PortfolioCard } from "./PortfolioCard.TEwpHHEq.js";
+import { u as useI18n, f as RevealText, P as PremiumButton } from "./entry-server.C4bir1NN.js";
 import { u as useEqualizeHeights, c as caseStudies } from "./use-equalize.DQ81Eq-z.js";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "framer-motion";
-import "./ImageWithSkeleton.DKP7qQz4.js";
+import "./ImageWithSkeleton.FpXhh29V.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
 import "stream";
@@ -73,7 +73,16 @@ const Portfolio = () => {
             /* @__PURE__ */ jsx("p", { className: "mt-6 text-[#F5F5F5]/60 font-medium max-w-lg leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300", children: ui.sub })
           ] }),
           /* @__PURE__ */ jsxs("div", { className: "flex flex-col sm:flex-row items-start sm:items-center gap-6", children: [
-            /* @__PURE__ */ jsx(Link, { to: "/casos", className: "shrink-0 w-full sm:w-auto", children: /* @__PURE__ */ jsx(PremiumButton, { variant: "glass", size: "md", className: "w-full sm:w-auto h-12 px-8", children: ui.viewAll.toUpperCase() }) }),
+            /* @__PURE__ */ jsx(
+              PremiumButton,
+              {
+                variant: "glass",
+                size: "md",
+                className: "shrink-0 w-full sm:w-auto h-12 px-8",
+                onClick: () => navigate("/casos"),
+                children: ui.viewAll.toUpperCase()
+              }
+            ),
             /* @__PURE__ */ jsxs("div", { className: "flex gap-3", children: [
               /* @__PURE__ */ jsx(
                 "button",

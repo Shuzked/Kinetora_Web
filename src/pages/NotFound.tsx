@@ -66,11 +66,14 @@ const NotFound = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Link to="/">
-                  <PremiumButton variant="primary" size="lg" className="min-w-[280px] text-lg font-black tracking-widest shadow-[0_0_30px_rgba(180,84,255,0.2)]">
-                    {copy.back}
-                  </PremiumButton>
-                </Link>
+                <PremiumButton 
+                  variant="primary" 
+                  size="lg" 
+                  className="min-w-[280px] text-lg font-black tracking-widest shadow-[0_0_30px_rgba(180,84,255,0.2)]"
+                  onClick={() => navigate("/")}
+                >
+                  {copy.back}
+                </PremiumButton>
               </motion.div>
             </motion.div>
           </div>

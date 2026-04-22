@@ -2,7 +2,7 @@ import { jsx } from "react/jsx-runtime";
 import * as React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
 import { Check } from "lucide-react";
-import { d as cn } from "./entry-server.Dao3FwaC.js";
+import { d as cn } from "./entry-server.C4bir1NN.js";
 const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
   CheckboxPrimitive.Root,
   {

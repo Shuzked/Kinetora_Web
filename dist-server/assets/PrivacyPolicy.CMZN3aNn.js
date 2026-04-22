@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { u as useI18n, N as Navbar } from "./entry-server.Dao3FwaC.js";
-import Footer from "./Footer.l3yW-pJU.js";
+import { u as useI18n, N as Navbar } from "./entry-server.C4bir1NN.js";
+import Footer from "./Footer.Cn-AZObR.js";
 import { Link } from "react-router-dom";
 import "react";
 import "react-dom/server";
@@ -21,12 +21,12 @@ import "@radix-ui/react-dropdown-menu";
 import "framer-motion";
 import "lenis";
 import "react-dom";
-import "./input.BWTfiq5J.js";
+import "./input.BccdgVhc.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.DxdIEkQZ.js";
+import "./label.DTQ9oYCO.js";
 import "@radix-ui/react-label";
-import "./checkbox.CWbK4P9R.js";
+import "./checkbox.DP7XHQkW.js";
 import "@radix-ui/react-checkbox";
 const PrivacyPolicy = () => {
   const { t } = useI18n();

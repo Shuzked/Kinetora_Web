@@ -1,6 +1,6 @@
 import { jsxs, jsx } from "react/jsx-runtime";
 import { motion } from "framer-motion";
-import { u as useI18n, e as ScrollParallax, f as RevealText, M as MouseParallax } from "./entry-server.Dao3FwaC.js";
+import { u as useI18n, e as ScrollParallax, f as RevealText, M as MouseParallax } from "./entry-server.C4bir1NN.js";
 import "react";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
