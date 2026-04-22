@@ -2,6 +2,7 @@
 
 import React from "react";
 import WPPostContent from "@/components/WPPostContent";
+import ClientOnly from "../ClientOnly";
 import {
   Dialog,
   DialogContent,
@@ -31,7 +32,7 @@ const MediaLightbox: React.FC<MediaLightboxProps> = ({ html, className }) => {
   }, []);
 
   return (
-    <>
+    <ClientOnly>
       <div
         onClick={onContainerClick}
         className={[
@@ -71,7 +72,7 @@ const MediaLightbox: React.FC<MediaLightboxProps> = ({ html, className }) => {
           ) : null}
         </DialogContent>
       </Dialog>
-    </>
+    </ClientOnly>
   );
 };
 

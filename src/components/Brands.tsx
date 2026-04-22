@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import { useI18n } from "@/i18n/I18nProvider";
 import RevealText from "@/components/ui/RevealText";
+import ClientOnly from '@/components/ClientOnly';
 
 const brands = [
   { name: "Square Enix", src: "/assets/brands/square-enix.svg" },
@@ -68,37 +69,39 @@ const Brands = () => {
         </div>
       </div>
 
-      <div className="relative overflow-hidden">
-        <div className="relative h-12 sm:h-14" data-animate="always" ref={wrapperRef}>
-          <div
-            ref={trackRef}
-            className="marquee-track absolute inset-y-0 left-0 flex items-center gap-6 sm:gap-10 md:gap-24 min-w-max will-change-transform"
-            style={{ animationDuration: "70s" }}
-          >
-            {items.map((brand, i) => (
-              <div
-                key={`brand-${i}-${brand.name}`}
-                onMouseEnter={pauseTrack}
-                onMouseLeave={resumeTrack}
-                onTouchStart={pauseTrack}
-                onTouchEnd={resumeTrack}
-                className="flex items-center justify-center select-none h-10 sm:h-11 md:h-12 w-32 sm:w-36 md:w-40"
-                aria-hidden={i >= brands.length}
-              >
-                <img
-                  src={brand.src}
-                  alt={brand.name}
-                  loading="lazy"
-                  decoding="async"
-                  width={160}
-                  height={48}
-                  className="max-h-full max-w-full object-contain opacity-60 grayscale contrast-125 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
-                />
-              </div>
-            ))}
+      <ClientOnly>
+        <div className="relative overflow-hidden">
+          <div className="relative h-12 sm:h-14" data-animate="always" ref={wrapperRef}>
+            <div
+              ref={trackRef}
+              className="marquee-track absolute inset-y-0 left-0 flex items-center gap-6 sm:gap-10 md:gap-24 min-w-max will-change-transform"
+              style={{ animationDuration: "70s" }}
+            >
+              {items.map((brand, i) => (
+                <div
+                  key={`brand-${i}-${brand.name}`}
+                  onMouseEnter={pauseTrack}
+                  onMouseLeave={resumeTrack}
+                  onTouchStart={pauseTrack}
+                  onTouchEnd={resumeTrack}
+                  className="flex items-center justify-center select-none h-10 sm:h-11 md:h-12 w-32 sm:w-36 md:w-40"
+                  aria-hidden={i >= brands.length}
+                >
+                  <img
+                    src={brand.src}
+                    alt={brand.name}
+                    loading="lazy"
+                    decoding="async"
+                    width={160}
+                    height={48}
+                    className="max-h-full max-w-full object-contain opacity-60 grayscale contrast-125 hover:opacity-100 hover:grayscale-0 transition-all duration-300"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </ClientOnly>
     </section>
   );
 };

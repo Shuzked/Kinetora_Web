@@ -6,7 +6,7 @@ import { Star } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import RevealText from "@/components/ui/RevealText";
-import SafeHydration from '@/components/SafeHydration';
+import ClientOnly from '@/components/ClientOnly';
 
 const Testimonials = () => {
   const { lang } = useI18n();
@@ -234,7 +234,7 @@ const Testimonials = () => {
   };
 
   return (
-    <SafeHydration name="Testimonials">
+    <ClientOnly>
       <section className="kin-section relative overflow-hidden pointer-events-auto">
         <div className="kin-container pointer-events-auto">
           {/* ... existing content ... */}
@@ -346,7 +346,7 @@ const Testimonials = () => {
           </div>
         </div>
       </section>
-    </SafeHydration>
+    </ClientOnly>
   );
 };
 

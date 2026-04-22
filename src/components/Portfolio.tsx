@@ -17,6 +17,7 @@ import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import RevealText from "@/components/ui/RevealText";
+import ClientOnly from '@/components/ClientOnly';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEqualizeHeights } from "@/hooks/use-equalize";
 import { PortfolioCard } from "@/components/case-study/PortfolioCard";
@@ -106,73 +107,75 @@ const Portfolio = () => {
         </div>
       </div>
 
-      <div className="kin-container-fluid">
-        <div className="relative py-4">
-          <Swiper
-            onSwiper={setSwiperRef}
-            onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-            modules={[Autoplay, Navigation, Pagination]}
-            loop={true}
-            speed={600}
-            autoplay={{
-              delay: 5000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            grabCursor={true}
-            slidesPerView={1.1}
-            spaceBetween={16}
-            centeredSlides={true}
-            breakpoints={{
-              640: {
-                slidesPerView: 1.5,
-                spaceBetween: 20,
-                centeredSlides: true,
-              },
-              768: {
-                slidesPerView: 2.2,
-                spaceBetween: 24,
-                centeredSlides: false,
-              },
-              1024: {
-                slidesPerView: 3,
-                spaceBetween: 32,
-                centeredSlides: false,
-              },
-            }}
-            className="w-full px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto !overflow-visible"
-          >
-            {baseCards.map((cs, i) => (
-              <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
-                {() => (
-                  <div className="h-full transition-all duration-700 opacity-100 blur-0 scale-100">
-                    <PortfolioCard cs={cs} onNavigate={(slug) => navigate(`/casos/${slug}`)} lang={lang} ui={ui} />
-                  </div>
-                )}
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+      <ClientOnly>
+        <div className="kin-container-fluid">
+          <div className="relative py-4">
+            <Swiper
+              onSwiper={setSwiperRef}
+              onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+              modules={[Autoplay, Navigation, Pagination]}
+              loop={true}
+              speed={600}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              grabCursor={true}
+              slidesPerView={1.1}
+              spaceBetween={16}
+              centeredSlides={true}
+              breakpoints={{
+                640: {
+                  slidesPerView: 1.5,
+                  spaceBetween: 20,
+                  centeredSlides: true,
+                },
+                768: {
+                  slidesPerView: 2.2,
+                  spaceBetween: 24,
+                  centeredSlides: false,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 32,
+                  centeredSlides: false,
+                },
+              }}
+              className="w-full px-[5vw] lg:px-0 lg:max-w-7xl lg:mx-auto !overflow-visible"
+            >
+              {baseCards.map((cs, i) => (
+                <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
+                  {() => (
+                    <div className="h-full transition-all duration-700 opacity-100 blur-0 scale-100">
+                      <PortfolioCard cs={cs} onNavigate={(slug) => navigate(`/casos/${slug}`)} lang={lang} ui={ui} />
+                    </div>
+                  )}
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
 
-        {/* Pagination Dots */}
-        <div className="mt-12 flex justify-center gap-3">
-          {baseCards.map((_, i) => {
-            const isActive = activeIndex === i;
-            return (
-              <button
-                key={i}
-                onClick={() => swiperRef?.slideToLoop(i)}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
-                  isActive
-                    ? "w-8 bg-[#B454FF] shadow-[0_0_12px_rgba(180,84,255,0.5)]" 
-                    : "w-2 bg-white/20 hover:bg-white/40"
-                }`}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            );
-          })}
+          {/* Pagination Dots */}
+          <div className="mt-12 flex justify-center gap-3">
+            {baseCards.map((_, i) => {
+              const isActive = activeIndex === i;
+              return (
+                <button
+                  key={i}
+                  onClick={() => swiperRef?.slideToLoop(i)}
+                  className={`h-1.5 rounded-full transition-all duration-500 ${
+                    isActive
+                      ? "w-8 bg-[#B454FF] shadow-[0_0_12px_rgba(180,84,255,0.5)]" 
+                      : "w-2 bg-white/20 hover:bg-white/40"
+                  }`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </ClientOnly>
     </section>
   );
 };

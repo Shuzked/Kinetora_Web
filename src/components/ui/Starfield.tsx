@@ -2,6 +2,7 @@
 
 import { useIsMounted } from "@/hooks/use-is-mounted";
 import React, { useEffect, useRef, useState } from "react";
+import ClientOnly from "../ClientOnly";
 
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -193,12 +194,14 @@ const Starfield = () => {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ mixBlendMode: 'screen' }}
-      aria-hidden="true"
-    />
+    <ClientOnly>
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none z-0"
+        style={{ mixBlendMode: 'screen' }}
+        aria-hidden="true"
+      />
+    </ClientOnly>
   );
 };
 
