@@ -89,6 +89,37 @@ const localJsonLdES = {
   sameAs: ['https://www.linkedin.com/company/kinetora', 'https://www.instagram.com/kinetora_studio'],
 };
 
+const faqJsonLdES = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: '¿Qué servicios ofrece Kinetora?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Kinetora se especializa en ingeniería visual premium, sistemas de diseño escalables y desarrollo web de alto rendimiento para startups B2B y marcas globales.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Cómo es el proceso de trabajo de Kinetora?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Utilizamos un flujo de trabajo iterativo de alto impacto que incluye auditorías de marketing profundas, diseño de sistemas visuales e implementación lista para producción enfocada en levantamiento de capital y escalabilidad.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: '¿Trabajáis con clientes fuera de España?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Sí, operamos a nivel global a través de nuestro dominio kinetora.tech, dando servicio a startups y empresas de todo el mundo con un modelo de entrega remota de alto rendimiento.',
+      },
+    },
+  ],
+};
+
 // Body swaps removed since we now use native React SSR for i18n
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -167,7 +198,7 @@ processFile(
   path.join(DIST, 'index.html'),
   path.join(DIST, 'index.es.html'),
   ES_HOME,
-  [orgJsonLdES, localJsonLdES]
+  [orgJsonLdES, localJsonLdES, faqJsonLdES]
 );
 
 // 2. /casos page (generated from base index.html template)

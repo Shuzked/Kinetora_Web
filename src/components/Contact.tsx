@@ -30,6 +30,9 @@ const Contact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
+  const [role, setRole] = useState<string>("");
+  const [website, setWebsite] = useState("");
+  const [challenge, setChallenge] = useState<string>("");
   const [budget, setBudget] = useState<string>("");
   const [message, setMessage] = useState("");
   const [consent, setConsent] = useState(false);
@@ -45,81 +48,119 @@ const Contact = () => {
     lang === "es"
       ? {
           badge: "Contacto",
-          title: "Cuéntanos tu proyecto",
-          sub: "Escríbenos y, si lo prefieres, agenda una llamada directa con nuestro equipo.",
+          title: "Impulsa tu startup",
+          sub: "Escríbenos para una consultoría visual estratégica. Respuesta en <12h.",
           name: "Nombre",
           namePh: "Tu nombre",
-          email: "Email",
-          emailPh: "tu@email.com",
-          company: "Empresa (opcional)",
-          companyPh: "Nombre de empresa",
-          budget: "Presupuesto",
+          email: "Email Corporativo",
+          emailPh: "tu@empresa.com",
+          company: "Startup / Empresa",
+          companyPh: "Nombre de tu startup",
+          role: "Tu Rol",
+          rolePh: "Selecciona tu cargo",
+          website: "URL Website",
+          websitePh: "https://tustartup.com",
+          challenge: "Reto Principal",
+          challengePh: "En qué podemos ayudarte",
+          budget: "Inversión Estimada",
           budgetPh: "Elige un rango",
-          message: "Mensaje",
-          messagePh: "Cuéntanos brevemente qué necesitas…",
+          message: "Detalles del Proyecto",
+          messagePh: "Cuéntanos sobre tu ronda, objetivos o producto…",
           consent:
-            "Acepto ser contactado para resolver dudas y recibir una propuesta personalizada.",
-          send: "Enviar mensaje",
+            "Acepto ser contactado para recibir una propuesta técnica y comercial.",
+          send: "Enviar Consulta B2B",
           sending: "Enviando…",
-          success: "Mensaje enviado correctamente",
+          success: "Consulta enviada correctamente",
           errName: "Introduce tu nombre.",
-          errEmail: "Introduce un email válido.",
-          errMsg: "Cuéntanos brevemente tu necesidad (mín. 10 caracteres).",
+          errEmail: "Introduce un email corporativo válido.",
+          errMsg: "Danos un poco más de contexto (mín. 10 caracteres).",
           errConsent: "Debes aceptar el consentimiento.",
-          errSubmit: "No se pudo enviar el mensaje. Inténtalo más tarde.",
-          budgets: [
-            { v: "<5k", l: "Menos de $5.000" },
-            { v: "5-10k", l: "$5.000 - $10.000" },
-            { v: "10-25k", l: "$10.000 - $25.000" },
-            { v: "25-50k", l: "$25.000 - $50.000" },
-            { v: "50k+", l: "Más de $50.000" },
+          errSubmit: "Error en el envío. Inténtalo de nuevo.",
+          roles: [
+            { v: "CEO", l: "CEO / Founder" },
+            { v: "CTO", l: "CTO / Tech Lead" },
+            { v: "Product", l: "Product Manager / Lead" },
+            { v: "Marketing", l: "Marketing Director" },
+            { v: "Design", l: "Design Lead" },
+            { v: "Other", l: "Otros" },
           ],
-          ariaSend: "Enviar consulta",
-          modalTitle: "Mensaje recibido",
+          challenges: [
+            { v: "Capital", l: "Levantar Capital (Pitch Deck)" },
+            { v: "Scale", l: "Escalar Producto / UX" },
+            { v: "Rebrand", l: "Rebranding Estratégico" },
+            { v: "Growth", l: "Nueva Landing / Conversión" },
+            { v: "Sytem", l: "Crear Sistema de Diseño" },
+          ],
+          budgets: [
+            { v: "starter", l: "Starter Pack (~1.9k€)" },
+            { v: "growth", l: "Growth Pack (~3.5k€)" },
+            { v: "scale", l: "Scale / Custom" },
+          ],
+          ariaSend: "Enviar consulta de negocio",
+          modalTitle: "Solicitud Recibida",
           modalDesc:
-            "Tu mensaje ha llegado correctamente. Si quieres, puedes reservar una reunión con nosotros ahora.",
-          modalCTA: "Reservar reunión",
+            "Analizaremos tu caso en las próximas horas. Mientras tanto, puedes agendar sesión directa.",
+          modalCTA: "Agenda en Calendly",
           modalClose: "Cerrar",
         }
       : {
           badge: "Contact",
-          title: "Tell us about your project",
-          sub: "Write to us and, if you prefer, book a call directly with our team.",
+          title: "Power your startup",
+          sub: "Write to us for a strategic visual consultation. Response in <12h.",
           name: "Name",
           namePh: "Your name",
-          email: "Email",
+          email: "Corporate Email",
           emailPh: "you@company.com",
-          company: "Company (optional)",
-          companyPh: "Company name",
-          budget: "Budget",
+          company: "Startup / Company",
+          companyPh: "Your startup's name",
+          role: "Your Role",
+          rolePh: "Select your position",
+          website: "Website URL",
+          websitePh: "https://yourstartup.com",
+          challenge: "Primary Challenge",
+          challengePh: "How can we help you",
+          budget: "Estimated Investment",
           budgetPh: "Choose a range",
-          message: "Message",
-          messagePh: "Tell us briefly what you need…",
-          consent: "I agree to be contacted and receive a tailored proposal.",
-          send: "Send message",
+          message: "Project Details",
+          messagePh: "Tell us about your round, goals or product…",
+          consent: "I agree to be contacted for a technical and commercial proposal.",
+          send: "Send B2B Inquiry",
           sending: "Sending…",
-          success: "Message sent successfully",
+          success: "Inquiry sent successfully",
           errName: "Please enter your name.",
-          errEmail: "Please enter a valid email.",
-          errMsg: "Tell us briefly what you need (min. 10 characters).",
+          errEmail: "Please enter a valid corporate email.",
+          errMsg: "Give us a bit more context (min. 10 characters).",
           errConsent: "You must accept the consent.",
-          errSubmit: "Could not send your message. Please try again later.",
-          budgets: [
-            { v: "<5k", l: "Less than $5,000" },
-            { v: "5-10k", l: "$5,000 – $10,000" },
-            { v: "10-25k", l: "$10,000 – $25,000" },
-            { v: "25-50k", l: "$25,000 – $50,000" },
-            { v: "50k+", l: "More than $50,000" },
+          errSubmit: "Submission error. Please try again.",
+          roles: [
+            { v: "CEO", l: "CEO / Founder" },
+            { v: "CTO", l: "CTO / Tech Lead" },
+            { v: "Product", l: "Product Manager / Lead" },
+            { v: "Marketing", l: "Marketing Director" },
+            { v: "Design", l: "Design Lead" },
+            { v: "Other", l: "Other" },
           ],
-          ariaSend: "Send inquiry",
-          modalTitle: "Message received",
+          challenges: [
+            { v: "Capital", l: "Raise Capital (Pitch Deck)" },
+            { v: "Scale", l: "Scale Product / UX" },
+            { v: "Rebrand", l: "Strategic Rebranding" },
+            { v: "Growth", l: "New Landing / Conversion" },
+            { v: "Sytem", l: "Design System Creation" },
+          ],
+          budgets: [
+            { v: "starter", l: "Starter Pack (~1.9k€)" },
+            { v: "growth", l: "Growth Pack (~3.5k€)" },
+            { v: "scale", l: "Scale / Custom" },
+          ],
+          ariaSend: "Send business inquiry",
+          modalTitle: "Inquiry Received",
           modalDesc:
-            "Your message has been delivered. If you'd like, you can book a meeting with us now.",
-          modalCTA: "Book a meeting",
+            "We will analyze your case in the next few hours. Meanwhile, you can book a direct session.",
+          modalCTA: "Book via Calendly",
           modalClose: "Close",
         };
 
-  // Web3Forms access key (fija)
+  // Web3Forms access key
   const WEB3FORMS_ACCESS_KEY = "7e89d9dd-e4b7-4187-8cd0-46c5bc511b2c";
 
   const validate = () => {
@@ -141,14 +182,15 @@ const Contact = () => {
 
     setLoading(true);
 
-    // Enviar estrictamente access_key, name, email, message
     const payload = {
       access_key: WEB3FORMS_ACCESS_KEY,
       name,
       email,
       message,
-      // Campos adicionales solicitados
       empresa: company,
+      rol: role,
+      website: website,
+      reto: challenge,
       presupuesto: budget,
     };
 
@@ -170,10 +212,14 @@ const Contact = () => {
     showSuccess(strings.success);
     setSubmitMsg(strings.success);
     setOpenModal(true);
-    // Limpiar campos
+    
+    // Reset fields
     setName("");
     setEmail("");
     setCompany("");
+    setRole("");
+    setWebsite("");
+    setChallenge("");
     setBudget("");
     setMessage("");
     setConsent(false);
@@ -189,120 +235,160 @@ const Contact = () => {
             {strings.badge}
           </div>
           <h2 className="">
-            <RevealText text={strings.title.split(" ").slice(0, -1).join(" ").toUpperCase()} className="block" />
+            <RevealText text={strings.title.split(" ").slice(0, -2).join(" ").toUpperCase()} className="block" />
             <RevealText 
-              text={strings.title.split(" ").slice(-1)[0].toUpperCase()} 
+              text={strings.title.split(" ").slice(-2).join(" ").toUpperCase()} 
               className="block text-[#B454FF]" 
               delay={0.2}
             />
           </h2>
-          <p className="mt-6 text-[#F5F5F5]/70 leading-relaxed underline-offset-4">
+          <p className="mt-6 text-[#F5F5F5]/70 leading-relaxed max-w-xl mx-auto">
             {strings.sub}
           </p>
         </div>
 
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="kin-card premium-glass">
-            <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.name}</Label>
-                  <Input
-                    id="name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder={strings.namePh}
-                    className={`mt-2 bg-white/5 border ${errors.name ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
-                    aria-invalid={!!errors.name}
-                  />
-                  {errors.name && <p className="mt-1 text-[12px] text-red-400">{errors.name}</p>}
+            <form onSubmit={onSubmit} noValidate aria-live="polite" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Nombre & Email */}
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.name}</Label>
+                    <Input
+                      id="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder={strings.namePh}
+                      className={`mt-2 bg-white/[0.03] border ${errors.name ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] h-12 rounded-xl`}
+                    />
+                    {errors.name && <p className="mt-1 text-[11px] text-red-400/90">{errors.name}</p>}
+                  </div>
+                  <div>
+                    <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.email}</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder={strings.emailPh}
+                      className={`mt-2 bg-white/[0.03] border ${errors.email ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] h-12 rounded-xl`}
+                    />
+                    {errors.email && <p className="mt-1 text-[11px] text-red-400/90">{errors.email}</p>}
+                  </div>
                 </div>
-                <div>
-                  <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.email}</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={strings.emailPh}
-                    className={`mt-2 bg-white/5 border ${errors.email ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
-                    aria-invalid={!!errors.email}
-                  />
-                  {errors.email && <p className="mt-1 text-[12px] text-red-400">{errors.email}</p>}
+
+                {/* Empresa & Rol */}
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.company}</Label>
+                    <Input
+                      id="company"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      placeholder={strings.companyPh}
+                      className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.role}</Label>
+                    <Select value={role} onValueChange={setRole}>
+                      <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
+                        <SelectValue placeholder={strings.rolePh} />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
+                        {strings.roles.map((r) => (
+                          <SelectItem key={r.v} value={r.v}>{r.l}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.message}</Label>
-                <Textarea
-                  id="message"
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder={strings.messagePh}
-                  className={`mt-2 min-h-[120px] bg-white/5 border ${errors.message ? 'border-red-500/50' : 'border-white/15'} text-[#F5F5F5] placeholder:text-[#F5F5F5]/50`}
-                  aria-invalid={!!errors.message}
-                />
-                {errors.message && <p className="mt-1 text-[12px] text-red-400">{errors.message}</p>}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Website & Challenge */}
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="website" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.website}</Label>
+                    <Input
+                      id="website"
+                      value={website}
+                      onChange={(e) => setWebsite(e.target.value)}
+                      placeholder={strings.websitePh}
+                      className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl"
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.challenge}</Label>
+                    <Select value={challenge} onValueChange={setChallenge}>
+                      <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
+                        <SelectValue placeholder={strings.challengePh} />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
+                        {strings.challenges.map((c) => (
+                          <SelectItem key={c.v} value={c.v}>{c.l}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* Budget & Message */}
+                <div className="space-y-4">
+                  <div>
+                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.budget}</Label>
+                    <Select value={budget} onValueChange={setBudget}>
+                      <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
+                        <SelectValue placeholder={strings.budgetPh} />
+                      </SelectTrigger>
+                      <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
+                        {strings.budgets.map((b) => (
+                          <SelectItem key={b.v} value={b.v}>{b.l}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{strings.message}</Label>
+                    <Textarea
+                      id="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder={strings.messagePh}
+                      className={`mt-2 min-h-[48px] h-12 bg-white/[0.03] border ${errors.message ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] rounded-xl resize-none`}
+                    />
+                  </div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.company}</Label>
-                  <Input
-                    id="company"
-                    name="empresa"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    placeholder={strings.companyPh}
-                    className="mt-2 bg-white/5 border border-white/15 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50"
+              <div className="flex flex-col gap-4">
+                <div className="flex items-start gap-3">
+                  <Checkbox
+                    id="consent"
+                    checked={consent}
+                    onCheckedChange={(v) => setConsent(!!v)}
+                    className="mt-0.5 rounded-[6px] border-white/20 data-[state=checked]:bg-[#B454FF] data-[state=checked]:border-[#B454FF]"
                   />
+                  <Label htmlFor="consent" className="text-[12px] text-[#F5F5F5]/50 leading-relaxed cursor-pointer">
+                    {strings.consent}
+                  </Label>
                 </div>
-                <div>
-                  <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/80">{strings.budget}</Label>
-                  <Select value={budget} onValueChange={setBudget}>
-                    <SelectTrigger className="mt-2 bg-white/5 border border-white/15 text-[#F5F5F5]">
-                      <SelectValue placeholder={strings.budgetPh} />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
-                      {strings.budgets.map((b) => (
-                        <SelectItem key={b.v} value={b.v}>
-                          {b.l}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {/* Campo oculto para asegurar name="presupuesto" en el DOM */}
-                  <input type="hidden" name="presupuesto" value={budget} aria-hidden="true" />
-                </div>
+                {errors.consent && <p className="text-[11px] text-red-400/90">{errors.consent}</p>}
               </div>
-
-              <div className="flex items-start gap-2">
-                <Checkbox
-                  id="consent"
-                  checked={consent}
-                  onCheckedChange={(v) => setConsent(!!v)}
-                  className="rounded-[6px] border-white/30 data-[state=checked]:bg-[#B454FF] data-[state=checked]:border-[#B454FF]"
-                  aria-invalid={!!errors.consent}
-                />
-                <Label htmlFor="consent" className="text-[12px] text-[#F5F5F5]/70">
-                  {strings.consent}
-                </Label>
-              </div>
-              {errors.consent && <p className="text-[12px] text-red-400">{errors.consent}</p>}
 
               <div className="pt-2">
                 <PremiumButton
                   type="submit"
                   variant="primary"
                   size="md"
-                  className="w-full"
+                  className="w-full h-14 text-sm font-black tracking-widest"
                   isLoading={loading}
-                  aria-label={strings.ariaSend}
                 >
                   {loading ? strings.sending : strings.send.toUpperCase()}
                 </PremiumButton>
                 {submitMsg && (
-                  <p className={`mt-2 text-[12px] ${submitMsg === strings.success ? "text-green-400" : "text-red-400"}`} role="status">
+                  <p className={`mt-4 text-center text-[12px] ${submitMsg === strings.success ? "text-green-400" : "text-red-400"}`} role="status">
                     {submitMsg}
                   </p>
                 )}
@@ -316,15 +402,15 @@ const Contact = () => {
         <DialogContent className="bg-[#111111] border-white/10 text-[#F5F5F5] rounded-2xl max-w-md">
           <DialogHeader>
             <DialogTitle className="text-xl font-black">{strings.modalTitle}</DialogTitle>
-            <DialogDescription className="text-[#F5F5F5]/70">
+            <DialogDescription className="text-[#F5F5F5]/70 leading-relaxed">
               {strings.modalDesc}
             </DialogDescription>
           </DialogHeader>
-          <div className="mt-4 flex items-center justify-end gap-2">
+          <div className="mt-6 flex flex-col sm:flex-row items-center justify-end gap-3">
             <button
               type="button"
               onClick={() => setOpenModal(false)}
-              className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-white/[0.03] border border-white/10 text-[#F5F5F5]/85 hover:bg-white/[0.06] transition-colors"
+              className="w-full sm:w-auto inline-flex h-11 items-center justify-center px-6 rounded-xl bg-white/[0.03] border border-white/10 text-[#F5F5F5]/70 text-sm font-medium hover:bg-white/[0.06] transition-colors"
             >
               {lang === "es" ? "Cerrar" : "Close"}
             </button>
@@ -332,9 +418,9 @@ const Contact = () => {
               href={calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center px-4 rounded-full bg-[#B454FF] text-white font-semibold hover:bg-[#A74CFF] transition-colors"
+              className="w-full sm:w-auto inline-flex h-11 items-center justify-center px-6 rounded-xl bg-[#B454FF] text-white text-sm font-black tracking-tight hover:bg-[#A74CFF] transition-colors shadow-[0_0_20px_rgba(180,84,255,0.3)]"
             >
-              {lang === "es" ? "Reservar reunión" : "Book a meeting"}
+              {strings.modalCTA}
             </a>
           </div>
         </DialogContent>

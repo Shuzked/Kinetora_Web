@@ -11,16 +11,16 @@ const Stats = () => {
   const stats =
     lang === "es"
       ? [
-          { label: "Proyectos completados", value: 450, suffix: "+" },
-          { label: "Capital levantado por nuestros clientes", sublabel: "gracias a nuestros diseños", value: 12, suffix: "$M+" },
-          { label: "Tiempo de entrega", value: 48, suffix: "h" },
-          { label: "Tasa de éxito", value: 99, suffix: "%" },
+          { label: "Proyectos completados", value: 18, suffix: "+" },
+          { label: "Capital levantado", sublabel: "gracias a nuestros diseños", value: 14.2, suffix: "$M+" },
+          { label: "Ciclo de diseño", sublabel: "a alta fidelidad", value: 48, suffix: "h" },
+          { label: "Retención B2B", value: 94, suffix: "%" },
         ]
       : [
-          { label: "Projects delivered", value: 450, suffix: "+" },
-          { label: "Capital raised by our clients", sublabel: "thanks to our design", value: 12, suffix: "$M+" },
-          { label: "Delivery time", value: 48, suffix: "h" },
-          { label: "Success rate", value: 99, suffix: "%" },
+          { label: "Projects delivered", value: 18, suffix: "+" },
+          { label: "Capital raised", sublabel: "thanks to our design", value: 14.2, suffix: "$M+" },
+          { label: "Design cycle", sublabel: "to high fidelity", value: 48, suffix: "h" },
+          { label: "B2B Retention", value: 94, suffix: "%" },
         ];
 
   return (

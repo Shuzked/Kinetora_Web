@@ -8,198 +8,155 @@ import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 
 const Services = () => {
   const { lang } = useI18n();
+  const isEs = lang === "es";
 
-  const copy =
-    lang === "es"
-      ? {
-          badge: "Capacidades",
-          titleTop: "Todo el músculo visual",
-          titleBottom: "que tu startup necesita.",
-          sub: "Branding, producto, web y contenido — con un sistema que mantiene calidad y consistencia a escala.",
-          cards: {
-            brandingTitle: "Diseño Gráfico y Branding",
-            brandingDesc: "Más allá del logotipo, construyo identidades de marca completas. Esto abarca desde pitch decks visualmente potentes para buscar financiación, hasta activos gráficos pensados específicamente para rendir en redes sociales y campañas.",
-            digitalTitle: "Diseño UX/UI y Web",
-            digitalDesc: "Creación de páginas, tiendas online y Sistemas de Diseño para apps web y móvil. Cubro desde los wireframes iniciales hasta prototipos interactivos que funcionan como una demo real del producto final.",
-            multimediaTitle: "Multimedia y Vídeo",
-            multimediaDesc: "Edición enfocada en la retención de audiencia para redes sociales, sumando motion graphics, animaciones 2D/3D y VFX.",
-            commsTitle: "Estrategia y Contenido",
-            commsDesc: "Planificación para escalar cuentas, producción y un copywriting muy directo y estratégico.",
+  const copy = isEs
+    ? {
+        badge: "Capacidades",
+        titleTop: "Todo el músculo visual",
+        titleBottom: "que tu startup necesita.",
+        sub: "Ingeniería visual y sistemas de diseño para startups que buscan dominar su mercado.",
+        cards: [
+          {
+            title: "Ingeniería Visual Estratégica",
+            desc: "Diseño que no solo se ve bien, sino que convierte. Landing pages de alto rendimiento y assets que aceleran el ciclo de venta B2B.",
+            icon: Palette,
+            size: "large",
+            image: "/assets/service-photos/brand-identity.webp",
           },
-        }
-      : {
-          badge: "Capabilities",
-          titleTop: "All the visual power",
-          titleBottom: "your startup needs.",
-          sub: "Brand, product, web and content — with a system that keeps quality and consistency at scale.",
-          cards: {
-            brandingTitle: "Graphic Design & Branding",
-            brandingDesc: "Beyond the logo, I build comprehensive brand identities. This spans from visually striking pitch decks for fundraising to graphic assets engineered to perform in social media campaigns.",
-            digitalTitle: "UX/UI & Web Design",
-            digitalDesc: "Crafting landing pages, e-commerce, and full Design Systems for web and mobile apps. I cover everything from initial wireframes to interactive prototypes acting as a high-fidelity demo of the final product.",
-            multimediaTitle: "Video & Multimedia",
-            multimediaDesc: "Retention-focused editing for social platforms, integrating motion graphics, 2D/3D animations, and VFX.",
-            commsTitle: "Content Strategy",
-            commsDesc: "Account scaling roadmaps, content production, and sharp, highly strategic copywriting.",
+          {
+            title: "Sistemas de Diseño Scalable",
+            desc: "Construimos la base técnica (Figma + Code) para que tu equipo de producto pueda iterar a máxima velocidad.",
+            icon: Globe,
+            size: "small",
+            image: "/assets/service-photos/digital-uxui.webp",
           },
-        };
+          {
+            title: "Optimización UX/UI",
+            desc: "Rediseño de interfaces complejas para reducir el churn y maximizar la adopción en plataformas SaaS.",
+            icon: Video,
+            size: "small",
+            image: "/assets/service-photos/video-editing.webp",
+          },
+          {
+            title: "Narrativas de Capital",
+            desc: "Diseñamos la historia visual (Pitch Decks) para tu próxima ronda de financiación. Impresiona a VCs y ángeles.",
+            icon: MessageSquare,
+            size: "medium",
+            image: "/assets/service-photos/communication-pitch-decks.webp",
+          },
+        ],
+      }
+    : {
+        badge: "Capabilities",
+        titleTop: "All the visual power",
+        titleBottom: "your startup needs.",
+        sub: "Visual engineering and design systems for startups aiming to dominate their market.",
+        cards: [
+          {
+            title: "Strategic Visual Engineering",
+            desc: "Design that doesn't just look good, it converts. High-performance landing pages and assets that accelerate the B2B sales cycle.",
+            icon: Palette,
+            size: "large",
+            image: "/assets/service-photos/brand-identity.webp",
+          },
+          {
+            title: "Scalable Design Systems",
+            desc: "We build the technical foundation (Figma + Code) so your product team can iterate at maximum speed.",
+            icon: Globe,
+            size: "small",
+            image: "/assets/service-photos/digital-uxui.webp",
+          },
+          {
+            title: "UX/UI Optimization",
+            desc: "Redesign of complex interfaces to reduce churn and maximize adoption in SaaS platforms.",
+            icon: Video,
+            size: "small",
+            image: "/assets/service-photos/video-editing.webp",
+          },
+          {
+            title: "Capital Narratives",
+            desc: "We design the visual story (Pitch Decks) for your next funding round. Impress VCs and angel investors.",
+            icon: MessageSquare,
+            size: "medium",
+            image: "/assets/service-photos/communication-pitch-decks.webp",
+          },
+        ],
+      };
 
   return (
-    <section className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
-      {/* ambient glow (soft, no hard cuts) */}
-      <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/12 blur-[120px] z-0" />
-      <div className="pointer-events-none absolute -bottom-36 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/8 blur-[130px] z-0" />
-      {/* subtle texture + blend */}
-      <div className="pointer-events-none absolute inset-0 opacity-[0.35] z-[1] bg-[radial-gradient(circle_at_30%_20%,rgba(180,84,255,0.12),transparent_55%)]" />
-      {/* edge fades to blend with adjacent sections */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-[linear-gradient(to_bottom,#0D0D0D,transparent)] z-[2]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(to_top,#0D0D0D,transparent)] z-[2]" />
+    <ClientOnly>
+      <section id="servicios" className="py-20 sm:py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
+        <div className="pointer-events-none absolute -top-32 -left-28 h-96 w-96 rounded-full bg-[#B454FF]/12 blur-[120px] z-0" />
+        <div className="pointer-events-none absolute -bottom-36 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/8 blur-[130px] z-0" />
+        <div className="pointer-events-none absolute inset-0 opacity-[0.35] z-[1] bg-[radial-gradient(circle_at_30%_20%,rgba(180,84,255,0.12),transparent_55%)]" />
 
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24">
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
-            {copy.badge}
+        <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 text-center md:text-left">
+          <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24 mx-auto md:mx-0">
+            <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
+              {copy.badge}
+            </div>
+            <h2 className="mb-6">
+              {copy.titleTop.toUpperCase()} <br />
+              <span className="text-[#B454FF]">{copy.titleBottom.toUpperCase().replace(/\.$/, "")}</span>
+            </h2>
+            <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed px-4 md:px-0">
+              {copy.sub}
+            </p>
           </div>
-          <h2 className="mb-6">
-            {copy.titleTop.toUpperCase()} <br />
-            <span className="text-[#B454FF]">{copy.titleBottom.toUpperCase().replace(/\.$/, "")}</span>
-          </h2>
-          <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed">
-            {copy.sub}
-          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 sm:gap-6">
+            {copy.cards.map((card, i) => {
+              const Icon = card.icon;
+              const isLarge = card.size === "large";
+              const isMedium = card.size === "medium";
+              
+              return (
+                <motion.article
+                  key={i}
+                  whileHover={{ y: -5 }}
+                  className={`
+                    bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 md:p-10 
+                    flex flex-col justify-between group relative overflow-hidden backdrop-blur-xl 
+                    hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-all duration-300
+                    ${isLarge ? "md:col-span-2 md:row-span-2 min-h-[450px]" : ""}
+                    ${isMedium ? "md:col-span-2 min-h-[300px]" : "min-h-[300px]"}
+                  `}
+                >
+                  <div aria-hidden className="pointer-events-none absolute inset-0">
+                    <ImageWithSkeleton
+                      src={card.image}
+                      alt=""
+                      width={800}
+                      height={450}
+                      containerClassName="h-full w-full"
+                      skeletonClassName="bg-white/10"
+                      className="h-full w-full object-cover opacity-[0.14] transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] via-transparent to-transparent opacity-60" />
+                  </div>
+
+                  <div className="relative z-10 mb-8">
+                    <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/10 group-hover:border-[#B454FF]/30">
+                      <Icon className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                    </div>
+                  </div>
+
+                  <div className="relative z-10">
+                    <h3 className={`${isLarge ? "text-3xl md:text-4xl" : "text-xl md:text-2xl"} font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter`}>
+                      {card.title}
+                    </h3>
+                    <p className={`text-[#F5F5F5]/70 font-medium ${isLarge ? "text-lg md:text-xl" : "text-sm md:text-base"} leading-relaxed max-w-sm`}>
+                      {card.desc}
+                    </p>
+                  </div>
+                </motion.article>
+              );
+            })}
+          </div>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
-          {/* Bloque 1: Branding */}
-          <article className="md:col-span-2 contents">
-          <motion.div
-            whileHover={{ y: -5 }}
-            className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-all duration-300"
-          >
-            <div aria-hidden className="pointer-events-none absolute inset-0">
-              <ImageWithSkeleton
-                src="/assets/service-photos/brand-identity.webp"
-                alt=""
-                width={800}
-                height={450}
-                containerClassName="h-full w-full"
-                skeletonClassName="bg-white/10"
-                className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative z-10 mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                <Palette className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-              </div>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
-                {copy.cards.brandingTitle}
-              </h3>
-              <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
-                {copy.cards.brandingDesc}
-              </p>
-            </div>
-          </motion.div>
-          </article>
-
-          {/* Bloque 2: Digital */}
-          <article className="contents">
-          <motion.div
-            whileHover={{ y: -5 }}
-            className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-all duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
-          >
-            <div aria-hidden className="pointer-events-none absolute inset-0">
-              <ImageWithSkeleton
-                src="/assets/service-photos/digital-uxui.webp"
-                alt=""
-                width={600}
-                height={400}
-                containerClassName="h-full w-full"
-                skeletonClassName="bg-white/10"
-                className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative z-10 mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#B454FF]/12 border border-[#B454FF]/22 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-[#B454FF]/16 group-hover:border-[#B454FF]/30">
-                <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-              </div>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">{copy.cards.digitalTitle}</h3>
-              <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
-                {copy.cards.digitalDesc}
-              </p>
-            </div>
-          </motion.div>
-          </article>
-
-          {/* Bloque 3: Multimedia */}
-          <article className="contents">
-          <motion.div
-            whileHover={{ y: -5 }}
-            className="bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] relative overflow-hidden backdrop-blur-xl transition-all duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
-          >
-            <div aria-hidden className="pointer-events-none absolute inset-0">
-              <ImageWithSkeleton
-                src="/assets/service-photos/video-editing.webp"
-                alt=""
-                width={600}
-                height={400}
-                containerClassName="h-full w-full"
-                skeletonClassName="bg-white/10"
-                className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative z-10 mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-              </div>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-2xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">{copy.cards.multimediaTitle}</h3>
-              <p className="text-[#F5F5F5]/70 font-medium text-lg leading-relaxed">
-                {copy.cards.multimediaDesc}
-              </p>
-            </div>
-          </motion.div>
-          </article>
-
-          {/* Bloque 4: Estrategia/Content Strategy */}
-          <article className="md:col-span-2 contents">
-          <motion.div
-            whileHover={{ y: -5 }}
-            className="md:col-span-2 bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 sm:p-10 md:p-12 flex flex-col justify-between group min-h-[300px] md:min-h-[400px] relative overflow-hidden backdrop-blur-xl transition-all duration-300 hover:border-[#B454FF]/35 hover:bg-white/[0.06]"
-          >
-            <div aria-hidden className="pointer-events-none absolute inset-0">
-              <ImageWithSkeleton
-                src="/assets/service-photos/communication-pitch-decks.webp"
-                alt=""
-                width={800}
-                height={450}
-                containerClassName="h-full w-full"
-                skeletonClassName="bg-white/10"
-                className="h-full w-full object-cover opacity-[0.16] transition-transform duration-700 group-hover:scale-110"
-              />
-            </div>
-            <div className="relative z-10 mb-8">
-              <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
-              </div>
-            </div>
-            <div className="relative z-10">
-              <h3 className="text-3xl md:text-4xl font-black text-[#F5F5F5] mb-4 uppercase tracking-tighter">
-                {copy.cards.commsTitle}
-              </h3>
-              <p className="text-[#F5F5F5]/70 font-medium text-lg md:text-xl max-w-md leading-relaxed">
-                {copy.cards.commsDesc}
-              </p>
-            </div>
-          </motion.div>
-          </article>
-        </div>
-      </div>
-    </section>
+      </section>
+    </ClientOnly>
   );
 };
 
