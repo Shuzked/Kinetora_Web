@@ -1,17 +1,27 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import { useIsMounted } from "@/hooks/use-is-mounted";
+import React, { useEffect, useRef, useState } from "react";
 
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const isMounted = useIsMounted();
+  const [isMobile, setIsMobile] = useState(false);
 
-  // ⚡ MOBILE KILL SWITCH: Bloqueo absoluto antes de instanciar cualquier Hook o Canvas.
-  // Evita el TBT en móvil al no procesar absolutamente nada de JS de animación.
-  if (typeof window !== 'undefined' && window.innerWidth < 768) {
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+    const cb = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', cb, { passive: true });
+    return () => window.removeEventListener('resize', cb);
+  }, []);
+
+  // ⚡ MOBILE KILL SWITCH: Bloqueo absoluto para no ejecutar lógica
+  if (isMounted && isMobile) {
     return null;
   }
 
   useEffect(() => {
+    if (!isMounted || isMobile) return;
 
 
     const canvas = canvasRef.current;

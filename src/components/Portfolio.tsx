@@ -78,11 +78,14 @@ const Portfolio = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-             <Link to="/casos" className="shrink-0 w-full sm:w-auto">
-              <PremiumButton variant="glass" size="md" className="w-full sm:w-auto h-12 px-8">
-                {ui.viewAll.toUpperCase()}
-              </PremiumButton>
-            </Link>
+            <PremiumButton 
+              variant="glass" 
+              size="md" 
+              className="shrink-0 w-full sm:w-auto h-12 px-8"
+              onClick={() => navigate('/casos')}
+            >
+              {ui.viewAll.toUpperCase()}
+            </PremiumButton>
             
             {/* Controls */}
             <div className="flex gap-3">

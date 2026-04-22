@@ -84,11 +84,25 @@ const Navbar = () => {
         {/* Right: Flag + Button */}
         <div className="flex-1 flex items-center justify-end gap-2.5 md:gap-6 min-w-0">
           <LanguageSwitcher hideOnSmall />
-          <Link to="/#contacto" className="shrink-0 hidden md:inline-flex">
-            <PremiumButton variant="primary" size="md" className="leading-none">
-              {t("nav.start").toUpperCase()}
-            </PremiumButton>
-          </Link>
+          <PremiumButton 
+            variant="primary" 
+            size="md" 
+            className="shrink-0 hidden md:inline-flex leading-none"
+            onClick={() => {
+              const el = document.getElementById('contacto');
+              if (el) {
+                const nav = document.querySelector('nav');
+                const offset = (nav?.offsetHeight || 0) + 16;
+                const rect = el.getBoundingClientRect();
+                const y = rect.top + window.scrollY - offset;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+              } else {
+                window.location.href = '/#contacto';
+              }
+            }}
+          >
+            {t("nav.start").toUpperCase()}
+          </PremiumButton>
 
           <div className="md:hidden">
             <Sheet>

@@ -62,11 +62,21 @@ const CaseStudyMoreResults = ({
         </div>
         
         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-          <Link to="/casos" className="shrink-0 w-full sm:w-auto">
-            <PremiumButton variant="glass" size="md" className="w-full sm:w-auto h-12 px-8">
-              {viewAllLabel.toUpperCase()}
-            </PremiumButton>
-          </Link>
+          <PremiumButton 
+            variant="glass" 
+            size="md" 
+            className="shrink-0 w-full sm:w-auto h-12 px-8"
+            onClick={() => {
+              // using window.location instead of useNavigate to avoid adding hooks if unnecessary, 
+              // but react-router-dom Link was used before. Wait, I can just use navigate.
+              // Actually I'll just use the onNavigate prop if we can, or just window.location since it goes to /casos.
+              // Let's use useNavigate. Actually, I didn't add useNavigate to the top yet in this replacement.
+              // Wait, I can just use window.location.href = '/casos' for simplicity.
+              window.location.href = '/casos';
+            }}
+          >
+            {viewAllLabel.toUpperCase()}
+          </PremiumButton>
           
           <div className="flex gap-3">
             <button 
