@@ -1,8 +1,8 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { motion } from "framer-motion";
 import { Palette, Globe, Video, MessageSquare } from "lucide-react";
-import { u as useI18n } from "./entry-server.T-vtzQxy.js";
-import { I as ImageWithSkeleton } from "./ImageWithSkeleton.DVud-nIo.js";
+import { u as useI18n, C as ClientOnly } from "./entry-server.Dn9wYq1J.js";
+import { I as ImageWithSkeleton } from "./ImageWithSkeleton.C4aDNAVf.js";
 import "react";
 import "react-dom/server";
 import "react-router-dom/server.mjs";

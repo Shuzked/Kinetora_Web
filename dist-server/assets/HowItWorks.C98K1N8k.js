@@ -1,6 +1,6 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { motion } from "framer-motion";
-import { u as useI18n, C as ClientOnly } from "./entry-server.T-vtzQxy.js";
+import { u as useI18n, C as ClientOnly } from "./entry-server.Dn9wYq1J.js";
 import { Search, Settings, Zap, BarChart3 } from "lucide-react";
 import "react";
 import "react-dom/server";

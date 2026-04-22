@@ -2526,16 +2526,16 @@ const seoDefaults = {
 function getSeoDefaults(lang = "es") {
   return seoDefaults[lang];
 }
-const HowItWorks = React__default.lazy(() => import("./HowItWorks.76CqAKeG.js"));
-const Services = React__default.lazy(() => import("./Services.BWlHTtmK.js"));
-const Portfolio = React__default.lazy(() => import("./Portfolio.BI_qHC5n.js"));
-const Testimonials = React__default.lazy(() => import("./Testimonials.Bjpk2v-2.js"));
-const Contact = React__default.lazy(() => import("./Contact.CmoeX1uX.js"));
-const FAQ = React__default.lazy(() => import("./FAQ.BuGJG53l.js"));
-const Footer = React__default.lazy(() => import("./Footer.zXA0MqPb.js"));
+const HowItWorks = React__default.lazy(() => import("./HowItWorks.C98K1N8k.js"));
+const Services = React__default.lazy(() => import("./Services.C8g7MKuX.js"));
+const Portfolio = React__default.lazy(() => import("./Portfolio.BiFJrfXS.js"));
+const Testimonials = React__default.lazy(() => import("./Testimonials.CDKC7loM.js"));
+const Contact = React__default.lazy(() => import("./Contact.ZiXYMybX.js"));
+const FAQ = React__default.lazy(() => import("./FAQ.C1h8Sdc3.js"));
+const Footer = React__default.lazy(() => import("./Footer.B9ATaZAf.js"));
 const FloatingCTA = React__default.lazy(() => import("./FloatingCTA.RXAbL0gB.js"));
 React__default.lazy(() => import("./StackingSection.KX6lWicT.js"));
-const PricingSection = React__default.lazy(() => import("./Pricing.DB-zorn5.js"));
+const PricingSection = React__default.lazy(() => import("./Pricing.CliI2OF5.js"));
 const SafeLazyLoad = ({ children, height = "400px" }) => {
   if (typeof window === "undefined") {
     return /* @__PURE__ */ jsx(React__default.Suspense, { fallback: null, children });
@@ -3280,19 +3280,19 @@ const CustomCursor = () => {
     createPortal(cursorContent, document.body)
   ] });
 };
-const Cases = lazy(() => import("./Cases.KMHB_W9D.js"));
-const CaseStudyPost = lazy(() => import("./CaseStudyPost.kwOMyaj_.js"));
-const NotFound = lazy(() => import("./NotFound.Bvc0-IaZ.js"));
-const LegalNotice = lazy(() => import("./LegalNotice.BzzIH6zW.js"));
-const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.J8g80jlf.js"));
-const CookiesPolicy = lazy(() => import("./CookiesPolicy.B48sEHl1.js"));
-const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.DeAPQo7R.js"));
-const PortalDashboard = lazy(() => import("./PortalDashboard.Bu9ehroU.js"));
-const PortalLogin = lazy(() => import("./PortalLogin.C4lf6XTZ.js"));
+const Cases = lazy(() => import("./Cases.B-b9ZETF.js"));
+const CaseStudyPost = lazy(() => import("./CaseStudyPost.C1NYrkSM.js"));
+const NotFound = lazy(() => import("./NotFound.CpDlPMeP.js"));
+const LegalNotice = lazy(() => import("./LegalNotice.Bqm0Fqj1.js"));
+const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.CQ2ca0Ax.js"));
+const CookiesPolicy = lazy(() => import("./CookiesPolicy.BPb7DUC4.js"));
+const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.BfbtNX5z.js"));
+const PortalDashboard = lazy(() => import("./PortalDashboard.DtPTzi7o.js"));
+const PortalLogin = lazy(() => import("./PortalLogin.BJWe1MVv.js"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute.D_-QwoJ1.js"));
-const PortalLayout = lazy(() => import("./PortalLayout.nALMVVM6.js"));
-const BillingView = lazy(() => import("./BillingView.DYA4ldpP.js"));
-const Deliverables = lazy(() => import("./Deliverables.C1t_i18V.js"));
+const PortalLayout = lazy(() => import("./PortalLayout.BPlbmty0.js"));
+const BillingView = lazy(() => import("./BillingView.Lj5L26v4.js"));
+const Deliverables = lazy(() => import("./Deliverables.jQLtfVFd.js"));
 const queryClient = new QueryClient();
 const App = ({ serverLang }) => {
   const isMobile = useIsMobile();

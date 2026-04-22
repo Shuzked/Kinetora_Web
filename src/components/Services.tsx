@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Palette, Globe, Video, MessageSquare } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
+import ClientOnly from '@/components/ClientOnly';
 
 const Services = () => {
   const { lang } = useI18n();

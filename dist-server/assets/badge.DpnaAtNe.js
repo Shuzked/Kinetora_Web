@@ -1,6 +1,6 @@
 import { jsx } from "react/jsx-runtime";
 import { cva } from "class-variance-authority";
-import { d as cn } from "./entry-server.T-vtzQxy.js";
+import { d as cn } from "./entry-server.Dn9wYq1J.js";
 const badgeVariants = cva(
   "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
