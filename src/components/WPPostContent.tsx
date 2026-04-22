@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 
 function enhanceMedia(html: string) {
   if (typeof window === "undefined") return html;
