@@ -145,23 +145,28 @@ const Testimonials = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    let lastTime = 0;
-    const speed = 60; // Pixeles por segundo
+    let lastTime = performance.now();
+    const speed = 45; // Pixeles por segundo - ajustado para suavidad premium
 
     const animate = (time: number) => {
       if (!lastTime) lastTime = time;
-      const deltaTime = (time - lastTime) / 1000;
+      const deltaTime = Math.min((time - lastTime) / 1000, 0.1); // Cap para evitar saltos bruscos
       lastTime = time;
 
-      // El movimiento solo ocurre si NO se está pausado por hover Y NO se está moviendo manualmente
       if (!isPausedRef.current && !isDownRef.current) {
         scrollLeftRef.current += speed * deltaTime;
         
-        const originalWidth = container.scrollWidth / 2;
+        const scrollWidth = container.scrollWidth;
+        const originalWidth = scrollWidth / 2;
+
         if (scrollLeftRef.current >= originalWidth) {
           scrollLeftRef.current -= originalWidth;
         }
         
+        if (scrollLeftRef.current < 0) {
+          scrollLeftRef.current += originalWidth;
+        }
+
         container.scrollLeft = scrollLeftRef.current;
       }
 
