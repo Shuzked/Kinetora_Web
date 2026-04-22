@@ -26,6 +26,7 @@ const Navbar = () => {
     { name: t("nav.method"), href: "#como-funciona" },
     // Éxitos: scroll suave al bloque de casos en la home
     { name: t("nav.successes"), href: "#casos" },
+    { name: t("nav.about"), to: "/sobre" },
     { name: t("nav.plans"), href: "#precios" },
     { name: t("nav.contact"), href: "#contacto" },
   ];
@@ -66,16 +67,27 @@ const Navbar = () => {
           aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}
         >
           {navLinks.map((link) => {
-            const isActive = activeId === link.href.replace('#', '');
+            const isActive = link.href ? activeId === link.href.replace('#', '') : window.location.pathname === link.to;
+            
             return (
               <span key={link.name} className="relative">
-                <SmoothScrollLink
-                  href={link.href}
-                  aria-current={isActive ? "true" : undefined}
-                  className={`transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded px-1 -mx-1 ${isActive ? 'text-[#B454FF]' : ''}`}
-                >
-                  {link.name}
-                </SmoothScrollLink>
+                {link.href ? (
+                  <SmoothScrollLink
+                    href={link.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={`transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded px-1 -mx-1 ${isActive ? 'text-[#B454FF]' : ''}`}
+                  >
+                    {link.name}
+                  </SmoothScrollLink>
+                ) : (
+                  <Link
+                    to={link.to!}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded px-1 -mx-1 ${isActive ? 'text-[#B454FF]' : ''}`}
+                  >
+                    {link.name}
+                  </Link>
+                )}
               </span>
             );
           })}
@@ -124,13 +136,23 @@ const Navbar = () => {
               >
                 <div className="flex flex-col gap-8 mt-12">
                   {navLinks.map((link) => (
-                    <SmoothScrollLink
-                      key={link.name}
-                      href={link.href}
-                      className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded py-3 px-2 -mx-2 flex items-center kin-touch-target"
-                    >
-                      {link.name}
-                    </SmoothScrollLink>
+                    link.href ? (
+                      <SmoothScrollLink
+                        key={link.name}
+                        href={link.href}
+                        className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded py-3 px-2 -mx-2 flex items-center kin-touch-target"
+                      >
+                        {link.name}
+                      </SmoothScrollLink>
+                    ) : (
+                      <Link
+                        key={link.name}
+                        to={link.to!}
+                        className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded py-3 px-2 -mx-2 flex items-center kin-touch-target"
+                      >
+                        {link.name}
+                      </Link>
+                    )
                   ))}
                   <LanguagePills />
                 </div>
