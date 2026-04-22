@@ -2,7 +2,7 @@ import { jsx, jsxs } from "react/jsx-runtime";
 import { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-import { u as useI18n, h as SafeHydration, f as RevealText, M as MouseParallax } from "./entry-server.C4bir1NN.js";
+import { u as useI18n, C as ClientOnly, f as RevealText, M as MouseParallax } from "./entry-server.3RePvTPK.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
 import "stream";
@@ -195,7 +195,7 @@ const Testimonials = () => {
     isDownRef.current = false;
     isPausedRef.current = false;
   };
-  return /* @__PURE__ */ jsx(SafeHydration, { name: "Testimonials", children: /* @__PURE__ */ jsx("section", { className: "kin-section relative overflow-hidden pointer-events-auto", children: /* @__PURE__ */ jsxs("div", { className: "kin-container pointer-events-auto", children: [
+  return /* @__PURE__ */ jsx(ClientOnly, { children: /* @__PURE__ */ jsx("section", { className: "kin-section relative overflow-hidden pointer-events-auto", children: /* @__PURE__ */ jsxs("div", { className: "kin-container pointer-events-auto", children: [
     /* @__PURE__ */ jsxs("div", { className: "text-center mb-12 lg:mb-20 pointer-events-none", children: [
       /* @__PURE__ */ jsxs("h2", { className: "mb-4 sm:mb-6", children: [
         /* @__PURE__ */ jsx(RevealText, { text: copy.titleA.toUpperCase() + " " }),

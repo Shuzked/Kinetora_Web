@@ -1,16 +1,16 @@
-import { jsx, jsxs, Fragment } from "react/jsx-runtime";
+import { jsx, jsxs } from "react/jsx-runtime";
 import React__default, { useRef } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
-import { P as PremiumButton, u as useI18n, S as SEO, N as Navbar, R as Reveal, g as getSeoDefaults } from "./entry-server.C4bir1NN.js";
-import Footer from "./Footer.Cn-AZObR.js";
+import { useParams, useNavigate } from "react-router-dom";
+import { C as ClientOnly, P as PremiumButton, u as useI18n, S as SEO, N as Navbar, R as Reveal, g as getSeoDefaults } from "./entry-server.3RePvTPK.js";
+import Footer from "./Footer.CcBV7TZp.js";
 import "clsx";
-import { S as Skeleton } from "./ImageWithSkeleton.FpXhh29V.js";
+import { S as Skeleton } from "./ImageWithSkeleton.BbLjeJCV.js";
 import DOMPurify from "dompurify";
-import { D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription } from "./dialog.CwRqNP8u.js";
+import { D as Dialog, a as DialogContent, b as DialogTitle, c as DialogDescription } from "./dialog.DOBCOkxM.js";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { P as PortfolioCard } from "./PortfolioCard.TEwpHHEq.js";
+import { P as PortfolioCard } from "./PortfolioCard.D-l-D5LK.js";
 import { u as useEqualizeHeights, c as caseStudies } from "./use-equalize.DQ81Eq-z.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -28,12 +28,12 @@ import "@radix-ui/react-dropdown-menu";
 import "framer-motion";
 import "lenis";
 import "react-dom";
-import "./input.BccdgVhc.js";
+import "./input.C3ADBpBF.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.DTQ9oYCO.js";
+import "./label.D4JuFzYd.js";
 import "@radix-ui/react-label";
-import "./checkbox.DP7XHQkW.js";
+import "./checkbox.BI_jaMwH.js";
 import "@radix-ui/react-checkbox";
 function enhanceMedia(html) {
   if (typeof window === "undefined") return html;
@@ -121,7 +121,7 @@ const MediaLightbox = ({ html, className }) => {
       setOpen(true);
     }
   }, []);
-  return /* @__PURE__ */ jsxs(Fragment, { children: [
+  return /* @__PURE__ */ jsxs(ClientOnly, { children: [
     /* @__PURE__ */ jsx(
       "div",
       {
@@ -1020,7 +1020,16 @@ const CaseStudyPost = () => {
       /* @__PURE__ */ jsx("div", { className: "pointer-events-none absolute -top-28 -right-28 h-[28rem] w-[28rem] rounded-full bg-[#B454FF]/10 blur-[120px]" }),
       /* @__PURE__ */ jsx("div", { className: "pointer-events-none absolute -bottom-44 -left-44 h-[32rem] w-[32rem] rounded-full bg-[#33C3F0]/[0.07] blur-[140px]" }),
       /* @__PURE__ */ jsx("div", { className: "mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 sm:py-14 lg:py-16", children: /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-7", children: [
-        /* @__PURE__ */ jsx("div", { className: "flex items-center justify-between gap-4", children: /* @__PURE__ */ jsx(Link, { to: "/casos", className: "inline-flex", children: /* @__PURE__ */ jsx(PremiumButton, { variant: "glass", size: "sm", className: "h-11 rounded-full", children: ui.back.toUpperCase() }) }) }),
+        /* @__PURE__ */ jsx("div", { className: "flex items-center justify-between gap-4", children: /* @__PURE__ */ jsx(
+          PremiumButton,
+          {
+            variant: "glass",
+            size: "sm",
+            className: "h-11 rounded-full",
+            onClick: () => navigate("/casos"),
+            children: ui.back.toUpperCase()
+          }
+        ) }),
         /* @__PURE__ */ jsxs("div", { className: "max-w-4xl mx-auto text-center", children: [
           /* @__PURE__ */ jsx(Reveal, { children: /* @__PURE__ */ jsx("div", { className: "inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80", children: caseTag }) }),
           /* @__PURE__ */ jsx(Reveal, { as: "h1", className: "mt-5 text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter uppercase", children: title })
@@ -1059,7 +1068,23 @@ const CaseStudyPost = () => {
           /* @__PURE__ */ jsxs("div", { className: "rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8", children: [
             /* @__PURE__ */ jsx("div", { className: "text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60", children: ui.readyTitle }),
             /* @__PURE__ */ jsx("p", { className: "mt-3 text-sm sm:text-base text-[#F5F5F5]/75 leading-relaxed max-w-2xl", children: ui.readyBody }),
-            /* @__PURE__ */ jsx(Link, { to: "/#contacto", className: "inline-flex mt-5", children: /* @__PURE__ */ jsx(PremiumButton, { variant: "primary", size: "md", className: "w-full sm:w-auto", children: ui.letsTalk.toUpperCase() }) })
+            /* @__PURE__ */ jsx(
+              PremiumButton,
+              {
+                variant: "primary",
+                size: "md",
+                className: "w-full sm:w-auto mt-5",
+                onClick: () => {
+                  const el = document.getElementById("contacto");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    navigate("/#contacto");
+                  }
+                },
+                children: ui.letsTalk.toUpperCase()
+              }
+            )
           ] }),
           /* @__PURE__ */ jsx(
             CaseStudyMoreResults,

@@ -1,9 +1,6 @@
-var __defProp = Object.defineProperty;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 import { jsx, jsxs, Fragment } from "react/jsx-runtime";
 import * as React from "react";
-import React__default, { useState, useEffect, createContext, useContext, useMemo, useRef, Component, useCallback, lazy, Suspense } from "react";
+import React__default, { useState, useEffect, createContext, useContext, useMemo, useRef, useCallback, lazy, Suspense } from "react";
 import { renderToPipeableStream } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server.mjs";
 import { Transform } from "stream";
@@ -1009,8 +1006,16 @@ const STORAGE_KEY$1 = "kinetora.lang";
 function getInitialLang() {
   if (typeof window === "undefined") return "en";
   const serverLang = window.__KINETORA_LANG__;
-  if (serverLang === "es" || serverLang === "en") {
-    return serverLang;
+  if (serverLang === "es" || serverLang === "en") return serverLang;
+  const docLang = document.documentElement.getAttribute("lang");
+  if (docLang === "es" || docLang === "en") return docLang;
+  const hostname = window.location.hostname;
+  if (hostname.endsWith(".es")) return "es";
+  if (hostname.endsWith(".tech")) return "en";
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY$1);
+    if (stored === "es" || stored === "en") return stored;
+  } catch {
   }
   return "en";
 }
@@ -1034,20 +1039,6 @@ const I18nProvider = ({ children, serverLang }) => {
   useEffect(() => {
     setIsHydrated(true);
     document.documentElement.lang = lang;
-    if (!serverLang) {
-      const stored = window.localStorage.getItem(STORAGE_KEY$1);
-      if (stored === "es" || stored === "en") {
-        setLangState(stored);
-      } else {
-        const hostname = window.location.hostname;
-        if (hostname.endsWith(".es")) setLangState("es");
-        else if (hostname.endsWith(".tech")) setLangState("en");
-        else {
-          const nav = navigator.language;
-          if (nav.toLowerCase().startsWith("es")) setLangState("es");
-        }
-      }
-    }
   }, []);
   useEffect(() => {
     if (isHydrated) {
@@ -1466,6 +1457,16 @@ const ScrollParallax = ({ children, speed = 0.1, className = "", invert = false,
     }
   );
 };
+const ClientOnly = ({ children, fallback = null }) => {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if (!isMounted) {
+    return /* @__PURE__ */ jsx(Fragment, { children: fallback });
+  }
+  return /* @__PURE__ */ jsx(Fragment, { children });
+};
 const Starfield = () => {
   const canvasRef = useRef(null);
   const isMounted = useIsMounted();
@@ -1630,7 +1631,7 @@ const Starfield = () => {
       };
     }
   }, []);
-  return /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsx(ClientOnly, { children: /* @__PURE__ */ jsx(
     "canvas",
     {
       ref: canvasRef,
@@ -1638,7 +1639,7 @@ const Starfield = () => {
       style: { mixBlendMode: "screen" },
       "aria-hidden": "true"
     }
-  );
+  ) });
 };
 const MOBILE_BREAKPOINT = 768;
 function useIsMobile() {
@@ -1653,26 +1654,6 @@ function useIsMobile() {
     return () => mql.removeEventListener("change", onChange);
   }, []);
   return isMobile;
-}
-class SafeHydration extends Component {
-  constructor() {
-    super(...arguments);
-    __publicField(this, "state", {
-      hasError: false
-    });
-  }
-  static getDerivedStateFromError(_) {
-    return { hasError: true };
-  }
-  componentDidCatch(error, errorInfo) {
-    console.warn(`[SafeHydration] Component "${this.props.name || "Unknown"}" failed:`, error, errorInfo);
-  }
-  render() {
-    if (this.state.hasError) {
-      return this.props.fallback || null;
-    }
-    return this.props.children;
-  }
 }
 const Hero = () => {
   const { lang } = useI18n();
@@ -1743,7 +1724,7 @@ const Hero = () => {
       className: "hero-section hero-content-protection sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col will-change-transform",
       style: { willChange: "transform" },
       children: [
-        /* @__PURE__ */ jsx(SafeHydration, { name: "HeroBackground", children: /* @__PURE__ */ jsxs(motion.div, { style: { opacity: !isMounted || isMobile ? 1 : opacity }, className: "absolute inset-0 z-0 overflow-hidden", "aria-hidden": "true", children: [
+        /* @__PURE__ */ jsx(ClientOnly, { fallback: /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[#0D0D0D]" }), children: /* @__PURE__ */ jsxs(motion.div, { style: { opacity: !isMounted || isMobile ? 1 : opacity }, className: "absolute inset-0 z-0 overflow-hidden", "aria-hidden": "true", children: [
           /* @__PURE__ */ jsxs(motion.div, { style: !isMounted || isMobile ? {} : { y: yBg }, className: "liquid-bg-container", children: [
             /* @__PURE__ */ jsx("div", { className: `liquid-blob blob-purple ${!isMounted || isMobile ? "scale-75 opacity-40" : ""}` }),
             /* @__PURE__ */ jsx("div", { className: `liquid-blob blob-blue ${!isMounted || isMobile ? "scale-75 opacity-40" : ""}` }),
@@ -1751,7 +1732,7 @@ const Hero = () => {
           ] }),
           /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/55 md:bg-black/45" }),
           /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_35%,rgba(13,13,13,0.85)_100%)]" }),
-          (!isMounted || !isMobile) && /* @__PURE__ */ jsx(SafeHydration, { name: "Starfield", fallback: /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-black/20" }), children: /* @__PURE__ */ jsx(Starfield, {}) })
+          (!isMounted || !isMobile) && /* @__PURE__ */ jsx(Starfield, {})
         ] }) }),
         /* @__PURE__ */ jsx(
           motion.div,
@@ -2009,7 +1990,7 @@ const Brands = () => {
             className: "text-[10px] font-bold text-[#F5F5F5]/75 uppercase tracking-[0.4em]"
           }
         ) }) }),
-        /* @__PURE__ */ jsx("div", { className: "relative overflow-hidden", children: /* @__PURE__ */ jsx("div", { className: "relative h-12 sm:h-14", "data-animate": "always", ref: wrapperRef, children: /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsx(ClientOnly, { children: /* @__PURE__ */ jsx("div", { className: "relative overflow-hidden", children: /* @__PURE__ */ jsx("div", { className: "relative h-12 sm:h-14", "data-animate": "always", ref: wrapperRef, children: /* @__PURE__ */ jsx(
           "div",
           {
             ref: trackRef,
@@ -2040,7 +2021,7 @@ const Brands = () => {
               `brand-${i}-${brand.name}`
             ))
           }
-        ) }) })
+        ) }) }) })
       ]
     }
   );
@@ -2545,16 +2526,16 @@ const seoDefaults = {
 function getSeoDefaults(lang = "es") {
   return seoDefaults[lang];
 }
-const HowItWorks = React__default.lazy(() => import("./HowItWorks.Bq2HlJah.js"));
-const Services = React__default.lazy(() => import("./Services.nTprGzb7.js"));
-const Portfolio = React__default.lazy(() => import("./Portfolio.DEkKlUiD.js"));
-const Testimonials = React__default.lazy(() => import("./Testimonials.B-zyYPfX.js"));
-const Contact = React__default.lazy(() => import("./Contact.Iqs2Kh-o.js"));
-const FAQ = React__default.lazy(() => import("./FAQ.DuuDQeO6.js"));
-const Footer = React__default.lazy(() => import("./Footer.Cn-AZObR.js"));
+const HowItWorks = React__default.lazy(() => import("./HowItWorks.LTyvgobj.js"));
+const Services = React__default.lazy(() => import("./Services.Big-32ez.js"));
+const Portfolio = React__default.lazy(() => import("./Portfolio.Cs2BvrHa.js"));
+const Testimonials = React__default.lazy(() => import("./Testimonials.DZA80cqy.js"));
+const Contact = React__default.lazy(() => import("./Contact.BMYn4MeU.js"));
+const FAQ = React__default.lazy(() => import("./FAQ.By3kdIE3.js"));
+const Footer = React__default.lazy(() => import("./Footer.CcBV7TZp.js"));
 const FloatingCTA = React__default.lazy(() => import("./FloatingCTA.RXAbL0gB.js"));
 React__default.lazy(() => import("./StackingSection.KX6lWicT.js"));
-const PricingSection = React__default.lazy(() => import("./Pricing.D4Rpr2lv.js"));
+const PricingSection = React__default.lazy(() => import("./Pricing.bTNBUZRh.js"));
 const SafeLazyLoad = ({ children, height = "400px" }) => {
   if (typeof window === "undefined") {
     return /* @__PURE__ */ jsx(React__default.Suspense, { fallback: null, children });
@@ -3299,19 +3280,19 @@ const CustomCursor = () => {
     createPortal(cursorContent, document.body)
   ] });
 };
-const Cases = lazy(() => import("./Cases.BnHjmapS.js"));
-const CaseStudyPost = lazy(() => import("./CaseStudyPost.CoD3Mwmi.js"));
-const NotFound = lazy(() => import("./NotFound.54ThQkWx.js"));
-const LegalNotice = lazy(() => import("./LegalNotice.Jnt_dxKW.js"));
-const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.CMZN3aNn.js"));
-const CookiesPolicy = lazy(() => import("./CookiesPolicy.BOLCw4yI.js"));
-const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.BtCfteR3.js"));
-const PortalDashboard = lazy(() => import("./PortalDashboard.CnXc6SE3.js"));
-const PortalLogin = lazy(() => import("./PortalLogin.YaloFmht.js"));
+const Cases = lazy(() => import("./Cases.CnMh2tfb.js"));
+const CaseStudyPost = lazy(() => import("./CaseStudyPost.Z6-OKB7T.js"));
+const NotFound = lazy(() => import("./NotFound.D7za-YjR.js"));
+const LegalNotice = lazy(() => import("./LegalNotice.T7awa3X4.js"));
+const PrivacyPolicy = lazy(() => import("./PrivacyPolicy.LeyzyLjY.js"));
+const CookiesPolicy = lazy(() => import("./CookiesPolicy.DZiJDEWQ.js"));
+const SocialPrivacyPolicy = lazy(() => import("./SocialPrivacyPolicy.CHQ7hK7L.js"));
+const PortalDashboard = lazy(() => import("./PortalDashboard.B0Jg9du8.js"));
+const PortalLogin = lazy(() => import("./PortalLogin.Cv1Yjae9.js"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute.D_-QwoJ1.js"));
-const PortalLayout = lazy(() => import("./PortalLayout.CGC9qHAB.js"));
-const BillingView = lazy(() => import("./BillingView.CWVVWPvz.js"));
-const Deliverables = lazy(() => import("./Deliverables.ClACNPfr.js"));
+const PortalLayout = lazy(() => import("./PortalLayout.Oc1rkJk-.js"));
+const BillingView = lazy(() => import("./BillingView.DP6G5I1Y.js"));
+const Deliverables = lazy(() => import("./Deliverables.DvL90y4L.js"));
 const queryClient = new QueryClient();
 const App = ({ serverLang }) => {
   const isMobile = useIsMobile();
@@ -3379,6 +3360,7 @@ async function render(url, lang) {
 }
 export {
   Button as B,
+  ClientOnly as C,
   DropdownMenu as D,
   Logo as L,
   MouseParallax as M,
@@ -3393,7 +3375,6 @@ export {
   ScrollParallax as e,
   RevealText as f,
   getSeoDefaults as g,
-  SafeHydration as h,
   render,
   showSuccess as s,
   useI18n as u

@@ -3,12 +3,12 @@ import React__default, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import { P as PortfolioCard } from "./PortfolioCard.TEwpHHEq.js";
-import { u as useI18n, f as RevealText, P as PremiumButton } from "./entry-server.C4bir1NN.js";
+import { P as PortfolioCard } from "./PortfolioCard.D-l-D5LK.js";
+import { u as useI18n, f as RevealText, P as PremiumButton, C as ClientOnly } from "./entry-server.3RePvTPK.js";
 import { u as useEqualizeHeights, c as caseStudies } from "./use-equalize.DQ81Eq-z.js";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import "framer-motion";
-import "./ImageWithSkeleton.FpXhh29V.js";
+import "./ImageWithSkeleton.BbLjeJCV.js";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
 import "stream";
@@ -103,7 +103,7 @@ const Portfolio = () => {
             ] })
           ] })
         ] }) }),
-        /* @__PURE__ */ jsxs("div", { className: "kin-container-fluid", children: [
+        /* @__PURE__ */ jsx(ClientOnly, { children: /* @__PURE__ */ jsxs("div", { className: "kin-container-fluid", children: [
           /* @__PURE__ */ jsx("div", { className: "relative py-4", children: /* @__PURE__ */ jsx(
             Swiper,
             {
@@ -154,7 +154,7 @@ const Portfolio = () => {
               i
             );
           }) })
-        ] })
+        ] }) })
       ]
     }
   );

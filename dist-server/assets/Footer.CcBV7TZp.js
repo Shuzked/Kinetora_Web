@@ -1,13 +1,13 @@
 import { jsx, jsxs } from "react/jsx-runtime";
 import { useState } from "react";
-import { u as useI18n, L as Logo, M as MouseParallax, P as PremiumButton, s as showSuccess } from "./entry-server.C4bir1NN.js";
-import { I as Input } from "./input.BccdgVhc.js";
+import { u as useI18n, L as Logo, M as MouseParallax, P as PremiumButton, s as showSuccess } from "./entry-server.3RePvTPK.js";
+import { I as Input } from "./input.C3ADBpBF.js";
 import { Mail } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
 import { FaFacebookF, FaTwitter, FaYoutube, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { motion } from "framer-motion";
-import { L as Label } from "./label.DTQ9oYCO.js";
-import { C as Checkbox } from "./checkbox.DP7XHQkW.js";
+import { L as Label } from "./label.D4JuFzYd.js";
+import { C as Checkbox } from "./checkbox.BI_jaMwH.js";
 import { Link } from "react-router-dom";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -128,7 +128,7 @@ const Footer = () => {
               /* @__PURE__ */ jsx(Logo, { className: "h-6 mb-4" }),
               /* @__PURE__ */ jsxs("p", { className: "text-[#F5F5F5]/80 text-sm mb-3", children: [
                 "© ",
-                (/* @__PURE__ */ new Date()).getFullYear(),
+                /* @__PURE__ */ jsx("span", { suppressHydrationWarning: true, children: (/* @__PURE__ */ new Date()).getFullYear() }),
                 " Kinetora Studio. ",
                 strings.rights
               ] }),

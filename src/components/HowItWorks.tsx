@@ -3,6 +3,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from "@/i18n/I18nProvider";
+import MouseParallax from "@/components/MouseParallax";
+import RevealText from "@/components/ui/RevealText";
+import ScrollParallax from "@/components/ui/ScrollParallax";
 
 const HowItWorks = () => {
   const { lang } = useI18n();
@@ -10,111 +13,114 @@ const HowItWorks = () => {
   const copy =
     lang === "es"
       ? {
-          badge: "El Método",
-          title: "Velocidad de ejecución sin sacrificar la excelencia",
+          title: "Tu nuevo flujo creativo.",
+          titleAccent: "Kickoff y ejecución ágil.",
+          sub:
+            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida. Nos coordinamos por el canal que prefieras (email o chat) y gestionamos tareas en tu herramienta o en ClickUp. Entregas en 48h con revisiones limitadas.",
           steps: [
             {
-              day: "Día 1",
-              title: "Onboarding y Estrategia",
-              desc: "Reunión de kick-off de 45 min. Definimos objetivos, tono y entregables inmediatos. Sin formularios infinitos.",
+              number: "01",
+              title: "Reunión inicial",
+              description:
+                "Agendamos una llamada corta para entender lo que necesitas y el presupuesto disponible.",
             },
             {
-              day: "Día 2-14",
-              title: "Iteración en Vivo",
-              desc: "Recibes avances cada 48h. Comentamos y ajustamos en tiempo real sobre Figma o prototipos funcionales.",
+              number: "02",
+              title: "Suscripción a medida",
+              description:
+                "Te proponemos un plan acorde a tu presupuesto, optimizado para impacto y velocidad.",
             },
             {
-              day: "Día 15+",
-              title: "Escalado y Soporte",
-              desc: "Entrega de activos finales y transición a soporte recurrente. Tu equipo de diseño bajo demanda, siempre listo.",
+              number: "03",
+              title: "Comunicación y tareas",
+              description:
+                "Nos adaptamos al canal que te resulte más cómodo (email o chat) y a tu herramienta de gestión (tu espacio o ClickUp): prioridades, estados y plazos claros.",
+            },
+            {
+              number: "04",
+              title: "Ejecución 48h",
+              description:
+                "Producción continua con entregas en 48h y revisiones limitadas hasta cerrar cada pieza.",
             },
           ],
         }
       : {
-          badge: "The Method",
-          title: "Execution speed without sacrificing excellence",
+          title: "Your new creative workflow.",
+          titleAccent: "Kickoff and fast execution.",
+          sub:
+            "We start with a short meeting to understand goals and budget. We propose a tailored subscription. We coordinate through your preferred channel (email or chat) and manage tasks in your tool or in ClickUp. 48h deliveries with limited revisions.",
           steps: [
             {
-              day: "Day 1",
-              title: "Onboarding & Strategy",
-              desc: "45-min kick-off meeting. We define goals, tone, and immediate deliverables. No infinite forms.",
+              number: "01",
+              title: "Kickoff meeting",
+              description:
+                "A quick call to capture scope, goals and budget so we align from day one.",
             },
             {
-              day: "Day 2-14",
-              title: "Live Iteration",
-              desc: "Receive updates every 48h. We discuss and adjust in real-time over Figma or functional prototypes.",
+              number: "02",
+              title: "Tailored subscription",
+              description:
+                "We propose a plan based on your budget, optimized for impact and speed.",
             },
             {
-              day: "Day 15+",
-              title: "Scaling & Support",
-              desc: "Delivery of final assets and transition to recurring support. Your on-demand design team, always ready.",
+              number: "03",
+              title: "Communication & tasks",
+              description:
+                "We adapt to your preferred channel (email or chat) and your workflow tool (your workspace or ClickUp): clear priorities, statuses and due dates.",
+            },
+            {
+              number: "04",
+              title: "48h execution",
+              description:
+                "Continuous production with 48h turnarounds and limited revisions until done.",
             },
           ],
         };
 
   return (
-    <section id="metodo" className="py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
-      {/* Subtle background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,#B454FF,transparent_70%)] opacity-[0.03]" />
-      </div>
-
-      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <section
+      className="kin-section bg-[#0D0D0D] relative overflow-hidden"
+    >
+      <ScrollParallax speed={0.05} invert={true} className="absolute -bottom-24 -left-24">
+        <div className="pointer-events-none h-72 w-72 rounded-full bg-[#B454FF]/8 blur-[90px]" />
+      </ScrollParallax>
+      <div className="kin-container">
         <div className="text-center mb-16 lg:mb-24">
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[10px] font-black tracking-[0.25em] uppercase text-[#B454FF] mb-6">
-            {copy.badge}
-          </div>
-          <h2 className="text-4xl md:text-6xl font-black text-[#F5F5F5] uppercase tracking-tighter leading-none mb-6">
-            {copy.title}
+          <h2 className="mx-auto">
+            <RevealText text={copy.title.toUpperCase().replace(/\.$/, "")} className="block" />
+            <RevealText 
+              text={copy.titleAccent.toUpperCase().replace(/\.$/, "")} 
+              className="block text-[#B454FF]" 
+              delay={0.2} 
+            />
           </h2>
+          <p className="mt-6 text-[#F5F5F5]/70 max-w-2xl mx-auto leading-relaxed underline-offset-4">
+            {copy.sub}
+          </p>
         </div>
 
-        <div className="relative">
-          {/* Vertical line connector (desktop) */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#B454FF]/0 via-[#B454FF]/20 to-[#B454FF]/0 hidden md:block" />
-
-          <div className="space-y-12 md:space-y-0">
-            {copy.steps.map((step, i) => (
-              <div
-                key={i}
-                className={`relative flex flex-col md:flex-row items-center justify-between group ${
-                  i % 2 === 0 ? "md:flex-row-reverse" : ""
-                } md:min-h-[250px]`}
-              >
-                {/* Content Card */}
-                <motion.div
-                  initial={{ opacity: 0, x: i % 2 === 0 ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: i * 0.1 }}
-                  className="w-full md:w-[45%] rounded-[2rem] border border-white/10 bg-white/[0.03] p-8 md:p-10 backdrop-blur-xl hover:border-[#B454FF]/30 transition-all duration-500 shadow-2xl"
-                >
-                  <div className="text-[#B454FF] text-lg font-black uppercase tracking-widest mb-4">
-                    {step.day}
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-black text-[#F5F5F5] uppercase tracking-tighter mb-4 leading-tight">
-                    {step.title}
-                  </h3>
-                  <p className="text-[#F5F5F5]/60 text-lg leading-relaxed font-medium">
-                    {step.desc}
-                  </p>
-                </motion.div>
-
-                {/* Point on timeline */}
-                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block">
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true }}
-                    className="w-4 h-4 rounded-full bg-[#B454FF] border-4 border-[#0D0D0D] shadow-[0_0_20px_rgba(180,84,255,0.5)]"
-                  />
-                </div>
-
-                {/* Spacer for other side */}
-                <div className="w-[45%] hidden md:block" />
+        <div className="grid sm:grid-cols-2 2xl:grid-cols-4 gap-x-8 gap-y-16">
+          {copy.steps.map((step, i) => (
+            <MouseParallax key={i} intensity={6} rotate={3} className="will-change-transform">
+            <motion.div
+              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.2 }}
+              className="relative group h-full"
+            >
+              <div className="text-7xl font-black text-white/5 absolute -top-10 -left-2 sm:-left-4 group-hover:text-[#B454FF]/10 transition-colors">
+                {step.number}
               </div>
-            ))}
-          </div>
+              <div className="relative z-10 pl-2 sm:pl-0">
+                <h3 className="mb-4 uppercase break-words">
+                  {step.title}
+                </h3>
+                <p className="text-[#F5F5F5]/70 leading-relaxed font-medium">{step.description}</p>
+              </div>
+            </motion.div>
+            </MouseParallax>
+          ))}
         </div>
       </div>
     </section>

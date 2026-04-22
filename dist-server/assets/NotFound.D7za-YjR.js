@@ -1,8 +1,8 @@
 import { jsxs, jsx } from "react/jsx-runtime";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import { u as useI18n, N as Navbar, P as PremiumButton } from "./entry-server.C4bir1NN.js";
-import Footer from "./Footer.Cn-AZObR.js";
+import { u as useI18n, N as Navbar, P as PremiumButton } from "./entry-server.3RePvTPK.js";
+import Footer from "./Footer.CcBV7TZp.js";
 import { motion } from "framer-motion";
 import "react-dom/server";
 import "react-router-dom/server.mjs";
@@ -21,12 +21,12 @@ import "@radix-ui/react-dialog";
 import "@radix-ui/react-dropdown-menu";
 import "lenis";
 import "react-dom";
-import "./input.BccdgVhc.js";
+import "./input.C3ADBpBF.js";
 import "react-icons/si";
 import "react-icons/fa";
-import "./label.DTQ9oYCO.js";
+import "./label.D4JuFzYd.js";
 import "@radix-ui/react-label";
-import "./checkbox.DP7XHQkW.js";
+import "./checkbox.BI_jaMwH.js";
 import "@radix-ui/react-checkbox";
 const NotFound = () => {
   const { lang } = useI18n();
@@ -70,7 +70,16 @@ const NotFound = () => {
               {
                 whileHover: { scale: 1.05 },
                 whileTap: { scale: 0.98 },
-                children: /* @__PURE__ */ jsx(Link, { to: "/", children: /* @__PURE__ */ jsx(PremiumButton, { variant: "primary", size: "lg", className: "min-w-[280px] text-lg font-black tracking-widest shadow-[0_0_30px_rgba(180,84,255,0.2)]", children: copy.back }) })
+                children: /* @__PURE__ */ jsx(
+                  PremiumButton,
+                  {
+                    variant: "primary",
+                    size: "lg",
+                    className: "min-w-[280px] text-lg font-black tracking-widest shadow-[0_0_30px_rgba(180,84,255,0.2)]",
+                    onClick: () => navigate("/"),
+                    children: copy.back
+                  }
+                )
               }
             )
           ]
