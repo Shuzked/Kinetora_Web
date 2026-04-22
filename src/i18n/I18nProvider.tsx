@@ -16,15 +16,30 @@ const STORAGE_KEY = "kinetora.lang";
 function getInitialLang(): Lang {
   if (typeof window === "undefined") return "en";
 
-  // Identificador de SSG/SSR inyectado en index.html
+  // 1. Prioridad: Inyección explícita del SSG/SSR
   const serverLang = (window as any).__KINETORA_LANG__;
-  if (serverLang === "es" || serverLang === "en") {
-    return serverLang as Lang;
+  if (serverLang === "es" || serverLang === "en") return serverLang as Lang;
+
+  // 2. Sincronización determinista: Leer el atributo 'lang' que el servidor ya puso en el HTML
+  // Esto garantiza que el primer renderizado del cliente coincida exactamente con el del servidor
+  const docLang = document.documentElement.getAttribute("lang");
+  if (docLang === "es" || docLang === "en") return docLang as Lang;
+
+  // 3. Detección por Hostname (Síncrona)
+  // Útil para navegación directa o fallos en el atributo lang
+  const hostname = window.location.hostname;
+  if (hostname.endsWith('.es')) return "es";
+  if (hostname.endsWith('.tech')) return "en";
+
+  // 4. Preferencia guardada (solo si coincide con los criterios de arriba para evitar Mismatch)
+  // O como fallback de última instancia
+  try {
+    const stored = window.localStorage.getItem(STORAGE_KEY);
+    if (stored === "es" || stored === "en") return stored as Lang;
+  } catch {
+    // ignore
   }
 
-  // Fallback seguro para la primera hidratación: inglés
-  // La detección real del navegador o localStorage se hará en un useEffect
-  // para evitar el "Hydration Mismatch".
   return "en";
 }
 
@@ -53,24 +68,9 @@ export const I18nProvider: React.FC<{ children: React.ReactNode; serverLang?: La
 
   useEffect(() => {
     setIsHydrated(true);
+    // Ya no hacemos detección de idioma aquí. El estado inicial se calculó síncronamente.
+    // Solo sincronizamos el atributo lang del DOM por seguridad.
     document.documentElement.lang = lang;
-
-    // Solo después de la hidratación inicial, buscamos preferencias locales
-    // para evitar el mismatch si el usuario tenía guardada una elección distinta.
-    if (!serverLang) {
-      const stored = window.localStorage.getItem(STORAGE_KEY);
-      if (stored === "es" || stored === "en") {
-        setLangState(stored as Lang);
-      } else {
-        const hostname = window.location.hostname;
-        if (hostname.endsWith('.es')) setLangState("es");
-        else if (hostname.endsWith('.tech')) setLangState("en");
-        else {
-          const nav = navigator.language;
-          if (nav.toLowerCase().startsWith("es")) setLangState("es");
-        }
-      }
-    }
   }, []); // Solo al montar
 
   useEffect(() => {
