@@ -28,10 +28,9 @@ const Navbar = () => {
     { name: t("nav.successes"), href: "#casos" },
     { name: t("nav.about"), to: "/sobre" },
     { name: t("nav.plans"), href: "#precios" },
-    { name: t("nav.contact"), href: "#contacto" },
   ];
 
-  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios", "contacto"]);
+  const activeId = useScrollSpy(["servicios", "como-funciona", "casos", "precios"]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
