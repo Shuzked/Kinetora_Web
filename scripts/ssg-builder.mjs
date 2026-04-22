@@ -23,6 +23,7 @@ const publicRoutes = [
   '/casos',
   ...caseStudiesSlugs.map(slug => `/casos/${slug}`),
   '/precios',
+  '/sobre',
   '/legal/aviso-legal',
   '/legal/politica-privacidad',
   '/legal/politica-cookies',
@@ -30,13 +31,12 @@ const publicRoutes = [
 ];
 
 // Helper to inject the rendered HTML into the template
-function injectBody(htmlFilePath, bodyHtml, templateStringFallback = null) {
+function injectBody(htmlFilePath, bodyHtml, templatePath) {
   let html;
   
-  if (templateStringFallback) {
-    html = templateStringFallback;
+  if (templatePath && fs.existsSync(templatePath)) {
+    html = fs.readFileSync(templatePath, 'utf8');
     fs.mkdirSync(path.dirname(htmlFilePath), { recursive: true });
-    // console.log(`[ssg-builder] ℹ️  Using memory template for: ${htmlFilePath}`);
   } else if (fs.existsSync(htmlFilePath)) {
     html = fs.readFileSync(htmlFilePath, 'utf8');
   } else {
@@ -48,15 +48,20 @@ function injectBody(htmlFilePath, bodyHtml, templateStringFallback = null) {
     html = html.replace('<div id="root"></div>', `<div id="root">${bodyHtml}</div>`);
   } else if (/<div id="root">\s*<\/div>/.test(html)) {
     html = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${bodyHtml}</div>`);
-  } else {
-    // Already injected
-    console.log(`[ssg-builder] ℹ️  Root already has content in: ${htmlFilePath} — skipping.`);
-    return false;
   }
 
-  fs.writeFileSync(htmlFilePath, html, 'utf8');
-  console.log(`[ssg-builder] ✅  Injected static body into: ${htmlFilePath}`);
-  return true;
+  return html;
+}
+
+function injectMetadata(html, headHtml) {
+  if (html.includes('<!-- SSR_HEAD_PLACEHOLDER -->')) {
+    return html.replace('<!-- SSR_HEAD_PLACEHOLDER -->', headHtml);
+  }
+  // Fallback if Vite removed the comment (common in production)
+  if (html.includes('</head>')) {
+    return html.replace('</head>', `${headHtml}\n  </head>`);
+  }
+  return html;
 }
 
 // ── Main SSG Execution ───────────────────────────────────────────────────
@@ -83,33 +88,46 @@ async function buildSSG() {
 
   const BASE_EN_PATH = path.join(DIST, 'index.html');
   const BASE_ES_PATH = path.join(DIST, 'index.es.html');
-
-  if (!fs.existsSync(BASE_EN_PATH) || !fs.existsSync(BASE_ES_PATH)) {
+  if (!fs.existsSync(path.join(DIST, 'index.html'))) {
     console.error('[ssg-builder] ❌  Base templates missing. Did postbuild-seo.mjs run?');
     process.exit(1);
   }
 
-  const BASE_EN_HTML = fs.readFileSync(BASE_EN_PATH, 'utf8');
-  const BASE_ES_HTML = fs.readFileSync(BASE_ES_PATH, 'utf8');
+  // El template base SIEMPRE debe ser el index.html original de dist para asegurar limpieza
+  const CLEAN_BASE = path.join(DIST, 'index.html');
 
   for (const url of publicRoutes) {
     console.log(`\n[ssg-builder] Rendering route: ${url}`);
     
-    // Rutas de archivos finales
-    const subPath = url === '/' ? '' : url.replace(/^\//, ''); // e.g. "casos" or "casos/elixir-games"
+    const subPath = url === '/' ? '' : url.replace(/^\//, '');
     const fileEN = subPath ? path.join(DIST, subPath, 'index.html') : path.join(DIST, 'index.html');
     const fileES = subPath ? path.join(DIST, subPath, 'index.es.html') : path.join(DIST, 'index.es.html');
 
     try {
       // 1. Renderizar la versión en Inglés
-      const appHtmlEN = await render(url, 'en');
-       // For base route, inject directly into the existing file on disk (which we just wrote or exist). Wait, no, for base route we also use memory but write it over the original file!
-       // Let's just always use the memory template for all routes.
-      injectBody(fileEN, appHtmlEN, BASE_EN_HTML);
+      const { html: appHtmlEN, head: headHtmlEN } = await render(url, 'en');
+      let finalHtmlEN = injectBody(fileEN, appHtmlEN, CLEAN_BASE); // Usamos CLEAN_BASE como origen
+      finalHtmlEN = injectMetadata(finalHtmlEN, headHtmlEN);
+      
+      if (subPath) fs.mkdirSync(path.join(DIST, subPath), { recursive: true });
+      fs.writeFileSync(fileEN, finalHtmlEN, 'utf8');
+      console.log(`[ssg-builder] ✅  Injected static EN into: ${fileEN}`);
 
       // 2. Renderizar la versión en Español
-      const appHtmlES = await render(url, 'es');
-      injectBody(fileES, appHtmlES, BASE_ES_HTML);
+      const { html: appHtmlES, head: headHtmlES } = await render(url, 'es');
+      let finalHtmlES = injectBody(fileES, appHtmlES, CLEAN_BASE); // Usamos CLEAN_BASE como origen
+      finalHtmlES = injectMetadata(finalHtmlES, headHtmlES);
+      
+      // Asegurar que el bridge de idioma esté correcto para ES
+      if (finalHtmlES.includes('window.__KINETORA_LANG__="en"')) {
+        finalHtmlES = finalHtmlES.replace('window.__KINETORA_LANG__="en"', 'window.__KINETORA_LANG__="es"');
+      } else {
+        // Inyectar si no existe
+        finalHtmlES = finalHtmlES.replace('</head>', '<script>window.__KINETORA_LANG__="es"</script></head>');
+      }
+
+      fs.writeFileSync(fileES, finalHtmlES, 'utf8');
+      console.log(`[ssg-builder] ✅  Injected static ES into: ${fileES}`);
 
     } catch (err) {
       console.error(`[ssg-builder] ❌  Error rendering ${url}:`, err);
@@ -118,6 +136,47 @@ async function buildSSG() {
 
   console.log('\n[ssg-builder] ✅  SSR static body injection complete.');
   console.log('[ssg-builder] ℹ️   React will hydrate this HTML on first load.\n');
+
+  // ── Generar Sitemap ──────────────────────────────────────────────────────
+  generateSitemap(publicRoutes);
+}
+
+function generateSitemap(routes) {
+  const TECH_BASE = 'https://kinetora.tech';
+  const ES_BASE = 'https://kinetora.es';
+  
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
+
+  routes.forEach(route => {
+    const path = route === '/' ? '' : route;
+    
+    // EN Entry (Tech)
+    xml += '  <url>\n';
+    xml += `    <loc>${TECH_BASE}${path}</loc>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${TECH_BASE}${path}" />\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="es" href="${ES_BASE}${path}" />\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${TECH_BASE}${path}" />\n`;
+    xml += '    <changefreq>weekly</changefreq>\n';
+    xml += '    <priority>0.8</priority>\n';
+    xml += '  </url>\n';
+
+    // ES Entry (ES)
+    xml += '  <url>\n';
+    xml += `    <loc>${ES_BASE}${path}</loc>\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="es" href="${ES_BASE}${path}" />\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="en" href="${TECH_BASE}${path}" />\n`;
+    xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${TECH_BASE}${path}" />\n`;
+    xml += '    <changefreq>weekly</changefreq>\n';
+    xml += '    <priority>0.8</priority>\n';
+    xml += '  </url>\n';
+  });
+
+  xml += '</urlset>';
+
+  const sitemapPath = path.join(DIST, 'sitemap.xml');
+  fs.writeFileSync(sitemapPath, xml, 'utf8');
+  console.log(`[ssg-builder] ✅  Generated sitemap.xml in ${sitemapPath}`);
 }
 
 buildSSG();

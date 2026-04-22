@@ -107,26 +107,61 @@ const CaseStudyPost = () => {
   }, [slug]);
 
   const seoDefaults = getSeoDefaults(lang);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
-  const canonical = `${origin}/casos/${slug ?? ""}`;
+  
+  // Exact titles requested by Tech Lead for SEO shock plan
+  const exactTitles: Record<string, string> = {
+    "elixir-games": "Elixir Games: €14M levantados - Dirección Creativa Global | Kinetora",
+    "elixir-token": "Elixir Token Launch: $14.2M en ventas - Diseño de Campaña | Kinetora",
+    "chronosworlds": "ChronosWorlds: Rebranding 3D + UX/UI Web3 Gaming | Kinetora",
+    "cybertitans-clash-impacto-brutal-y-evolucion-web3": "CyberTitans Clash: +1.5M impacto orgánico - Diseño Web3 | Kinetora",
+    "cybertitans-pulse-series": "CyberTitans Pulse Series: Revolución visual eSports | Kinetora",
+    "dunk-low-elixir-edition": "Dunk Low Elixir: Airdrop global - Diseño Gaming + Fashion | Kinetora",
+    "robokiden-token": "Robokiden Token: +$1.15M ventas - Campaña de Lanzamiento | Kinetora",
+  };
+
+  const seoTitle = (slug && exactTitles[slug]) || (title ? `${title} — ${seoDefaults.siteName}` : seoDefaults.title);
+
+  // Dynamic Canonical Detection
+  const isES = typeof window !== 'undefined' && window.location.hostname.includes('.es');
+  const baseUrl = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
+  const canonical = `${baseUrl}/casos/${slug ?? ""}`;
+  
   const description =
     lang === "es"
       ? currentCase?.summaryFallback || ui.readyBody
       : currentCase?.summaryFallbackEn || currentCase?.summaryFallback || ui.readyBody;
+  
   const keywords = [
     ...seoDefaults.keywords,
     ...(lang === "es" ? ["caso de éxito", "portafolio", "resultados"] : ["case study", "portfolio", "results"]),
   ];
+  
   const ogLocale = lang === "es" ? "es_ES" : "en_US";
   const ogLocaleAlternate = lang === "es" ? ["en_US"] : ["es_ES"];
-  const alternates = [{ hrefLang: "x-default", href: canonical }];
-  const absoluteImage = cover ? (origin ? new URL(cover, origin).href : cover) : seoDefaults.shareImage;
+  const alternates = [
+    { hrefLang: "es", href: `https://kinetora.es/casos/${slug ?? ""}` },
+    { hrefLang: "en", href: `https://kinetora.tech/casos/${slug ?? ""}` },
+    { hrefLang: "x-default", href: `https://kinetora.tech/casos/${slug ?? ""}` }
+  ];
+
+  const absoluteImage = cover ? (baseUrl ? new URL(cover, baseUrl).href : cover) : seoDefaults.shareImage;
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "CreativeWork",
+        "@id": `${canonical}#creativework`,
+        "name": title,
+        "description": description,
+        "image": absoluteImage,
+        "author": { "@type": "Organization", "name": "Kinetora" },
+        "publisher": { "@type": "Organization", "name": "Kinetora" },
+        "url": canonical
+      },
+      {
         "@type": "Article",
-        "headline": title || seoDefaults.title,
+        "headline": seoTitle,
         "description": description,
         "image": absoluteImage,
         "inLanguage": lang === "es" ? "es-ES" : "en-US",
@@ -136,15 +171,15 @@ const CaseStudyPost = () => {
           "name": seoDefaults.siteName,
           "logo": {
             "@type": "ImageObject",
-            "url": origin ? new URL("/Logotipo.svg", origin).href : "/Logotipo.svg"
+            "url": baseUrl ? new URL("/Logotipo.svg", baseUrl).href : "/Logotipo.svg"
           }
         }
       },
       {
         "@type": "BreadcrumbList",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": lang === "es" ? "Inicio" : "Home", "item": origin ? new URL("/", origin).href : "/" },
-          { "@type": "ListItem", "position": 2, "name": lang === "es" ? "Casos" : "Cases", "item": origin ? new URL("/casos", origin).href : "/casos" },
+          { "@type": "ListItem", "position": 1, "name": lang === "es" ? "Inicio" : "Home", "item": baseUrl ? new URL("/", baseUrl).href : "/" },
+          { "@type": "ListItem", "position": 2, "name": lang === "es" ? "Casos" : "Cases", "item": baseUrl ? new URL("/casos", baseUrl).href : "/casos" },
           { "@type": "ListItem", "position": 3, "name": title || (lang === "es" ? "Caso" : "Case"), "item": canonical }
         ]
       }
@@ -194,7 +229,7 @@ const CaseStudyPost = () => {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <SEO
-        title={title ? `${title} — ${seoDefaults.siteName}` : seoDefaults.title}
+        title={seoTitle}
         description={description}
         keywords={keywords}
         image={cover || seoDefaults.shareImage}
@@ -210,6 +245,7 @@ const CaseStudyPost = () => {
         robots="index,follow"
         jsonLd={jsonLd}
       />
+
       <Navbar />
 
       <main id="main-content" role="main" className="pt-[68px] md:pt-[88px]">

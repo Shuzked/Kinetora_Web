@@ -7,6 +7,9 @@ export default defineConfig(() => ({
     host: "::",
     port: 8080,
   },
+  ssr: {
+    noExternal: ["react-helmet-async"],
+  },
   plugins: [react()],
   resolve: {
     alias: {

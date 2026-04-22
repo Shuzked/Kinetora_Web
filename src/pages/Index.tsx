@@ -1,5 +1,3 @@
-"use client";
-
 import React from 'react';
 import { useLocation } from "react-router-dom";
 import Navbar from '@/components/Navbar';
@@ -9,17 +7,16 @@ import Brands from '@/components/Brands';
 import Stats from '@/components/Stats';
 import ValueProp from '@/components/ValueProp';
 
-// Lazy load non-critical sections below the fold
-const HowItWorks = React.lazy(() => import('@/components/HowItWorks'));
-const Services = React.lazy(() => import('@/components/Services'));
-const Portfolio = React.lazy(() => import('@/components/Portfolio'));
-const Testimonials = React.lazy(() => import('@/components/Testimonials'));
-const Contact = React.lazy(() => import('@/components/Contact'));
-const FAQ = React.lazy(() => import('@/components/FAQ'));
-const Footer = React.lazy(() => import('@/components/Footer'));
-const FloatingCTA = React.lazy(() => import('@/components/FloatingCTA'));
-const StackingSection = React.lazy(() => import('@/components/StackingSection'));
-const PricingSection = React.lazy(() => import('@/components/Pricing'));
+import HowItWorks from '@/components/HowItWorks';
+import Services from '@/components/Services';
+import Portfolio from '@/components/Portfolio';
+import Testimonials from '@/components/Testimonials';
+import Contact from '@/components/Contact';
+import FAQ from '@/components/FAQ';
+import Footer from '@/components/Footer';
+import FloatingCTA from '@/components/FloatingCTA';
+import StackingSection from '@/components/StackingSection';
+import PricingSection from '@/components/Pricing';
 
 // Intersection Observer based wrapper for deeper optimization
 const SafeLazyLoad = ({ children, height = "400px" }: { children: React.ReactNode, height?: string }) => {
@@ -97,9 +94,20 @@ const Index = () => {
     setTimeout(tryScroll, 150);
   }, [location.hash]);
 
-  const isES = typeof window !== 'undefined' && window.location.hostname.includes('.es');
+  const isES = lang === 'es';
+  if (typeof window === 'undefined') {
+    console.log(`[Index] SSR Rendering. lang value: "${lang}", isES: ${isES}`);
+  }
   const currentLang = isES ? 'es' : 'en';
-  const seo = getSeoDefaults(currentLang);
+  
+  const title = isES 
+    ? "Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios"
+    : "Kinetora | Design for Startups - Raise Capital, Convert Users";
+  
+  const description = isES
+    ? "Estudio de ingeniería visual y diseño UX/UI de élite para startups. Elevamos tu producto para levantar capital y convertir usuarios con entregas en 48h."
+    : "Elite visual engineering and UX/UI design studio for startups. We elevate your product to raise capital and convert users with 48h delivery.";
+
   const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const canonical = `${origin}/`;
 
@@ -133,7 +141,7 @@ const Index = () => {
     "@id": "https://kinetora.es/#professional-service",
     "url": "https://kinetora.es",
     "telephone": "",
-    "priceRange": "$$",
+    "priceRange": "€€€",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "",
@@ -148,7 +156,7 @@ const Index = () => {
       "longitude": -4.1942
     },
     "areaServed": ["ES", "España", "Madrid", "Barcelona", "Sevilla", "Andalucía", "Valencia", "Bilbao"],
-    "description": "Estudio de experiencias digitales que convierten usuarios. Creamos identidades visuales y webs poco convencionales para clientes de toda España desde Priego de Córdoba.",
+    "description": description,
     "knowsAbout": ["Diseño Web", "Branding", "Cartelería", "UX/UI", "Identidad Visual", "Desarrollo Frontend"],
     "sameAs": ["https://www.linkedin.com/company/kinetora", "https://www.instagram.com/kinetora_studio"]
   } : null;
@@ -156,16 +164,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30">
       <SEO
-        title={seo.title}
-        description={seo.description}
-        keywords={seo.keywords}
-        image={seo.shareImage}
+        title={title}
+        description={description}
         canonical={canonical}
-        locale={seo.locale}
-        siteName={seo.siteName}
         ogType="website"
-        twitterCard="summary_large_image"
-        robots="index,follow"
         alternates={alternates}
         jsonLd={{
           "@context": "https://schema.org",
@@ -176,7 +178,7 @@ const Index = () => {
               "@type": "WebSite",
               "@id": `${canonical}#website`,
               "url": canonical,
-              "name": seo.siteName,
+              "name": "Kinetora",
               "publisher": { "@id": `${canonical}#organization` },
               "potentialAction": {
                 "@type": "SearchAction",
@@ -187,6 +189,7 @@ const Index = () => {
           ].filter(Boolean)
         }}
       />
+
       <Navbar />
       <main id="main-content" role="main" aria-label="Main content" className="relative">
         <Hero />

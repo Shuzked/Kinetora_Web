@@ -1,24 +1,11 @@
 /**
  * postbuild-seo.mjs
  * ─────────────────────────────────────────────────────────────────────────────
- * Post-build script that generates ES variants of all pre-rendered HTML files.
- *
- * After `vite build` + `vite-ssg` prerender, dist/ contains:
- *   dist/index.html          → EN homepage (kinetora.tech)
- *   dist/casos/index.html    → EN casos page (kinetora.tech/casos)
- *
- * This script generates:
- *   dist/index.es.html           → ES homepage (kinetora.es)
- *   dist/casos/index.es.html     → ES casos page (kinetora.es/casos)
- *
- * For each ES variant, this script:
- *   1. Overrides all <head> metadata (title, description, canonical, og:*, hreflang, JSON-LD)
- *   2. Swaps the i18n-bridge to "es" so the React app boots in Spanish
- *   3. Rewrites body text that was pre-rendered in EN → ES using string replacement
- *      (Hero h1, Services cards, Cases UI copy) from the hardcoded translations.
- *
- * Usage (automatic via package.json "postbuild"):
- *   node ./scripts/postbuild-seo.mjs
+ * Post-build script that generates the base ES template (index.es.html).
+ * 
+ * It swaps the language bridge so the React app boots in Spanish.
+ * Specific metadata (title, meta, JSON-LD) is now handled by ssg-builder.mjs
+ * using react-helmet-async during the SSR cycle.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -30,223 +17,30 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 
-// ── ES metadata ──────────────────────────────────────────────────────────────
-const ES_HOME = {
-  title: 'Kinetora | Diseño Web, Cartelería y Desarrollo de Interfaces en España',
-  description: 'Estudio de diseño vanguardista. Creamos identidades visuales, webs interactivas y cartelería premium para clientes de toda España desde Priego de Córdoba.',
-  keywords: 'agencia creativa, diseño web España, diseño web Andalucía, diseño web Priego de Córdoba, cartelería premium, branding, identidad de marca, diseño UX, UI, web performance, interfaces interactivas',
-  canonical: 'https://kinetora.es/',
-  ogUrl: 'https://kinetora.es/',
-  ogLocale: 'es_ES',
-  ogImage: 'https://kinetora.es/assets/social/kinetora-social-share.webp',
-  ogImageAlt: 'Kinetora — Estudio de diseño web y branding en España',
-  twitterImage: 'https://kinetora.es/assets/social/kinetora-social-share.webp',
-};
+function generateEsBaseTemplate() {
+  const srcPath = path.join(DIST, 'index.html');
+  const destPath = path.join(DIST, 'index.es.html');
 
-const ES_CASOS = {
-  title: 'Casos de éxito — Kinetora',
-  description: 'Selección de proyectos donde diseñamos el sistema, el producto y la narrativa para acelerar crecimiento. Resultados medibles de clientes reales.',
-  keywords: 'casos de éxito, portfolio, resultados, agencia creativa, diseño web, branding',
-  canonical: 'https://kinetora.es/casos',
-  ogUrl: 'https://kinetora.es/casos',
-  ogLocale: 'es_ES',
-  ogImage: 'https://kinetora.es/assets/social/kinetora-social-share.webp',
-  ogImageAlt: 'Kinetora — Casos de éxito',
-  twitterImage: 'https://kinetora.es/assets/social/kinetora-social-share.webp',
-};
-
-// ── JSON-LD payloads ─────────────────────────────────────────────────────────
-const orgJsonLdES = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Kinetora',
-  url: 'https://kinetora.es/',
-  logo: 'https://kinetora.es/Logotipo.svg',
-  '@id': 'https://kinetora.es/#organization',
-  areaServed: ['ES', 'España', 'Madrid', 'Barcelona', 'Sevilla', 'Andalucía', 'Valencia', 'Bilbao'],
-  sameAs: ['https://www.linkedin.com/company/kinetora', 'https://www.instagram.com/kinetora_studio'],
-};
-
-const localJsonLdES = {
-  '@context': 'https://schema.org',
-  '@type': 'ProfessionalService',
-  name: 'Kinetora',
-  image: 'https://kinetora.es/assets/social/kinetora-social-share.webp',
-  '@id': 'https://kinetora.es/#professional-service',
-  url: 'https://kinetora.es',
-  priceRange: '$$',
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Priego de Córdoba',
-    postalCode: '14800',
-    addressRegion: 'Andalucía',
-    addressCountry: 'ES',
-  },
-  geo: { '@type': 'GeoCoordinates', latitude: 37.4381, longitude: -4.1942 },
-  areaServed: ['ES', 'España', 'Madrid', 'Barcelona', 'Sevilla', 'Andalucía', 'Valencia', 'Bilbao'],
-  description: ES_HOME.description,
-  knowsAbout: ['Diseño Web', 'Branding', 'Cartelería', 'UX/UI', 'Identidad Visual', 'Desarrollo Frontend'],
-  sameAs: ['https://www.linkedin.com/company/kinetora', 'https://www.instagram.com/kinetora_studio'],
-};
-
-const faqJsonLdES = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  'mainEntity': [
-    {
-      '@type': 'Question',
-      'name': '¿Cómo funciona el sistema de pausas en la suscripción?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Entendemos la naturaleza del ecosistema startup. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y reanudarla cuando la carga de trabajo lo requiera, sin penalizaciones ni costes ocultos.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Existe algún tipo de permanencia o contrato a largo plazo?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'No. Operamos con total transparencia y confianza en la calidad de nuestro trabajo. Los planes son mensuales y puedes cancelarlos en cualquier momento.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Qué implica exactamente la entrega en 48 horas?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Una vez definimos una solicitud de diseño clara en nuestro panel, recibirás la primera iteración funcional o el componente terminado en un plazo máximo de dos días laborables.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Cedéis los derechos de propiedad intelectual (IP)?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Absolutamente. Al finalizar y abonar el proyecto, la propiedad intelectual de diseños y código frontend es 100% tuya.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Qué incluye la "Identidad de Marca"?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Va mucho más allá de un logo. Entregamos un manual de marca, paletas, tipografías, componentes UI y aplicaciones listas para marketing.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Trabajáis exclusivamente en Web3 y Gaming?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Aunque destacamos en Web3, nuestro enfoque de diseño orientado a la conversión aplica perfectamente a startups SaaS, Fintech y Healthtech.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Asumís el desarrollo Backend del producto?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Somos especialistas en la capa visual. Entregamos diseño UX/UI y Frontend (React/Tailwind). El Backend corre a cargo de tu equipo de ingeniería.'
-      }
-    },
-    {
-      '@type': 'Question',
-      'name': '¿Trabajáis con proyectos Pre-Seed?',
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': 'Nuestro ecosistema óptimo son startups en fase Seed o Series A/B que buscan escalar. No obstante, evaluamos proyectos Pre-Seed si la visión tecnológica y el alcance del rediseño están claramente definidos.'
-      }
-    }
-  ]
-};
-
-// Body swaps removed since we now use native React SSR for i18n
-
-// ── Helpers ──────────────────────────────────────────────────────────────────
-function escapeAttr(str) {
-  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function escapeTitle(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-function applyHeadOverrides(html, meta, jsonLdBlocks) {
-  // lang attribute
-  html = html.replace(/<html[^>]*>/, '<html lang="es">');
-  // i18n-bridge: swap "en" → "es" (injected by vite-ssg onPageRendered hook)
-  html = html.replace(/window\.__KINETORA_LANG__\s*=\s*["']en["']/, 'window.__KINETORA_LANG__="es"');
-  // title
-  html = html.replace(/<title>[^<]*<\/title>/, `<title>${escapeTitle(meta.title)}</title>`);
-  // meta name="title"
-  html = html.replace(/(<meta name="title" content=")[^"]*(")/,  `$1${escapeAttr(meta.title)}$2`);
-  // meta name="description"
-  html = html.replace(/(<meta name="description" content=")[^"]*(")/,  `$1${escapeAttr(meta.description)}$2`);
-  // meta name="keywords"
-  html = html.replace(/(<meta name="keywords" content=")[^"]*(")/,  `$1${escapeAttr(meta.keywords)}$2`);
-  // og:title
-  html = html.replace(/(property="og:title" content=")[^"]*(")/,  `$1${escapeAttr(meta.title)}$2`);
-  // og:description
-  html = html.replace(/(property="og:description" content=")[^"]*(")/,  `$1${escapeAttr(meta.description)}$2`);
-  // og:url
-  html = html.replace(/(property="og:url" content=")[^"]*(")/g,  `$1${meta.ogUrl}$2`);
-  // og:image
-  html = html.replace(/(property="og:image" content=")[^"]*(")/g,  `$1${meta.ogImage}$2`);
-  // og:image:alt
-  html = html.replace(/(property="og:image:alt" content=")[^"]*(")/,  `$1${escapeAttr(meta.ogImageAlt)}$2`);
-  // og:locale
-  html = html.replace(/(property="og:locale" content=")[^"]*(")/g,  `$1${meta.ogLocale}$2`);
-  // twitter:title
-  html = html.replace(/(name="twitter:title" content=")[^"]*(")/,  `$1${escapeAttr(meta.title)}$2`);
-  // twitter:description
-  html = html.replace(/(name="twitter:description" content=")[^"]*(")/,  `$1${escapeAttr(meta.description)}$2`);
-  // twitter:image
-  html = html.replace(/(name="twitter:image" content=")[^"]*(")/g,  `$1${meta.twitterImage}$2`);
-  // canonical
-  html = html.replace(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${meta.canonical}"`);
-
-  // Strip EN JSON-LD static blocks and inject ES ones
-  html = html.replace(/<script type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/g, '');
-  const esJsonLdBlock = jsonLdBlocks
-    .map((ld, i) => `<script type="application/ld+json" id="jsonld-es-${i}">\n${JSON.stringify(ld, null, 2)}\n</script>`)
-    .join('\n');
-  html = html.replace('</head>', `${esJsonLdBlock}\n</head>`);
-
-  return html;
-}
-
-
-function processFile(srcPath, destPath, meta, jsonLdBlocks) {
   if (!fs.existsSync(srcPath)) {
-    console.warn(`[postbuild-seo] ⚠️  Skipping (not found): ${srcPath}`);
-    return;
+    console.error(`[postbuild-seo] ❌  index.html not found in ${DIST}`);
+    process.exit(1);
   }
+
   let html = fs.readFileSync(srcPath, 'utf8');
-  html = applyHeadOverrides(html, meta, jsonLdBlocks);
-  fs.mkdirSync(path.dirname(destPath), { recursive: true });
+
+  // 1. Swap lang attribute
+  html = html.replace(/<html lang="en">/, '<html lang="es">');
+  html = html.replace(/<html lang="en-US">/, '<html lang="es">');
+  
+  // 2. Inject i18n bridge for "es"
+  // This ensures the client-side hydration starts with the correct language
+  const bridgeScript = '<script>window.__KINETORA_LANG__="es"</script>';
+  html = html.replace('</head>', `${bridgeScript}\n</head>`);
+
   fs.writeFileSync(destPath, html, 'utf8');
-  console.log(`[postbuild-seo] ✅  Generated: ${destPath}`);
-  console.log(`[postbuild-seo]     Title: ${meta.title}`);
-  console.log(`[postbuild-seo]     Canonical: ${meta.canonical}`);
+  console.log(`[postbuild-seo] ✅  Generated base ES template: ${destPath}`);
 }
 
-// ── Run ───────────────────────────────────────────────────────────────────────
-console.log('[postbuild-seo] 🚀  Starting ES variant generation...\n');
+console.log('[postbuild-seo] 🚀  Preparing ES environment...');
+generateEsBaseTemplate();
 
-// 1. Homepage
-processFile(
-  path.join(DIST, 'index.html'),
-  path.join(DIST, 'index.es.html'),
-  ES_HOME,
-  [orgJsonLdES, localJsonLdES, faqJsonLdES]
-);
-
-// 2. /casos page (generated from base index.html template)
-processFile(
-  path.join(DIST, 'index.html'), // It used to look for 'casos/index.html', but vite doesn't output it
-  path.join(DIST, 'casos', 'index.es.html'),
-  ES_CASOS,
-  [orgJsonLdES, faqJsonLdES]
-);
-
-console.log('\n[postbuild-seo] ✅  All ES variants generated successfully.');

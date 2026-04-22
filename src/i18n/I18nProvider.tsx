@@ -84,7 +84,9 @@ export const I18nProvider: React.FC<{ children: React.ReactNode; serverLang?: La
     return {
       lang,
       setLang,
-      t: (key, vars) => interpolate(dict[key] ?? key, vars),
+      t: (key, vars) => {
+        return interpolate(dict[key] ?? key, vars);
+      },
     };
   }, [lang]);
 

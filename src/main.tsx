@@ -4,15 +4,18 @@ import App from './App'
 import { BrowserRouter } from 'react-router-dom'
 import { SilentErrorBoundary } from './components/SilentErrorBoundary'
 import './globals.css'
+import { HelmetProvider } from 'react-helmet-async'
 
 const container = document.getElementById('root') as HTMLElement;
 
 const app = (
   <React.StrictMode>
     <SilentErrorBoundary>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <HelmetProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </HelmetProvider>
     </SilentErrorBoundary>
   </React.StrictMode>
 );

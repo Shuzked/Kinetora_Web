@@ -31,50 +31,50 @@ const Testimonials = () => {
           sub: "Empresas que escalan su ingeniería visual con nosotros.",
           testimonials: [
             {
-              name: "Alex V.",
-              role: "CTO @ VentureSaaS",
+              name: "Victor Merino",
+              role: "CTO @ Elixir Games",
               content:
                 "Kinetora no es una agencia, es una extensión técnica de nuestro equipo. Redujeron nuestro ciclo de iteración de semanas a días.",
               avatar: "/assets/testimonials/victor-merino.webp",
             },
             {
-              name: "Elena M.",
-              role: "Founding Partner @ Alpha Capital",
+              name: "Carlos Roldán",
+              role: "CEO @ Elixir Games",
               content:
                 "La capacidad para traducir conceptos de negocio complejos en interfaces intuitivas es de otro planeta. 10/10.",
               avatar: "/assets/testimonials/carlos-roldan.webp",
             },
             {
-              name: "David S.",
-              role: "CEO @ NexaFlow",
+              name: "Enrique Phan",
+              role: "CEO @ Robokiden",
               content:
                 "Gracias a su rediseño del pitch deck y la plataforma, cerramos nuestra Series A en tiempo récord. El ROI fue inmediato.",
               avatar: "/assets/testimonials/enrique-phan.webp",
             },
             {
-              name: "Sara L.",
-              role: "Product Manager @ Orbit",
+              name: "Danyil Shatko",
+              role: "Product Manager @ Elixir",
               content:
                 "Sistemas de diseño que realmente funcionan en producción. No solo Figma, sino código limpio y documentado.",
               avatar: "/assets/testimonials/danyil-shatko.webp",
             },
             {
-              name: "Marcus K.",
-              role: "Crypto Lead @ BlockChain HQ",
+              name: "Nicolas Francisquelo",
+              role: "CEO @ ChronosWorlds",
               content:
                 "Dominan la estética Web3 sin sacrificar usabilidad B2B. Sus transiciones son pura ingeniería.",
               avatar: "/assets/testimonials/nicolas-francisquelo.webp",
             },
             {
-              name: "Jordi T.",
-              role: "Operations @ ScaleUp Inc.",
+              name: "Ferran Puntí",
+              role: "CEO @ The Breach Studios",
               content:
                 "Cumplen lo que prometen: entregas en 48h sin que baje la calidad. Es el partner ideal para escalar rápido.",
               avatar: "/assets/testimonials/ferran-punti.webp",
             },
             {
-              name: "Sofia R.",
-              role: "Marketing Director @ Fintech Now",
+              name: "Jorge Regalado",
+              role: "Marketing Director @ Elixir",
               content:
                 "La landing page que construyeron tiene una tasa de conversión un 40% superior a la anterior. Datos reales.",
               avatar: "/assets/testimonials/jorge-regalado.webp",
@@ -88,50 +88,50 @@ const Testimonials = () => {
           sub: "Companies scaling their visual engineering with us.",
           testimonials: [
             {
-              name: "Alex V.",
-              role: "CTO @ VentureSaaS",
+              name: "Victor Merino",
+              role: "CTO @ Elixir Games",
               content:
                 "Kinetora is not an agency, it's a technical extension of our team. They reduced our iteration cycle from weeks to days.",
               avatar: "/assets/testimonials/victor-merino.webp",
             },
             {
-              name: "Elena M.",
-              role: "Founding Partner @ Alpha Capital",
+              name: "Carlos Roldán",
+              role: "CEO @ Elixir Games",
               content:
                 "The ability to translate complex business concepts into intuitive interfaces is out of this world. 10/10.",
               avatar: "/assets/testimonials/carlos-roldan.webp",
             },
             {
-              name: "David S.",
-              role: "CEO @ NexaFlow",
+              name: "Enrique Phan",
+              role: "CEO @ Robokiden",
               content:
                 "Thanks to their pitch deck and platform redesign, we closed our Series A in record time. The ROI was immediate.",
               avatar: "/assets/testimonials/enrique-phan.webp",
             },
             {
-              name: "Sara L.",
-              role: "Product Manager @ Orbit",
+              name: "Danyil Shatko",
+              role: "Product Manager @ Elixir",
               content:
                 "Design systems that actually work in production. Not just Figma, but clean and documented code.",
               avatar: "/assets/testimonials/danyil-shatko.webp",
             },
             {
-              name: "Marcus K.",
-              role: "Crypto Lead @ BlockChain HQ",
+              name: "Nicolas Francisquelo",
+              role: "CEO @ ChronosWorlds",
               content:
                 "They master the Web3 aesthetic without sacrificing B2B usability. Their transitions are pure engineering.",
               avatar: "/assets/testimonials/nicolas-francisquelo.webp",
             },
             {
-              name: "Jordi T.",
-              role: "Operations @ ScaleUp Inc.",
+              name: "Ferran Puntí",
+              role: "CEO @ The Breach Studios",
               content:
                 "They deliver what they promise: 48h turnarounds without dropping quality. Ideal partner for fast scaling.",
               avatar: "/assets/testimonials/ferran-punti.webp",
             },
             {
-              name: "Sofia R.",
-              role: "Marketing Director @ Fintech Now",
+              name: "Jorge Regalado",
+              role: "Marketing Director @ Elixir",
               content:
                 "The landing page they built has a conversion rate 40% higher than the previous one. Real data.",
               avatar: "/assets/testimonials/jorge-regalado.webp",

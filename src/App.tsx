@@ -5,24 +5,23 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { Suspense, lazy } from "react";
 import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 
-import Index from "./pages/Index"; // Componente Crítico -> NO es Lazy
+import Index from "./pages/Index";
+import Cases from "./pages/Cases";
+import CaseStudyPost from "./pages/CaseStudyPost";
+import NotFound from "./pages/NotFound";
+import LegalNotice from "./pages/LegalNotice";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookiesPolicy from "./pages/CookiesPolicy";
+import SocialPrivacyPolicy from "./pages/SocialPrivacyPolicy";
 
-// Optimizacion Lazy Loading: Las páginas secundarias y grandes dependencias se cargan bajo demanda
-const Cases = lazy(() => import("./pages/Cases"));
-const CaseStudyPost = lazy(() => import("./pages/CaseStudyPost"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const LegalNotice = lazy(() => import("./pages/LegalNotice"));
-const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
-const CookiesPolicy = lazy(() => import("./pages/CookiesPolicy"));
-const SocialPrivacyPolicy = lazy(() => import("./pages/SocialPrivacyPolicy"));
-
-// Portal - Rutas Pesadas diferidas
+// Portal - Rutas Pesadas diferidas (Keep lazy as they are not SEO critical)
 const PortalDashboard = lazy(() => import("./pages/PortalDashboard"));
 const PortalLogin = lazy(() => import("./pages/portal/PortalLogin"));
 const ProtectedRoute = lazy(() => import("./components/portal/ProtectedRoute"));
 const PortalLayout = lazy(() => import("./components/portal/PortalLayout"));
 const BillingView = lazy(() => import("./components/portal/BillingView"));
 const Deliverables = lazy(() => import("./pages/portal/Deliverables"));
+
 import ScrollProgress from "./components/ScrollProgress";
 import ScrollToTop from "./components/ScrollToTop";
 import { I18nProvider } from "@/i18n/I18nProvider";
@@ -34,6 +33,10 @@ import DynamicImportGuard from "@/components/DynamicImportGuard";
 import SmoothScroll from "@/components/SmoothScroll";
 import CustomCursor from "@/components/ui/CustomCursor";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+// SEO Shock Plan Pages
+import Pricing from "./pages/Pricing";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -62,11 +65,12 @@ const App = ({ serverLang }: { serverLang?: "en" | "es" }) => {
                     <Route path="/" element={<Index />} />
                     <Route path="/casos" element={<Cases />} />
                     <Route path="/casos/:slug" element={<CaseStudyPost />} />
+                    <Route path="/precios" element={<Pricing />} />
+                    <Route path="/sobre" element={<About />} />
                     <Route path="/legal/aviso-legal" element={<LegalNotice />} />
                     <Route path="/legal/politica-privacidad" element={<PrivacyPolicy />} />
                     <Route path="/legal/politica-cookies" element={<CookiesPolicy />} />
                     <Route path="/legal/privacidad-redes-sociales" element={<SocialPrivacyPolicy />} />
-                    <Route path="/precios" element={<Navigate to="/#precios" replace />} />
                     
                     {/* Portal Login */}
                     <Route path="/portal/login" element={<PortalLogin />} />

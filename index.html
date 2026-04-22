@@ -70,130 +70,17 @@
     <link rel="icon" type="image/png" href="/Favicon_Kinetora.png" />
     <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Kinetora | Global Avant-Garde Web Design &amp; Interactive UX</title>
     <script>
       // 1. Bloquear la memoria del navegador para evitar saltos automáticos
       if ('scrollRestoration' in history) {
         history.scrollRestoration = 'manual';
       }
     </script>
-    <meta name="title" content="Kinetora | Global Avant-Garde Web Design &amp; Interactive UX">
-    <meta name="description" content="Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.">
-    <meta name="keywords" content="avant-garde web design, interactive UX, global creative studio, bespoke web experiences, premium UI design, visual identity, brand design, web performance, motion design, SaaS design, landing page design, digital studio">
-    <meta property="og:title" content="Kinetora | Global Avant-Garde Web Design &amp; Interactive UX">
-    <meta property="og:description" content="Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.">
-    <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Kinetora">
-    <meta property="og:url" content="https://kinetora.tech/">
-    <meta property="og:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
-    <meta property="og:image:alt" content="Kinetora — Global Avant-Garde Web Design Studio">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kinetora | Global Avant-Garde Web Design &amp; Interactive UX">
-    <meta name="twitter:description" content="Digital studio engineering premium web experiences, bespoke interactive interfaces, and modern visual identities for global brands.">
-    <meta name="twitter:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
-
-    <meta name="theme-color" content="#0D0D0D">
-    <link rel="canonical" href="https://kinetora.tech/" />
-
-    <!-- og:locale — static fallback EN; server overrides per domain at runtime -->
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Hreflang: bidirectional canonical signal for crawlers without JS -->
-    <link rel="alternate" hreflang="es" href="https://kinetora.es/" />
-    <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
-    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
-
-    <!-- JSON-LD: Organization schema (static fallback .tech / EN) -->
-    <script type="application/ld+json" id="org-jsonld-static">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Kinetora",
-      "url": "https://kinetora.tech/",
-      "logo": "https://kinetora.tech/Logotipo.svg",
-      "@id": "https://kinetora.tech/#organization",
-      "areaServed": "Worldwide",
-      "sameAs": ["https://www.linkedin.com/company/kinetora", "https://www.instagram.com/kinetora_studio"]
-    }
-    </script>
-
-    <!-- JSON-LD: FAQPage schema (EN) -->
-    <script type="application/ld+json" id="faq-jsonld-static">
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How does the subscription pause system work?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We understand the nature of the startup ecosystem. If you don't have active design requests for a month, you can pause your subscription and resume it whenever the workload demands it, without penalties or hidden costs."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is there any kind of commitment or long-term contract?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. We operate with total transparency and confidence in the quality of our work. Plans are monthly and you can cancel them at any time."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What exactly does 48-hour delivery entail?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Once we define a clear design request in our dashboard, you will receive the first functional iteration or the finished component within a maximum of two business days."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you transfer Intellectual Property (IP) rights?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Absolutely. Upon completion and payment of the project, the intellectual property of the designs and frontend code is 100% yours."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What does \"Brand Identity\" include?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "It goes far beyond a logo. We deliver a brand manual, palettes, typography, UI components, and marketing-ready assets."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work exclusively in Web3 and Gaming?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Although we excel in Web3, our conversion-oriented design focus applies perfectly to startups SaaS, Fintech and Healthtech."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you handle the Backend development of the product?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "We are specialists in the visual layer. We deliver UX/UI design and Frontend (React/Tailwind). The Backend is handled by your engineering team."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do you work with Pre-Seed projects?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Our optimal ecosystem is Seed or Series A/B startups looking to scale. However, we evaluate Pre-Seed projects if the technological vision and redesign scope are clearly defined."
-          }
-        }
-      ]
-    }
-    </script>
-
+    
+    <!-- JSON-LD: Dynamic injection via react-helmet-async -->
     <link rel="stylesheet" href="/src/globals.css" />
 
+    <!-- SSR_HEAD_PLACEHOLDER -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
