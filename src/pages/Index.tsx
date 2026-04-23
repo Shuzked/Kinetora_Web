@@ -105,8 +105,8 @@ const Index = () => {
     : "Kinetora | Design for Startups - Raise Capital, Convert Users";
   
   const description = isES
-    ? "Estudio de ingeniería visual y diseño UX/UI de élite para startups. Elevamos tu producto para levantar capital y convertir usuarios con entregas en 48h."
-    : "Elite visual engineering and UX/UI design studio for startups. We elevate your product to raise capital and convert users with 48h delivery.";
+    ? "Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto."
+    : "Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product.";
 
   const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const { pathname } = useLocation();

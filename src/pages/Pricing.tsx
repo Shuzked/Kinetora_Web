@@ -14,13 +14,13 @@ export default function PricingPage() {
     : "Monthly Design Subscription for Startups | Kinetora";
   
   const description = isES
-    ? "Suscripción de diseño mensual sin permanencia. Entregas en 48h para startups Seed y Series A/B. Pausa o cancela cuando quieras."
-    : "Monthly design subscription with no commitment. 48h delivery for Seed and Series A/B startups. Pause or cancel anytime.";
+    ? "Suscripción de diseño para startups sin permanencia. Entrega en 48h, revisiones ilimitadas y pausa cuando quieras."
+    : "Design subscription for startups with no commitment. 48h delivery, unlimited revisions, and pause anytime.";
 
   const alternates = [
     { hrefLang: 'es', href: 'https://kinetora.es/precios' },
-    { hrefLang: 'en', href: 'https://kinetora.tech/pricing' },
-    { hrefLang: 'x-default', href: 'https://kinetora.tech/pricing' }
+    { hrefLang: 'en', href: 'https://kinetora.tech/precios' },
+    { hrefLang: 'x-default', href: 'https://kinetora.tech/precios' }
   ];
 
   return (

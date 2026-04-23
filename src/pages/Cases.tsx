@@ -61,22 +61,31 @@ const Cases = () => {
   useEqualizeHeights(eqRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang, meta]);
 
   const seoDefaults = getSeoDefaults(lang);
-  const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const canonical = `${origin}/casos`;
-  const pageTitle = lang === "es" ? `Casos de éxito — ${seoDefaults.siteName}` : `Case studies — ${seoDefaults.siteName}`;
-  const pageKeywords = [
-    ...seoDefaults.keywords,
-    ...(lang === "es" ? ["casos de éxito", "portfolio", "resultados"] : ["case studies", "portfolio", "results"]),
+  const pageTitle = isES 
+    ? `Casos de éxito — ${seoDefaults.siteName}` 
+    : `Case Studies · Real Results · Web3 & Startup Design — ${seoDefaults.siteName}`;
+  
+  const pageDescription = isES
+    ? "Resultados reales con impacto medible. Explora nuestros casos de éxito en diseño y producto para startups Web3 y tech."
+    : "Real results with measurable impact. Explore our design and product case studies for Web3 and tech startups.";
+
+  const alternates = [
+    { hrefLang: 'es', href: 'https://kinetora.es/casos' },
+    { hrefLang: 'en', href: 'https://kinetora.tech/casos' },
+    { hrefLang: 'x-default', href: 'https://kinetora.tech/casos' }
   ];
 
   return (
     <div className="min-h-screen bg-[#0D0D0D] text-[#F5F5F5] selection:bg-[#B454FF]/30 block opacity-100 relative z-10">
       <SEO
         title={pageTitle}
-        description={ui.sub}
+        description={pageDescription}
         keywords={pageKeywords}
         image={seoDefaults.shareImage}
         canonical={canonical}
+        alternates={alternates}
         locale={seoDefaults.locale}
         siteName={seoDefaults.siteName}
         ogType="website"

@@ -50,13 +50,13 @@ const About = () => {
     : "About Us | Visual Engineering for Startups | Kinetora";
   
   const description = isES
-    ? "Conoce al equipo de élite detrás de Kinetora. Ingeniería visual sin intermediarios para startups que buscan escalar rápido."
-    : "Meet the elite team behind Kinetora. Visual engineering without intermediaries for startups looking to scale fast.";
+    ? "Ingeniería visual sin intermediarios. Conoce la historia de Kinetora y nuestro enfoque radical para escalar startups."
+    : "Visual engineering without middlemen. Discover the Kinetora story and our radical approach to scaling startups.";
 
   const alternates = [
     { hrefLang: 'es', href: 'https://kinetora.es/sobre' },
-    { hrefLang: 'en', href: 'https://kinetora.tech/about' }, // Assuming /about for EN
-    { hrefLang: 'x-default', href: 'https://kinetora.tech/about' }
+    { hrefLang: 'en', href: 'https://kinetora.tech/sobre' },
+    { hrefLang: 'x-default', href: 'https://kinetora.tech/sobre' }
   ];
 
   return (
@@ -64,7 +64,22 @@ const About = () => {
       <SEO 
         title={title}
         description={description}
-        alternates={isES ? alternates : alternates.map(a => ({ ...a, href: a.href.replace('/sobre', '/about') }))}
+        alternates={alternates}
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Rafael Muñoz",
+          "jobTitle": "Founder & Visual Engineering Lead",
+          "url": "https://kinetora.es/sobre",
+          "sameAs": [
+            "https://www.linkedin.com/in/shuzked/",
+            "https://www.instagram.com/kinetora_studio"
+          ],
+          "worksFor": {
+            "@type": "Organization",
+            "name": "Kinetora"
+          }
+        }}
       />
       <Navbar />
       

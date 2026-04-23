@@ -26,8 +26,14 @@ const CaseStudySchema: React.FC<CaseStudySchemaProps> = ({ study, lang }) => {
     "description": description,
     "image": image,
     "author": { "@type": "Organization", "name": "Kinetora" },
+    "creator": {
+      "@type": "Person",
+      "name": "Rafael Muñoz",
+      "url": `${baseUrl}/sobre`
+    },
     "publisher": { "@type": "Organization", "name": "Kinetora" },
-    "url": url
+    "url": url,
+    "dateCreated": "2024-04-01"
   };
 
   const articleSchema = {

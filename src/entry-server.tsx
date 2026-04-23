@@ -8,22 +8,22 @@ import App from './App';
 const SEO_DATA: Record<string, any> = {
   es: {
     '/': {
-      title: 'Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios.',
-      desc: 'Agencia de suscripción de diseño para startups. Elevamos tu marca para levantar capital y convertir usuarios con diseño premium en 48h.',
+      title: 'Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios',
+      desc: 'Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto.',
     },
     '/precios': {
       title: 'Planes de Diseño para Startups desde €1.900/mes | Kinetora',
-      desc: 'Suscripción de diseño mensual sin permanencia. Entregas en 48h para startups Seed y Series A/B. Pausa o cancela cuando quieras.',
+      desc: 'Suscripción de diseño para startups sin permanencia. Entrega en 48h, revisiones ilimitadas y pausa cuando quieras.',
     },
     '/sobre': {
-      title: 'Sobre Kinetora | El Futuro del Diseño para Startups',
-      desc: 'Conoce al equipo detrás de Kinetora. Ayudamos a fundadores a escalar sus productos con diseño de clase mundial.',
+      title: 'Sobre Nosotros | Ingeniería Visual para Startups | Kinetora',
+      desc: 'Ingeniería visual sin intermediarios. Conoce la historia de Kinetora y nuestro enfoque radical para escalar startups.',
     },
     '/legal/aviso-legal': { title: 'Aviso Legal | Kinetora', desc: 'Información legal sobre Kinetora.' },
     '/legal/politica-privacidad': { title: 'Política de Privacidad | Kinetora', desc: 'Cómo tratamos tus datos en Kinetora.' },
     '/legal/politica-cookies': { title: 'Política de Cookies | Kinetora', desc: 'Información sobre el uso de cookies en Kinetora.' },
     '/legal/privacidad-redes-sociales': { title: 'Privacidad en Redes Sociales | Kinetora', desc: 'Privacidad en nuestras plataformas sociales.' },
-    '/casos': { title: 'Casos de Éxito | Kinetora', desc: 'Portafolio de diseño premium para startups.' },
+    '/casos': { title: 'Casos de Éxito | Kinetora', desc: 'Resultados reales con impacto medible. Explora nuestros casos de éxito en diseño y producto para startups Web3 y tech.' },
     '/casos/elixir-games': { 
       title: 'Elixir Games: €14M levantados - Dirección Creativa Web3 | Kinetora', 
       desc: 'Dirección creativa y ecosistema global para Elixir Games. +14M levantados en capital.' 
@@ -55,22 +55,22 @@ const SEO_DATA: Record<string, any> = {
   },
   en: {
     '/': {
-      title: 'Kinetora | Design for Startups - Raise Capital, Convert Users.',
-      desc: 'Design subscription agency for startups. We elevate your brand to raise capital and convert users with premium design in 48h.',
+      title: 'Kinetora | Design for Startups - Raise Capital, Convert Users',
+      desc: 'Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product.',
     },
     '/precios': {
-      title: 'Design Plans for Startups starting at €1,900/mo | Kinetora',
-      desc: 'Monthly design subscription with no commitment. 48h deliveries for Seed and Series A/B startups. Pause or cancel anytime.',
+      title: 'Monthly Design Subscription for Startups | Kinetora',
+      desc: 'Design subscription for startups with no commitment. 48h delivery, unlimited revisions, and pause anytime.',
     },
     '/sobre': {
-      title: 'About Kinetora | The Future of Startup Design',
-      desc: 'Meet the team behind Kinetora. We help founders scale their products with world-class design.',
+      title: 'About Us | Visual Engineering for Startups | Kinetora',
+      desc: 'Visual engineering without middlemen. Discover the Kinetora story and our radical approach to scaling startups.',
     },
     '/legal/aviso-legal': { title: 'Legal Notice | Kinetora', desc: 'Legal information about Kinetora.' },
     '/legal/politica-privacidad': { title: 'Privacy Policy | Kinetora', desc: 'How we handle your data at Kinetora.' },
     '/legal/politica-cookies': { title: 'Cookies Policy | Kinetora', desc: 'Information about cookie usage at Kinetora.' },
     '/legal/privacidad-redes-sociales': { title: 'Social Media Privacy | Kinetora', desc: 'Privacy on our social platforms.' },
-    '/casos': { title: 'Case Studies | Kinetora', desc: 'Portfolio of premium design for startups.' },
+    '/casos': { title: 'Case Studies · Real Results · Web3 & Startup Design — Kinetora', desc: 'Real results with measurable impact. Explore our design and product case studies for Web3 and tech startups.' },
     '/casos/elixir-games': { 
       title: 'Elixir Games: €14M raised - Web3 Creative Direction | Kinetora', 
       desc: 'Creative direction and global ecosystem for Elixir Games. +14M raised in capital.' 
@@ -155,7 +155,13 @@ export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: st
             "name": data.title,
             "description": data.desc,
             "url": urlId,
-            "author": { "@type": "Organization", "name": "Kinetora" }
+            "author": { "@type": "Organization", "name": "Kinetora" },
+            "creator": {
+              "@type": "Person",
+              "name": "Rafael Muñoz",
+              "url": `${baseUrl}/sobre`
+            },
+            "dateCreated": "2024-04-01"
           },
           {
             "@type": "Article",

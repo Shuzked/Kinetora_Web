@@ -73,10 +73,14 @@ function injectBody(htmlFilePath, bodyHtml, templatePath, templateContent) {
   // Purgar el body antes de inyectar
   const cleanBody = purgeBodyLeakedTags(bodyHtml);
 
-  if (html.includes('<div id="root"></div>')) {
-    html = html.replace('<div id="root"></div>', `<div id="root">${cleanBody}</div>`);
-  } else if (/<div id="root">\s*<\/div>/.test(html)) {
-    html = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${cleanBody}</div>`);
+  // Regex robusta para encontrar el div#root y reemplazar su contenido
+  // Soporta <div id="root">...</div> con cualquier contenido previo
+  const rootRegex = /(<div\s+id="root"[^>]*>)([\s\S]*?)(<\/div>)/i;
+  
+  if (rootRegex.test(html)) {
+    html = html.replace(rootRegex, `$1${cleanBody}$3`);
+  } else {
+    console.warn(`[ssg-builder] ⚠️  No <div id="root"> found in template for ${htmlFilePath}`);
   }
 
   return html;
