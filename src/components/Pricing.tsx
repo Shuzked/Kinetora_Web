@@ -285,29 +285,27 @@ const Pricing = () => {
           {/* Subtle Background Glow */}
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#B454FF]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[#B454FF]/15 transition-colors duration-500" />
           
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="max-w-2xl text-center md:text-left">
-              <div className="inline-flex items-center rounded-full bg-[#B454FF]/20 text-[#B454FF] px-4 py-1.5 text-[10px] font-black tracking-widest uppercase mb-4">
+          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">
+            <div className="max-w-4xl text-center md:text-left">
+              <div className="inline-flex items-center rounded-full bg-[#B454FF]/20 text-[#B454FF] px-4 py-1.5 text-[10px] font-black tracking-widest uppercase mb-6">
                 Growth
               </div>
               <h3 className="text-3xl font-black uppercase tracking-tighter mb-4">
                 {isEs ? "Programa de Partners" : "Partner Program"}
               </h3>
-              <p className="text-[#F5F5F5]/60 text-lg leading-relaxed">
+              <p className="text-[#F5F5F5]/60 text-lg leading-relaxed max-w-3xl">
                 {isEs 
-                  ? "¿Conoces una startup que necesite este nivel de ejecución visual? Por cada cliente que refieras y cierre un acuerdo, aplicaremos un descuento directo de 500€ en tu próxima mensualidad."
-                  : "Know a startup that needs this level of visual execution? For every client you refer who signs a deal, we'll apply a €500 direct discount on your next monthly fee."}
+                  ? "¿Conoces una startup que necesite este nivel de ejecución visual? El boca a boca es nuestro canal principal. Si un founder nos contacta de tu parte y cerramos un acuerdo, aplicaremos un descuento directo de 500€ en tu próxima mensualidad."
+                  : "Know a startup that needs this level of visual execution? Word of mouth is our main channel. If a founder mentions your name and we close a deal, we'll apply a €500 direct discount on your next month."}
               </p>
             </div>
             
-            <PremiumButton
-              variant="outline"
-              size="lg"
-              className="rounded-full shrink-0"
-              onClick={() => window.location.href = `mailto:hola@kinetora.es?subject=${isEs ? 'Solicitud de enlace de referido' : 'Referral link request'}&body=${isEs ? 'Hola, me gustaría solicitar un enlace de referido para el programa de partners de Kinetora.' : 'Hello, I would like to request a referral link for Kinetora\'s partner program.'}`}
-            >
-              {isEs ? "Solicitar enlace de referido" : "Request referral link"}
-            </PremiumButton>
+            {/* Organic indicator - purely visual */}
+            <div className="hidden md:flex flex-col items-end gap-2 opacity-20">
+              <div className="h-px w-24 bg-gradient-to-l from-white to-transparent" />
+              <div className="h-px w-16 bg-gradient-to-l from-white to-transparent" />
+              <div className="h-px w-8 bg-gradient-to-l from-white to-transparent" />
+            </div>
           </div>
         </motion.div>
 
