@@ -30,6 +30,27 @@ const publicRoutes = [
   '/legal/privacidad-redes-sociales'
 ];
 
+// ── Quirky Cleaning Utilities (Senior SEO Shield) ────────────────────────
+function cleanTemplateHead(html) {
+  // Purgar etiquetas SEO del template base de Vite para evitar duplicados
+  return html
+    .replace(/<title[^>]*>.*?<\/title>/gi, '')
+    .replace(/<meta [^>]*name="(description|keywords|title|robots|viewport)"[^>]*>/gi, '')
+    .replace(/<meta [^>]*property="(og|twitter):[^>]*"[^>]*>/gi, '')
+    .replace(/<meta [^>]*name="twitter:[^>]*"[^>]*>/gi, '')
+    .replace(/<link [^>]*rel="(canonical|alternate)"[^>]*>/gi, '')
+    .replace(/<script [^>]*type="application\/ld\+json">.*?<\/script>/gi, '');
+}
+
+function purgeBodyLeakedTags(bodyHtml) {
+  // Purgar etiquetas que React 19 inyecta por error en el body durante renderToString
+  // Incluimos cualquier metadato, título o link que haya quedado atrapado
+  return bodyHtml
+    .replace(/<title[^>]*>.*?<\/title>/gi, '')
+    .replace(/<meta [^>]*>/gi, '')
+    .replace(/<link [^>]*rel="(canonical|alternate)"[^>]*>/gi, '');
+}
+
 // Helper to inject the rendered HTML into the template
 function injectBody(htmlFilePath, bodyHtml, templatePath, templateContent) {
   let html;
@@ -49,24 +70,30 @@ function injectBody(htmlFilePath, bodyHtml, templatePath, templateContent) {
     return false;
   }
 
+  // Purgar el body antes de inyectar
+  const cleanBody = purgeBodyLeakedTags(bodyHtml);
+
   if (html.includes('<div id="root"></div>')) {
-    html = html.replace('<div id="root"></div>', `<div id="root">${bodyHtml}</div>`);
+    html = html.replace('<div id="root"></div>', `<div id="root">${cleanBody}</div>`);
   } else if (/<div id="root">\s*<\/div>/.test(html)) {
-    html = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${bodyHtml}</div>`);
+    html = html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${cleanBody}</div>`);
   }
 
   return html;
 }
 
 function injectMetadata(html, headHtml) {
-  if (html.includes('<!-- SSR_HEAD_PLACEHOLDER -->')) {
-    return html.replace('<!-- SSR_HEAD_PLACEHOLDER -->', headHtml);
+  // Primero limpiamos el head de la basura genérica
+  const cleanedHtml = cleanTemplateHead(html);
+
+  if (cleanedHtml.includes('<!-- SSR_HEAD_PLACEHOLDER -->')) {
+    return cleanedHtml.replace('<!-- SSR_HEAD_PLACEHOLDER -->', headHtml);
   }
   // Fallback if Vite removed the comment (common in production)
-  if (html.includes('</head>')) {
-    return html.replace('</head>', `${headHtml}\n  </head>`);
+  if (cleanedHtml.includes('</head>')) {
+    return cleanedHtml.replace('</head>', `${headHtml}\n  </head>`);
   }
-  return html;
+  return cleanedHtml;
 }
 
 // ── Main SSG Execution ───────────────────────────────────────────────────

@@ -122,6 +122,11 @@ export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: st
     ${helmet.script?.toString() || ''}
   `.trim() : '';
 
+  // Post-process to ensure data-rh="true" for all injected tags
+  if (head) {
+    head = head.replace(/<(title|meta|link|script)(?![^>]*data-rh=)/gi, '<$1 data-rh="true"');
+  }
+
   // Fallback if helmet is empty (e.g. during build hiccups)
   if (!head || head.length < 10) {
     let data = SEO_DATA[lang][url];
@@ -182,11 +187,11 @@ export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: st
     const altLang = lang === 'es' ? 'en' : 'es';
     
     head = `
-      <title>${data.title}</title>
-      <meta name="description" content="${data.desc}" />
-      <link rel="canonical" href="${domain}${url === '/' ? '' : url}" />
-      <link rel="alternate" hreflang="${altLang}" href="${altDomain}${url === '/' ? '' : url}" />
-      <link rel="alternate" hreflang="x-default" href="https://kinetora.tech${url === '/' ? '' : url}" />
+      <title data-rh="true">${data.title}</title>
+      <meta data-rh="true" name="description" content="${data.desc}" />
+      <link data-rh="true" rel="canonical" href="${domain}${url === '/' ? '' : url}" />
+      <link data-rh="true" rel="alternate" hreflang="${altLang}" href="${altDomain}${url === '/' ? '' : url}" />
+      <link data-rh="true" rel="alternate" hreflang="x-default" href="https://kinetora.tech${url === '/' ? '' : url}" />
       ${studySchema}
     `.trim();
   }
