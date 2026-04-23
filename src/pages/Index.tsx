@@ -109,6 +109,8 @@ const Index = () => {
     : "Elite visual engineering and UX/UI design studio for startups. We elevate your product to raise capital and convert users with 48h delivery.";
 
   const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
+  const { pathname } = useLocation();
+  const canonical = `${origin}${pathname === '/' ? '/' : pathname}`;
 
   // ── Hreflang: "es" no "es-ES" para cobertura nacional amplia
   const alternates = [
