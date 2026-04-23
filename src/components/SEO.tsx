@@ -48,16 +48,20 @@ const Seo: React.FC<SeoProps> = ({
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name="title" content={title} />
-      {description && <meta name="description" content={description} />}
-      {keywords && <meta name="keywords" content={keywords} />}
+      <meta data-rh="true" name="title" content={title} />
+      {description && <meta data-rh="true" name="description" content={description} />}
+      {keywords && <meta data-rh="true" name="keywords" content={keywords} />}
       
-      <link rel="canonical" href={finalCanonical} />
+      <link data-rh="true" rel="canonical" href={finalCanonical} />
       
       {/* Hreflang Tags */}
       {alternates.map((alt) => (
-        <link key={alt.hrefLang} rel="alternate" hrefLang={alt.hrefLang} href={alt.href} />
+        <link key={alt.hrefLang} data-rh="true" rel="alternate" hrefLang={alt.hrefLang} href={alt.href} />
       ))}
+
+      {jsonLd && (
+        <meta name="json-ld-ssr" content={JSON.stringify(jsonLd)} data-rh="true" />
+      )}
       
       <meta property="og:title" content={title} />
       {description && <meta property="og:description" content={description} />}
@@ -69,12 +73,6 @@ const Seo: React.FC<SeoProps> = ({
       <meta name="twitter:title" content={title} />
       {description && <meta name="twitter:description" content={description} />}
       <meta name="twitter:image" content={ogImage} />
-
-      {jsonLd && (
-        <script type="application/ld+json">
-          {JSON.stringify(jsonLd)}
-        </script>
-      )}
     </Helmet>
   );
 };

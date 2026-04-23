@@ -33,13 +33,22 @@ const publicRoutes = [
 // ── Quirky Cleaning Utilities (Senior SEO Shield) ────────────────────────
 function cleanTemplateHead(html) {
   // Purgar etiquetas SEO del template base de Vite para evitar duplicados
-  return html
-    .replace(/<title[^>]*>.*?<\/title>/gi, '')
-    .replace(/<meta [^>]*name="(description|keywords|title|robots|viewport)"[^>]*>/gi, '')
-    .replace(/<meta [^>]*property="(og|twitter):[^>]*"[^>]*>/gi, '')
-    .replace(/<meta [^>]*name="twitter:[^>]*"[^>]*>/gi, '')
-    .replace(/<link [^>]*rel="(canonical|alternate)"[^>]*>/gi, '')
-    .replace(/<script [^>]*type="application\/ld\+json">.*?<\/script>/gi, '');
+  // Somos extremadamente agresivos aquí porque entry-server re-inyectará todo con data-rh="true"
+  return html.replace(/<head>([\s\S]*?)<\/head>/i, (match, content) => {
+    // Robustly extract all head tags, capturing full content for script/style/title
+    const tags = content.match(/<(script|title|style|noscript)[\s\S]*?<\/\1>|<(meta|link|base|br|hr|input|img)[\s\S]*?>/gi) || [];
+    
+    // Filter to keep only our injected SEO (data-rh="true") and critical assets
+    const preserved = tags.filter(tag => 
+      tag.includes('data-rh="true"') || 
+      tag.includes('type="module"') || 
+      tag.includes('rel="stylesheet"') ||
+      tag.includes('window.__INITIAL_') ||
+      tag.includes('window.__KINETORA_')
+    );
+
+    return `<head>\n    ${preserved.join('\n    ')}\n  </head>`;
+  });
 }
 
 function purgeBodyLeakedTags(bodyHtml) {
@@ -89,13 +98,27 @@ function injectBody(htmlFilePath, bodyHtml, templatePath, templateContent) {
 function injectMetadata(html, headHtml) {
   // Primero limpiamos el head de la basura genérica
   const cleanedHtml = cleanTemplateHead(html);
+  
+  // Transformación del Senior Hack: Convertir meta[name="json-ld-ssr"] en <script type="application/ld+json">
+  // Esto es necesario porque Helmet a veces falla al recolectar scripts durante SSR en Node.js
+  const transformedHead = headHtml.replace(
+    /<meta [^>]*name="json-ld-ssr"[^>]*content='([\s\S]*?)'[^>]*>/gi,
+    (match, content) => `<script type="application/ld+json" data-rh="true">${content}</script>`
+  ).replace(
+    /<meta [^>]*name="json-ld-ssr"[^>]*content="([\s\S]*?)"[^>]*>/gi,
+    (match, content) => {
+      // Unescape double quotes if needed (JSON in attribute)
+      const unescaped = content.replace(/&quot;/g, '"');
+      return `<script type="application/ld+json" data-rh="true">${unescaped}</script>`;
+    }
+  );
 
   if (cleanedHtml.includes('<!-- SSR_HEAD_PLACEHOLDER -->')) {
-    return cleanedHtml.replace('<!-- SSR_HEAD_PLACEHOLDER -->', headHtml);
+    return cleanedHtml.replace('<!-- SSR_HEAD_PLACEHOLDER -->', transformedHead);
   }
   // Fallback if Vite removed the comment (common in production)
   if (cleanedHtml.includes('</head>')) {
-    return cleanedHtml.replace('</head>', `${headHtml}\n  </head>`);
+    return cleanedHtml.replace('</head>', `${transformedHead}\n  </head>`);
   }
   return cleanedHtml;
 }

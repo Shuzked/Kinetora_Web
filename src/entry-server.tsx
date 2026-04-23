@@ -3,6 +3,7 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
+import { caseStudies } from './data/caseStudies';
 
 // Metadatos estáticos para asegurar 100/100 SEO durante SSG
 const SEO_DATA: Record<string, any> = {
@@ -102,8 +103,6 @@ const SEO_DATA: Record<string, any> = {
   }
 };
 
-import { caseStudies } from './data/caseStudies';
-
 export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: string; head: string }> {
   const helmetContext: any = {};
   let appHtml = renderToString(
@@ -115,16 +114,25 @@ export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: st
   );
 
   const { helmet } = helmetContext;
+  const helmetScript = helmet?.script?.toString() || '';
+  
+  // --- Fail-safe JSON-LD Generation ---
+  const manualJsonLd = generateManualJsonLd(url, lang);
+  const manualJsonLdScript = manualJsonLd 
+    ? `<script type="application/ld+json" data-rh="true">${JSON.stringify(manualJsonLd)}</script>`
+    : '';
+
   let head = helmet ? `
     ${helmet.title?.toString() || ''}
     ${helmet.meta?.toString() || ''}
     ${helmet.link?.toString() || ''}
-    ${helmet.script?.toString() || ''}
-  `.trim() : '';
+    ${helmetScript}
+    ${manualJsonLdScript}
+  `.trim() : manualJsonLdScript;
 
   // Post-process to ensure data-rh="true" for all injected tags
   if (head) {
-    head = head.replace(/<(title|meta|link|script)(?![^>]*data-rh=)/gi, '<$1 data-rh="true"');
+    head = head.replace(/<(title|meta|link|script)(?![^>]*data-rh=)(?![^>]*src=)/gi, '<$1 data-rh="true"');
   }
 
   // Fallback if helmet is empty (e.g. during build hiccups)
@@ -141,50 +149,6 @@ export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: st
         title: study ? (lang === 'es' ? `${title} | Kinetora` : `${title} | Kinetora`) : `${slug} | Case Study | Kinetora`,
         desc: study ? (lang === 'es' ? (study.summaryFallback || '') : (study.summaryFallbackEn || study.summaryFallback || '')) : (lang === 'es' ? `Caso de éxito de diseño para ${slug}.` : `Design case study for ${slug}.`)
       };
-
-      // Optimized @graph Schema Fallback for Case Studies
-      const baseUrl = lang === 'es' ? 'https://kinetora.es' : 'https://kinetora.tech';
-      const urlId = `${baseUrl}${url}`;
-      
-      const graphSchema = {
-        "@context": "https://schema.org",
-        "@graph": [
-          {
-            "@type": "CreativeWork",
-            "@id": `${urlId}#creativework`,
-            "name": data.title,
-            "description": data.desc,
-            "url": urlId,
-            "author": { "@type": "Organization", "name": "Kinetora" },
-            "creator": {
-              "@type": "Person",
-              "name": "Rafael Muñoz",
-              "url": `${baseUrl}/sobre`
-            },
-            "dateCreated": "2024-04-01"
-          },
-          {
-            "@type": "Article",
-            "@id": `${urlId}#article`,
-            "headline": data.title,
-            "description": data.desc,
-            "mainEntityOfPage": { "@type": "WebPage", "@id": urlId },
-            "author": { "@type": "Organization", "name": "Kinetora" }
-          },
-          {
-            "@type": "BreadcrumbList",
-            "@id": `${urlId}#breadcrumb`,
-            "itemListElement": [
-              { "@type": "ListItem", "position": 1, "name": lang === 'es' ? "Inicio" : "Home", "item": baseUrl },
-              { "@type": "ListItem", "position": 2, "name": lang === 'es' ? "Casos" : "Case Studies", "item": `${baseUrl}/casos` },
-              { "@type": "ListItem", "position": 3, "name": study?.label || slug, "item": urlId }
-            ]
-          }
-        ]
-      };
-      studySchema = `
-        <script type="application/ld+json">${JSON.stringify(graphSchema)}</script>
-      `;
     }
     
     if (!data) data = SEO_DATA[lang]['/'];
@@ -198,9 +162,120 @@ export async function render(url: string, lang: 'en' | 'es'): Promise<{ html: st
       <link data-rh="true" rel="canonical" href="${domain}${url === '/' ? '' : url}" />
       <link data-rh="true" rel="alternate" hreflang="${altLang}" href="${altDomain}${url === '/' ? '' : url}" />
       <link data-rh="true" rel="alternate" hreflang="x-default" href="https://kinetora.tech${url === '/' ? '' : url}" />
-      ${studySchema}
+      ${manualJsonLdScript}
     `.trim();
   }
 
   return { html: appHtml, head: head };
+}
+
+function generateManualJsonLd(url: string, lang: 'en' | 'es') {
+  const domain = lang === 'es' ? 'https://kinetora.es' : 'https://kinetora.tech';
+  const fullUrl = `${domain}${url === '/' ? '' : url}`;
+
+  // Organization Schema (Global)
+  const organization = {
+    "@type": "Organization",
+    "@id": `${domain}/#organization`,
+    "name": "Kinetora",
+    "url": domain,
+    "logo": {
+      "@type": "ImageObject",
+      "url": `${domain}/Logotipo.svg`
+    },
+    "sameAs": [
+      "https://x.com/kinetora",
+      "https://linkedin.com/company/kinetora"
+    ]
+  };
+
+  // 1. Home
+  if (url === '/' || url === '') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        organization,
+        {
+          "@type": "WebSite",
+          "@id": `${domain}/#website`,
+          "url": domain,
+          "name": "Kinetora",
+          "publisher": { "@id": `${domain}/#organization` }
+        },
+        {
+          "@type": "WebPage",
+          "@id": `${fullUrl}#webpage`,
+          "url": fullUrl,
+          "name": lang === 'es' ? "Kinetora | Ingeniería Visual para Startups" : "Kinetora | Visual Engineering for Startups",
+          "description": lang === 'es' ? "Estudio de diseño premium para startups." : "Premium design studio for startups.",
+          "isPartOf": { "@id": `${domain}/#website` },
+          "about": { "@id": `${domain}/#organization` }
+        }
+      ]
+    };
+  }
+
+  // 2. Sobre (Person Schema)
+  if (url === '/sobre') {
+    return {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": `${domain}/sobre#person`,
+          "name": "Rafael Muñoz",
+          "jobTitle": "Founder & Creative Director",
+          "url": fullUrl,
+          "sameAs": ["https://linkedin.com/in/rafael-munoz-kinetora"]
+        },
+        {
+          "@type": "WebPage",
+          "@id": `${fullUrl}#webpage`,
+          "url": fullUrl,
+          "name": lang === 'es' ? "Sobre Nosotros | Kinetora" : "About Us | Kinetora",
+          "isPartOf": { "@id": `${domain}/#website` },
+          "mainEntity": { "@id": `${domain}/sobre#person` }
+        }
+      ]
+    };
+  }
+
+  // 3. Casos (Collection)
+  if (url === '/casos') {
+    return {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": `${fullUrl}#webpage`,
+      "url": fullUrl,
+      "name": lang === 'es' ? "Casos de Éxito | Kinetora" : "Case Studies | Kinetora",
+      "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": caseStudies.map((study, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "url": `${domain}/casos/${study.slug}`
+        }))
+      }
+    };
+  }
+
+  // 4. Case Study Post
+  if (url.startsWith('/casos/')) {
+    const slug = url.split('/').pop() || '';
+    const study = caseStudies.find(s => s.slug === slug);
+    if (study) {
+      return {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "@id": `${fullUrl}#article`,
+        "headline": lang === 'es' ? study.title : (study.titleEn || study.title),
+        "image": `${domain}${study.coverImage}`,
+        "author": { "@type": "Person", "name": "Rafael Muñoz" },
+        "publisher": { "@id": `${domain}/#organization` },
+        "url": fullUrl
+      };
+    }
+  }
+
+  return null;
 }

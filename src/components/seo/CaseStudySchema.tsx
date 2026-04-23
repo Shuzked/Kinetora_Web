@@ -91,9 +91,7 @@ const CaseStudySchema: React.FC<CaseStudySchemaProps> = ({ study, lang }) => {
 
   return (
     <Helmet>
-      <script type="application/ld+json">
-        {JSON.stringify(graphSchema)}
-      </script>
+      <meta name="json-ld-ssr" content={JSON.stringify(graphSchema)} data-rh="true" />
     </Helmet>
   );
 };

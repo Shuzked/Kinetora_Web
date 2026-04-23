@@ -60,9 +60,13 @@ const Cases = () => {
   const eqRef = React.useRef<HTMLDivElement | null>(null);
   useEqualizeHeights(eqRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang, meta]);
 
+  const isES = lang === 'es';
   const seoDefaults = getSeoDefaults(lang);
   const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const canonical = `${origin}/casos`;
+  const pageKeywords = isES 
+    ? "diseño startups, casos éxito diseño, branding web3, kinetora portfolio"
+    : "startup design, design case studies, web3 branding, kinetora portfolio";
   const pageTitle = isES 
     ? `Casos de éxito — ${seoDefaults.siteName}` 
     : `Case Studies · Real Results · Web3 & Startup Design — ${seoDefaults.siteName}`;
