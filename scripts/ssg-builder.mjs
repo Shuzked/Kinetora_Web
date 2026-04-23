@@ -14,7 +14,7 @@ const caseStudiesSlugs = [
   'elixir-token',
   'chronosworlds',
   'cybertitans-pulse-series',
-  'cybertitans-clash-impacto-brutal-y-evolucion-web3',
+  'cybertitans-clash',
   'robokiden-token'
 ];
 
@@ -31,10 +31,15 @@ const publicRoutes = [
 ];
 
 // Helper to inject the rendered HTML into the template
-function injectBody(htmlFilePath, bodyHtml, templatePath) {
+function injectBody(htmlFilePath, bodyHtml, templatePath, templateContent) {
   let html;
   
-  if (templatePath && fs.existsSync(templatePath)) {
+  if (templateContent) {
+    html = templateContent;
+    if (htmlFilePath) {
+      fs.mkdirSync(path.dirname(htmlFilePath), { recursive: true });
+    }
+  } else if (templatePath && fs.existsSync(templatePath)) {
     html = fs.readFileSync(templatePath, 'utf8');
     fs.mkdirSync(path.dirname(htmlFilePath), { recursive: true });
   } else if (fs.existsSync(htmlFilePath)) {
@@ -94,7 +99,8 @@ async function buildSSG() {
   }
 
   // El template base SIEMPRE debe ser el index.html original de dist para asegurar limpieza
-  const CLEAN_BASE = path.join(DIST, 'index.html');
+  const CLEAN_BASE_PATH = path.join(DIST, 'index.html');
+  const CLEAN_TEMPLATE = fs.readFileSync(CLEAN_BASE_PATH, 'utf8');
 
   for (const url of publicRoutes) {
     console.log(`\n[ssg-builder] Rendering route: ${url}`);
@@ -106,7 +112,7 @@ async function buildSSG() {
     try {
       // 1. Renderizar la versión en Inglés
       const { html: appHtmlEN, head: headHtmlEN } = await render(url, 'en');
-      let finalHtmlEN = injectBody(fileEN, appHtmlEN, CLEAN_BASE); // Usamos CLEAN_BASE como origen
+      let finalHtmlEN = injectBody(fileEN, appHtmlEN, null, CLEAN_TEMPLATE); 
       finalHtmlEN = injectMetadata(finalHtmlEN, headHtmlEN);
       
       if (subPath) fs.mkdirSync(path.join(DIST, subPath), { recursive: true });
@@ -115,7 +121,7 @@ async function buildSSG() {
 
       // 2. Renderizar la versión en Español
       const { html: appHtmlES, head: headHtmlES } = await render(url, 'es');
-      let finalHtmlES = injectBody(fileES, appHtmlES, CLEAN_BASE); // Usamos CLEAN_BASE como origen
+      let finalHtmlES = injectBody(fileES, appHtmlES, null, CLEAN_TEMPLATE);
       finalHtmlES = injectMetadata(finalHtmlES, headHtmlES);
       
       // Asegurar que el bridge de idioma esté correcto para ES

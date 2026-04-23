@@ -18,6 +18,8 @@ import { getSeoDefaults } from "@/seo/defaults";
 import { splitWpContentIntoTextAndMedia, sanitizeWpHtml } from "@/components/case-study/caseStudyUtils";
 import Reveal from "@/components/Reveal";
 
+import CaseStudySchema from "@/components/seo/CaseStudySchema";
+
 const CaseStudyPost = () => {
   const { lang } = useI18n();
   const { slug } = useParams();
@@ -108,21 +110,44 @@ const CaseStudyPost = () => {
 
   const seoDefaults = getSeoDefaults(lang);
   
-  // Exact titles requested by Tech Lead for SEO shock plan
-  const exactTitles: Record<string, string> = {
-    "elixir-games": "Elixir Games: €14M levantados - Dirección Creativa Global | Kinetora",
-    "elixir-token": "Elixir Token Launch: $14.2M en ventas - Diseño de Campaña | Kinetora",
-    "chronosworlds": "ChronosWorlds: Rebranding 3D + UX/UI Web3 Gaming | Kinetora",
-    "cybertitans-clash-impacto-brutal-y-evolucion-web3": "CyberTitans Clash: +1.5M impacto orgánico - Diseño Web3 | Kinetora",
-    "cybertitans-pulse-series": "CyberTitans Pulse Series: Revolución visual eSports | Kinetora",
-    "dunk-low-elixir-edition": "Dunk Low Elixir: Airdrop global - Diseño Gaming + Fashion | Kinetora",
-    "robokiden-token": "Robokiden Token: +$1.15M ventas - Campaña de Lanzamiento | Kinetora",
+  // Exact titles requested by Tech Lead for SEO shock plan (Multi-language)
+  const exactTitles: Record<string, { es: string; en: string }> = {
+    "elixir-games": {
+      es: "Elixir Games: €14M levantados - Dirección Creativa Web3 | Kinetora",
+      en: "Elixir Games: €14M raised - Web3 Creative Direction | Kinetora"
+    },
+    "elixir-token": {
+      es: "Elixir Token: $14.2M en ventas - Campaña de Lanzamiento | Kinetora",
+      en: "Elixir Token: $14.2M in sales - Global Launch Campaign | Kinetora"
+    },
+    "chronosworlds": {
+      es: "ChronosWorlds: Rebranding 3D + UX/UI $12M | Kinetora",
+      en: "ChronosWorlds: 3D Rebranding + UX/UI $12M | Kinetora"
+    },
+    "cybertitans-clash": {
+      es: "CyberTitans Clash: +1.5M impacto - Diseño Web3 | Kinetora",
+      en: "CyberTitans Clash: +1.5M impact - Web3 Design | Kinetora"
+    },
+    "cybertitans-pulse-series": {
+      es: "CyberTitans Pulse Series: Revolución visual eSports | Kinetora",
+      en: "CyberTitans Pulse Series: eSports Visual Revolution | Kinetora"
+    },
+    "dunk-low-elixir-edition": {
+      es: "Dunk Low Elixir: Airdrop global - Diseño Gaming + Fashion | Kinetora",
+      en: "Dunk Low Elixir: Global Airdrop - Gaming + Fashion Design | Kinetora"
+    },
+    "robokiden-token": {
+      es: "Robokiden Token: +$1.15M en ventas - Lanzamiento Global | Kinetora",
+      en: "Robokiden Token: +$1.15M in sales - Global Launch | Kinetora"
+    },
   };
 
-  const seoTitle = (slug && exactTitles[slug]) || (title ? `${title} — ${seoDefaults.siteName}` : seoDefaults.title);
+  const seoTitle = (slug && exactTitles[slug]) 
+    ? (lang === "es" ? exactTitles[slug].es : exactTitles[slug].en)
+    : (title ? `${title} — ${seoDefaults.siteName}` : seoDefaults.title);
 
   // Dynamic Canonical Detection
-  const isES = typeof window !== 'undefined' && window.location.hostname.includes('.es');
+  const isES = lang === 'es';
   const baseUrl = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const canonical = `${baseUrl}/casos/${slug ?? ""}`;
   
@@ -145,46 +170,6 @@ const CaseStudyPost = () => {
   ];
 
   const absoluteImage = cover ? (baseUrl ? new URL(cover, baseUrl).href : cover) : seoDefaults.shareImage;
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "CreativeWork",
-        "@id": `${canonical}#creativework`,
-        "name": title,
-        "description": description,
-        "image": absoluteImage,
-        "author": { "@type": "Organization", "name": "Kinetora" },
-        "publisher": { "@type": "Organization", "name": "Kinetora" },
-        "url": canonical
-      },
-      {
-        "@type": "Article",
-        "headline": seoTitle,
-        "description": description,
-        "image": absoluteImage,
-        "inLanguage": lang === "es" ? "es-ES" : "en-US",
-        "mainEntityOfPage": { "@type": "WebPage", "@id": canonical },
-        "publisher": {
-          "@type": "Organization",
-          "name": seoDefaults.siteName,
-          "logo": {
-            "@type": "ImageObject",
-            "url": baseUrl ? new URL("/Logotipo.svg", baseUrl).href : "/Logotipo.svg"
-          }
-        }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": lang === "es" ? "Inicio" : "Home", "item": baseUrl ? new URL("/", baseUrl).href : "/" },
-          { "@type": "ListItem", "position": 2, "name": lang === "es" ? "Casos" : "Cases", "item": baseUrl ? new URL("/casos", baseUrl).href : "/casos" },
-          { "@type": "ListItem", "position": 3, "name": title || (lang === "es" ? "Caso" : "Case"), "item": canonical }
-        ]
-      }
-    ]
-  };
 
   const textWrapRef = React.useRef<HTMLDivElement | null>(null);
   const mediaWrapRef = React.useRef<HTMLDivElement | null>(null);
@@ -243,8 +228,13 @@ const CaseStudyPost = () => {
         ogType="article"
         twitterCard="summary_large_image"
         robots="index,follow"
-        jsonLd={jsonLd}
       />
+      
+      <CaseStudySchema 
+        study={currentCase}
+        lang={lang}
+      />
+
 
       <Navbar />
 

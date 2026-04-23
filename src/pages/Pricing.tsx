@@ -5,12 +5,12 @@ import PricingSection from '@/components/Pricing';
 import SEO from '@/components/SEO';
 import { useI18n } from '@/i18n/I18nProvider';
 
-const PricingPage = () => {
+export default function PricingPage() {
   const { lang } = useI18n();
   const isES = lang === 'es';
 
   const title = isES 
-    ? "Suscripción de Diseño Mensual para Startups | Kinetora" 
+    ? "Planes de Diseño para Startups desde €1.900/mes | Kinetora" 
     : "Monthly Design Subscription for Startups | Kinetora";
   
   const description = isES
@@ -28,7 +28,7 @@ const PricingPage = () => {
       <SEO 
         title={title}
         description={description}
-        alternates={isES ? alternates : alternates.map(a => ({ ...a, href: a.href.replace('/precios', '/pricing') }))}
+        alternates={alternates}
       />
       <Navbar />
       <main className="pt-24">
@@ -37,6 +37,4 @@ const PricingPage = () => {
       <Footer />
     </div>
   );
-};
-
-export default PricingPage;
+}

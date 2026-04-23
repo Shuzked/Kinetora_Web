@@ -32,8 +32,14 @@ const Seo: React.FC<SeoProps> = ({
   const isES = lang === 'es';
   const baseUrl = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   
-  // Final canonical URL
-  const finalCanonical = canonical || `${baseUrl}${currentPath === '/' ? '' : currentPath}`;
+  // Final canonical URL - Prioritize dynamic path over hardcoded props if props is just the root
+  const sanitizedPath = currentPath === '/' ? '' : currentPath.endsWith('/') ? currentPath.slice(0, -1) : currentPath;
+  const dynamicCanonical = `${baseUrl}${sanitizedPath}`;
+  
+  // If canonical prop is provided but it's just the root domain and we are on a subpage, use the dynamic one instead
+  const finalCanonical = (canonical && (canonical === 'https://kinetora.es/' || canonical === 'https://kinetora.tech/') && currentPath !== '/')
+    ? dynamicCanonical
+    : (canonical || dynamicCanonical);
 
   if (typeof window === 'undefined') {
     console.log(`[SEO] SSR Rendering. title: ${title}, lang: ${lang}, canonical: ${finalCanonical}`);

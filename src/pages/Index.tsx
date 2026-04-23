@@ -109,7 +109,6 @@ const Index = () => {
     : "Elite visual engineering and UX/UI design studio for startups. We elevate your product to raise capital and convert users with 48h delivery.";
 
   const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
-  const canonical = `${origin}/`;
 
   // ── Hreflang: "es" no "es-ES" para cobertura nacional amplia
   const alternates = [
@@ -166,7 +165,6 @@ const Index = () => {
       <SEO
         title={title}
         description={description}
-        canonical={canonical}
         ogType="website"
         alternates={alternates}
         jsonLd={{
@@ -176,13 +174,13 @@ const Index = () => {
             localJsonLd,
             {
               "@type": "WebSite",
-              "@id": `${canonical}#website`,
-              "url": canonical,
+              "@id": `${origin}/#website`,
+              "url": `${origin}/`,
               "name": "Kinetora",
-              "publisher": { "@id": `${canonical}#organization` },
+              "publisher": { "@id": `${origin}/#organization` },
               "potentialAction": {
                 "@type": "SearchAction",
-                "target": `${canonical}?q={search_term_string}`,
+                "target": `${origin}/?q={search_term_string}`,
                 "query-input": "required name=search_term_string"
               }
             }

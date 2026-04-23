@@ -136,9 +136,9 @@ export const caseStudies: CaseStudy[] = [
     metricValue: "+1,4M",
   },
   {
-    slug: "cybertitans-clash-impacto-brutal-y-evolucion-web3",
+    slug: "cybertitans-clash",
     sourceUrl:
-      "https://kinetora.tech/cybertitans-clash-impacto-brutal-y-evolucion-web3/",
+      "https://kinetora.tech/cybertitans-clash/",
     label: "CYBERTITANS CLASH",
     labelEn: "CYBERTITANS CLASH",
     title: "CyberTitans Clash: Impacto Brutal y Evolución Web3",

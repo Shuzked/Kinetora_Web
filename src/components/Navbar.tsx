@@ -5,7 +5,7 @@ import PremiumButton from '@/components/PremiumButton';
 import { Button } from "@/components/ui/button";
 import Logo from './Logo';
 import KinetoraIcon from './KinetoraIcon';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu } from 'lucide-react';
 import {
   Sheet,
@@ -19,6 +19,7 @@ import LanguageSwitcher, { LanguagePills } from "@/components/LanguageSwitcher";
 
 const Navbar = () => {
   const { t, lang } = useI18n();
+  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
 
   const navLinks = [
@@ -66,7 +67,7 @@ const Navbar = () => {
           aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}
         >
           {navLinks.map((link) => {
-            const isActive = link.href ? activeId === link.href.replace('#', '') : window.location.pathname === link.to;
+            const isActive = link.href ? activeId === link.href.replace('#', '') : location.pathname === link.to;
             
             return (
               <span key={link.name} className="relative">
