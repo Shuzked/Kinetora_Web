@@ -165,8 +165,8 @@
 
   /* Section vertical rhythm */
   .kin-section {
-    padding-top: clamp(4rem, 12vw, 10rem);
-    padding-bottom: clamp(4rem, 12vw, 10rem);
+    padding-top: clamp(3rem, 10vw, 10rem);
+    padding-bottom: clamp(3rem, 10vw, 10rem);
   }
 
   /* Landing: ensure consistent section margin collapse handling when nested in ParallaxSection */
@@ -507,6 +507,11 @@
       min-height: 44px;
       min-width: 44px;
     }
+    /* Apple HIG compliant: 48×48px minimum */
+    .kin-touch-target-lg {
+      min-height: 48px;
+      min-width: 48px;
+    }
   }
 
   /* Clamp paragraph measure for readability */
@@ -517,6 +522,8 @@
   /* Ensure main layout never causes horizontal scroll */
   main {
     overflow-x: clip;
+    max-width: 100%;
+    contain: paint;
   }
 
   /* Soft vertical fade using mask-image to avoid visible color cuts between sections */
@@ -570,8 +577,11 @@
 
 .liquid-blob {
   @apply absolute rounded-full blur-[110px] opacity-60 mix-blend-screen;
-  width: 65vw;
-  height: 65vw;
+  /* Constrain to viewport to prevent horizontal overflow from animated transforms */
+  width: min(65vw, 100%);
+  height: min(65vw, 100%);
+  max-width: 800px;
+  max-height: 800px;
   will-change: transform;
   animation: liquid-move 32s infinite alternate ease-in-out;
 }

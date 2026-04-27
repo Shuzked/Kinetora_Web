@@ -5,72 +5,34 @@ import ClientOnly from "@/components/ClientOnly";
 import { Search, Settings, Zap, BarChart3 } from "lucide-react";
 
 const HowItWorks = () => {
-  const { lang } = useI18n();
-  const isEs = lang === "es";
+  const { t } = useI18n();
 
-  const copy = isEs
-    ? {
-        badge: "Metodología",
-        title: "FLUJO DE ALTO RENDIMIENTO",
-        sub: "De la auditoría inicial al escalado estratégico. Así es como transformamos tu impacto visual.",
-        steps: [
-          {
-            number: "01",
-            title: "Auditoría & Estrategia",
-            desc: "Análisis profundo del mercado y assets actuales. Definición de la hoja de ruta visual para tu startup.",
-            icon: Search,
-          },
-          {
-            number: "02",
-            title: "Setup de Sistemas",
-            desc: "Creación del ecosistema de diseño en Figma y sincronización técnica inicial. Bases sólidas para crecer.",
-            icon: Settings,
-          },
-          {
-            number: "03",
-            title: "Producción Iterativa",
-            desc: "Entregas constantes cada 48-72h. Feedback en tiempo real vía Slack/Loom para máxima agilidad.",
-            icon: Zap,
-          },
-          {
-            number: "04",
-            title: "Escalado & Optimización",
-            desc: "Refinamiento basado en datos de conversión y expansión constante de tu librería de assets.",
-            icon: BarChart3,
-          },
-        ],
-      }
-    : {
-        badge: "Methodology",
-        title: "HIGH-PERFORMANCE FLOW",
-        sub: "From initial audit to strategic scaling. This is how we transform your visual impact.",
-        steps: [
-          {
-            number: "01",
-            title: "Audit & Strategy",
-            desc: "Deep analysis of the market and current assets. Defining the visual roadmap for your startup.",
-            icon: Search,
-          },
-          {
-            number: "02",
-            title: "Systems Setup",
-            desc: "Creation of the design ecosystem in Figma and initial technical sync. Solid foundations for growth.",
-            icon: Settings,
-          },
-          {
-            number: "03",
-            title: "Iterative Production",
-            desc: "Constant deliveries every 48-72h. Real-time feedback via Slack/Loom for maximum agility.",
-            icon: Zap,
-          },
-          {
-            number: "04",
-            title: "Scaling & Optimization",
-            desc: "Refinement based on conversion data and constant expansion of your asset library.",
-            icon: BarChart3,
-          },
-        ],
-      };
+  const steps = [
+    {
+      number: "01",
+      title: t("howitworks.step1_t"),
+      desc: t("howitworks.step1_d"),
+      icon: Search,
+    },
+    {
+      number: "02",
+      title: t("howitworks.step2_t"),
+      desc: t("howitworks.step2_d"),
+      icon: Settings,
+    },
+    {
+      number: "03",
+      title: t("howitworks.step3_t"),
+      desc: t("howitworks.step3_d"),
+      icon: Zap,
+    },
+    {
+      number: "04",
+      title: t("howitworks.step4_t"),
+      desc: t("howitworks.step4_d"),
+      icon: BarChart3,
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -96,17 +58,17 @@ const HowItWorks = () => {
 
   return (
     <ClientOnly>
-      <section id="metodo" className="py-24 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
+      <section id="metodo" className="py-16 lg:py-32 bg-[#0D0D0D] relative overflow-hidden">
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20 lg:mb-28">
+          <div className="text-center mb-12 lg:mb-20">
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
-              {copy.badge}
+              {t("howitworks.badge")}
             </div>
-            <h2 className="mb-6 tracking-tighter">
-              {copy.title.toUpperCase()}
+            <h2 className="mb-6 tracking-tighter font-bold text-white">
+              {t("howitworks.title").toUpperCase()}
             </h2>
             <p className="mt-4 text-[#F5F5F5]/60 text-lg max-w-2xl mx-auto">
-              {copy.sub}
+              {t("howitworks.sub")}
             </p>
           </div>
 
@@ -117,7 +79,7 @@ const HowItWorks = () => {
             viewport={{ once: true, margin: "-100px" }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
           >
-            {copy.steps.map((step, i) => {
+            {steps.map((step, i) => {
               const Icon = step.icon;
               return (
                 <motion.div

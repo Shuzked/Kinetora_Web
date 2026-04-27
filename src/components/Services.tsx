@@ -8,82 +8,38 @@ import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import ClientOnly from '@/components/ClientOnly';
 
 const Services = () => {
-  const { lang } = useI18n();
-  const isEs = lang === "es";
+  const { t } = useI18n();
 
-  const copy = isEs
-    ? {
-        badge: "Capacidades",
-        titleTop: "Todo el músculo visual",
-        titleBottom: "que tu startup necesita.",
-        sub: "Ingeniería visual y sistemas de diseño para startups que buscan dominar su mercado.",
-        cards: [
-          {
-            title: "Ingeniería Visual Estratégica",
-            desc: "Diseño que no solo se ve bien, sino que convierte. Landing pages de alto rendimiento y assets que aceleran el ciclo de venta B2B.",
-            icon: Palette,
-            size: "large",
-            image: "/assets/service-photos/brand-identity.webp",
-          },
-          {
-            title: "Sistemas de Diseño Scalable",
-            desc: "Construimos la base técnica (Figma + Code) para que tu equipo de producto pueda iterar a máxima velocidad.",
-            icon: Globe,
-            size: "small",
-            image: "/assets/service-photos/digital-uxui.webp",
-          },
-          {
-            title: "Optimización UX/UI",
-            desc: "Rediseño de interfaces complejas para reducir el churn y maximizar la adopción en plataformas SaaS.",
-            icon: Video,
-            size: "small",
-            image: "/assets/service-photos/video-editing.webp",
-          },
-          {
-            title: "Narrativas de Capital",
-            desc: "Diseñamos la historia visual (Pitch Decks) para tu próxima ronda de financiación. Impresiona a VCs y ángeles.",
-            icon: MessageSquare,
-            size: "medium",
-            image: "/assets/service-photos/communication-pitch-decks.webp",
-          },
-        ],
-      }
-    : {
-        badge: "Capabilities",
-        titleTop: "All the visual power",
-        titleBottom: "your startup needs.",
-        sub: "Visual engineering and design systems for startups aiming to dominate their market.",
-        cards: [
-          {
-            title: "Strategic Visual Engineering",
-            desc: "Design that doesn't just look good, it converts. High-performance landing pages and assets that accelerate the B2B sales cycle.",
-            icon: Palette,
-            size: "large",
-            image: "/assets/service-photos/brand-identity.webp",
-          },
-          {
-            title: "Scalable Design Systems",
-            desc: "We build the technical foundation (Figma + Code) so your product team can iterate at maximum speed.",
-            icon: Globe,
-            size: "small",
-            image: "/assets/service-photos/digital-uxui.webp",
-          },
-          {
-            title: "UX/UI Optimization",
-            desc: "Redesign of complex interfaces to reduce churn and maximize adoption in SaaS platforms.",
-            icon: Video,
-            size: "small",
-            image: "/assets/service-photos/video-editing.webp",
-          },
-          {
-            title: "Capital Narratives",
-            desc: "We design the visual story (Pitch Decks) for your next funding round. Impress VCs and angel investors.",
-            icon: MessageSquare,
-            size: "medium",
-            image: "/assets/service-photos/communication-pitch-decks.webp",
-          },
-        ],
-      };
+  const cards = [
+    {
+      title: t("services.brand.title"),
+      desc: t("services.brand.desc"),
+      icon: Palette,
+      size: "large",
+      image: "/assets/service-photos/brand-identity.webp",
+    },
+    {
+      title: t("services.product.title"),
+      desc: t("services.product.desc"),
+      icon: Globe,
+      size: "small",
+      image: "/assets/service-photos/digital-uxui.webp",
+    },
+    {
+      title: t("services.web.title"),
+      desc: t("services.web.desc"),
+      icon: Video,
+      size: "small",
+      image: "/assets/service-photos/video-editing.webp",
+    },
+    {
+      title: t("services.pitch.title"),
+      desc: t("services.pitch.desc"),
+      icon: MessageSquare,
+      size: "medium",
+      image: "/assets/service-photos/communication-pitch-decks.webp",
+    },
+  ];
 
   return (
     <ClientOnly>
@@ -95,19 +51,19 @@ const Services = () => {
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 relative z-10 text-center md:text-left">
           <div className="max-w-3xl mb-12 sm:mb-16 lg:mb-24 mx-auto md:mx-0">
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-5">
-              {copy.badge}
+              {t("services.pill")}
             </div>
             <h2 className="mb-6">
-              {copy.titleTop.toUpperCase()} <br />
-              <span className="text-[#B454FF]">{copy.titleBottom.toUpperCase().replace(/\.$/, "")}</span>
+              {t("services.titleTop").toUpperCase()} <br />
+              <span className="text-[#B454FF]">{t("services.titleBottom").toUpperCase().replace(/\.$/, "")}</span>
             </h2>
             <p className="mt-4 text-[#F5F5F5]/70 text-sm sm:text-base leading-relaxed px-4 md:px-0">
-              {copy.sub}
+              {t("services.sub")}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 sm:gap-6">
-            {copy.cards.map((card, i) => {
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 sm:gap-6">
+            {cards.map((card, i) => {
               const Icon = card.icon;
               const isLarge = card.size === "large";
               const isMedium = card.size === "medium";
@@ -117,11 +73,11 @@ const Services = () => {
                   key={i}
                   whileHover={{ y: -5 }}
                   className={`
-                    bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 md:p-10 
+                    bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-6 md:p-10 
                     flex flex-col justify-between group relative overflow-hidden backdrop-blur-xl 
                     hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-all duration-300
-                    ${isLarge ? "md:col-span-2 md:row-span-2 min-h-[450px]" : ""}
-                    ${isMedium ? "md:col-span-2 min-h-[300px]" : "min-h-[300px]"}
+                    ${isLarge ? "sm:col-span-2 md:col-span-2 md:row-span-2 min-h-[300px] md:min-h-[450px]" : ""}
+                    ${isMedium ? "sm:col-span-2 md:col-span-2 min-h-[220px] md:min-h-[300px]" : "min-h-[220px] md:min-h-[300px]"}
                   `}
                 >
                   <div aria-hidden className="pointer-events-none absolute inset-0">
