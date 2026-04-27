@@ -198,7 +198,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">ROL</Label>
+                    <span className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60 font-medium leading-none">ROL</span>
                     <Select value={role} onValueChange={setRole}>
                       <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
                         <SelectValue placeholder="Selecciona tu rol" />
@@ -227,7 +227,7 @@ const Contact = () => {
                     />
                   </div>
                   <div>
-                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">RETO</Label>
+                    <span className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60 font-medium leading-none">RETO</span>
                     <Select value={challenge} onValueChange={setChallenge}>
                       <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
                         <SelectValue placeholder="¿Cuál es tu reto?" />
@@ -244,7 +244,7 @@ const Contact = () => {
                 {/* Budget & Message */}
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">PRESUPUESTO</Label>
+                    <span className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60 font-medium leading-none">PRESUPUESTO</span>
                     <Select value={budget} onValueChange={setBudget}>
                       <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
                         <SelectValue placeholder="Selecciona tu presupuesto" />

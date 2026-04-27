@@ -104,7 +104,7 @@ const Hero = () => {
             </h1>
 
             <div className="text-[#F5F5F5]/80 max-w-4xl mx-auto leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both">
-              <p>{t("hero.subheadline")}</p>
+              <div>{t("hero.subheadline")}</div>
             </div>
             <a
               href="/precios"

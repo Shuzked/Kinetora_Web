@@ -185,16 +185,15 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                <a href="#contacto" className="block w-full">
-                  <PremiumButton
-                    variant={plan.highlight ? 'primary' : 'glass'}
-                    size="lg"
-                    className="w-full rounded-full"
-                    rightIcon={<ArrowRight className="w-4 h-4" />}
-                  >
-                    {plan.cta}
-                  </PremiumButton>
-                </a>
+                <PremiumButton
+                  variant={plan.highlight ? 'primary' : 'glass'}
+                  size="lg"
+                  className="w-full rounded-full"
+                  rightIcon={<ArrowRight className="w-4 h-4" />}
+                  onClick={() => window.location.href = "#contacto"}
+                >
+                  {plan.cta}
+                </PremiumButton>
               </motion.div>
             </MouseParallax>
           ))}
