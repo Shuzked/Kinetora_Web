@@ -36,7 +36,7 @@ const Pricing = () => {
         t("pricing.starter.e1"),
         t("pricing.starter.e2"),
       ],
-      cta: t("pricing.cta"),
+      cta: "COMENCEMOS",
     },
     {
       name: t("pricing.growth.name"),
@@ -54,7 +54,7 @@ const Pricing = () => {
         t("pricing.growth.i6"),
       ],
       excludes: [],
-      cta: t("pricing.cta"),
+      cta: "COMENCEMOS",
     },
     {
       name: t("pricing.scale.name"),
@@ -72,7 +72,7 @@ const Pricing = () => {
         t("pricing.scale.i5"),
       ],
       excludes: [],
-      cta: t("pricing.cta"),
+      cta: "CONSÚLTALO",
     },
   ];
 
@@ -185,15 +185,16 @@ const Pricing = () => {
                   ))}
                 </ul>
 
-                <PremiumButton
-                  variant={plan.highlight ? 'primary' : 'glass'}
-                  size="lg"
-                  className="w-full rounded-full"
-                  rightIcon={<ArrowRight className="w-4 h-4" />}
-                  onClick={handleContact}
-                >
-                  {plan.cta}
-                </PremiumButton>
+                <a href="#contacto" className="block w-full">
+                  <PremiumButton
+                    variant={plan.highlight ? 'primary' : 'glass'}
+                    size="lg"
+                    className="w-full rounded-full"
+                    rightIcon={<ArrowRight className="w-4 h-4" />}
+                  >
+                    {plan.cta}
+                  </PremiumButton>
+                </a>
               </motion.div>
             </MouseParallax>
           ))}

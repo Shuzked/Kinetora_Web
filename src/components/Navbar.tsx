@@ -55,14 +55,14 @@ const Navbar = () => {
         {/* Left: Logo */}
         <div className="flex-1 flex items-center justify-start">
           <Link to="/" className="hover:opacity-80 transition-opacity flex items-center">
-            <Logo className="h-6 hidden md:flex" />
-            <KinetoraIcon className="h-6 w-6 flex md:hidden" />
+            <Logo className="h-6 hidden lg:flex" />
+            <KinetoraIcon className="h-6 w-6 flex lg:hidden" />
           </Link>
         </div>
 
         {/* Center: Navigation Links */}
         <div
-          className="hidden md:flex items-center justify-center gap-6 lg:gap-10 text-[11px] lg:text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70 absolute left-1/2 -translate-x-1/2"
+          className="hidden lg:flex items-center justify-center gap-6 lg:gap-10 text-[11px] lg:text-[12px] leading-none font-bold uppercase tracking-[0.2em] text-[#F5F5F5]/70 absolute left-1/2 -translate-x-1/2"
           role="menubar"
           aria-label={lang === "es" ? "Enlaces de sección" : "Section links"}
         >
@@ -99,7 +99,7 @@ const Navbar = () => {
           <PremiumButton 
             variant="primary" 
             size="md" 
-            className="shrink-0 hidden md:inline-flex leading-none"
+            className="shrink-0 hidden lg:inline-flex leading-none"
             onClick={() => {
               const el = document.getElementById('contacto');
               if (el) {
@@ -116,7 +116,7 @@ const Navbar = () => {
             {t("nav.start").toUpperCase()}
           </PremiumButton>
 
-          <div className="md:hidden">
+          <div className="flex lg:hidden">
             <Sheet>
               <SheetTrigger asChild>
                 <Button
@@ -130,7 +130,7 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="w-full sm:w-[360px] border-l border-[#2A2A2A] text-[#F5F5F5] bg-[#0D0D0D]/95 backdrop-blur-md p-0 transition-transform duration-300 ease-out"
+                className="fixed inset-0 z-50 w-full h-screen text-[#F5F5F5] bg-black/90 backdrop-blur-md p-0 transition-transform duration-300 ease-out border-none"
                 onOpenAutoFocus={() => document.body.setAttribute("data-sheet-open", "true")}
                 onCloseAutoFocus={() => document.body.removeAttribute("data-sheet-open")}
               >

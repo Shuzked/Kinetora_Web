@@ -61,19 +61,20 @@ const Portfolio = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <motion.a
-              href="https://calendly.com"
-              target="_blank"
-              rel="noopener noreferrer"
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="group inline-flex items-center gap-4 bg-white/[0.03] border border-white/10 px-8 py-5 rounded-2xl text-[#F5F5F5] font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/[0.08] transition-all duration-300"
             >
-              {t("portfolio.viewAll")}
-              <ArrowUpRight className="w-5 h-5 text-[#B454FF] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </motion.a>
+              <Link
+                to="/casos"
+                className="group inline-flex items-center gap-4 bg-white/[0.03] border border-white/10 px-8 py-5 rounded-2xl text-[#F5F5F5] font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/[0.08] transition-all duration-300"
+              >
+                {t("portfolio.viewAll")}
+                <ArrowUpRight className="w-5 h-5 text-[#B454FF] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </Link>
+            </motion.div>
             
             {/* Controls */}
             <div className="flex gap-3">

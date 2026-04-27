@@ -42,26 +42,26 @@ const Contact = () => {
   const [submitMsg, setSubmitMsg] = useState<string | null>(null);
 
   const roles = [
-    { v: "CEO", l: t("contact.role.ceo") },
-    { v: "CTO", l: t("contact.role.cto") },
-    { v: "Product", l: t("contact.role.product") },
-    { v: "Marketing", l: t("contact.role.marketing") },
-    { v: "Design", l: t("contact.role.design") },
-    { v: "Other", l: t("contact.role.other") },
+    { v: "CEO", l: "CEO / Founder" },
+    { v: "CTO", l: "CTO / Tech Lead" },
+    { v: "Product", l: "Product Manager" },
+    { v: "Marketing", l: "Marketing / Growth" },
+    { v: "Design", l: "Diseñador" },
+    { v: "Other", l: "Otro" },
   ];
 
   const challenges = [
-    { v: "Capital", l: t("contact.challenge.capital") },
-    { v: "Scale", l: t("contact.challenge.scale") },
-    { v: "Rebrand", l: t("contact.challenge.rebrand") },
-    { v: "Growth", l: t("contact.challenge.growth") },
-    { v: "System", l: t("contact.challenge.system") },
+    { v: "Capital", l: "Levantar Capital" },
+    { v: "Scale", l: "Escalar Producto" },
+    { v: "Rebrand", l: "Rebranding" },
+    { v: "Growth", l: "Crecimiento de Usuarios" },
+    { v: "System", l: "Sistema de Diseño" },
   ];
 
   const budgets = [
-    { v: "starter", l: t("contact.budget.starter") },
-    { v: "growth", l: t("contact.budget.growth") },
-    { v: "scale", l: t("contact.budget.scale") },
+    { v: "starter", l: "Menos de 5k€" },
+    { v: "growth", l: "5k€ - 15k€" },
+    { v: "scale", l: "Más de 15k€" },
   ];
 
   const calendlyUrl =
@@ -161,24 +161,24 @@ const Contact = () => {
                 {/* Nombre & Email */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.name")}</Label>
+                    <Label htmlFor="name" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">NOMBRE</Label>
                     <Input
                       id="name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder={t("contact.form.namePh")}
+                      placeholder="Tu nombre"
                       className={`mt-2 bg-white/[0.03] border ${errors.name ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] h-12 rounded-xl`}
                     />
                     {errors.name && <p className="mt-1 text-[11px] text-red-400/90">{errors.name}</p>}
                   </div>
                   <div>
-                    <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.email")}</Label>
+                    <Label htmlFor="email" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">EMAIL</Label>
                     <Input
                       id="email"
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder={t("contact.form.emailPh")}
+                      placeholder="tu@email.com"
                       className={`mt-2 bg-white/[0.03] border ${errors.email ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] h-12 rounded-xl`}
                     />
                     {errors.email && <p className="mt-1 text-[11px] text-red-400/90">{errors.email}</p>}
@@ -188,20 +188,20 @@ const Contact = () => {
                 {/* Empresa & Rol */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.company")}</Label>
+                    <Label htmlFor="company" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">EMPRESA</Label>
                     <Input
                       id="company"
                       value={company}
                       onChange={(e) => setCompany(e.target.value)}
-                      placeholder={t("contact.form.companyPh")}
+                      placeholder="Nombre de tu startup"
                       className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl"
                     />
                   </div>
                   <div>
-                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.role")}</Label>
+                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">ROL</Label>
                     <Select value={role} onValueChange={setRole}>
                       <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
-                        <SelectValue placeholder={t("contact.form.rolePh")} />
+                        <SelectValue placeholder="Selecciona tu rol" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
                         {roles.map((r) => (
@@ -217,20 +217,20 @@ const Contact = () => {
                 {/* Website & Challenge */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="website" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.website")}</Label>
+                    <Label htmlFor="website" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">WEBSITE</Label>
                     <Input
                       id="website"
                       value={website}
                       onChange={(e) => setWebsite(e.target.value)}
-                      placeholder={t("contact.form.websitePh")}
+                      placeholder="Tu sitio web"
                       className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl"
                     />
                   </div>
                   <div>
-                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.challenge")}</Label>
+                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">RETO</Label>
                     <Select value={challenge} onValueChange={setChallenge}>
                       <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
-                        <SelectValue placeholder={t("contact.form.challengePh")} />
+                        <SelectValue placeholder="¿Cuál es tu reto?" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
                         {challenges.map((c) => (
@@ -244,10 +244,10 @@ const Contact = () => {
                 {/* Budget & Message */}
                 <div className="space-y-4">
                   <div>
-                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.budget")}</Label>
+                    <Label className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">PRESUPUESTO</Label>
                     <Select value={budget} onValueChange={setBudget}>
                       <SelectTrigger className="mt-2 bg-white/[0.03] border border-white/10 text-[#F5F5F5] h-12 rounded-xl">
-                        <SelectValue placeholder={t("contact.form.budgetPh")} />
+                        <SelectValue placeholder="Selecciona tu presupuesto" />
                       </SelectTrigger>
                       <SelectContent className="bg-[#111] text-[#F5F5F5] border-white/15">
                         {budgets.map((b) => (
@@ -257,12 +257,12 @@ const Contact = () => {
                     </Select>
                   </div>
                   <div>
-                    <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">{t("contact.form.message")}</Label>
+                    <Label htmlFor="message" className="text-xs uppercase tracking-[0.2em] text-[#F5F5F5]/60">MENSAJE</Label>
                     <Textarea
                       id="message"
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
-                      placeholder={t("contact.form.messagePh")}
+                      placeholder="Cuéntanos sobre tu proyecto"
                       className={`mt-2 min-h-[100px] sm:min-h-[80px] bg-white/[0.03] border ${errors.message ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] rounded-xl resize-none`}
                     />
                   </div>
@@ -278,7 +278,7 @@ const Contact = () => {
                     className="mt-0.5 rounded-[6px] border-white/20 data-[state=checked]:bg-[#B454FF] data-[state=checked]:border-[#B454FF]"
                   />
                   <Label htmlFor="consent" className="text-[12px] text-[#F5F5F5]/50 leading-relaxed cursor-pointer">
-                    {t("contact.form.consent")}
+                    Acepto la política de privacidad y el tratamiento de mis datos.
                   </Label>
                 </div>
                 {errors.consent && <p className="text-[11px] text-red-400/90">{errors.consent}</p>}
@@ -292,7 +292,7 @@ const Contact = () => {
                   className="w-full h-14 text-sm font-black tracking-widest"
                   isLoading={loading}
                 >
-                  {loading ? t("contact.form.sending") : t("contact.form.send").toUpperCase()}
+                  {loading ? "ENVIANDO..." : "ENVIAR"}
                 </PremiumButton>
                 {submitMsg && (
                   <p className={`mt-4 text-center text-[12px] ${submitMsg === t("contact.form.toast") ? "text-green-400" : "text-red-400"}`} role="status">
