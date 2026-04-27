@@ -27,7 +27,7 @@ const Navbar = () => {
     { name: t("nav.method"), href: "#como-funciona" },
     // Éxitos: scroll suave al bloque de casos en la home
     { name: t("nav.successes"), href: "#casos" },
-    { name: t("nav.about"), to: "/sobre" },
+    { name: t("nav.about"), to: lang === "es" ? "/sobre" : "/aboutus" },
     { name: t("nav.plans"), href: "#precios" },
   ];
 

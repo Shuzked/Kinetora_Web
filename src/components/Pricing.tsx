@@ -36,7 +36,7 @@ const Pricing = () => {
         t("pricing.starter.e1"),
         t("pricing.starter.e2"),
       ],
-      cta: "COMENCEMOS",
+      cta: t("pricing.cta.start"),
     },
     {
       name: t("pricing.growth.name"),
@@ -54,7 +54,7 @@ const Pricing = () => {
         t("pricing.growth.i6"),
       ],
       excludes: [],
-      cta: "COMENCEMOS",
+      cta: t("pricing.cta.start"),
     },
     {
       name: t("pricing.scale.name"),
@@ -72,7 +72,7 @@ const Pricing = () => {
         t("pricing.scale.i5"),
       ],
       excludes: [],
-      cta: "CONSÚLTALO",
+      cta: t("pricing.cta.consult"),
     },
   ];
 

@@ -106,20 +106,8 @@ const Hero = () => {
              </span>
           </h1>
 
-          <div className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both space-y-3">
-            {(() => {
-              const full = t("hero.subheadline");
-              const match = full.match(/^(.+?\.\s*)([A-ZÁÉÍÓÚÑ].+)$/s);
-              if (match) {
-                return (
-                  <>
-                    <p>{match[1].trim()}</p>
-                    <p>{match[2].trim()}</p>
-                  </>
-                );
-              }
-              return <p>{full}</p>;
-            })()}
+          <div className="text-[#F5F5F5]/80 max-w-4xl mx-auto leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both">
+            <p>{t("hero.subheadline")}</p>
           </div>
           <a
             href="/precios"
