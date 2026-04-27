@@ -61,7 +61,7 @@ import { useI18n } from '@/i18n/I18nProvider';
 
 const Index = () => {
   const location = useLocation();
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
 
   React.useEffect(() => {
     if (!location.hash) return;
@@ -100,13 +100,8 @@ const Index = () => {
   }
   const currentLang = isES ? 'es' : 'en';
   
-  const title = isES 
-    ? "Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios"
-    : "Kinetora | Design for Startups - Raise Capital, Convert Users";
-  
-  const description = isES
-    ? "Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto."
-    : "Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product.";
+  const title = t("seo.home.title");
+  const description = t("seo.home.description");
 
   const origin = isES ? 'https://kinetora.es' : 'https://kinetora.tech';
   const { pathname } = useLocation();

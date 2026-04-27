@@ -12,18 +12,16 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import PremiumButton from "@/components/PremiumButton";
-import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
-import { caseStudies } from "@/data/caseStudies";
 import { useI18n } from "@/i18n/I18nProvider";
 import RevealText from "@/components/ui/RevealText";
 import ClientOnly from '@/components/ClientOnly';
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useEqualizeHeights } from "@/hooks/use-equalize";
 import { PortfolioCard } from "@/components/case-study/PortfolioCard";
+import { caseStudies } from "@/data/caseStudies";
 
 const Portfolio = () => {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const navigate = useNavigate();
   const sectionRef = useRef<HTMLElement>(null);
   const [swiperRef, setSwiperRef] = React.useState<SwiperType | null>(null);
@@ -32,27 +30,6 @@ const Portfolio = () => {
   useEqualizeHeights(sectionRef, [{ selector: ".js-eq-header", varName: "--eq-header" }], [lang]);
 
   const baseCards = caseStudies;
-
-  const ui =
-    lang === "es"
-      ? {
-          badge: "Casos de éxito",
-          titleA: "Diseño creado para",
-          titleB: "convertir",
-          sub: "Proyectos reales con impacto medible. Explora nuestra selección de casos destacados.",
-          viewAll: "Ver todos",
-          readMore: "Leer más",
-          ariaReadMore: (t: string) => `Leer más: ${t}`,
-        }
-      : {
-          badge: "Case studies",
-          titleA: "Design built to",
-          titleB: "convert",
-          sub: "Real projects with measurable impact. Explore our selection of featured cases.",
-          viewAll: "View all",
-          readMore: "Read more",
-          ariaReadMore: (t: string) => `Read more: ${t}`,
-        };
 
   return (
     <section
@@ -63,30 +40,40 @@ const Portfolio = () => {
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8 md:gap-12">
           <div className="max-w-4xl">
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
-              {ui.badge}
+              {t("portfolio.badge")}
             </div>
             <h2 className="">
-              <RevealText text={ui.titleA.toUpperCase()} className="block" />
+              <RevealText text={t("portfolio.titleA").toUpperCase()} className="block" />
               <RevealText 
-                text={ui.titleB.toUpperCase()} 
+                text={t("portfolio.titleB").toUpperCase()} 
                 className="block text-[#B454FF]" 
                 delay={0.2} 
               />
             </h2>
-            <p className="mt-6 text-[#F5F5F5]/60 font-medium max-w-lg leading-relaxed animate-in fade-in slide-in-from-left-4 duration-1000 delay-300">
-              {ui.sub}
-            </p>
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-8 text-xl md:text-2xl text-[#F5F5F5]/50 max-w-2xl font-medium tracking-tight"
+            >
+              {t("portfolio.sub")}
+            </motion.p>
           </div>
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-            <PremiumButton 
-              variant="glass" 
-              size="md" 
-              className="shrink-0 w-full sm:w-auto h-12 px-8"
-              onClick={() => navigate('/casos')}
+            <motion.a
+              href="https://calendly.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="group inline-flex items-center gap-4 bg-white/[0.03] border border-white/10 px-8 py-5 rounded-2xl text-[#F5F5F5] font-bold text-xs uppercase tracking-[0.2em] hover:bg-white/[0.08] transition-all duration-300"
             >
-              {ui.viewAll.toUpperCase()}
-            </PremiumButton>
+              {t("portfolio.viewAll")}
+              <ArrowUpRight className="w-5 h-5 text-[#B454FF] group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </motion.a>
             
             {/* Controls */}
             <div className="flex gap-3">
@@ -148,7 +135,7 @@ const Portfolio = () => {
                 <SwiperSlide key={`${cs.slug}-${i}`} className="h-auto">
                   {() => (
                     <div className="h-full transition-all duration-700 opacity-100 blur-0 scale-100">
-                      <PortfolioCard cs={cs} onNavigate={(slug) => navigate(`/casos/${slug}`)} lang={lang} ui={ui} />
+                      <PortfolioCard cs={cs} onNavigate={(slug) => navigate(`/casos/${slug}`)} />
                     </div>
                   )}
                 </SwiperSlide>

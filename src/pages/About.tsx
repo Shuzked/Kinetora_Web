@@ -83,7 +83,7 @@ const About = () => {
       />
       <Navbar />
       
-      <main className="pt-24 md:pt-32 pb-24">
+      <main className="pt-32 pb-24">
         <div className="kin-container">
           {/* ── HERO ── */}
           <div className="max-w-4xl mb-24 lg:mb-32">
@@ -91,7 +91,7 @@ const About = () => {
               <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-8">
                 {t("about.pill")}
               </div>
-              <h1 className="mb-8 md:mb-12">
+              <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-12">
                 {t("about.title")} <br />
                 <span className="text-[#B454FF]">{t("about.titleAccent")}</span>
               </h1>
@@ -99,10 +99,10 @@ const About = () => {
           </div>
 
           {/* ── NARRATIVE ── */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-24 mb-20 md:mb-28">
+          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 mb-32">
             <div className="lg:col-span-7">
               <Reveal delay={0.2}>
-                <h2 className="mb-8 border-b border-white/10 pb-4">
+                <h2 className="text-3xl font-black uppercase tracking-tighter mb-8 border-b border-white/10 pb-4">
                   {t("about.story_title")}
                 </h2>
                 <div className="space-y-6 text-lg md:text-xl text-white/70 leading-relaxed font-medium">
@@ -113,7 +113,7 @@ const About = () => {
               </Reveal>
 
               <Reveal delay={0.4} className="mt-20">
-                <h2 className="mb-8 border-b border-white/10 pb-4">
+                <h2 className="text-3xl font-black uppercase tracking-tighter mb-8 border-b border-white/10 pb-4">
                   {t("about.mission_title")}
                 </h2>
                 <div className="text-lg md:text-xl text-white/70 leading-relaxed font-medium">
@@ -124,7 +124,7 @@ const About = () => {
 
             <div className="lg:col-span-5 space-y-8">
               <Reveal delay={0.6}>
-                <div className="lg:sticky lg:top-32 p-6 md:p-8 rounded-[2rem] bg-white/[0.03] border border-white/10">
+                <div className="sticky top-32 p-8 rounded-[2rem] bg-white/[0.03] border border-white/10">
                   <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[#B454FF] mb-10">
                     {t("about.pillars_title")}
                   </h3>
@@ -150,7 +150,7 @@ const About = () => {
           <div className="pt-24 border-t border-white/5">
             <Reveal delay={0.8}>
               <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
-                <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-white/10">
+                <div className="w-48 h-48 rounded-full overflow-hidden grayscale hover:grayscale-0 transition-all duration-700 border border-white/10">
                   <img 
                     src="/assets/team/rafa-founder.webp" 
                     alt="Rafael Muñoz" 
@@ -171,14 +171,14 @@ const About = () => {
                       href="https://www.linkedin.com/in/shuzked/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-[#B454FF]/20 hover:border-[#B454FF]/40 transition-all duration-500 font-black text-xs uppercase tracking-widest min-h-[48px]"
+                      className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-[#B454FF]/20 hover:border-[#B454FF]/40 transition-all duration-500 font-black text-xs uppercase tracking-widest"
                     >
                       <Linkedin size={18} />
                       LinkedIn
                     </a>
                     <a 
                       href="mailto:rafa@kinetora.tech" 
-                      className="inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest min-h-[48px]"
+                      className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest"
                     >
                       <Mail size={18} />
                       Email

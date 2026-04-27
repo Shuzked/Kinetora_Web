@@ -263,7 +263,7 @@ const Contact = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder={t("contact.form.messagePh")}
-                      className={`mt-2 min-h-[80px] bg-white/[0.03] border ${errors.message ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] rounded-xl resize-none`}
+                      className={`mt-2 min-h-[48px] h-12 bg-white/[0.03] border ${errors.message ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] rounded-xl resize-none`}
                     />
                   </div>
                 </div>
@@ -317,7 +317,7 @@ const Contact = () => {
             <button
               type="button"
               onClick={() => setOpenModal(false)}
-              className="w-full sm:w-auto inline-flex h-12 items-center justify-center px-6 rounded-xl bg-white/[0.03] border border-white/10 text-[#F5F5F5]/70 text-sm font-medium hover:bg-white/[0.06] transition-colors"
+              className="w-full sm:w-auto inline-flex h-11 items-center justify-center px-6 rounded-xl bg-white/[0.03] border border-white/10 text-[#F5F5F5]/70 text-sm font-medium hover:bg-white/[0.06] transition-colors"
             >
               {t("contact.modal.close")}
             </button>
@@ -325,7 +325,7 @@ const Contact = () => {
               href={calendlyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex h-12 items-center justify-center px-6 rounded-xl bg-[#B454FF] text-white text-sm font-black tracking-tight hover:bg-[#A74CFF] transition-colors shadow-[0_0_20px_rgba(180,84,255,0.3)]"
+              className="w-full sm:w-auto inline-flex h-11 items-center justify-center px-6 rounded-xl bg-[#B454FF] text-white text-sm font-black tracking-tight hover:bg-[#A74CFF] transition-colors shadow-[0_0_20px_rgba(180,84,255,0.3)]"
             >
               {t("contact.modal.cta")}
             </a>

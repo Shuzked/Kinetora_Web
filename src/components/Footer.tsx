@@ -16,62 +16,19 @@ import MouseParallax from "@/components/MouseParallax";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const [subscribed, setSubscribed] = useState(false);
 
-  const strings =
-    lang === "es"
-      ? {
-          badge: "-10% primer mes • Promos y noticias",
-          title: "Suscríbete a nuestro\nnewsletter",
-          sub:
-            "No te pierdas ninguna noticia, promoción o descuentos de nuestros servicios. ¿A qué esperas?",
-          placeholder: "Tu email",
-          inputAria: "Introduce tu email para suscribirte",
-          btn: "Suscribirse",
-          btnAria: "Suscribirse al newsletter",
-          consent:
-            "Acepto recibir emails de Kinetora con descuentos, promociones y noticias. Podrás darte de baja en cualquier momento.",
-          errEmail: "Introduce un email válido.",
-          errConsent: "Debes aceptar el consentimiento para suscribirte.",
-          toast: "¡Gracias por suscribirte! Te enviaremos descuentos y novedades de Kinetora.",
-          inlineOk: "¡Listo! Revisa tu bandeja para confirmar la suscripción.",
-          legal: [
-            { label: "Aviso Legal", to: "/legal/aviso-legal" },
-            { label: "Política de privacidad", to: "/legal/politica-privacidad" },
-            { label: "Política de cookies", to: "/legal/politica-cookies" },
-            { label: "Política de privacidad y redes sociales", to: "/legal/privacidad-redes-sociales" },
-          ],
-          rights: "Todos los derechos reservados.",
-          btnLoading: "Suscribiendo...",
-        }
-      : {
-          badge: "-10% first month • Promos & updates",
-          title: "Subscribe to our\nnewsletter",
-          sub: "Don't miss any updates, promotions or discounts. Ready to start?",
-          placeholder: "Your email",
-          inputAria: "Enter your email to subscribe",
-          btn: "Subscribe",
-          btnAria: "Subscribe to the newsletter",
-          consent:
-            "I agree to receive emails from Kinetora with discounts, promotions and updates. You can unsubscribe at any time.",
-          errEmail: "Please enter a valid email.",
-          errConsent: "You must accept consent to subscribe.",
-          toast: "Thanks for subscribing! We'll send you discounts and Kinetora updates.",
-          inlineOk: "All set! Check your inbox to confirm your subscription.",
-          legal: [
-            { label: "Legal Notice", to: "/legal/aviso-legal" },
-            { label: "Privacy Policy", to: "/legal/politica-privacidad" },
-            { label: "Cookie Policy", to: "/legal/politica-cookies" },
-            { label: "Social Media & Privacy Policy", to: "/legal/privacidad-redes-sociales" },
-          ],
-          rights: "All rights reserved.",
-          btnLoading: "Subscribing...",
-        };
+  const legalLinks = [
+    { label: t("footer.legal.aviso"), to: "/legal/aviso-legal" },
+    { label: t("footer.legal.privacidad"), to: "/legal/politica-privacidad" },
+    { label: t("footer.legal.cookies"), to: "/legal/politica-cookies" },
+    { label: t("footer.legal.redes"), to: "/legal/privacidad-redes-sociales" },
+  ];
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,11 +36,11 @@ const Footer = () => {
 
     const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
     if (!emailValid) {
-      setErr(strings.errEmail);
+      setErr(t("footer.newsletter.errEmail"));
       return;
     }
     if (!consent) {
-      setErr(strings.errConsent);
+      setErr(t("footer.newsletter.errConsent"));
       return;
     }
 
@@ -103,7 +60,7 @@ const Footer = () => {
     })
       .then(() => {
         setSubscribed(true);
-        showSuccess(strings.toast);
+        showSuccess(t("footer.newsletter.toast"));
         setEmail("");
         setConsent(false);
       })
@@ -116,7 +73,7 @@ const Footer = () => {
     <footer
       className="bg-[#0D0D0D]"
       role="contentinfo"
-      aria-label={lang === "es" ? "Pie de página" : "Footer"}
+      aria-label={t("footer.aria")}
     >
       <div className="kin-container pt-16 pb-12 md:pt-24 md:pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
@@ -129,7 +86,7 @@ const Footer = () => {
           >
             <Logo className="h-6 mb-4" />
             <p className="text-[#F5F5F5]/80 text-sm mb-3">
-              © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Kinetora Studio. {strings.rights}
+              © <span suppressHydrationWarning>{new Date().getFullYear()}</span> Kinetora Studio. {t("footer.rights")}
             </p>
             
             <div className="flex items-center gap-3 mb-6">
@@ -189,7 +146,7 @@ const Footer = () => {
               </a>
             </div>
             <div className="flex flex-col items-center lg:items-start gap-2 text-sm font-semibold text-[#F5F5F5]/80 text-center lg:text-left">
-              {strings.legal.map((item) => (
+              {legalLinks.map((item) => (
                 <Link
                   key={item.to}
                   to={item.to}
@@ -210,13 +167,13 @@ const Footer = () => {
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
           >
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B454FF]/10 border border-[#B454FF]/30 text-[#B454FF] text-[11px] font-extrabold tracking-widest uppercase mb-3">
-              {strings.badge}
+              {t("footer.newsletter.badge")}
             </div>
             <h3 className="tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line mb-6">
-              {strings.title}
+              {t("footer.newsletter.title")}
             </h3>
             <p className="text-[#F5F5F5]/70 mb-8 max-w-xl">
-              {strings.sub}
+              {t("footer.newsletter.sub")}
             </p>
 
             <form
@@ -236,11 +193,11 @@ const Footer = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={strings.placeholder}
+                  placeholder={t("footer.newsletter.placeholder")}
                   className="min-w-0 flex-1 h-11 pl-12 pr-4 bg-transparent border-0 text-[#F5F5F5] placeholder:text-[#F5F5F5]/50 text-sm focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                   autoComplete="email"
                   inputMode="email"
-                  aria-label={strings.inputAria}
+                  aria-label={t("footer.newsletter.inputAria")}
                   aria-invalid={!!err}
                 />
                 <PremiumButton
@@ -248,10 +205,10 @@ const Footer = () => {
                   variant="primary"
                   size="md"
                   className="h-11 px-6 rounded-full shrink-0 text-center shadow-lg shadow-[#B454FF]/10 hover:shadow-[#B454FF]/20"
-                  aria-label={strings.btnAria}
+                  aria-label={t("footer.newsletter.btnAria")}
                   isLoading={loading}
                 >
-                  {loading ? strings.btnLoading : strings.btn.toUpperCase()}
+                  {loading ? t("footer.newsletter.btnLoading") : t("footer.newsletter.btn").toUpperCase()}
                 </PremiumButton>
               </div>
             </form>
@@ -265,7 +222,7 @@ const Footer = () => {
                 aria-describedby="consent-desc"
               />
               <Label htmlFor="consent" className="text-[11px] text-[#F5F5F5]/70">
-                {strings.consent}
+                {t("footer.newsletter.consent")}
               </Label>
             </div>
 
@@ -276,7 +233,7 @@ const Footer = () => {
             )}
             {subscribed && !err && (
               <p className="text-[12px] text-green-400" role="status">
-                {strings.inlineOk}
+                {t("footer.newsletter.inlineOk")}
               </p>
             )}
           </motion.div>

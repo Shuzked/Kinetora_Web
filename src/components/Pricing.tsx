@@ -158,10 +158,7 @@ const Pricing = () => {
                 <div className="mb-8">
                   <h3 className="text-sm font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60 mb-4">{plan.name}</h3>
                   <div className="flex items-baseline gap-1 mb-4">
-                    <span
-                      className="font-black text-[#F5F5F5] tracking-tighter leading-none"
-                      style={{ fontSize: 'clamp(2.25rem, 8vw, 3.75rem)' }}
-                    >{plan.price}</span>
+                    <span className="text-6xl font-black text-[#F5F5F5] tracking-tighter leading-none">{plan.price}</span>
                     {!plan.isCustom && (
                       <span className="text-2xl font-black text-[#B454FF] leading-none ml-1">€</span>
                     )}
@@ -205,7 +202,7 @@ const Pricing = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="relative rounded-[2rem] p-8 md:p-12 border border-white/10 bg-white/[0.04] mb-14 md:mb-24 overflow-hidden group"
+          className="relative rounded-[2rem] p-8 md:p-12 border border-white/10 bg-white/[0.04] mb-24 overflow-hidden group"
         >
           {/* Subtle Background Glow */}
           <div className="absolute -top-24 -right-24 w-64 h-64 bg-[#B454FF]/10 rounded-full blur-[100px] pointer-events-none group-hover:bg-[#B454FF]/15 transition-colors duration-500" />

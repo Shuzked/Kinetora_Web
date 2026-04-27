@@ -9,7 +9,7 @@ import RevealText from "@/components/ui/RevealText";
 import ClientOnly from '@/components/ClientOnly';
 
 const Testimonials = () => {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
   // Refs para estado de animación y drag
@@ -23,123 +23,52 @@ const Testimonials = () => {
   // Estado para feedback visual del cursor
   const [isGrabbing, setIsGrabbing] = useState(false);
 
-  const copy =
-    lang === "es"
-      ? {
-          titleA: "Prueba Social",
-          titleB: "C-Level & Founders",
-          sub: "Empresas que escalan su ingeniería visual con nosotros.",
-          testimonials: [
-            {
-              name: "Victor Merino",
-              role: "CTO @ Elixir Games",
-              content:
-                "Kinetora no es una agencia, es una extensión técnica de nuestro equipo. Redujeron nuestro ciclo de iteración de semanas a días.",
-              avatar: "/assets/testimonials/victor-merino.webp",
-            },
-            {
-              name: "Carlos Roldán",
-              role: "CEO @ Elixir Games",
-              content:
-                "La capacidad para traducir conceptos de negocio complejos en interfaces intuitivas es de otro planeta. 10/10.",
-              avatar: "/assets/testimonials/carlos-roldan.webp",
-            },
-            {
-              name: "Enrique Phan",
-              role: "CEO @ Robokiden",
-              content:
-                "Gracias a su rediseño del pitch deck y la plataforma, cerramos nuestra Series A en tiempo récord. El ROI fue inmediato.",
-              avatar: "/assets/testimonials/enrique-phan.webp",
-            },
-            {
-              name: "Danyil Shatko",
-              role: "Product Manager @ Elixir",
-              content:
-                "Sistemas de diseño que realmente funcionan en producción. No solo Figma, sino código limpio y documentado.",
-              avatar: "/assets/testimonials/danyil-shatko.webp",
-            },
-            {
-              name: "Nicolas Francisquelo",
-              role: "CEO @ ChronosWorlds",
-              content:
-                "Dominan la estética Web3 sin sacrificar usabilidad B2B. Sus transiciones son pura ingeniería.",
-              avatar: "/assets/testimonials/nicolas-francisquelo.webp",
-            },
-            {
-              name: "Ferran Puntí",
-              role: "CEO @ The Breach Studios",
-              content:
-                "Cumplen lo que prometen: entregas en 48h sin que baje la calidad. Es el partner ideal para escalar rápido.",
-              avatar: "/assets/testimonials/ferran-punti.webp",
-            },
-            {
-              name: "Jorge Regalado",
-              role: "Marketing Director @ Elixir",
-              content:
-                "La landing page que construyeron tiene una tasa de conversión un 40% superior a la anterior. Datos reales.",
-              avatar: "/assets/testimonials/jorge-regalado.webp",
-            },
-          ],
-        }
-      : {
-          titleA: "Social Proof",
-          titleB: "C-Level & Founders",
-          titleC: "",
-          sub: "Companies scaling their visual engineering with us.",
-          testimonials: [
-            {
-              name: "Victor Merino",
-              role: "CTO @ Elixir Games",
-              content:
-                "Kinetora is not an agency, it's a technical extension of our team. They reduced our iteration cycle from weeks to days.",
-              avatar: "/assets/testimonials/victor-merino.webp",
-            },
-            {
-              name: "Carlos Roldán",
-              role: "CEO @ Elixir Games",
-              content:
-                "The ability to translate complex business concepts into intuitive interfaces is out of this world. 10/10.",
-              avatar: "/assets/testimonials/carlos-roldan.webp",
-            },
-            {
-              name: "Enrique Phan",
-              role: "CEO @ Robokiden",
-              content:
-                "Thanks to their pitch deck and platform redesign, we closed our Series A in record time. The ROI was immediate.",
-              avatar: "/assets/testimonials/enrique-phan.webp",
-            },
-            {
-              name: "Danyil Shatko",
-              role: "Product Manager @ Elixir",
-              content:
-                "Design systems that actually work in production. Not just Figma, but clean and documented code.",
-              avatar: "/assets/testimonials/danyil-shatko.webp",
-            },
-            {
-              name: "Nicolas Francisquelo",
-              role: "CEO @ ChronosWorlds",
-              content:
-                "They master the Web3 aesthetic without sacrificing B2B usability. Their transitions are pure engineering.",
-              avatar: "/assets/testimonials/nicolas-francisquelo.webp",
-            },
-            {
-              name: "Ferran Puntí",
-              role: "CEO @ The Breach Studios",
-              content:
-                "They deliver what they promise: 48h turnarounds without dropping quality. Ideal partner for fast scaling.",
-              avatar: "/assets/testimonials/ferran-punti.webp",
-            },
-            {
-              name: "Jorge Regalado",
-              role: "Marketing Director @ Elixir",
-              content:
-                "The landing page they built has a conversion rate 40% higher than the previous one. Real data.",
-              avatar: "/assets/testimonials/jorge-regalado.webp",
-            },
-          ],
-        };
+  const testimonials = [
+    {
+      name: t("testimonials.t1.name"),
+      role: t("testimonials.t1.role"),
+      content: t("testimonials.t1.content"),
+      avatar: "/assets/testimonials/victor-merino.webp",
+    },
+    {
+      name: t("testimonials.t2.name"),
+      role: t("testimonials.t2.role"),
+      content: t("testimonials.t2.content"),
+      avatar: "/assets/testimonials/carlos-roldan.webp",
+    },
+    {
+      name: t("testimonials.t3.name"),
+      role: t("testimonials.t3.role"),
+      content: t("testimonials.t3.content"),
+      avatar: "/assets/testimonials/enrique-phan.webp",
+    },
+    {
+      name: t("testimonials.t4.name"),
+      role: t("testimonials.t4.role"),
+      content: t("testimonials.t4.content"),
+      avatar: "/assets/testimonials/danyil-shatko.webp",
+    },
+    {
+      name: t("testimonials.t5.name"),
+      role: t("testimonials.t5.role"),
+      content: t("testimonials.t5.content"),
+      avatar: "/assets/testimonials/nicolas-francisquelo.webp",
+    },
+    {
+      name: t("testimonials.t6.name"),
+      role: t("testimonials.t6.role"),
+      content: t("testimonials.t6.content"),
+      avatar: "/assets/testimonials/ferran-punti.webp",
+    },
+    {
+      name: t("testimonials.t7.name"),
+      role: t("testimonials.t7.role"),
+      content: t("testimonials.t7.content"),
+      avatar: "/assets/testimonials/jorge-regalado.webp",
+    },
+  ];
 
-  const duplicatedItems = [...copy.testimonials, ...copy.testimonials];
+  const duplicatedItems = [...testimonials, ...testimonials];
 
   useEffect(() => {
     const container = scrollContainerRef.current;
@@ -245,22 +174,19 @@ const Testimonials = () => {
           {/* ... existing content ... */}
           <div className="text-center mb-12 lg:mb-20 pointer-events-none">
             <h2 className="mb-4 sm:mb-6">
-              <RevealText text={copy.titleA.toUpperCase() + " "} />
+              <RevealText text={t("testimonials.titleA").toUpperCase() + " "} />
               <RevealText 
-                text={copy.titleB.toUpperCase()} 
+                text={t("testimonials.titleB").toUpperCase()} 
                 className="text-[#B454FF]" 
                 delay={0.15}
               />
-              {lang === "en" && copy.titleC && (
-                <RevealText text={" " + copy.titleC.toUpperCase()} delay={0.3} />
-              )}
             </h2>
-            <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-[10px] sm:text-xs">{copy.sub}</p>
+            <p className="text-[#F5F5F5]/70 font-bold uppercase tracking-widest text-[10px] sm:text-xs">{t("testimonials.sub")}</p>
           </div>
 
           <div 
             role="region" 
-            aria-label={lang === "es" ? "Carrusel de testimonios" : "Testimonials carousel"}
+            aria-label={t("testimonials.titleA")}
             className="relative kin-fade-x pointer-events-auto"
             onMouseEnter={() => (isPausedRef.current = true)}
             onMouseLeave={() => {

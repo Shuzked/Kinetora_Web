@@ -4,19 +4,16 @@ import React, { useRef } from "react";
 import { motion, useSpring, useMotionValue, useTransform } from "framer-motion";
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
 import PremiumButton from "@/components/PremiumButton";
+import { useI18n } from "@/i18n/I18nProvider";
 import type { CaseStudy } from "@/data/caseStudies";
 
 type PortfolioCardProps = {
   cs: CaseStudy;
   onNavigate: (slug: string) => void;
-  lang: "es" | "en";
-  ui: {
-    readMore: string;
-    ariaReadMore: (title: string) => string;
-  };
 };
 
-export const PortfolioCard = React.memo(({ cs, onNavigate, lang, ui }: PortfolioCardProps) => {
+export const PortfolioCard = React.memo(({ cs, onNavigate }: PortfolioCardProps) => {
+  const { lang, t } = useI18n();
   const cardRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
   const x = useMotionValue(0);
@@ -120,9 +117,9 @@ export const PortfolioCard = React.memo(({ cs, onNavigate, lang, ui }: Portfolio
               size="sm"
               className="w-full h-11 rounded-full border-white/15 bg-white/5 hover:bg-white/10 shadow-lg"
               onClick={() => onNavigate(cs.slug)}
-              aria-label={ui.ariaReadMore(title)}
+              aria-label={`${t("portfolio.readMore")}: ${title}`}
             >
-              {ui.readMore.toUpperCase()}
+              {t("portfolio.readMore").toUpperCase()}
             </PremiumButton>
           </div>
         </div>

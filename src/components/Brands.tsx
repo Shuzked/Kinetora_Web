@@ -18,7 +18,7 @@ const brands = [
 ];
 
 const Brands = () => {
-  const { lang } = useI18n();
+  const { lang, t } = useI18n();
   const items = [...brands, ...brands];
   const trackRef = useRef<HTMLDivElement | null>(null);
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -55,15 +55,13 @@ const Brands = () => {
 
   return (
     <section
-      aria-label={
-        lang === "es" ? "Marcas que confían en Kinetora" : "Brands that trust Kinetora"
-      }
+      aria-label={t("brands.label")}
       className="kin-section bg-[#0D0D0D] overflow-hidden"
     >
       <div className="kin-container">
         <div className="text-center mb-8 sm:mb-10">
           <RevealText 
-            text={lang === "es" ? "Marcas que confían en nuestra velocidad" : "Brands that trust our speed"} 
+            text={t("brands.title")} 
             className="text-[10px] font-bold text-[#F5F5F5]/75 uppercase tracking-[0.4em]"
           />
         </div>

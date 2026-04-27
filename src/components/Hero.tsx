@@ -12,7 +12,7 @@ import { useIsMounted } from '@/hooks/use-is-mounted';
 import ClientOnly from '@/components/ClientOnly';
 
 const Hero = () => {
-  const { lang } = useI18n();
+  const { t } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
   const isMobile = useIsMobile();
   const isMounted = useIsMounted();
@@ -26,39 +26,11 @@ const Hero = () => {
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
   const yBg = useTransform(scrollY, [0, 1000], [0, -50]); // 0.05 speed inverted
 
-
-
-
-  const copy =
-    lang === "es"
-      ? {
-          headlineTop: "El estudio que ayuda a startups",
-          headlineAccent: "a levantar capital y convertir usuarios",
-          sub:
-            "Diseñamos el sistema visual completo — marca, web y producto — para que tu startup compita en la liga de las grandes desde el primer día.",
-          pricingAnchor: "Planes desde 1.900€/mes · Sin permanencia · Pausa cuando quieras",
-          ctaPrimary: "Contactar",
-          ctaSecondary: "Éxitos",
-          pills: [
-            { Icon: Timer, text: "Entrega en 48h" },
-            { Icon: RefreshCw, text: "Revisiones ilimitadas" },
-            { Icon: Euro, text: "Precio mensual fijo" },
-          ],
-        }
-      : {
-          headlineTop: "The studio that helps startups",
-          headlineAccent: "raise capital and convert users",
-          sub:
-            "We engineer the full visual system — brand, web and product — so your startup competes with the big players from day one.",
-          pricingAnchor: "Plans from €1,900/mo · No lock-in · Pause anytime",
-          ctaPrimary: "Let's talk",
-          ctaSecondary: "Case studies",
-          pills: [
-            { Icon: Timer, text: "48h delivery" },
-            { Icon: RefreshCw, text: "Unlimited revisions" },
-            { Icon: Euro, text: "Fixed monthly price" },
-          ],
-        };
+  const pills = [
+    { Icon: Timer, text: t("hero.pill.delivery") },
+    { Icon: RefreshCw, text: t("hero.pill.revisions") },
+    { Icon: Euro, text: t("hero.pill.price") },
+  ];
 
   const getNavbarOffset = () => {
     const nav = document.querySelector("nav") as HTMLElement | null;
@@ -128,20 +100,20 @@ const Hero = () => {
           className="relative z-10 flex-1 min-h-[100dvh] flex flex-col items-center justify-center text-center"
         >
           <h1 className="mb-6 sm:mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 max-w-[280px] sm:max-w-none mx-auto">
-            {copy.headlineTop.replace(/\.$/, "")} <br />
+            {t("hero.headlineTop").replace(/\.$/, "")} <br />
             <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
-               {copy.headlineAccent.replace(/\.$/, "")}
+               {t("hero.headlineAccent").replace(/\.$/, "")}
              </span>
           </h1>
 
           <p className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both">
-            {copy.sub}
+            {t("hero.subheadline")}
           </p>
           <a
             href="/precios"
             className="inline-flex items-center gap-2 mb-10 sm:mb-12 text-[11px] font-black tracking-[0.22em] uppercase text-[#B454FF]/80 hover:text-[#B454FF] transition-colors border-b border-[#B454FF]/30 hover:border-[#B454FF] pb-px animate-in fade-in fill-mode-both"
           >
-            {copy.pricingAnchor}
+            {t("hero.pricingAnchor")}
           </a>
 
           <ScrollParallax speed={0.15}>
@@ -155,7 +127,7 @@ const Hero = () => {
                 leftIcon={<ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />}
                 onClick={() => handleScrollTo("contacto")}
               >
-                {copy.ctaPrimary.toUpperCase()}
+                {t("hero.ctaPrimary").toUpperCase()}
               </PremiumButton>
               <PremiumButton
                 variant="glass"
@@ -163,7 +135,7 @@ const Hero = () => {
                 className="w-full sm:w-auto"
                 onClick={() => handleScrollTo("casos")}
               >
-                {copy.ctaSecondary.toUpperCase()}
+                {t("hero.ctaSecondary").toUpperCase()}
               </PremiumButton>
             </div>
           </ScrollParallax>
@@ -172,7 +144,7 @@ const Hero = () => {
             <div
               className="mt-6 sm:mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both"
             >
-              {copy.pills.map(({ Icon, text }, i) => (
+              {pills.map(({ Icon, text }, i) => (
                 <div
                   key={i}
                   className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/[0.12] backdrop-blur-[16px] text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.14] hover:border-white/[0.25] hover:-translate-y-[1px] transition-all duration-300"

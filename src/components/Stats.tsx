@@ -48,15 +48,9 @@ const Stats = () => {
                 className="text-center group"
               >
                 <div className="relative inline-block mb-3 sm:mb-4">
-                  <div
-                    className="font-black text-[#F5F5F5] tracking-tighter flex items-baseline justify-center"
-                    style={{ fontSize: 'clamp(1.75rem, 6vw, 3.75rem)' }}
-                  >
+                  <div className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter flex items-baseline justify-center">
                     <CountUp end={stat.value} />
-                    <span
-                      className="text-[#B454FF] ml-1"
-                      style={{ fontSize: 'clamp(1rem, 3vw, 1.875rem)' }}
-                    >{stat.suffix}</span>
+                    <span className="text-[#B454FF] text-xl md:text-3xl ml-1">{stat.suffix}</span>
                   </div>
                   <div className="absolute -inset-4 bg-[#B454FF]/0 group-hover:bg-[#B454FF]/5 rounded-full blur-xl transition-all duration-500" />
                 </div>

@@ -14,7 +14,7 @@ type PremiumButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const sizeMap: Record<NonNullable<PremiumButtonProps["size"]>, string> = {
-  sm: "h-12 px-5 text-xs",          /* 48px — Apple HIG min tap target */
+  sm: "h-10 px-4 text-xs",
   md: "h-12 px-6 text-sm",
   lg: "h-14 md:h-16 px-9 md:px-10 text-sm md:text-base",
 };
@@ -31,7 +31,7 @@ const PremiumButton: React.FC<PremiumButtonProps> = ({
   ...props
 }) => {
   const base =
-    "inline-flex items-center justify-center gap-2 font-black uppercase tracking-[0.18em] md:tracking-[0.24em] rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02] [touch-action:manipulation]";
+    "inline-flex items-center justify-center gap-2 font-black uppercase tracking-[0.18em] md:tracking-[0.24em] rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] disabled:opacity-60 disabled:cursor-not-allowed hover:scale-[1.02]";
 
   const variants: Record<NonNullable<PremiumButtonProps["variant"]>, string> = {
     primary:
