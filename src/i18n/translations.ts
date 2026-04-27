@@ -494,7 +494,7 @@ export const dictionaries: Dictionaries = {
     "pricing.popular": "Más Popular",
     "pricing.unlimited_revisions": "Revisiones Ilimitadas",
     "pricing.enterprise": "Enterprise",
-    "pricing.scale.price": "Personalizado",
+    "pricing.scale.price": "Custom",
     "pricing.cta": "Empezar ahora",
     "pricing.pill": "Sin permanencia",
 
