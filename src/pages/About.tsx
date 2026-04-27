@@ -91,7 +91,10 @@ const About = () => {
               <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-8">
                 {t("about.pill")}
               </div>
-              <h1 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] mb-12">
+              <h1
+                className="font-black uppercase tracking-tighter leading-[0.9] mb-12"
+                style={{ fontSize: 'clamp(2.5rem, 10vw + 1rem, 7rem)' }}
+              >
                 {t("about.title")} <br />
                 <span className="text-[#B454FF]">{t("about.titleAccent")}</span>
               </h1>
@@ -99,7 +102,7 @@ const About = () => {
           </div>
 
           {/* ── NARRATIVE ── */}
-          <div className="grid lg:grid-cols-12 gap-16 lg:gap-24 mb-32">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 mb-24 lg:mb-32">
             <div className="lg:col-span-7">
               <Reveal delay={0.2}>
                 <h2 className="text-3xl font-black uppercase tracking-tighter mb-8 border-b border-white/10 pb-4">
@@ -124,7 +127,7 @@ const About = () => {
 
             <div className="lg:col-span-5 space-y-8">
               <Reveal delay={0.6}>
-                <div className="sticky top-32 p-8 rounded-[2rem] bg-white/[0.03] border border-white/10">
+                <div className="top-32 p-6 md:p-8 rounded-[2rem] bg-white/[0.03] border border-white/10 lg:sticky">
                   <h3 className="text-xs font-black uppercase tracking-[0.3em] text-[#B454FF] mb-10">
                     {t("about.pillars_title")}
                   </h3>
@@ -171,14 +174,14 @@ const About = () => {
                       href="https://www.linkedin.com/in/shuzked/" 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-[#B454FF]/20 hover:border-[#B454FF]/40 transition-all duration-500 font-black text-xs uppercase tracking-widest"
+                      className="inline-flex items-center gap-3 min-h-[48px] px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-[#B454FF]/20 hover:border-[#B454FF]/40 transition-all duration-500 font-black text-xs uppercase tracking-widest"
                     >
                       <Linkedin size={18} />
                       LinkedIn
                     </a>
                     <a 
                       href="mailto:rafa@kinetora.tech" 
-                      className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest"
+                      className="inline-flex items-center gap-3 min-h-[48px] px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest"
                     >
                       <Mail size={18} />
                       Email
