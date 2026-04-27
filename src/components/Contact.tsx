@@ -263,7 +263,7 @@ const Contact = () => {
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       placeholder={t("contact.form.messagePh")}
-                      className={`mt-2 min-h-[48px] h-12 bg-white/[0.03] border ${errors.message ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] rounded-xl resize-none`}
+                      className={`mt-2 min-h-[100px] sm:min-h-[80px] bg-white/[0.03] border ${errors.message ? 'border-red-500/50' : 'border-white/10'} text-[#F5F5F5] rounded-xl resize-none`}
                     />
                   </div>
                 </div>
