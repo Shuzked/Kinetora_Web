@@ -56,7 +56,7 @@ const Brands = () => {
   return (
     <section
       aria-label={t("brands.label")}
-      className="kin-section bg-[#0D0D0D] overflow-hidden"
+      className="kin-section bg-[#0D0D0D] overflow-hidden relative z-10 shadow-[0_-30px_60px_rgba(0,0,0,0.8)]"
     >
       <div className="kin-container">
         <div className="text-center mb-8 sm:mb-10">
