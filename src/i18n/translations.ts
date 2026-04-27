@@ -467,7 +467,6 @@ export const dictionaries: Dictionaries = {
 
     // Pricing
     "pricing.starter.name": "Starter",
-    "pricing.starter.desc": "Para startups que necesitan diseño recurrente de alta fidelidad.",
     "pricing.starter.i1": "Un diseño a la vez",
     "pricing.starter.i2": "Entregas en 48h",
     "pricing.starter.i3": "UX/UI & Branding premium",
@@ -476,7 +475,6 @@ export const dictionaries: Dictionaries = {
     "pricing.starter.e1": "Consultoría estratégica",
     "pricing.starter.e2": "Solicitudes en paralelo",
     "pricing.growth.name": "Growth",
-    "pricing.growth.desc": "Para equipos que escalan rápido y necesitan velocidad máxima.",
     "pricing.growth.i1": "2 solicitudes en paralelo",
     "pricing.growth.i2": "Entregas en 48h",
     "pricing.growth.i3": "Prioridad máxima",
@@ -484,7 +482,6 @@ export const dictionaries: Dictionaries = {
     "pricing.growth.i5": "UX/UI, Branding & Motion",
     "pricing.growth.i6": "Pausa o cancela cuando quieras",
     "pricing.scale.name": "Scale",
-    "pricing.scale.desc": "Tu propio equipo senior de diseño dedicado 24/7.",
     "pricing.scale.i1": "Squad senior dedicado",
     "pricing.scale.i2": "Estrategia de escalado",
     "pricing.scale.i3": "SLA de entrega custom",
@@ -495,8 +492,6 @@ export const dictionaries: Dictionaries = {
     "pricing.unlimited_revisions": "Revisiones Ilimitadas",
     "pricing.enterprise": "Enterprise",
     "pricing.scale.price": "Custom",
-    "pricing.cta": "Empezar ahora",
-    "pricing.pill": "Sin permanencia",
 
     // Portfolio Categories
     "portfolio.cat.all": "Todos",
@@ -505,14 +500,6 @@ export const dictionaries: Dictionaries = {
     "portfolio.cat.web": "Web",
 
     // FAQ
-    "faq.q1": "¿Cómo funciona el modelo de suscripción?",
-    "faq.a1": "Es como tener un equipo senior in-house pero sin los costes fijos ni la gestión. Pagas una cuota mensual y puedes solicitar todos los diseños que necesites. Los gestionamos uno a uno (o dos en el plan Growth) con entregas cada 48h.",
-    "faq.q2": "¿Qué pasa si no tengo trabajo todos los meses?",
-    "faq.a2": "Puedes pausar tu suscripción en cualquier momento. Si solo usas 10 días de un mes y pausas, te guardamos los 20 días restantes para cuando los necesites en el futuro. Sin preguntas.",
-    "faq.q3": "¿Son realmente ilimitadas las revisiones?",
-    "faq.a3": "Sí. No paramos hasta que el diseño sea perfecto y cumpla con tus objetivos de negocio. Queremos ser tu partner a largo plazo, no solo una agencia más.",
-    "faq.q4": "¿Qué tipo de perfiles trabajarán en mi proyecto?",
-    "faq.a4": "Solo perfiles senior. En Kinetora no tenemos juniors ni becarios gestionando cuentas. Trabajarás directamente con diseñadores que han levantado rondas y escalado productos globales.",
     "faq.section.title": "Preguntas frecuentes",
     "faq.section.q1": "¿Cómo funciona el sistema de pausas en la suscripción?",
     "faq.section.a1": "Entendemos la naturaleza del ecosistema startup. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y reanudarla cuando la carga de trabajo lo requiera, sin penalizaciones ni costes ocultos.",
@@ -993,7 +980,6 @@ export const dictionaries: Dictionaries = {
 
     // Pricing
     "pricing.starter.name": "Starter",
-    "pricing.starter.desc": "For startups that need recurring high-fidelity design.",
     "pricing.starter.i1": "One design at a time",
     "pricing.starter.i2": "48h delivery",
     "pricing.starter.i3": "UX/UI & Branding premium",
@@ -1002,7 +988,6 @@ export const dictionaries: Dictionaries = {
     "pricing.starter.e1": "Strategic consulting",
     "pricing.starter.e2": "Parallel requests",
     "pricing.growth.name": "Growth",
-    "pricing.growth.desc": "For teams scaling fast that need maximum speed.",
     "pricing.growth.i1": "2 parallel requests",
     "pricing.growth.i2": "48h delivery",
     "pricing.growth.i3": "Maximum priority",
@@ -1010,7 +995,6 @@ export const dictionaries: Dictionaries = {
     "pricing.growth.i5": "UX/UI, Branding & Motion",
     "pricing.growth.i6": "Pause or cancel anytime",
     "pricing.scale.name": "Scale",
-    "pricing.scale.desc": "Your own dedicated senior design squad 24/7.",
     "pricing.scale.i1": "Dedicated senior squad",
     "pricing.scale.i2": "Scaling strategy",
     "pricing.scale.i3": "Custom delivery SLA",
@@ -1021,8 +1005,6 @@ export const dictionaries: Dictionaries = {
     "pricing.unlimited_revisions": "Unlimited Revisions",
     "pricing.enterprise": "Enterprise",
     "pricing.scale.price": "Custom",
-    "pricing.cta": "Get started",
-    "pricing.pill": "No lock-in",
 
     // Portfolio Categories
     "portfolio.cat.all": "All",
@@ -1031,14 +1013,6 @@ export const dictionaries: Dictionaries = {
     "portfolio.cat.web": "Web",
 
     // FAQ
-    "faq.q1": "How does the subscription model work?",
-    "faq.a1": "It's like having a senior in-house team without the fixed costs or management. You pay a monthly fee and can request all the designs you need. We manage them one by one (or two in the Growth plan) with 48h turnarounds.",
-    "faq.q2": "What if I don't have work every month?",
-    "faq.a2": "You can pause your subscription at any time. If you only use 10 days of a month and pause, we save the remaining 20 days for whenever you need them in the future. No questions asked.",
-    "faq.q3": "Are revisions really unlimited?",
-    "faq.a3": "Yes. We don't stop until the design is perfect and meets your business goals. We want to be your long-term partner, not just another agency.",
-    "faq.q4": "What kind of profiles will work on my project?",
-    "faq.a4": "Only senior profiles. At Kinetora we don't have juniors or interns managing accounts. You will work directly with designers who have raised rounds and scaled global products.",
     "faq.section.title": "Frequently asked questions",
     "faq.section.q1": "How does the subscription pause system work?",
     "faq.section.a1": "We understand the nature of the startup ecosystem. If you don't have active design requests for a month, you can pause your subscription and resume it whenever the workload demands it, without penalties or hidden costs.",

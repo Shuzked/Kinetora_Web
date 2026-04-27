@@ -106,9 +106,21 @@ const Hero = () => {
              </span>
           </h1>
 
-          <p className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both">
-            {t("hero.subheadline")}
-          </p>
+          <div className="text-[#F5F5F5]/80 max-w-2xl leading-relaxed font-medium mb-4 animate-in fade-in fill-mode-both space-y-3">
+            {(() => {
+              const full = t("hero.subheadline");
+              const match = full.match(/^(.+?\.\s*)([A-ZÁÉÍÓÚÑ].+)$/s);
+              if (match) {
+                return (
+                  <>
+                    <p>{match[1].trim()}</p>
+                    <p>{match[2].trim()}</p>
+                  </>
+                );
+              }
+              return <p>{full}</p>;
+            })()}
+          </div>
           <a
             href="/precios"
             className="inline-flex items-center gap-2 mb-10 sm:mb-12 text-[11px] font-black tracking-[0.22em] uppercase text-[#B454FF]/80 hover:text-[#B454FF] transition-colors border-b border-[#B454FF]/30 hover:border-[#B454FF] pb-px animate-in fade-in fill-mode-both"
