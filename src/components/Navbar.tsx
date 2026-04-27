@@ -122,7 +122,7 @@ const Navbar = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-[#F5F5F5] h-10 w-10 rounded-full kin-touch-target"
+                  className="text-[#F5F5F5] h-12 w-12 min-h-[48px] min-w-[48px] rounded-full kin-touch-target"
                   aria-label={lang === "es" ? "Abrir menú" : "Open menu"}
                 >
                   <Menu className="w-5 h-5" />
@@ -130,17 +130,17 @@ const Navbar = () => {
               </SheetTrigger>
               <SheetContent
                 side="right"
-                className="bg-[#0D0D0D] border-[#2A2A2A] text-[#F5F5F5]"
+                className="w-full sm:w-[360px] border-l border-[#2A2A2A] text-[#F5F5F5] bg-[#0D0D0D]/95 backdrop-blur-md p-0 transition-transform duration-300 ease-out"
                 onOpenAutoFocus={() => document.body.setAttribute("data-sheet-open", "true")}
                 onCloseAutoFocus={() => document.body.removeAttribute("data-sheet-open")}
               >
-                <div className="flex flex-col gap-8 mt-12">
+                <div className="flex flex-col gap-2 mt-20 px-8 pb-10">
                   {navLinks.map((link) => (
                     link.href ? (
                       <SmoothScrollLink
                         key={link.name}
                         href={link.href}
-                        className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded py-3 px-2 -mx-2 flex items-center kin-touch-target"
+                        className="text-2xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-xl py-4 px-3 -mx-3 flex items-center min-h-[56px] kin-touch-target border-b border-white/5"
                       >
                         {link.name}
                       </SmoothScrollLink>
@@ -148,13 +148,15 @@ const Navbar = () => {
                       <Link
                         key={link.name}
                         to={link.to!}
-                        className="text-xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded py-3 px-2 -mx-2 flex items-center kin-touch-target"
+                        className="text-2xl font-black uppercase transition-colors hover:text-[#B454FF] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-xl py-4 px-3 -mx-3 flex items-center min-h-[56px] kin-touch-target border-b border-white/5"
                       >
                         {link.name}
                       </Link>
                     )
                   ))}
-                  <LanguagePills />
+                  <div className="mt-8">
+                    <LanguagePills />
+                  </div>
                 </div>
               </SheetContent>
             </Sheet>

@@ -64,7 +64,10 @@ const HowItWorks = () => {
             <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
               {t("howitworks.badge")}
             </div>
-            <h2 className="mb-6 tracking-tighter text-4xl lg:text-5xl font-bold text-white">
+            <h2
+              className="mb-6 tracking-tighter font-bold text-white uppercase"
+              style={{ fontSize: 'clamp(1.75rem, 5vw + 0.5rem, 3rem)' }}
+            >
               {t("howitworks.title").toUpperCase()}
             </h2>
             <p className="mt-4 text-[#F5F5F5]/60 text-lg max-w-2xl mx-auto">

@@ -86,6 +86,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: clip;
+    max-width: 100vw;
     /* scroll-behavior: smooth; -> Eliminado para evitar conflictos con reset de scroll instantáneo */
   }
 
@@ -95,6 +96,7 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
+    max-width: 100vw;
     font-display: swap;
   }
 
@@ -504,8 +506,8 @@
   /* Slightly larger tap targets on touch devices */
   @media (pointer: coarse) {
     .kin-touch-target {
-      min-height: 44px;
-      min-width: 44px;
+      min-height: 48px;
+      min-width: 48px;
     }
   }
 

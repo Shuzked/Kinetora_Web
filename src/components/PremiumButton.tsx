@@ -14,9 +14,9 @@ type PremiumButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const sizeMap: Record<NonNullable<PremiumButtonProps["size"]>, string> = {
-  sm: "h-10 px-4 text-xs",
-  md: "h-12 px-6 text-sm",
-  lg: "h-14 md:h-16 px-9 md:px-10 text-sm md:text-base",
+  sm: "min-h-[48px] h-10 md:h-10 px-5 md:px-4 text-xs",
+  md: "min-h-[48px] h-12 px-6 text-sm",
+  lg: "min-h-[48px] h-14 md:h-16 px-9 md:px-10 text-sm md:text-base",
 };
 
 const PremiumButton: React.FC<PremiumButtonProps> = ({

@@ -62,7 +62,7 @@ const Services = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 md:grid-rows-2 gap-4 sm:gap-6">
             {cards.map((card, i) => {
               const Icon = card.icon;
               const isLarge = card.size === "large";
@@ -76,8 +76,8 @@ const Services = () => {
                     bg-white/[0.04] border border-white/10 rounded-[2.5rem] p-8 md:p-10 
                     flex flex-col justify-between group relative overflow-hidden backdrop-blur-xl 
                     hover:border-[#B454FF]/35 hover:bg-white/[0.06] transition-all duration-300
-                    ${isLarge ? "md:col-span-2 md:row-span-2 min-h-[450px]" : ""}
-                    ${isMedium ? "md:col-span-2 min-h-[300px]" : "min-h-[300px]"}
+                    ${isLarge ? "sm:col-span-2 md:col-span-2 md:row-span-2 md:min-h-[450px]" : ""}
+                    ${isMedium ? "sm:col-span-2 md:col-span-2 min-h-[260px] md:min-h-[300px]" : "min-h-[260px] md:min-h-[300px]"}
                   `}
                 >
                   <div aria-hidden className="pointer-events-none absolute inset-0">
