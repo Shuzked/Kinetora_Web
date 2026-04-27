@@ -192,7 +192,7 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                </div>
             </header>
 
-            <div className="flex-1 flex overflow-hidden">
+            <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
                 {/* Left Panel: Content (70%) - Description Focus */}
                 <div className="flex-1 overflow-y-auto bg-[#0A0A0A] custom-scrollbar scroll-smooth">
                     <div className="p-10 md:p-16 max-w-4xl mx-auto space-y-12 pb-32">
@@ -355,7 +355,7 @@ const TaskDrawer: React.FC<TaskDrawerProps> = ({ task, isOpen, onClose, onUpdate
                 </div>
 
                 {/* Right Panel: Sidebar (30%) - Activity & Chat Combined Panel */}
-                <div className="w-[480px] bg-[#0C0C0C] border-l border-white/5 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.2)]">
+                <div className="w-full lg:w-[480px] bg-[#0C0C0C] border-l border-white/5 flex flex-col shadow-[-20px_0_50px_rgba(0,0,0,0.2)]">
                     {/* Tabs Navigation - High Precision */}
                     <div className="flex p-4 gap-2 bg-[#0C0C0C] border-b border-white/[0.03]">
                         <button 

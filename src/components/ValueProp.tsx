@@ -58,7 +58,7 @@ const ValueProp = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-stretch">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-10 items-stretch">
           <MouseParallax intensity={9} rotate={4} className="will-change-transform">
             <motion.div
               whileInView={{ opacity: 1, y: 0 }}
@@ -98,7 +98,7 @@ const ValueProp = () => {
               </ul>
 
               <div className="mt-10 pt-7 border-t border-white/10">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {leftMetrics.map((m) => (
                     <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
                       <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.22em] font-black text-[#F5F5F5]/55 break-words whitespace-normal leading-tight">
@@ -155,7 +155,7 @@ const ValueProp = () => {
               </ul>
 
               <div className="mt-10 pt-7 border-t border-white/10 relative z-10">
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {rightMetrics.map((m) => (
                     <div key={m.k} className="rounded-2xl bg-white/5 border border-white/10 p-3 sm:p-4 text-center">
                       <div className="text-[10px] sm:text-[11px] uppercase tracking-[0.14em] sm:tracking-[0.22em] font-black text-[#F5F5F5]/55 break-words whitespace-normal leading-tight">
