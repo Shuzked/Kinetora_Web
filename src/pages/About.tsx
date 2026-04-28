@@ -180,7 +180,7 @@ const About = () => {
                       LinkedIn
                     </a>
                     <a 
-                      href="mailto:rafa@kinetora.tech" 
+                      href="mailto:hello@kinetora.tech" 
                       className="inline-flex items-center gap-3 min-h-[48px] px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white/80 hover:text-white hover:bg-white/10 transition-all duration-500 font-black text-xs uppercase tracking-widest"
                     >
                       <Mail size={18} />
