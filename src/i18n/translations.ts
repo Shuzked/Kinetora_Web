@@ -492,6 +492,8 @@ export const dictionaries: Dictionaries = {
     "pricing.unlimited_revisions": "Revisiones Ilimitadas",
     "pricing.enterprise": "Enterprise",
     "pricing.scale.price": "Custom",
+    "pricing.cta.start": "Comencemos",
+    "pricing.cta.consult": "Consultalo",
 
     // Portfolio Categories
     "portfolio.cat.all": "Todos",
@@ -1005,6 +1007,8 @@ export const dictionaries: Dictionaries = {
     "pricing.unlimited_revisions": "Unlimited Revisions",
     "pricing.enterprise": "Enterprise",
     "pricing.scale.price": "Custom",
+    "pricing.cta.start": "Get started",
+    "pricing.cta.consult": "Consult us",
 
     // Portfolio Categories
     "portfolio.cat.all": "All",
