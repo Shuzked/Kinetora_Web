@@ -27,11 +27,7 @@ const Hero = () => {
   const filter = useTransform(blur, (v) => `blur(${v}px)`);
   const yBg = useTransform(scrollY, [0, 1000], [0, -50]); // 0.05 speed inverted
 
-  const pills = [
-    { Icon: Timer, text: t("hero.pill.delivery") },
-    { Icon: RefreshCw, text: t("hero.pill.revisions") },
-    { Icon: Euro, text: t("hero.pill.price") },
-  ];
+
 
   const getNavbarOffset = () => {
     const nav = document.querySelector("nav") as HTMLElement | null;
@@ -136,51 +132,35 @@ const Hero = () => {
               </div>
             </ScrollParallax>
 
-            <ScrollParallax speed={0.1}>
-              <div className="mt-6 sm:mt-10 flex flex-wrap justify-center gap-2.5 sm:gap-4 md:gap-6 animate-in fade-in duration-1000 delay-1000 fill-mode-both">
-                {pills.map(({ Icon, text }, i) => (
-                  <div
-                    key={i}
-                    className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/[0.08] border border-white/[0.12] backdrop-blur-[16px] text-[#F5F5F5] shadow-[0_0_20px_rgba(0,0,0,0.25)] hover:bg-white/[0.14] hover:border-white/[0.25] hover:-translate-y-[1px] transition-all duration-300"
+            {/* Social Proof Metrics (Relocated) */}
+            <div className="mt-12 md:mt-16 w-full max-w-5xl mx-auto px-4 relative z-10">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+                {[
+                  { prefix: "14,2", suffix: " $M+", label: "CAPITAL LEVANTADO gracias a nuestros diseños" },
+                  { prefix: "18", suffix: "+", label: "PROYECTOS ENTREGADOS" },
+                  { prefix: "48", suffix: "h", label: "CICLO DE DISEÑO a alta fidelidad" },
+                  { prefix: "94", suffix: "%", label: "RETENCIÓN B2B" },
+                ].map((item, index) => (
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 1.5 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex flex-col justify-start items-center text-center h-full"
                   >
-                    <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#B454FF]" />
-                    <span className="text-[10px] sm:text-[11px] md:text-xs font-black tracking-[0.22em] uppercase">
-                      {text}
-                    </span>
-                  </div>
+                    <div className="flex items-baseline whitespace-nowrap text-3xl md:text-4xl font-extrabold tracking-tight text-[#F5F5F5] leading-none">
+                      {item.prefix}<span className="text-[#B454FF]">{item.suffix}</span>
+                    </div>
+                    <div className="mt-2 text-[10px] md:text-xs text-white/50 uppercase tracking-[0.2em] font-medium max-w-[220px]">
+                      {item.label}
+                    </div>
+                  </motion.div>
                 ))}
               </div>
-            </ScrollParallax>
-          </div>
-        </div>
-        {/* Floating Social Proof Dock */}
-        <div className="absolute bottom-0 left-0 w-full z-20 bg-gradient-to-t from-black/90 to-transparent pb-6 pt-10">
-          <div className="w-full max-w-6xl mx-auto px-4 bg-transparent">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
-              {[
-                { prefix: "14,2", suffix: " $M+", label: "CAPITAL LEVANTADO gracias a nuestros diseños" },
-                { prefix: "18", suffix: "+", label: "PROYECTOS ENTREGADOS" },
-                { prefix: "48", suffix: "h", label: "CICLO DE DISEÑO a alta fidelidad" },
-                { prefix: "94", suffix: "%", label: "RETENCIÓN B2B" },
-              ].map((item, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 1.5 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col justify-start items-center text-center h-full"
-                >
-                  <div className="flex items-baseline whitespace-nowrap text-3xl md:text-4xl font-extrabold tracking-tight text-[#F5F5F5] leading-none">
-                    {item.prefix}<span className="text-[#B454FF]">{item.suffix}</span>
-                  </div>
-                  <div className="mt-2 text-[10px] md:text-xs text-white/50 uppercase tracking-[0.2em] font-medium max-w-[220px]">
-                    {item.label}
-                  </div>
-                </motion.div>
-              ))}
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );
