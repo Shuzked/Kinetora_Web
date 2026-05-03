@@ -153,6 +153,34 @@ const Hero = () => {
             </ScrollParallax>
           </div>
         </div>
+        {/* Floating Social Proof Dock */}
+        <div className="absolute bottom-0 md:bottom-8 left-1/2 -translate-x-1/2 w-full max-w-7xl px-4 sm:px-6 z-20">
+          <div className="bg-black/20 backdrop-blur-2xl md:rounded-3xl border-t border-white/10 md:border md:border-white/10">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 py-8 px-4 md:px-8">
+              {[
+                { prefix: "14,2", suffix: " $M+", label: "CAPITAL LEVANTADO gracias a nuestros diseños" },
+                { prefix: "18", suffix: "+", label: "PROYECTOS ENTREGADOS" },
+                { prefix: "48", suffix: "h", label: "CICLO DE DISEÑO a alta fidelidad" },
+                { prefix: "94", suffix: "%", label: "RETENCIÓN B2B" },
+              ].map((item, index) => (
+                <motion.div 
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 1.5 + index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                  className="flex flex-col items-center justify-center text-center"
+                >
+                  <div className="text-[clamp(2.5rem,5vw,5.5rem)] font-black leading-none tracking-tight text-[#F5F5F5]">
+                    {item.prefix}<span className="text-[#B454FF]">{item.suffix}</span>
+                  </div>
+                  <div className="mt-3 text-[9px] md:text-xs font-bold tracking-[0.2em] text-white/50 uppercase max-w-[220px]">
+                    {item.label}
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
