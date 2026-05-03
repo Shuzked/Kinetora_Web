@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from "@/i18n/I18nProvider";
 import ClientOnly from "@/components/ClientOnly";
+import RevealText from "@/components/ui/RevealText";
 import { Search, Settings, Zap, BarChart3 } from "lucide-react";
 
 const HowItWorks = () => {
@@ -68,7 +69,12 @@ const HowItWorks = () => {
               className="mb-6 tracking-tighter font-bold text-white uppercase"
               style={{ fontSize: 'clamp(1.75rem, 5vw + 0.5rem, 3rem)' }}
             >
-              {t("howitworks.title").toUpperCase()}
+              <RevealText text={t("howitworks.titleA").toUpperCase()} className="block" />
+              <RevealText 
+                text={t("howitworks.titleB").toUpperCase()} 
+                className="block text-[#B454FF]" 
+                delay={0.2} 
+              />
             </h2>
             <p className="mt-4 text-[#F5F5F5]/60 text-lg max-w-2xl mx-auto">
               {t("howitworks.sub")}

@@ -362,7 +362,8 @@ export const dictionaries: Dictionaries = {
 
     // How It Works
     "howitworks.badge": "Metodología",
-    "howitworks.title": "FLUJO DE ALTO RENDIMIENTO",
+    "howitworks.titleA": "FLUJO DE",
+    "howitworks.titleB": "ALTO RENDIMIENTO",
     "howitworks.sub": "De la auditoría inicial al escalado estratégico. Así es como transformamos tu impacto visual.",
     "howitworks.step1_t": "Auditoría & Estrategia",
     "howitworks.step1_d": "Análisis profundo del mercado y assets actuales. Definición de la hoja de ruta visual para tu startup.",
@@ -877,7 +878,8 @@ export const dictionaries: Dictionaries = {
 
     // How It Works
     "howitworks.badge": "Methodology",
-    "howitworks.title": "HIGH-PERFORMANCE FLOW",
+    "howitworks.titleA": "HIGH-PERFORMANCE",
+    "howitworks.titleB": "FLOW",
     "howitworks.sub": "From initial audit to strategic scaling. This is how we transform your visual impact.",
     "howitworks.step1_t": "Audit & Strategy",
     "howitworks.step1_d": "Deep analysis of the market and current assets. Defining the visual roadmap for your startup.",
