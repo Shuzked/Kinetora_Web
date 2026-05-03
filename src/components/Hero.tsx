@@ -65,7 +65,7 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="hero-section hero-content-protection sticky top-0 z-0 overflow-hidden bg-[#0D0D0D] min-h-[100dvh] flex flex-col"
+      className="hero-section hero-content-protection fixed inset-0 w-full h-screen z-0 overflow-hidden bg-[#0D0D0D] flex flex-col"
     >
       <ClientOnly fallback={<div className="absolute inset-0 bg-[#0D0D0D]" />}>
         <motion.div 

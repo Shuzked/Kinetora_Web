@@ -58,7 +58,7 @@ const App = ({ serverLang }: { serverLang?: "en" | "es" }) => {
           <SkipToContent />
           <BackgroundParallax />
           <SmoothScroll>
-            <div className="relative z-10 w-full overflow-x-hidden">
+            <div className="relative z-10 w-full">
               <ScrollProgress />
               <ScrollToTop />
               <Routes>

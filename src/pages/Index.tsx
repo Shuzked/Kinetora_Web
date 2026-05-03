@@ -190,7 +190,7 @@ const Index = () => {
         <Hero />
         
         {/* Content Shield (Layer 1) covers the Sticky Hero (Layer 0) */}
-        <div className="relative z-10 bg-[#0D0D0D] shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
+        <div className="mt-[100vh] relative z-10 bg-[#0D0D0D] shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
           <Reveal as="div"><Brands /></Reveal>
           <Reveal as="div"><Stats /></Reveal>
           <Reveal as="div"><ValueProp /></Reveal>
