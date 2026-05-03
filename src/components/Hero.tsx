@@ -12,6 +12,7 @@ import { useIsMounted } from '@/hooks/use-is-mounted';
 import ClientOnly from '@/components/ClientOnly';
 
 const Hero = () => {
+  // Force cache bust - Hero scroll fix
   const { t } = useI18n();
   const sectionRef = useRef<HTMLElement | null>(null);
   const isMobile = useIsMobile();

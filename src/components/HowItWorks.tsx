@@ -66,7 +66,7 @@ const HowItWorks = () => {
               {t("howitworks.badge")}
             </div>
             <h2
-              className="mb-6 tracking-tighter font-bold text-white uppercase"
+              className="mb-6 tracking-tighter font-black text-white uppercase"
               style={{ fontSize: 'clamp(1.75rem, 5vw + 0.5rem, 3rem)' }}
             >
               <RevealText text={t("howitworks.titleA").toUpperCase()} className="block" />
