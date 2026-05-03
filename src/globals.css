@@ -567,7 +567,7 @@
 
 /* Liquid Hero Background Animation */
 .liquid-bg-container {
-  @apply absolute inset-0 bg-[#0D0D0D] overflow-clip relative z-0;
+  @apply absolute inset-0 overflow-hidden;
 }
 
 .liquid-blob {

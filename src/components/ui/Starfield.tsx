@@ -9,6 +9,7 @@ const Starfield = () => {
   const isMounted = useIsMounted();
   const [isMobile, setIsMobile] = useState(false);
 
+  // Effect 1: detect mobile — always runs (Rules of Hooks safe)
   useEffect(() => {
     setIsMobile(window.innerWidth < 768);
     const cb = () => setIsMobile(window.innerWidth < 768);
@@ -16,12 +17,9 @@ const Starfield = () => {
     return () => window.removeEventListener('resize', cb);
   }, []);
 
-  // ⚡ MOBILE KILL SWITCH: Bloqueo absoluto para no ejecutar lógica
-  if (isMounted && isMobile) {
-    return null;
-  }
-
+  // Effect 2: canvas animation — always declared, guards internally
   useEffect(() => {
+    // ⚡ MOBILE KILL SWITCH: guard inside the effect (safe — no hook after this)
     if (!isMounted || isMobile) return;
 
 
@@ -191,7 +189,11 @@ const Starfield = () => {
         observer.disconnect();
       };
     }
-  }, []);
+
+  }, [isMounted, isMobile]);
+
+  // ⚡ MOBILE KILL SWITCH: null render after all hooks are safely declared
+  if (isMounted && isMobile) return null;
 
   return (
     <ClientOnly>
