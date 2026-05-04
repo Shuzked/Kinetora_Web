@@ -1,0 +1,102 @@
+{
+  "source": "PageSpeed Insights API (pagespeed.web.dev)",
+  "url": "https://kinetora.tech/",
+  "strategy": "mobile",
+  "timestamp": "2026-05-04T14:55:00Z",
+  "lighthouseVersion": "12.x",
+  "categories": {
+    "performance": {
+      "score": 0.48,
+      "displayValue": "48"
+    }
+  },
+  "audits": {
+    "first-contentful-paint": {
+      "displayValue": "6.0 s",
+      "numericValue": 6000,
+      "score": 0.05
+    },
+    "largest-contentful-paint": {
+      "displayValue": "7.4 s",
+      "numericValue": 7400,
+      "score": 0.0,
+      "lcpElement": "h1 — \"EL ESTUDIO QUE AYUDA A LAS STARTUPS A LEVANTAR CAPITAL Y CONVERTIR USUARIOS\""
+    },
+    "total-blocking-time": {
+      "displayValue": "510 ms",
+      "numericValue": 510,
+      "score": 0.12
+    },
+    "cumulative-layout-shift": {
+      "displayValue": "0",
+      "numericValue": 0,
+      "score": 1.0
+    },
+    "speed-index": {
+      "displayValue": "6.0 s",
+      "numericValue": 6000,
+      "score": 0.05
+    },
+    "interactive": {
+      "displayValue": "(not reported separately)",
+      "numericValue": null
+    }
+  },
+  "opportunities": [
+    {
+      "id": "render-blocking-resources",
+      "title": "Eliminar recursos que bloqueen el renderizado",
+      "displayValue": "Ahorro estimado: 300 ms"
+    },
+    {
+      "id": "unused-javascript",
+      "title": "Reducir el contenido JavaScript que no se use",
+      "displayValue": "Ahorro estimado: 322 KiB"
+    },
+    {
+      "id": "uses-optimized-images",
+      "title": "Mejorar la entrega de imágenes",
+      "displayValue": "Ahorro estimado: 7 KiB"
+    },
+    {
+      "id": "viewport",
+      "title": "Optimizar el viewport para móviles"
+    },
+    {
+      "id": "dom-size",
+      "title": "Evitar un tamaño excesivo del DOM",
+      "displayValue": "406 elementos"
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "mainthread-work-breakdown",
+      "title": "Minimizar el trabajo del hilo principal",
+      "displayValue": "5.3 s"
+    },
+    {
+      "id": "bootup-time",
+      "title": "Reducir el tiempo de ejecución de JavaScript",
+      "displayValue": "1.6 s"
+    },
+    {
+      "id": "long-tasks",
+      "title": "Evitar tareas largas del hilo principal",
+      "displayValue": "14 tareas largas encontradas"
+    },
+    {
+      "id": "font-display",
+      "title": "Asegurar que el texto siga siendo visible mientras se carga la fuente web"
+    },
+    {
+      "id": "lcp-lazy-loaded",
+      "title": "Desglose de LCP: Retraso de renderizado de elementos significativo",
+      "displayValue": "2240 ms de retraso en renderizado"
+    }
+  ],
+  "notes": {
+    "lcpAnalysis": "El LCP NO es el logo sino el H1. Elemento: h1 con texto del hero. El retraso principal es font loading + render blocking de 2240ms. Ajustar commit 1 para preload del Inter Black/Bold en lugar de (o además del) logo.",
+    "tbtNote": "510ms de TBT indica JavaScript pesado en el hilo principal — framer-motion, Starfield, Radix Accordion son candidatos principales.",
+    "clsNote": "CLS = 0 — excelente. No hay layout shifts. El cookie banner fixed no genera CLS."
+  }
+}
