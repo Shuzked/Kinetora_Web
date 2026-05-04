@@ -15,7 +15,7 @@ const Logo = ({ className = "h-6" }: LogoProps) => {
         <img
           src="/Logotipo.svg"
           alt="Kinetora Logo"
-          className="h-full w-auto"
+          className="h-full w-auto aspect-[5/1]"
           width={120}
           height={24}
           fetchpriority="high"
