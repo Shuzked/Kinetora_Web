@@ -7,20 +7,34 @@ import ClientOnly from "../ClientOnly";
 const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isMounted = useIsMounted();
-  const [isMobile, setIsMobile] = useState(false);
 
-  // Effect 1: detect mobile — always runs (Rules of Hooks safe)
+  // ⚡ EARLY GUARD: Evaluate on first render synchronously (before any mount effects)
+  // 1. Mobile (<= 768px): skip entirely — canvas + worker are heavy on low-end CPUs
+  // 2. prefers-reduced-motion: respect user accessibility preference
+  const [shouldRender] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    const isMobileViewport = window.innerWidth <= 768;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return !isMobileViewport && !prefersReducedMotion;
+  });
+
+  // Derived: keep isMobile for the canvas effect guard (tracks resize)
+  const [isMobile, setIsMobile] = useState<boolean>(() =>
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : true
+  );
+
+  // Effect 1: track mobile on resize — always declared (Rules of Hooks)
   useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-    const cb = () => setIsMobile(window.innerWidth < 768);
+    if (!shouldRender) return; // skip listener if we already decided not to render
+    const cb = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', cb, { passive: true });
     return () => window.removeEventListener('resize', cb);
-  }, []);
+  }, [shouldRender]);
 
   // Effect 2: canvas animation — always declared, guards internally
   useEffect(() => {
-    // ⚡ MOBILE KILL SWITCH: guard inside the effect (safe — no hook after this)
-    if (!isMounted || isMobile) return;
+    // ⚡ GUARD: skip canvas entirely on mobile or reduced-motion (evaluated synchronously above)
+    if (!shouldRender || !isMounted || isMobile) return;
 
 
     const canvas = canvasRef.current;
@@ -190,9 +204,11 @@ const Starfield = () => {
       };
     }
 
-  }, [isMounted, isMobile]);
+  }, [isMounted, isMobile, shouldRender]);
 
-  // ⚡ MOBILE KILL SWITCH: null render after all hooks are safely declared
+  // ⚡ EARLY EXIT: don't mount canvas at all for mobile/reduced-motion users
+  if (!shouldRender) return null;
+  // Legacy fallback (resize can still flip isMobile after mount on desktop)
   if (isMounted && isMobile) return null;
 
   return (
