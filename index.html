@@ -38,6 +38,28 @@
     </script>
     
     <!-- No GTM/GA4 scripts here - they are loaded dynamically by useCookieConsent.ts after user choice -->
+    
+    <!-- Web Vitals RUM (Early Metrics Capture) -->
+    <script type="module">
+      import {onCLS, onINP, onLCP, onFCP, onTTFB} from 'https://unpkg.com/web-vitals@4?module';
+      
+      function sendToAnalytics(metric) {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', metric.name, {
+            event_category: 'Web Vitals',
+            event_label: metric.id,
+            value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+            non_interaction: true,
+          });
+        }
+      }
+
+      onCLS(sendToAnalytics);
+      onINP(sendToAnalytics);
+      onLCP(sendToAnalytics);
+      onFCP(sendToAnalytics);
+      onTTFB(sendToAnalytics);
+    </script>
 
     <!-- ⚡ CRITICAL PERFORMANCE & SEO (Staff Level) -->
     <style>
