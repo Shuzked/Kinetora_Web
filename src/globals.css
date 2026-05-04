@@ -102,7 +102,7 @@
 
   /* Clamp heading sizes for better scaling between mobile and desktop */
   h1 {
-    @apply font-black tracking-tighter uppercase;
+    @apply font-medium tracking-tight;
     /* Increased base to ensure h1 > h2 on 320px screens */
     font-size: clamp(1.75rem, 6vw + 1rem, 3.2rem);
     line-height: 1.05;
@@ -110,7 +110,7 @@
   }
 
   h2 {
-    @apply font-black tracking-tighter uppercase;
+    @apply font-medium tracking-tight;
     /* Decreased base to fix hierarchy bug (was 1.8rem) */
     font-size: clamp(1.4rem, 5vw + 1rem, 2.8rem);
     line-height: 1.05;
@@ -118,7 +118,7 @@
   }
 
   h3 {
-    @apply font-black tracking-tight uppercase;
+    @apply font-medium tracking-tight;
     /* Escala reducida para jerarquía equilibrada */
     font-size: clamp(1.15rem, 3.5vw + 0.5rem, 1.8rem);
     line-height: 1.05;
@@ -126,7 +126,7 @@
   }
 
   h4, h5, h6 {
-    @apply font-black tracking-tight uppercase;
+    @apply font-medium tracking-tight;
     font-size: clamp(1rem, 3.5vw + 0.5rem, 1.8rem);
     line-height: 1.2;
   }
@@ -339,7 +339,6 @@
     color: rgba(245, 245, 245, 0.6);
     font-weight: 700;
     letter-spacing: 0.08em;
-    text-transform: uppercase;
   }
 
   .wp-post__content hr,
@@ -406,7 +405,6 @@
     padding: 0.85rem 1.25rem;
     font-weight: 900;
     letter-spacing: 0.12em;
-    text-transform: uppercase;
     background: rgba(180, 84, 255, 0.15);
     border: 1px solid rgba(180, 84, 255, 0.35);
     color: #f5f5f5;
@@ -570,39 +568,7 @@
   @apply absolute inset-0 overflow-hidden;
 }
 
-.liquid-blob {
-  @apply absolute rounded-full blur-[110px] opacity-60 mix-blend-screen;
-  width: 65vw;
-  height: 65vw;
-  will-change: transform;
-  animation: liquid-move 32s infinite alternate ease-in-out;
-}
 
-.blob-purple {
-  background: radial-gradient(circle, #7C3AED 0%, transparent 70%);
-  top: -15%;
-  left: -10%;
-  animation-duration: 26s;
-}
-
-.blob-blue {
-  background: radial-gradient(circle, #2563EB 0%, transparent 70%);
-  bottom: -20%;
-  right: -10%;
-  animation-duration: 36s;
-  animation-delay: -6s;
-}
-
-.blob-coral {
-  background: radial-gradient(circle, #F43F5E 0%, transparent 70%);
-  top: 35%;
-  left: 15%;
-  width: 50vw;
-  height: 50vw;
-  animation-duration: 30s;
-  animation-delay: -12s;
-  opacity: 0.4;
-}
 
 @keyframes liquid-move {
   0% {
@@ -653,4 +619,49 @@
     z-index: 9998;
     mix-blend-mode: overlay;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   NATIVE FAQ — <details>/<summary> animation system
+   Replicates @radix-ui/react-accordion visuals without any JavaScript.
+   
+   Animation strategy: grid-template-rows: 0fr → 1fr
+   The inner div has min-height: 0, which allows it to be "crushed" to 0
+   by the grid. When <details> opens, the row expands to 1fr (natural height).
+   This is the CSS-only equivalent of Radix's --radix-accordion-content-height.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* Remove the native browser disclosure triangle (all browsers) */
+.faq-summary::-webkit-details-marker { display: none; }
+.faq-summary::marker               { display: none; }
+
+/* The grid wrapper: collapsed by default */
+.faq-content-grid {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* When <details> is open, expand the grid row */
+.faq-item[open] .faq-content-grid {
+  grid-template-rows: 1fr;
+}
+
+/* Inner div must have min-height: 0 for the grid crush to work */
+.faq-content-inner {
+  min-height: 0;
+}
+
+/* Content fade-in when opening — matches original faq-in keyframe */
+.faq-item[open] .faq-content-inner > div {
+  animation: faq-in 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Chevron rotate: Tailwind's group-open applies to details[open] > * */
+/* The rotate-180 class on the SVG handles this via Tailwind group-open variant */
+
+/* focus-visible ring on summary (keyboard navigation) */
+.faq-summary:focus-visible {
+  outline: 2px solid #B454FF;
+  outline-offset: 2px;
 }

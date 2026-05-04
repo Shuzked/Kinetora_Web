@@ -1,14 +1,19 @@
 "use client";
 
 import React from 'react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useI18n } from "@/i18n/I18nProvider";
-import RevealText from "@/components/ui/RevealText";
+
+// ──────────────────────────────────────────────────────────────────────────────
+// FAQ — migrated from @radix-ui/react-accordion to native <details>/<summary>
+//
+// Benefits:
+//  • Zero JS for open/close — browser handles it natively
+//  • name="faq" provides exclusivity (only one open at a time) natively
+//  • grid-template-rows: 0fr → 1fr animation replicates Radix height animation
+//    without --radix-accordion-content-height CSS variable
+//  • Preserves: focus-visible ring, chevron rotate, faq-in content animation,
+//    hover color change, identical visual design
+// ──────────────────────────────────────────────────────────────────────────────
 
 const FAQ = () => {
   const { t } = useI18n();
@@ -28,27 +33,50 @@ const FAQ = () => {
     <section className="kin-section bg-[#0D0D0D]">
       <div className="kin-container">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-center mb-12 sm:mb-16 lg:mb-24">
-            <RevealText text={t("faq.section.title")} />
+          <h2
+            className="text-center mb-16 font-medium tracking-tighter leading-tight"
+            style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
+          >
+            {t("faq.section.title")}
           </h2>
-          <Accordion type="single" collapsible className="w-full space-y-4">
+
+          <div className="w-full space-y-6">
             {faqs.map((faq, i) => (
-              <AccordionItem
+              <details
                 key={i}
-                value={`item-${i}`}
-                className="border-white/10 bg-white/[0.04] px-5 sm:px-6 rounded-2xl hover:bg-white/[0.06] transition-colors"
+                name="faq"
+                className="faq-item group border-white/[0.03] bg-[#111111] px-8 sm:px-10 rounded-[2rem] hover:bg-white/[0.02] transition-all duration-500"
               >
-                <AccordionTrigger className="text-[#F5F5F5] hover:text-[#B454FF] data-[state=open]:text-[#B454FF] transition-colors text-left font-bold uppercase tracking-tight py-4 sm:py-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-xl px-1 sm:px-2 -mx-1 sm:-mx-2 text-sm sm:text-base">
-                  {faq.q}
-                </AccordionTrigger>
-                <AccordionContent className="group/acc text-[#F5F5F5]/70 leading-relaxed font-medium pb-5 sm:pb-6 overflow-hidden data-[state=open]:animate-accordion-down data-[state=closed]:animate-accordion-up">
-                  <div className="will-change-transform will-change-opacity group-data-[state=open]/acc:animate-faq-in group-data-[state=closed]/acc:animate-faq-out">
-                    {faq.a}
+                {/* ── SUMMARY: the clickable trigger ── */}
+                <summary className="faq-summary list-none flex items-center justify-between gap-4 cursor-pointer text-white group-open:text-[#B454FF] hover:text-[#B454FF] transition-all duration-500 text-left font-medium tracking-tight py-6 sm:py-8 text-base sm:text-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B454FF] rounded-lg select-none">
+                  <span>{faq.q}</span>
+                  {/* Chevron — rotates 180° when open, identical to Radix AccordionTrigger */}
+                  <svg
+                    className="faq-chevron h-4 w-4 shrink-0 text-white/50 group-open:text-[#B454FF] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-open:rotate-180"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </summary>
+
+                {/* ── CONTENT: grid animation 0fr → 1fr ── */}
+                <div className="faq-content-grid">
+                  <div className="faq-content-inner overflow-hidden">
+                    <div className="max-w-2xl text-white/40 leading-relaxed font-normal pb-8 sm:pb-10">
+                      {faq.a}
+                    </div>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
+                </div>
+              </details>
             ))}
-          </Accordion>
+          </div>
         </div>
       </div>
     </section>
