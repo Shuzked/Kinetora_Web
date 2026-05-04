@@ -94,34 +94,42 @@ export function useCookieConsent() {
     }
   }, []);
 
+  const defer = useCallback((fn: () => void) => {
+    if ("requestIdleCallback" in window) {
+      (window as any).requestIdleCallback(fn, { timeout: 2000 });
+    } else {
+      setTimeout(fn, 10);
+    }
+  }, []);
+
   const acceptAll = useCallback(() => {
     const prefs: CookiePrefs = { decided: true, analytics: true, functional: true };
     writePrefs(prefs);
     setConsent(prefs);
-    setTimeout(() => {
+    defer(() => {
       pushConsentUpdate(true, true);
       loadGTM();
-    }, 10);
-  }, []);
+    });
+  }, [defer]);
 
   const rejectAll = useCallback(() => {
     const prefs: CookiePrefs = { decided: true, analytics: false, functional: false };
     writePrefs(prefs);
     setConsent(prefs);
-    setTimeout(() => {
+    defer(() => {
       pushConsentUpdate(false, false);
-    }, 10);
-  }, []);
+    });
+  }, [defer]);
 
   const saveCustom = useCallback((analytics: boolean, functional: boolean) => {
     const prefs: CookiePrefs = { decided: true, analytics, functional };
     writePrefs(prefs);
     setConsent(prefs);
-    setTimeout(() => {
+    defer(() => {
       pushConsentUpdate(analytics, functional);
       if (analytics) loadGTM();
-    }, 10);
-  }, []);
+    });
+  }, [defer]);
 
   return {
     consent,
