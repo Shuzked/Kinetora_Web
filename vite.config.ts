@@ -28,7 +28,6 @@ export default defineConfig(() => ({
           vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
           ui: ['lucide-react', 'class-variance-authority', 'clsx', 'tailwind-merge'],
           radix: [
-            '@radix-ui/react-accordion',
             '@radix-ui/react-alert-dialog',
             '@radix-ui/react-aspect-ratio',
             '@radix-ui/react-avatar',
