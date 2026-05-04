@@ -18,7 +18,9 @@ const Logo = ({ className = "h-6" }: LogoProps) => {
           className="h-full w-auto"
           width={120}
           height={24}
-          decoding="async"
+          fetchpriority="high"
+          loading="eager"
+          decoding="sync"
           onError={() => setHasError(true)}
         />
       ) : (
