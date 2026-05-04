@@ -38,12 +38,15 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import Pricing from "./pages/Pricing";
 import About from "./pages/About";
 
+import { useWebVitals } from "@/hooks/useWebVitals";
+
 const queryClient = new QueryClient();
 
 const App = ({ serverLang }: { serverLang?: "en" | "es" }) => {
   const location = useLocation();
   const isMobile = useIsMobile();
   
+  useWebVitals();
 
   return (
     <QueryClientProvider client={queryClient}>
