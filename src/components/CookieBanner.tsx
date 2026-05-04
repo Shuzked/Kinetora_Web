@@ -18,16 +18,24 @@ const CookieBanner = () => {
     functional: true,
   });
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // Delay visibility slightly for smoother transition
   useEffect(() => {
-    if (!hasDecided) {
+    if (isMounted && !hasDecided) {
       const timer = setTimeout(() => setIsVisible(true), 1500);
       return () => clearTimeout(timer);
     } else {
       setIsVisible(false);
     }
-  }, [hasDecided]);
+  }, [hasDecided, isMounted]);
 
+  // Avoid hydration mismatch and unnecessary SSR DOM by not rendering until mounted
+  if (!isMounted) return null;
   if (!isVisible && hasDecided) return null;
 
   const handleSaveCustom = () => {

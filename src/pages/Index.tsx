@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { useLocation } from "react-router-dom";
 import Navbar from '@/components/Navbar';
 import Hero from '@/components/Hero';
 import Reveal from '@/components/Reveal';
-import Brands from '@/components/Brands';
-import Stats from '@/components/Stats';
-import ValueProp from '@/components/ValueProp';
 
-import HowItWorks from '@/components/HowItWorks';
-import Services from '@/components/Services';
-import Portfolio from '@/components/Portfolio';
-import Testimonials from '@/components/Testimonials';
-import Contact from '@/components/Contact';
-import FAQ from '@/components/FAQ';
-import Footer from '@/components/Footer';
-import FloatingCTA from '@/components/FloatingCTA';
-import StackingSection from '@/components/StackingSection';
-import PricingSection from '@/components/Pricing';
+// Chunks pesados diferidos (Code-splitting)
+const Brands = lazy(() => import('@/components/Brands'));
+const Stats = lazy(() => import('@/components/Stats'));
+const ValueProp = lazy(() => import('@/components/ValueProp'));
+const HowItWorks = lazy(() => import('@/components/HowItWorks'));
+const Services = lazy(() => import('@/components/Services'));
+const Portfolio = lazy(() => import('@/components/Portfolio')); // Contiene Swiper
+const Testimonials = lazy(() => import('@/components/Testimonials'));
+const Contact = lazy(() => import('@/components/Contact'));
+const FAQ = lazy(() => import('@/components/FAQ'));
+const Footer = lazy(() => import('@/components/Footer'));
+const FloatingCTA = lazy(() => import('@/components/FloatingCTA'));
+const PricingSection = lazy(() => import('@/components/Pricing'));
 
 // Intersection Observer based wrapper for deeper optimization
 const SafeLazyLoad = ({ children, height = "400px" }: { children: React.ReactNode, height?: string }) => {
@@ -56,7 +56,6 @@ const SafeLazyLoad = ({ children, height = "400px" }: { children: React.ReactNod
   );
 };
 import SEO from '@/components/SEO';
-import { getSeoDefaults } from '@/seo/defaults';
 import { useI18n } from '@/i18n/I18nProvider';
 
 const Index = () => {
@@ -68,9 +67,6 @@ const Index = () => {
     const id = location.hash.replace("#", "");
     if (!id) return;
 
-    // Las secciones son lazy-loaded con IntersectionObserver, por lo que el
-    // elemento puede no estar en el DOM inmediatamente. Reintentamos hasta 20
-    // veces con 100ms de espacio (~2 segundos en total).
     let attempts = 0;
     const maxAttempts = 20;
 
@@ -90,14 +86,10 @@ const Index = () => {
       }
     };
 
-    // Primer intento con pequeño delay para dejar que React monte los componentes
     setTimeout(tryScroll, 150);
   }, [location.hash]);
 
   const isES = lang === 'es';
-  if (typeof window === 'undefined') {
-    console.log(`[Index] SSR Rendering. lang value: "${lang}", isES: ${isES}`);
-  }
   const currentLang = isES ? 'es' : 'en';
   
   const title = t("seo.home.title");
@@ -107,14 +99,12 @@ const Index = () => {
   const { pathname } = useLocation();
   const canonical = `${origin}${pathname === '/' ? '/' : pathname}`;
 
-  // ── Hreflang: "es" no "es-ES" para cobertura nacional amplia
   const alternates = [
     { hrefLang: 'es', href: 'https://kinetora.es/' },
     { hrefLang: 'en', href: 'https://kinetora.tech/' },
     { hrefLang: 'x-default', href: 'https://kinetora.tech/' }
   ];
 
-  // ── Schema .tech: Organization global ────────────────────────────────────
   const orgJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -128,7 +118,6 @@ const Index = () => {
     "sameAs": ["https://www.linkedin.com/company/kinetora", "https://www.instagram.com/kinetora_studio"]
   };
 
-  // ── Schema .es: ProfessionalService con geo + areaServed nacional ────────
   const localJsonLd = isES ? {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -189,11 +178,18 @@ const Index = () => {
       <main id="main-content" role="main" aria-label="Main content" className="relative">
         <Hero />
         
-        {/* Content Shield (Layer 1) covers the Sticky Hero (Layer 0) */}
         <div className="mt-[100vh] relative z-10 bg-[#0D0D0D] shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
-          <Reveal as="div"><Brands /></Reveal>
-          <Reveal as="div"><Stats /></Reveal>
-          <Reveal as="div"><ValueProp /></Reveal>
+          <SafeLazyLoad height="200px">
+            <Reveal as="div"><Brands /></Reveal>
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="300px">
+            <Reveal as="div"><Stats /></Reveal>
+          </SafeLazyLoad>
+
+          <SafeLazyLoad height="600px">
+            <Reveal as="div"><ValueProp /></Reveal>
+          </SafeLazyLoad>
           
           <div id="servicios" className="scroll-mt-24 md:scroll-mt-28">
             <SafeLazyLoad height="600px">
@@ -239,9 +235,9 @@ const Index = () => {
         <Footer />
       </SafeLazyLoad>
 
-      <React.Suspense fallback={null}>
+      <Suspense fallback={null}>
         <FloatingCTA />
-      </React.Suspense>
+      </Suspense>
     </div>
   );
 };

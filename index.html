@@ -1,15 +1,18 @@
 <!doctype html>
 <html lang="es">
   <head>
-    <!-- Google Tag Manager -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preconnect: GTM (no bloquea parser) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <!-- Google Tag Manager (movido después de meta charset/viewport para no bloquear parser) -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-MKLGBK2S');</script>
     <!-- End Google Tag Manager -->
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- viewport already set above -->
     <!-- Cookie Consent Mode v2 (Prior Consent) -->
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -35,6 +38,28 @@
     </script>
     
     <!-- No GTM/GA4 scripts here - they are loaded dynamically by useCookieConsent.ts after user choice -->
+    
+    <!-- Web Vitals RUM (Early Metrics Capture) -->
+    <script type="module">
+      import {onCLS, onINP, onLCP, onFCP, onTTFB} from 'https://unpkg.com/web-vitals@4?module';
+      
+      function sendToAnalytics(metric) {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', metric.name, {
+            event_category: 'Web Vitals',
+            event_label: metric.id,
+            value: Math.round(metric.name === 'CLS' ? metric.value * 1000 : metric.value),
+            non_interaction: true,
+          });
+        }
+      }
+
+      onCLS(sendToAnalytics);
+      onINP(sendToAnalytics);
+      onLCP(sendToAnalytics);
+      onFCP(sendToAnalytics);
+      onTTFB(sendToAnalytics);
+    </script>
 
     <!-- ⚡ CRITICAL PERFORMANCE & SEO (Staff Level) -->
     <style>
@@ -55,20 +80,29 @@
       
       .hero-section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
       
-      /* LCP Priority Paint: H1 must be visible immediately */
+      /* LCP Priority Paint: H1 must be visible immediately — no animation on initial render */
       h1 { 
         font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1.1; 
         margin: 0 0 1.5rem 0; opacity: 1 !important; visibility: visible !important; 
         font-size: 2.2rem;
+        /* Neutralize animate-in classes that delay H1 paint */ 
+        animation: none !important;
+        transform: none !important;
       }
       @media (min-width: 768px) { h1 { font-size: 4.5rem; } }
       
       .liquid-bg-container { position: absolute; inset: 0; background: #0D0D0D; overflow: hidden; z-index: -1; }
     </style>
 
-    <!-- Local Fonts Preload -->
+    <!-- ⚡ LCP Critical: Preload the font used by H1 (Inter Black, weight 900) -->
+    <link rel="preload" href="/assets/fonts/Inter_24pt-Black.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload Regular for body text -->
     <link rel="preload" href="/assets/fonts/Inter_24pt-Regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="icon" type="image/png" href="/Favicon_Kinetora.png" />
+    <!-- Preload logo SVG (above-the-fold) -->
+    <link rel="preload" href="/Logotipo.svg" as="image" fetchpriority="high" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon_Kinetora.png" />
     <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
 
     <script>
