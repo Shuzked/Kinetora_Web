@@ -166,6 +166,24 @@
   }
 }
 
+/* ── HERO SECTION: typography overrides ──────────────────────────────────────
+   The global h1 uses font-medium (valid for portal/sub-pages added post-sprint).
+   The hero H1 must remain Inter Black + uppercase per brand design.
+   Scoped to .hero-section to avoid affecting other pages.
+────────────────────────────────────────────────────────────────────────────── */
+.hero-section h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+@media (min-width: 768px) {
+  .hero-section h1 {
+    font-size: 4.5rem;
+  }
+}
+
 /* Components: shared responsive utilities */
 @layer components {
 
