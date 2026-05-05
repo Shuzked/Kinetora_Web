@@ -8,28 +8,33 @@ const Starfield = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isMounted = useIsMounted();
 
-  // ⚡ EARLY GUARD: Evaluate on first render synchronously (before any mount effects)
-  // 1. Mobile (<= 768px): skip entirely — canvas + worker are heavy on low-end CPUs
-  // 2. prefers-reduced-motion: respect user accessibility preference
-  const [shouldRender] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    const isMobileViewport = window.innerWidth <= 768;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    return !isMobileViewport && !prefersReducedMotion;
-  });
+  // ⚡ CLIENT-SIDE GUARD: evaluated in useEffect to avoid SSG freeze.
+  // During SSR/SSG window is undefined, so the lazy-initializer pattern
+  // would freeze shouldRender=false and React would reuse that value.
+  // Using useState(false) + useEffect guarantees evaluation runs only
+  // in the browser, after hydration, where window.matchMedia is available.
+  //
+  // Kill-switch rules:
+  //   1. Mobile (<= 768px) — skip canvas + worker (heavy on low-end CPUs)
+  //   2. prefers-reduced-motion — respect accessibility preference
+  const [shouldRender, setShouldRender] = useState<boolean>(false);
 
-  // Derived: keep isMobile for the canvas effect guard (tracks resize)
-  const [isMobile, setIsMobile] = useState<boolean>(() =>
-    typeof window !== 'undefined' ? window.innerWidth <= 768 : true
-  );
+  // Derived: track isMobile on resize for the canvas effect guard
+  const [isMobile, setIsMobile] = useState<boolean>(true); // safe SSR default
 
-  // Effect 1: track mobile on resize — always declared (Rules of Hooks)
+  // Effect 1: evaluate guards client-side, then track resize — always declared (Rules of Hooks)
   useEffect(() => {
-    if (!shouldRender) return; // skip listener if we already decided not to render
-    const cb = () => setIsMobile(window.innerWidth <= 768);
+    const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const render = !isMobileViewport && !prefersReduced;
+    setShouldRender(render);
+    setIsMobile(isMobileViewport);
+
+    if (!render) return; // skip resize listener if we decided not to render
+    const cb = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches);
     window.addEventListener('resize', cb, { passive: true });
     return () => window.removeEventListener('resize', cb);
-  }, [shouldRender]);
+  }, []);
 
   // Effect 2: canvas animation — always declared, guards internally
   useEffect(() => {

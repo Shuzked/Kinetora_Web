@@ -166,6 +166,24 @@
   }
 }
 
+/* ── HERO SECTION: typography overrides ──────────────────────────────────────
+   The global h1 uses font-medium (valid for portal/sub-pages added post-sprint).
+   The hero H1 must remain Inter Black + uppercase per brand design.
+   Scoped to .hero-section to avoid affecting other pages.
+────────────────────────────────────────────────────────────────────────────── */
+.hero-section h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+
+@media (min-width: 768px) {
+  .hero-section h1 {
+    font-size: 4.5rem;
+  }
+}
+
 /* Components: shared responsive utilities */
 @layer components {
 
@@ -588,7 +606,39 @@
   @apply absolute inset-0 overflow-hidden;
 }
 
+.liquid-blob {
+  @apply absolute rounded-full blur-[110px] opacity-60 mix-blend-screen;
+  width: 65vw;
+  height: 65vw;
+  will-change: transform;
+  animation: liquid-move 32s infinite alternate ease-in-out;
+}
 
+.blob-purple {
+  background: radial-gradient(circle, #7C3AED 0%, transparent 70%);
+  top: -15%;
+  left: -10%;
+  animation-duration: 26s;
+}
+
+.blob-blue {
+  background: radial-gradient(circle, #2563EB 0%, transparent 70%);
+  bottom: -20%;
+  right: -10%;
+  animation-duration: 36s;
+  animation-delay: -6s;
+}
+
+.blob-coral {
+  background: radial-gradient(circle, #F43F5E 0%, transparent 70%);
+  top: 35%;
+  left: 15%;
+  width: 50vw;
+  height: 50vw;
+  animation-duration: 30s;
+  animation-delay: -12s;
+  opacity: 0.4;
+}
 
 @keyframes liquid-move {
   0% {
