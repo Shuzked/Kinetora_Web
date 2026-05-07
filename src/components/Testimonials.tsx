@@ -74,30 +74,40 @@ const Testimonials = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
-    // Inicializar scrollLeftRef con el valor actual (por si acaso)
+    // Sincronización inicial
     scrollLeftRef.current = container.scrollLeft;
 
-    let lastTime = performance.now();
-    const speed = 55; // Un poco más rápido para que se note el movimiento
+    let lastTime = 0;
+    const speed = 65; // Aumentado para un movimiento más fluido y visible
 
     const animate = (time: number) => {
-      const deltaTime = (time - lastTime) / 1000;
+      // Inicialización en el primer frame para evitar saltos
+      if (lastTime === 0) {
+        lastTime = time;
+        rafIdRef.current = requestAnimationFrame(animate);
+        return;
+      }
+
+      // Cap de deltaTime para evitar saltos después de que la pestaña estuvo inactiva
+      const deltaTime = Math.min((time - lastTime) / 1000, 0.1);
       lastTime = time;
 
-      // Solo mover si no hay interacción manual
       if (!isPausedRef.current && !isDownRef.current) {
-        scrollLeftRef.current += speed * deltaTime;
-        
         const scrollWidth = container.scrollWidth;
         const originalWidth = scrollWidth / 2;
 
-        if (scrollLeftRef.current >= originalWidth) {
-          scrollLeftRef.current -= originalWidth;
+        if (originalWidth > 0) {
+          scrollLeftRef.current += speed * deltaTime;
+          
+          // Loop infinito sin costuras
+          if (scrollLeftRef.current >= originalWidth) {
+            scrollLeftRef.current -= originalWidth;
+          }
+          
+          container.scrollLeft = scrollLeftRef.current;
         }
-        
-        container.scrollLeft = scrollLeftRef.current;
       } else {
-        // Sincronizar scrollLeftRef con la posición actual si el usuario está arrastrando
+        // Mantener el ref sincronizado con el scroll manual del usuario
         scrollLeftRef.current = container.scrollLeft;
       }
 
@@ -197,20 +207,22 @@ const Testimonials = () => {
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={stopInteraction}
-              onMouseEnter={() => (isPausedRef.current = true)}
-              onMouseLeave={() => {
+              onPointerEnter={() => (isPausedRef.current = true)}
+              onPointerLeave={() => {
                 isPausedRef.current = false;
                 stopInteraction();
               }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              className={`overflow-hidden whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
+              className={`overflow-x-auto scrollbar-hide whitespace-nowrap flex select-none pointer-events-auto ${isGrabbing ? 'cursor-grabbing' : 'cursor-grab'}`}
               style={{ 
                 display: 'flex',
+                scrollBehavior: 'auto',
+                WebkitOverflowScrolling: 'touch',
+                overscrollBehaviorX: 'none',
                 touchAction: 'pan-y',
                 pointerEvents: 'auto',
-                WebkitOverflowScrolling: 'touch',
                 userSelect: 'none'
               }}
             >
