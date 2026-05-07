@@ -61,7 +61,7 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="hero-section hero-content-protection fixed inset-0 w-full h-screen z-0 overflow-hidden bg-[#0D0D0D] flex flex-col"
+      className="hero-section hero-content-protection fixed inset-0 w-full h-svh z-0 overflow-hidden bg-[#0D0D0D] flex flex-col"
     >
       <ClientOnly fallback={<div className="absolute inset-0 bg-[#0D0D0D]" />}>
         <motion.div 
@@ -92,8 +92,8 @@ const Hero = () => {
 
       <div className="flex-1 flex flex-col relative z-10">
         <div className="kin-container">
-          <div className="relative z-10 flex-1 min-h-[100dvh] flex flex-col items-center justify-center text-center">
-            <h1 className="mb-6 sm:mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 max-w-[280px] sm:max-w-none mx-auto">
+          <div className="relative z-10 flex-1 py-20 flex flex-col items-center justify-center text-center">
+            <h1 className="mb-6 sm:mb-8 animate-in fade-in slide-in-from-bottom-5 duration-1000 px-2 sm:px-0">
               {t("hero.headlineTop").replace(/\.$/, "")} <br />
               <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-[#B454FF] via-[#9C3FEF] to-[#7C3AED] drop-shadow-[0_0_35px_rgba(180,84,255,0.35)] animate-pulse-slow">
                  {t("hero.headlineAccent").replace(/\.$/, "")}

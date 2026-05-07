@@ -178,7 +178,7 @@ const Index = () => {
       <main id="main-content" role="main" aria-label="Main content" className="relative">
         <Hero />
         
-        <div className="mt-[100vh] relative z-10 bg-[#0D0D0D] shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
+        <div className="mt-[100svh] relative z-10 bg-[#0D0D0D] shadow-[0_-30px_60px_rgba(0,0,0,0.8)]">
           <SafeLazyLoad height="200px">
             <Reveal as="div"><Brands /></Reveal>
           </SafeLazyLoad>

@@ -124,9 +124,9 @@
   h1 {
     @apply font-medium tracking-tight;
     /* Increased base to ensure h1 > h2 on 320px screens */
-    font-size: clamp(1.75rem, 6vw + 1rem, 3.2rem);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
+    font-size: clamp(1.6rem, 5.5vw + 0.6rem, 3.2rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
   }
 
   h2 {
@@ -685,3 +685,35 @@
   outline: 2px solid #B454FF;
   outline-offset: 2px;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   MOBILE FIXES — added to address "desktop-look squished on mobile"
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Use small viewport units everywhere h-screen / 100vh was used.
+   On iOS / Android the URL bar makes 100vh ≠ visible viewport.
+   `svh` = "small" (URL bar shown), `dvh` = dynamic.
+   This rule is a safety net in case h-screen leaks through Tailwind. */
+@supports (height: 100svh) {
+  .h-screen { height: 100svh !important; }
+  .min-h-screen { min-height: 100svh !important; }
+}
+
+/* On very narrow phones (≤360px) tighten letter-spacing on uppercase labels
+   so words like "CAPITAL LEVANTADO" don't overflow their column. */
+@media (max-width: 360px) {
+  .tracking-\[0\.3em\] { letter-spacing: 0.18em !important; }
+  .tracking-\[0\.28em\] { letter-spacing: 0.18em !important; }
+  .tracking-\[0\.22em\] { letter-spacing: 0.16em !important; }
+  .tracking-\[0\.2em\] { letter-spacing: 0.14em !important; }
+}
+
+/* Prevent text from being clipped by the fixed Hero shadow on small screens. */
+@media (max-width: 640px) {
+  .kin-section { padding-top: clamp(3rem, 10vw, 6rem); padding-bottom: clamp(3rem, 10vw, 6rem); }
+}
+
+/* Make sure no child of body forces overflow horizontally on narrow phones */
+@media (max-width: 480px) {
+  body, #root, main { max-width: 100vw; overflow-x: clip; }
+}
