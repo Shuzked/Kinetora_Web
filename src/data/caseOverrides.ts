@@ -350,7 +350,7 @@ export const caseContentOverrides: Record<
     ].join(""),
   },
 
-  "cybertitans-clash-impacto-brutal-y-evolucion-web3": {
+  "cybertitans-clash": {
     esTextHtml: [
       "<p>Actualizar un videojuego exige un fuerte impacto visual. Presentar un nuevo modo de juego es un gran reto. Esto requiere una sólida estrategia de Marketing Web3. LitLab Games confió de nuevo en nuestra agencia para lanzar su nueva actualización. El modo «Clash» nació para revolucionar las partidas y mantener el mundo en constante evolución.</p>",
       "<p>Nuestro objetivo principal fue muy claro: generar una expectativa masiva antes del lanzamiento oficial y mantener a toda la comunidad de jugadores conectada.</p>",
