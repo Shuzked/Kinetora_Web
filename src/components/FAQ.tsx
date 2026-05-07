@@ -34,7 +34,7 @@ const FAQ = () => {
       <div className="kin-container">
         <div className="max-w-4xl mx-auto">
           <h2
-            className="text-center mb-16 font-medium tracking-tighter leading-tight"
+            className="text-center mb-16 font-black tracking-tighter leading-tight uppercase"
             style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)' }}
           >
             {t("faq.section.title")}

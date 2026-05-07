@@ -49,7 +49,7 @@ const ValueProp = () => {
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-[11px] font-black tracking-[0.28em] uppercase text-[#F5F5F5]/80 mb-6">
             {t("valueprop.pill")}
           </div>
-          <h2 className="mb-6">
+          <h2 className="mb-6 uppercase">
             <RevealText text={t("valueprop.titleTop")} className="block text-white" />
             <RevealText text={t("valueprop.titleAccent")} className="block text-[#B454FF]" delay={0.3} />
           </h2>
