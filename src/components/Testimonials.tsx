@@ -74,14 +74,17 @@ const Testimonials = () => {
     const container = scrollContainerRef.current;
     if (!container) return;
 
+    // Inicializar scrollLeftRef con el valor actual (por si acaso)
+    scrollLeftRef.current = container.scrollLeft;
+
     let lastTime = performance.now();
-    const speed = 45; // Pixeles por segundo - ajustado para suavidad premium
+    const speed = 55; // Un poco más rápido para que se note el movimiento
 
     const animate = (time: number) => {
-      if (!lastTime) lastTime = time;
-      const deltaTime = Math.min((time - lastTime) / 1000, 0.1); // Cap para evitar saltos bruscos
+      const deltaTime = (time - lastTime) / 1000;
       lastTime = time;
 
+      // Solo mover si no hay interacción manual
       if (!isPausedRef.current && !isDownRef.current) {
         scrollLeftRef.current += speed * deltaTime;
         
@@ -92,11 +95,10 @@ const Testimonials = () => {
           scrollLeftRef.current -= originalWidth;
         }
         
-        if (scrollLeftRef.current < 0) {
-          scrollLeftRef.current += originalWidth;
-        }
-
         container.scrollLeft = scrollLeftRef.current;
+      } else {
+        // Sincronizar scrollLeftRef con la posición actual si el usuario está arrastrando
+        scrollLeftRef.current = container.scrollLeft;
       }
 
       rafIdRef.current = requestAnimationFrame(animate);
@@ -188,11 +190,6 @@ const Testimonials = () => {
             role="region" 
             aria-label={t("testimonials.titleA")}
             className="relative kin-fade-x pointer-events-auto"
-            onMouseEnter={() => (isPausedRef.current = true)}
-            onMouseLeave={() => {
-              isPausedRef.current = false;
-              stopInteraction();
-            }}
           >
             {/* Contenedor de Scroll */}
             <div 
@@ -200,6 +197,11 @@ const Testimonials = () => {
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={stopInteraction}
+              onMouseEnter={() => (isPausedRef.current = true)}
+              onMouseLeave={() => {
+                isPausedRef.current = false;
+                stopInteraction();
+              }}
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
