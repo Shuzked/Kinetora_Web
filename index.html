@@ -83,15 +83,15 @@
       
       /* LCP Priority Paint: H1 must be visible immediately — no animation on initial render */
       h1 { 
-        font-weight: 900; text-transform: uppercase; letter-spacing: -0.03em; line-height: 1.08; 
+        font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1.05; 
         margin: 0 0 1.5rem 0; opacity: 1 !important; visibility: visible !important; 
-        font-size: clamp(1.6rem, 7.5vw, 2rem);
+        font-size: clamp(1.8rem, 8vw, 2.2rem);
         /* Neutralize animate-in classes that delay H1 paint */ 
         animation: none !important;
         transform: none !important;
       }
-      @media (min-width: 640px) { h1 { font-size: 2.8rem; letter-spacing: -0.04em; line-height: 1.1; } }
-      @media (min-width: 768px) { h1 { font-size: 4.5rem; } }
+      @media (min-width: 640px) { h1 { font-size: 3.2rem; letter-spacing: -0.04em; line-height: 1.1; } }
+      @media (min-width: 768px) { h1 { font-size: 5rem; } }
       
       .liquid-bg-container { position: absolute; inset: 0; background: #0D0D0D; overflow: hidden; z-index: -1; }
     </style>
