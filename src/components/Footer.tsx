@@ -169,8 +169,10 @@ const Footer = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B454FF]/10 border border-[#B454FF]/30 text-[#B454FF] text-[11px] font-extrabold tracking-widest uppercase mb-3">
               {t("footer.newsletter.badge")}
             </div>
-            <h3 className="tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line mb-6">
-              {t("footer.newsletter.title")}
+            <h3 className="font-black tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line mb-6">
+              {t("footer.newsletter.title").split('\n').map((line, i) => (
+                i === 0 ? line : <span key={i} className="block text-[#B454FF]">{line}</span>
+              ))}
             </h3>
             <p className="text-[#F5F5F5]/70 mb-8 max-w-xl">
               {t("footer.newsletter.sub")}
