@@ -231,9 +231,11 @@ const Index = () => {
         </div>
       </main>
       
-      <SafeLazyLoad height="300px">
-        <Footer />
-      </SafeLazyLoad>
+      <div className="relative z-10 bg-[#0D0D0D]">
+        <SafeLazyLoad height="300px">
+          <Footer />
+        </SafeLazyLoad>
+      </div>
 
       <Suspense fallback={null}>
         <FloatingCTA />
