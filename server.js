@@ -12,6 +12,7 @@ const MIME_TYPES = {
     '.png': 'image/png',
     '.jpg': 'image/jpeg',
     '.svg': 'image/svg+xml',
+    '.webp': 'image/webp',
     '.woff2': 'font/woff2'
 };
 
@@ -20,7 +21,8 @@ const server = http.createServer((req, res) => {
     console.log(`[Request] ${req.method} ${urlPath}`);
     
     // Check if user is testing Spanish version
-    let isSpanish = urlPath.includes('/es/') || urlPath === '/es' || req.headers.host?.includes('.es');
+    const queryString = req.url.split('?')[1] || '';
+    let isSpanish = urlPath.includes('/es/') || urlPath === '/es' || req.headers.host?.includes('.es') || queryString.includes('lang=es');
     let defaultFile = isSpanish ? 'index.es.html' : 'index.html';
 
     let filePath = path.join(PUBLIC_DIR, urlPath);
@@ -48,6 +50,50 @@ const server = http.createServer((req, res) => {
             console.error(`[500] Error reading ${filePath}:`, err);
             res.writeHead(500);
             res.end('Server Error');
+            return;
+        }
+
+        if (ext === '.html') {
+            let html = content.toString('utf8');
+            const lang = isSpanish ? 'es' : 'en';
+            
+            // i18n Bridge Injection
+            const bridgeScript = `\n    <script id="i18n-bridge">window.__KINETORA_LANG__ = "${lang}";</script>`;
+            html = html.replace('<head>', `<head>${bridgeScript}`);
+            
+            // HTML lang attribute override
+            html = html.replace(/<html lang="[^"]*">/, `<html lang="${lang}">`);
+            
+            // Localized SEO tags replacement
+            const seoTags = isSpanish ? `
+    <title>Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios</title>
+    <meta name="description" content="Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto." />
+    <link rel="canonical" href="https://kinetora.es/" />
+    <meta property="og:title" content="Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios" />
+    <meta property="og:description" content="Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto." />
+    <meta property="og:url" content="https://kinetora.es/" />
+    <meta property="og:locale" content="es_ES" />
+    <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
+    <link rel="alternate" hreflang="es" href="https://kinetora.es/" />
+    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
+    ` : `
+    <title>Kinetora | Design for Startups - Raise Capital, Convert Users</title>
+    <meta name="description" content="Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product." />
+    <link rel="canonical" href="https://kinetora.tech/" />
+    <meta property="og:title" content="Kinetora | Design for Startups - Raise Capital, Convert Users" />
+    <meta property="og:description" content="Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product." />
+    <meta property="og:url" content="https://kinetora.tech/" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
+    <link rel="alternate" hreflang="es" href="https://kinetora.es/" />
+    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
+    `;
+            
+            html = html.replace('<!-- SSR_HEAD_PLACEHOLDER -->', seoTags);
+            
+            console.log(`[200] served processed HTML (${lang}) for ${filePath}`);
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(html);
         } else {
             console.log(`[200] served ${filePath}`);
             res.writeHead(200, { 'Content-Type': contentType });
