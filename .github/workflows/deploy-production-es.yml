@@ -1,0 +1,127 @@
+name: Deploy to Hostinger (production — ES)
+
+on:
+  push:
+    branches:
+      - perf/core-web-vitals
+      # cuando llegue a main en el futuro, descomenta:
+      # - main
+  workflow_dispatch: # permite lanzar el workflow manualmente desde la pestaña Actions
+
+# Cancela ejecuciones previas si llega un push nuevo (evita deploys solapados)
+concurrency:
+  group: deploy-production-es
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: write # necesario para que GITHUB_TOKEN pueda push a la rama deploy-es
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # historia completa, necesaria para push a deploy-es
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Puppeteer browser dependencies
+        # Puppeteer necesita esto en GitHub runners para lanzar Chromium headless
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxrandr2 \
+            libgbm1 libpango-1.0-0 libcairo2 libasound2t64 || \
+            sudo apt-get install -y libasound2
+
+      - name: Build project (build-static + prerender)
+        run: npm run build
+        env:
+          CI: true
+
+      - name: Verify build output
+        run: |
+          if [ ! -f dist/index.html ]; then
+            echo "ERROR: dist/index.html not generated"
+            exit 1
+          fi
+          if ! grep -q "<h1" dist/index.html; then
+            echo "ERROR: dist/index.html has no <h1> — prerender failed"
+            exit 1
+          fi
+          if ! grep -q "data-prerendered" dist/index.html; then
+            echo "ERROR: dist/index.html not prerendered"
+            exit 1
+          fi
+          echo "OK: build verified"
+          du -sh dist/
+
+      - name: Prepare deploy branch (ES)
+        run: |
+          git config user.name "GitHub Actions Deploy Bot"
+          git config user.email "actions@github.com"
+
+          # Guardar SOLO la versión ES
+          cp -r dist/es /tmp/dist-es
+          # Guardar también el .htaccess de la raíz como fallback
+          cp dist/.htaccess /tmp/dist-en-htaccess || true
+
+          # Verificar que la versión ES existe y está pre-renderizada
+          if [ ! -f /tmp/dist-es/index.html ]; then
+            echo "ERROR: dist/es/index.html not found"
+            exit 1
+          fi
+          if ! grep -q "<h1" /tmp/dist-es/index.html; then
+            echo "ERROR: dist/es/index.html has no <h1>"
+            exit 1
+          fi
+
+          # Crear rama deploy-es desde cero (sin historial pesado)
+          git checkout --orphan deploy-es
+          git rm -rf . > /dev/null 2>&1 || true
+
+          # Copiar contenido ES
+          cp -r /tmp/dist-es/. .
+
+          # El .htaccess de la versión ES debería incluirse en build-static.js
+          # Si no existe, lo tomamos de la versión EN (mismas reglas)
+          if [ ! -f .htaccess ]; then
+            echo "WARNING: .htaccess not found in dist/es, copying from EN"
+            cp /tmp/dist-en-htaccess .htaccess || echo "ERROR: No .htaccess available from either source"
+          fi
+
+          # Asegurar que .htaccess existe antes de commitear
+          if [ ! -f .htaccess ]; then
+            echo "ERROR: .htaccess missing — aborting deploy"
+            exit 1
+          fi
+
+          git add -A
+          git commit -m "Deploy ES: $(date -u +%Y-%m-%dT%H:%M:%SZ) — from ${GITHUB_SHA::7}"
+          git push origin deploy-es --force
+
+      - name: Notify deploy success
+        if: success()
+        run: |
+          echo "✅ ES deploy completed successfully"
+          echo "Source commit: ${GITHUB_SHA::7}"
+          echo "Branch: deploy-es"
+          echo "Hostinger will pull within 1-2 minutes."
+
+      - name: Notify deploy failure
+        if: failure()
+        run: |
+          echo "❌ ES deploy failed"
+          echo "Check logs above for details."
