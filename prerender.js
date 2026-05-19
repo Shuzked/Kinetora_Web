@@ -40,6 +40,16 @@ server.listen(PORT, async () => {
     const page = await browser.newPage();
     // Emulate a standard desktop screen
     await page.setViewport({ width: 1440, height: 900 });
+
+    // Page error and console logging
+    page.on('pageerror', (err) => {
+      console.error(`[Browser PageError] ${err.toString()}`);
+    });
+    page.on('console', (msg) => {
+      if (msg.type() === 'error') {
+        console.error(`[Browser ConsoleError] ${msg.text()}`);
+      }
+    });
     
     // We will build a list of tasks (each has a URL and a destination file)
     const tasks = [];
@@ -67,10 +77,19 @@ server.listen(PORT, async () => {
       
       let gotError = false;
       try {
-        await page.goto(task.url, { waitUntil: 'networkidle0', timeout: 5000 });
+        await page.goto(task.url, { waitUntil: 'networkidle0', timeout: 30000 });
       } catch (err) {
         console.error(`[Prerender] ⚠️ Timeout or network issue rendering ${task.url}: ${err.message}`);
         gotError = true;
+      }
+
+      // Wait for H1 with text to appear
+      if (!gotError) {
+        try {
+          await page.waitForFunction(() => document.querySelector('h1')?.innerText?.length > 0, { timeout: 10000 });
+        } catch (err) {
+          console.warn(`[Prerender] ⚠️ Timeout waiting for H1 to contain text on ${task.path}: ${err.message}`);
+        }
       }
       
       try {
