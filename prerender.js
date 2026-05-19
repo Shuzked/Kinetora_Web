@@ -79,6 +79,30 @@ async function runCrawl(lang, publicDir) {
         results.warning.push(`${urlPath} (no H1 detected after 10s, capturing anyway)`);
       }
 
+      // Scroll to the bottom of the page to trigger all IntersectionObserver lazy loaders
+      try {
+        await page.evaluate(async () => {
+          await new Promise((resolve) => {
+            let totalHeight = 0;
+            const distance = 150;
+            const timer = setInterval(() => {
+              const scrollHeight = document.body.scrollHeight;
+              window.scrollBy(0, distance);
+              totalHeight += distance;
+
+              if (totalHeight >= scrollHeight || totalHeight > 15000) {
+                clearInterval(timer);
+                resolve();
+              }
+            }, 30);
+          });
+        });
+        // Extra wait to let framer-motion animations finish and chunks fetch
+        await new Promise(r => setTimeout(r, 800));
+      } catch (scrollErr) {
+        console.error(`[prerender] [${lang.toUpperCase()}] Warning: scrolling failed: ${scrollErr.message}`);
+      }
+
       // Captura HTML completo
       let html = await page.content();
 
