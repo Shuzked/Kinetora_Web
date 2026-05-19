@@ -17,6 +17,7 @@ const MIME_TYPES = {
 
 const server = http.createServer((req, res) => {
     let urlPath = req.url.split('?')[0];
+    console.log(`[Request] ${req.method} ${urlPath}`);
     
     // Check if user is testing Spanish version
     let isSpanish = urlPath.includes('/es/') || urlPath === '/es' || req.headers.host?.includes('.es');
@@ -31,6 +32,7 @@ const server = http.createServer((req, res) => {
     if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
         const hasExtension = path.extname(urlPath) !== '';
         if (hasExtension) {
+            console.log(`[404] Not Found: ${urlPath}`);
             res.writeHead(404);
             res.end('Not Found');
             return;
@@ -43,15 +45,20 @@ const server = http.createServer((req, res) => {
 
     fs.readFile(filePath, (err, content) => {
         if (err) {
+            console.error(`[500] Error reading ${filePath}:`, err);
             res.writeHead(500);
             res.end('Server Error');
         } else {
+            console.log(`[200] served ${filePath}`);
             res.writeHead(200, { 'Content-Type': contentType });
             res.end(content);
         }
     });
 });
 
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, () => {
     console.log(`Test static server running at http://localhost:${PORT}/`);
+    console.log(`Try accessing either:`);
+    console.log(`- http://localhost:${PORT}/`);
+    console.log(`- http://127.0.0.1:${PORT}/`);
 });
