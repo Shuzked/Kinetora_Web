@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node build-static.js",
+    "build": "node build-static.js && node prerender.js",
     "start": "node server.js",
     "dev": "node server.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.0.4",
+    "serve-handler": "^6.1.7"
   }
 }
