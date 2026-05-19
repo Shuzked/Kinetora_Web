@@ -1,203 +1,157 @@
-/**
- * prerender.js — Kinetora
- *
- * Runs a local server on port 4321 serving /dist, uses Puppeteer to render
- * the React tree for every sitemap route, and overwrites the static HTML files
- * with fully rendered markup, adding a data-prerendered="true" marker to the root div.
- */
-
+const http = require('http');
+const handler = require('serve-handler');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
-const http = require('http');
-const puppeteer = require('puppeteer');
-const handler = require('serve-handler');
-const routes = require('./routes.config.js');
 
-const distPath = path.join(__dirname, 'dist');
+const DIST = path.join(__dirname, 'dist');
 const PORT = 4321;
 
-// Start a language-aware local static server for crawl
-const server = http.createServer((req, res) => {
-  let urlPath = req.url.split('?')[0];
-  const queryString = req.url.split('?')[1] || '';
-  
-  // Check if Spanish crawl
-  let isSpanish = urlPath.includes('/es/') || urlPath === '/es' || queryString.includes('lang=es');
-  
-  // If it's an asset (has extension)
-  const ext = path.extname(urlPath);
-  if (ext) {
-    const filePath = path.join(distPath, urlPath);
-    if (fs.existsSync(filePath)) {
-      const contentType = {
-        '.html': 'text/html',
-        '.css': 'text/css',
-        '.js': 'application/javascript',
-        '.png': 'image/png',
-        '.jpg': 'image/jpeg',
-        '.svg': 'image/svg+xml',
-        '.webp': 'image/webp',
-        '.woff2': 'font/woff2'
-      }[ext] || 'application/octet-stream';
-      
-      res.writeHead(200, { 'Content-Type': contentType });
-      fs.createReadStream(filePath).pipe(res);
-    } else {
-      res.writeHead(404);
-      res.end('Not Found');
-    }
-    return;
-  }
-  
-  // It is a route (clean URL)
-  let cleanRoute = urlPath.replace(/^\/es/, '');
-  if (cleanRoute === '') cleanRoute = '/';
-  
-  let targetFile;
-  if (isSpanish) {
-    targetFile = cleanRoute === '/'
-      ? path.join(distPath, 'es', 'index.html')
-      : path.join(distPath, 'es', cleanRoute.replace(/^\//, ''), 'index.html');
-  } else {
-    targetFile = cleanRoute === '/'
-      ? path.join(distPath, 'index.html')
-      : path.join(distPath, cleanRoute.replace(/^\//, ''), 'index.html');
-  }
-  
-  if (fs.existsSync(targetFile)) {
-    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-    fs.createReadStream(targetFile).pipe(res);
-  } else {
-    const fallbackFile = isSpanish ? path.join(distPath, 'es', 'index.html') : path.join(distPath, 'index.html');
-    if (fs.existsSync(fallbackFile)) {
-      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
-      fs.createReadStream(fallbackFile).pipe(res);
-    } else {
-      res.writeHead(404);
-      res.end('Not Found');
-    }
-  }
-});
+// Importa las rutas desde la fuente única de verdad
+const { routes } = require('./routes.config.js');
 
-server.listen(PORT, async () => {
-  console.log(`\n[Prerender] Local server started at http://localhost:${PORT}`);
-  
-  let browser;
-  let failedCount = 0;
-  let successCount = 0;
-  
-  try {
-    browser = await puppeteer.launch({
-      headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
+async function runCrawl(lang, publicDir) {
+  // Start static server for this language run
+  const server = http.createServer((req, res) => {
+    const cleanUrl = req.url.split('?')[0];
+    const assetPath = path.join(DIST, cleanUrl);
+
+    // If the file exists in the main dist/ folder (e.g. assets, logos), serve it
+    if (fs.existsSync(assetPath) && fs.statSync(assetPath).isFile()) {
+      return handler(req, res, {
+        public: DIST,
+        cleanUrls: true,
+      });
+    }
+
+    // Otherwise serve from publicDir (which is DIST for EN, or DIST/es for ES)
+    return handler(req, res, {
+      public: publicDir,
+      rewrites: [
+        { source: '**', destination: '/index.html' }
+      ],
+      cleanUrls: true,
     });
+  });
+
+  await new Promise(resolve => server.listen(PORT, resolve));
+  console.log(`[prerender] [${lang.toUpperCase()}] Server listening on http://localhost:${PORT}`);
+
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+  });
+
+  const results = { ok: [], warning: [], failed: [] };
+
+  for (const route of routes) {
+    const urlPath = route.path === '/' ? '/' : `${route.path}/`;
+    const url = `http://localhost:${PORT}${urlPath}`;
     
+    const filePath = lang === 'es'
+      ? path.join(DIST, 'es', route.path === '/' ? '' : route.path.replace(/^\//, ''), 'index.html')
+      : path.join(DIST, route.path === '/' ? '' : route.path.replace(/^\//, ''), 'index.html');
+
     const page = await browser.newPage();
     // Emulate a standard desktop screen
     await page.setViewport({ width: 1440, height: 900 });
 
-    // Page error and console logging
-    page.on('pageerror', (err) => {
-      console.error(`[Browser PageError] ${err.toString()}`);
+    const consoleErrors = [];
+    page.on('pageerror', err => consoleErrors.push(`pageerror: ${err.message}`));
+    page.on('console', msg => {
+      if (msg.type() === 'error') consoleErrors.push(`console.error: ${msg.text()}`);
     });
-    page.on('console', (msg) => {
-      if (msg.type() === 'error') {
-        console.error(`[Browser ConsoleError] ${msg.text()}`);
-      }
-    });
-    
-    // We will build a list of tasks (each has a URL and a destination file)
-    const tasks = [];
-    
-    routes.forEach(route => {
-      // 1. English Route
-      const enUrl = `http://localhost:${PORT}${route.path}`;
-      const enFile = route.path === '/'
-        ? path.join(distPath, 'index.html')
-        : path.join(distPath, route.path.replace(/^\//, ''), 'index.html');
-      tasks.push({ url: enUrl, file: enFile, lang: 'en', path: route.path });
-      
-      // 2. Spanish Route (using ?lang=es query parameters to match correct routing path)
-      const esUrl = `http://localhost:${PORT}${route.path}?lang=es`;
-      const esFile = route.path === '/'
-        ? path.join(distPath, 'es', 'index.html')
-        : path.join(distPath, 'es', route.path.replace(/^\//, ''), 'index.html');
-      tasks.push({ url: esUrl, file: esFile, lang: 'es', path: `/es${route.path === '/' ? '' : route.path}` });
-    });
-    
-    console.log(`[Prerender] Beginning crawl of ${tasks.length} total pages...\n`);
-    
-    for (const task of tasks) {
-      console.log(`[Prerender] Rendering [${task.lang.toUpperCase()}] ${task.url} ...`);
-      
-      let gotError = false;
+
+    try {
+      console.log(`[prerender] [${lang.toUpperCase()}] Rendering ${url} -> ${path.relative(DIST, filePath)}`);
+      await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+
+      // Espera a que el árbol React monte: H1 con texto
       try {
-        await page.goto(task.url, { waitUntil: 'networkidle0', timeout: 30000 });
-      } catch (err) {
-        console.error(`[Prerender] ⚠️ Timeout or network issue rendering ${task.url}: ${err.message}`);
-        gotError = true;
+        await page.waitForFunction(
+          () => {
+            const h1 = document.querySelector('h1');
+            return h1 && h1.innerText && h1.innerText.trim().length > 5;
+          },
+          { timeout: 10000 }
+        );
+      } catch {
+        results.warning.push(`${urlPath} (no H1 detected after 10s, capturing anyway)`);
       }
 
-      // Wait for H1 with text to appear
-      if (!gotError) {
-        try {
-          await page.waitForFunction(() => document.querySelector('h1')?.innerText?.length > 0, { timeout: 10000 });
-        } catch (err) {
-          console.warn(`[Prerender] ⚠️ Timeout waiting for H1 to contain text on ${task.path}: ${err.message}`);
+      // Captura HTML completo
+      let html = await page.content();
+
+      // Marca para hidratación
+      html = html.replace(
+        /<div id="root">/,
+        '<div id="root" data-prerendered="true">'
+      );
+
+      // Asegura directorio y escribe
+      fs.mkdirSync(path.dirname(filePath), { recursive: true });
+      fs.writeFileSync(filePath, html, 'utf8');
+
+      // Verifica que el archivo tiene H1 real (sanity check)
+      const written = fs.readFileSync(filePath, 'utf8');
+      const hasH1 = /<h1[^>]*>[^<]*\S/.test(written);
+      if (hasH1) results.ok.push(urlPath);
+      else results.warning.push(`${urlPath} (file written but no <h1> detected)`);
+
+      if (consoleErrors.length > 0) {
+        // Keep warnings for real errors but filter out service worker warnings if any
+        const filteredErrors = consoleErrors.filter(e => !e.includes('ServiceWorker'));
+        if (filteredErrors.length > 0) {
+          results.warning.push(`${urlPath} runtime errors: ${filteredErrors.slice(0, 3).join(' | ')}`);
         }
       }
-      
-      try {
-        let html = await page.content();
-        
-        // Inject data-prerendered="true" to the root div to prevent hydration flashing
-        if (html.includes('<div id="root">')) {
-          html = html.replace('<div id="root">', '<div id="root" data-prerendered="true">');
-        } else if (html.includes('id="root"')) {
-          // If React already rendered inside but #root has other attributes/classes
-          html = html.replace(/<div[^>]*id="root"[^>]*>/, (match) => {
-            if (!match.includes('data-prerendered')) {
-              return match.replace('id="root"', 'id="root" data-prerendered="true"');
-            }
-            return match;
-          });
-        }
-        
-        // Ensure parent directories exist
-        const dir = path.dirname(task.file);
-        if (!fs.existsSync(dir)) {
-          fs.mkdirSync(dir, { recursive: true });
-        }
-        
-        fs.writeFileSync(task.file, html, 'utf8');
-        
-        if (gotError) {
-          failedCount++;
-          console.log(`[Prerender] ⚠️ Saved partial/fallback HTML for ${task.path}`);
-        } else {
-          successCount++;
-          console.log(`[Prerender] ✅ Successfully generated prerendered HTML for ${task.path}`);
-        }
-      } catch (err) {
-        failedCount++;
-        console.error(`[Prerender] ❌ FAILED to write or extract content for ${task.path}: ${err.message}`);
-      }
+    } catch (err) {
+      results.failed.push(`${urlPath}: ${err.message}`);
+    } finally {
+      await page.close();
     }
-    
-    console.log(`\n[Prerender] Prerendering finished.`);
-    console.log(`- Total pages processed: ${tasks.length}`);
-    console.log(`- Success: ${successCount}`);
-    console.log(`- Timeouts/Errors: ${failedCount}`);
-    
-  } catch (err) {
-    console.error('[Prerender] Critical error during crawling execution:', err);
-  } finally {
-    if (browser) {
-      await browser.close();
-    }
-    server.close(() => {
-      console.log('[Prerender] Local server closed.');
-      process.exit(failedCount > 0 ? 1 : 0);
-    });
   }
+
+  await browser.close();
+  await new Promise(resolve => server.close(resolve));
+  console.log(`[prerender] [${lang.toUpperCase()}] Server closed.`);
+  return results;
+}
+
+async function main() {
+  console.log('======================================');
+  console.log('[prerender] STARTING ENGLISH (EN) CRAWL');
+  console.log('======================================');
+  const enResults = await runCrawl('en', DIST);
+
+  console.log('\n======================================');
+  console.log('[prerender] STARTING SPANISH (ES) CRAWL');
+  console.log('======================================');
+  const esResults = await runCrawl('es', path.join(DIST, 'es'));
+
+  // Combine and summarize
+  const ok = [...enResults.ok.map(p => `[EN] ${p}`), ...esResults.ok.map(p => `[ES] ${p}`)];
+  const warning = [...enResults.warning.map(p => `[EN] ${p}`), ...esResults.warning.map(p => `[ES] ${p}`)];
+  const failed = [...enResults.failed.map(p => `[EN] ${p}`), ...esResults.failed.map(p => `[ES] ${p}`)];
+
+  console.log('\n======================================');
+  console.log('[prerender] FINAL SYSTEM SUMMARY:');
+  console.log(`  OK: ${ok.length}`);
+  console.log(`  Warnings: ${warning.length}`);
+  console.log(`  Failed: ${failed.length}`);
+  
+  if (warning.length) {
+    console.log('\nWarnings:');
+    warning.forEach(w => console.log(`  - ${w}`));
+  }
+  if (failed.length) {
+    console.log('\nFailures:');
+    failed.forEach(f => console.log(`  - ${f}`));
+    process.exit(1);
+  }
+}
+
+main().catch(err => {
+  console.error('[prerender] Fatal error:', err);
+  process.exit(1);
 });

@@ -1,5 +1,5 @@
 // routes.config.js
-module.exports = [
+const routes = [
   {
     path: '/',
     en: {
@@ -143,3 +143,5 @@ module.exports = [
     es: { title: 'Privacidad en Redes Sociales | Kinetora', description: 'Política de privacidad en redes sociales de kinetora.es.' },
   },
 ];
+
+module.exports = { routes };

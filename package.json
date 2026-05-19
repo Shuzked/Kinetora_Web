@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node build-static.js && node prerender.js",
+    "build:meta": "node build-static.js",
     "start": "node server.js",
     "dev": "node server.js"
   },

@@ -35,7 +35,7 @@ const distPath = path.join(__dirname, 'dist');
 const ORIGIN_EN = 'https://kinetora.tech';
 const ORIGIN_ES = 'https://kinetora.es';
 
-const routes = require('./routes.config.js');
+const { routes } = require('./routes.config.js');
 
 // JSON-LD: Organization schema (shared)
 function buildOrganizationSchema(lang) {
