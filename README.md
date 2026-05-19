@@ -48,4 +48,51 @@ npm run build
 
 - **kinetora.tech root:** Deploy all files and folders directly inside `dist/` to the root folder of Kinetora.tech.
 - **kinetora.es root:** Deploy all files and folders directly inside `dist/es/` to the root folder of Kinetora.es.
-- **SPA Routing & Caching:** The auto-generated `.htaccess` file handles clean URLs (e.g. `.html` maps) and establishes cache-control headers on Hostinger.
+- **SPA Routing & Caching:** The auto-generated `.htaccess` file handles clean URLs, HTTPS redirect, security headers, and cache-control headers on Hostinger.
+
+---
+
+## 🚀 Deployment
+
+This project deploys to two Hostinger sites via **GitHub Actions** (zero-config, no extra secrets needed):
+
+| Domain | Content | Git Branch |
+|---|---|---|
+| `kinetora.tech` | English — `/dist` | `deploy` |
+| `kinetora.es` | Spanish — `/dist/es` | `deploy-es` |
+
+### Automatic flow
+
+1. Push to `perf/core-web-vitals` (or `main` once promoted)
+2. **GitHub Actions** triggers two parallel workflows:
+   - `.github/workflows/deploy-production.yml` — builds + prerenders, publishes `/dist` (EN) to `deploy`
+   - `.github/workflows/deploy-production-es.yml` — same build, publishes `/dist/es` (ES) to `deploy-es`
+3. **Hostinger Git Deploy** detects the push to each branch and syncs to `public_html` automatically
+4. Cached assets are invalidated via Vite content hashing + `.htaccess` cache headers
+
+Expected total time from `git push` to live: **3–5 minutes**.
+
+### Manual deploy (fallback)
+
+If GitHub Actions fails, run locally and upload via FTP/SFTP:
+
+```bash
+npm run build:check    # builds + verifies <h1> and data-prerendered are present
+npm run preview        # serves EN build at http://localhost:5000
+npm run preview:es     # serves ES build at http://localhost:5001
+
+# Then manually upload:
+# /dist contents → kinetora.tech public_html
+# /dist/es contents → kinetora.es public_html
+```
+
+### First-time Hostinger setup
+
+Configure Hostinger Git Deploy in **hPanel → Git** for each domain:
+
+| Domain | Repository | Branch | Deploy path |
+|---|---|---|---|
+| `kinetora.tech` | `Shuzked/Kinetora_Web` | `deploy` | `public_html` |
+| `kinetora.es` | `Shuzked/Kinetora_Web` | `deploy-es` | `public_html` |
+
+> GitHub Actions uses the default `GITHUB_TOKEN` — no extra secrets need to be configured.
