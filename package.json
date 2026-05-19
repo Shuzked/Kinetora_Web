@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "puppeteer": "^25.0.4",
-    "serve-handler": "^6.1.7"
+    "serve-handler": "^6.1.7",
+    "sharp": "^0.34.5"
   }
 }
