@@ -49,12 +49,7 @@ function buildOrganizationSchema(lang) {
     description: isES
       ? 'Estudio de diseño premium para startups que levantan capital y convierten usuarios.'
       : 'Premium design studio for startups raising capital and converting users.',
-    sameAs: [
-      // Pon aquí las URLs reales de tus redes sociales
-      // 'https://www.linkedin.com/company/kinetora',
-      // 'https://www.instagram.com/kinetora',
-      // 'https://twitter.com/kinetora',
-    ],
+    sameAs: [],
     address: {
       '@type': 'PostalAddress',
       addressCountry: 'ES',
@@ -62,7 +57,7 @@ function buildOrganizationSchema(lang) {
   };
 }
 
-// JSON-LD: WebSite schema with SearchAction (optional, helps AEO understanding)
+// JSON-LD: WebSite schema with SearchAction
 function buildWebSiteSchema(lang) {
   const isES = lang === 'es';
   return {
@@ -80,68 +75,68 @@ function buildFAQSchema(lang) {
   const faqs = isES ? [
     {
       q: "¿Cómo funciona el sistema de pausas en la suscripción?",
-      a: "Entendemos la naturaleza del ecosistema startup. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y reanudarla cuando la carga de trabajo lo requiera, sin penalizaciones ni costes ocultos."
+      a: "Entendemos la naturaleza dinámica de las startups. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y guardar los días restantes para el futuro, sin penalizaciones ni costes ocultos."
     },
     {
       q: "¿Existe algún tipo de permanencia o contrato a largo plazo?",
-      a: "No. Operamos con total transparencia y confianza en la calidad de nuestro trabajo. Los planes son mensuales y puedes cancelarlos en cualquier momento."
+      a: "No. Operamos con total transparencia y confianza. Los planes son mensuales y puedes cancelar en cualquier momento con 30 días de antelación."
     },
     {
       q: "¿Qué implica exactamente la entrega en 48 horas?",
-      a: "Una vez definimos una solicitud de diseño clara en nuestro panel, recibirás la primera iteración funcional o el componente terminado en un plazo máximo de dos días laborables."
+      a: "Una vez que defines una solicitud de diseño clara en nuestro panel, recibirás la primera iteración funcional o el componente terminado en un plazo máximo de 48 horas laborables."
     },
     {
       q: "¿Cedéis los derechos de propiedad intelectual (IP)?",
-      a: "Absolutamente. Al finalizar y abonar el proyecto, la propiedad intelectual de diseños y código frontend es 100% tuya."
+      a: "Absolutamente. Al finalizar y abonar el proyecto, la propiedad intelectual de los diseños y el código frontend (React/Tailwind) es 100% tuya."
     },
     {
       q: "¿Qué incluye la \"Identidad de Marca\"?",
-      a: "Va mucho más allá de un logo. Entregamos un manual de marca, paletas, tipografías, componentes UI y aplicaciones listas para marketing."
+      a: "Va mucho más allá de un logo. Entregamos un manual de marca completo, paletas tipográficas, componentes UI en Figma y aplicaciones listas para marketing."
     },
     {
       q: "¿Trabajáis exclusivamente en Web3 y Gaming?",
-      a: "Aunque destacamos en Web3, nuestro enfoque de diseño orientado a la conversión aplica perfectamente a startups SaaS, Fintech y Healthtech."
+      a: "Aunque destacamos en Web3 y gaming, nuestro enfoque de diseño orientado a conversión aplica perfectamente a startups SaaS, Fintech y Healthtech."
     },
     {
       q: "¿Asumís el desarrollo Backend del producto?",
-      a: "Somos especialistas en la capa visual. Entregamos diseño UX/UI y Frontend (React/Tailwind). El Backend corre a cargo de tu equipo de ingeniería."
+      a: "Somos especialistas en la capa visual. Entregamos diseño UX/UI premium y desarrollo Frontend en React o Tailwind. El Backend corre a cargo de tu equipo."
     },
     {
       q: "¿Trabajáis con proyectos Pre-Seed?",
-      a: "Nuestro ecosistema óptimo son startups en fase Seed o Series A/B que buscan escalar. No obstante, evaluamos proyectos Pre-Seed si la visión tecnológica y el alcance del rediseño están claramente definidos."
+      a: "Trabajamos principalmente con startups Seed y Series A/B que buscan escalar rápido. Sin embargo, aceptamos proyectos Pre-Seed si la visión tecnológica está clara."
     }
   ] : [
     {
       q: "How does the subscription pause system work?",
-      a: "We understand the nature of the startup ecosystem. If you don't have active design requests for a month, you can pause your subscription and resume it whenever the workload demands it, without penalties or hidden costs."
+      a: "We understand the dynamic nature of startups. If you do not have active design requests for a month, you can pause your subscription and save the remaining days for the future, with zero penalties or hidden fees."
     },
     {
       q: "Is there any kind of commitment or long-term contract?",
-      a: "No. We operate with total transparency and confidence in the quality of our work. Plans are monthly and you can cancel them at any time."
+      a: "No. We operate with complete transparency and confidence. Plans are billed monthly and you can cancel at any time with 30 days notice."
     },
     {
       q: "What exactly does 48-hour delivery entail?",
-      a: "Once we define a clear design request in our dashboard, you will receive the first functional iteration or the finished component within a maximum of two business days."
+      a: "Once you submit a clear design request on your dashboard, you will receive the first functional iteration or finished component within a maximum of 48 business hours."
     },
     {
       q: "Do you transfer Intellectual Property (IP) rights?",
-      a: "Absolutely. Upon completion and payment of the project, the intellectual property of the designs and frontend code is 100% yours."
+      a: "Absolutely. Upon completion and payment of the project, the intellectual property of the designs and frontend code (React/Tailwind) is 100% yours."
     },
     {
       q: "What does \"Brand Identity\" include?",
-      a: "It goes far beyond a logo. We deliver a brand manual, palettes, typography, UI components, and marketing-ready assets."
+      a: "It goes far beyond a logo. We deliver a complete brand manual, typography palettes, UI components in Figma, and marketing-ready assets."
     },
     {
       q: "Do you work exclusively in Web3 and Gaming?",
-      a: "Although we excel in Web3, our conversion-oriented design focus applies perfectly to SaaS, Fintech, and Healthtech startups."
+      a: "While we excel in Web3 and gaming, our conversion-oriented design focus translates perfectly to SaaS, Fintech, and Healthtech startups."
     },
     {
       q: "Do you handle the Backend development of the product?",
-      a: "We are specialists in the visual layer. We deliver UX/UI design and Frontend (React/Tailwind). The Backend is handled by your engineering team."
+      a: "We are specialists in the visual layer. We deliver premium UX/UI design and high-quality Frontend code (React/Tailwind). Backend development is handled by your engineering team."
     },
     {
       q: "Do you work with Pre-Seed projects?",
-      a: "Our optimal ecosystem is Seed or Series A/B startups looking to scale. However, we evaluate Pre-Seed projects if the technological vision and redesign scope are clearly defined."
+      a: "Our optimal partners are Seed and Series A/B startups looking to scale. However, we evaluate Pre-Seed projects if the product roadmap and scope are clearly defined."
     }
   ];
 
@@ -159,6 +154,206 @@ function buildFAQSchema(lang) {
   };
 }
 
+// JSON-LD: Service schemas for Home
+function buildServicesSchema(lang) {
+  const isES = lang === 'es';
+  const providerUrl = isES ? ORIGIN_ES : ORIGIN_EN;
+  const services = isES ? [
+    {
+      "@type": "Service",
+      "name": "Identidad de Marca Estratégica",
+      "description": "Construimos identidades de marca premium que atraen inversión de capital de riesgo y exigen la atención del mercado.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Sistemas de Diseño Escalables",
+      "description": "Desarrollamos sistemas de diseño listos para producción en Figma y código React/Tailwind para la velocidad del ecosistema startup.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Diseño Web Orientado a Conversión",
+      "description": "Lanzamos páginas de aterrizaje de alto rendimiento y optimizadas para Core Web Vitals para maximizar conversiones y tracción.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Narrativas de Capital (Pitch Decks)",
+      "description": "Estructuramos y diseñamos pitch decks y memorias de inversión estratégicas que han ayudado a startups a levantar más de $41.4M.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    }
+  ] : [
+    {
+      "@type": "Service",
+      "name": "Strategic Brand Identity",
+      "description": "We construct premium brand identities built to attract venture capital and command market trust.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Scalable Design Systems",
+      "description": "We develop production-ready design systems in Figma and React/Tailwind code built for startup product velocity.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Conversion-Led Web Design",
+      "description": "We launch high-performing landing pages optimized for Core Web Vitals to maximize conversions and early product adoption.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    },
+    {
+      "@type": "Service",
+      "name": "Capital Narratives (Pitch Decks)",
+      "description": "We structure and design high-impact pitch decks and capital narratives that have helped startups secure $41.4M+ in funding.",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "Kinetora",
+        "url": providerUrl
+      }
+    }
+  ];
+  return services;
+}
+
+// JSON-LD: BreadcrumbList schema for internal pages
+function buildBreadcrumbSchema(route, lang) {
+  const isES = lang === 'es';
+  const origin = isES ? ORIGIN_ES : ORIGIN_EN;
+  const parts = route.path.split('/').filter(Boolean);
+  
+  const itemListElement = [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": isES ? "Inicio" : "Home",
+      "item": origin
+    }
+  ];
+
+  let currentPath = '';
+  parts.forEach((part, index) => {
+    currentPath += `/${part}`;
+    let name = part.charAt(0).toUpperCase() + part.slice(1);
+    if (part === 'casos') name = isES ? "Casos de Estudio" : "Case Studies";
+    else if (part === 'precios') name = isES ? "Precios" : "Pricing";
+    else if (part === 'sobre') name = isES ? "Sobre el Estudio" : "About";
+    else if (part === 'legal') name = isES ? "Legal" : "Legal";
+    else if (part === 'aviso-legal') name = isES ? "Aviso Legal" : "Legal Notice";
+    else if (part === 'politica-privacidad') name = isES ? "Política de Privacidad" : "Privacy Policy";
+    else if (part === 'politica-cookies') name = isES ? "Política de Cookies" : "Cookie Policy";
+    else if (part === 'privacidad-redes-sociales') name = isES ? "Redes Sociales" : "Social Media";
+    else if (part === 'elixir-games') name = "Elixir Games";
+    else if (part === 'dunk-low-elixir-edition') name = "Dunk Low Elixir";
+    else if (part === 'elixir-token') name = "Elixir Token";
+    else if (part === 'chronosworlds') name = "ChronosWorlds";
+    else if (part === 'cybertitans-pulse-series') name = "CyberTitans Pulse";
+    else if (part === 'cybertitans-clash') name = "CyberTitans Clash";
+    else if (part === 'robokiden-token') name = "RoboKiden Token";
+
+    itemListElement.push({
+      "@type": "ListItem",
+      "position": index + 2,
+      "name": name,
+      "item": `${origin}${currentPath}`
+    });
+  });
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": itemListElement
+  };
+}
+
+// JSON-LD: CreativeWork schema for case studies
+function buildCreativeWorkSchema(route, lang) {
+  const isES = lang === 'es';
+  const origin = isES ? ORIGIN_ES : ORIGIN_EN;
+  const slug = route.path.replace('/casos/', '');
+  
+  let clientName = '';
+  let description = '';
+  let result = '';
+  
+  if (slug === 'elixir-games') {
+    clientName = "Elixir Games";
+    description = isES ? "Diseño de ecosistema global de marca y producto." : "Global brand ecosystem and product design.";
+    result = isES ? "+14M$ levantados" : "+$14M raised";
+  } else if (slug === 'dunk-low-elixir-edition') {
+    clientName = "Dunk Low Elixir";
+    description = isES ? "Campaña de lanzamiento y landing con experiencia premium." : "Launch campaign and landing page with premium experience.";
+    result = isES ? "Sold out en 48h" : "Sold out in 48h";
+  } else if (slug === 'elixir-token') {
+    clientName = "Elixir Token";
+    description = isES ? "Estrategia visual y creatividades de marketing para lanzamiento global." : "Visual strategy and marketing assets for global launch.";
+    result = isES ? "+14,2M$ levantados" : "+$14.2M raised";
+  } else if (slug === 'chronosworlds') {
+    clientName = "ChronosWorlds";
+    description = isES ? "Rebranding estratégico, diseño UX/UI de plataforma y pitch deck." : "Strategic rebranding, platform UX/UI and pitch deck.";
+    result = isES ? "Tráfico récord x3" : "3x record traffic";
+  } else if (slug === 'cybertitans-pulse-series') {
+    clientName = "CyberTitans Pulse";
+    description = isES ? "Identidad visual y contenido de redes para torneo competitivo." : "Visual identity and social content for competitive tournament.";
+    result = isES ? "1.4M de alcance" : "1.4M reach";
+  } else if (slug === 'cybertitans-clash') {
+    clientName = "CyberTitans Clash";
+    description = isES ? "Sistema visual, UI/UX de producto y activos de retención Web3." : "Visual system, product UI/UX and Web3 retention assets.";
+    result = isES ? "1.5M de alcance" : "1.5M reach";
+  } else if (slug === 'robokiden-token') {
+    clientName = "RoboKiden Token";
+    description = isES ? "Branding, UX/UI orientado a conversión y dirección de arte." : "Branding, conversion-oriented UX/UI and art direction.";
+    result = isES ? "+1.15M$ en ventas" : "+$1.15M in sales";
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": `${clientName} Case Study`,
+    "headline": isES ? `${clientName}: Caso de Estudio de Diseño` : `${clientName}: Design Case Study`,
+    "description": description,
+    "creator": {
+      "@type": "Organization",
+      "name": "Kinetora",
+      "url": origin
+    },
+    "customer": {
+      "@type": "Organization",
+      "name": clientName
+    },
+    "keywords": "Branding, UX/UI, Web3 Design, Conversion optimization",
+    "award": result
+  };
+}
+
 // Builds the head tags block to replace SSR_HEAD_PLACEHOLDER
 function buildSeoBlock(route, lang) {
   const isES = lang === 'es';
@@ -170,9 +365,20 @@ function buildSeoBlock(route, lang) {
 
   const jsonLdOrg = JSON.stringify(buildOrganizationSchema(lang));
   const jsonLdSite = JSON.stringify(buildWebSiteSchema(lang));
-  const faqScript = route.path === '/' 
-    ? `\n    <script type="application/ld+json">${JSON.stringify(buildFAQSchema(lang))}</script>`
-    : '';
+  
+  let additionalSchemas = '';
+  if (route.path === '/') {
+    additionalSchemas += `\n    <script type="application/ld+json">${JSON.stringify(buildFAQSchema(lang))}</script>`;
+    additionalSchemas += `\n    <script type="application/ld+json">${JSON.stringify(buildServicesSchema(lang))}</script>`;
+  } else {
+    // Internal pages get BreadcrumbList schema
+    additionalSchemas += `\n    <script type="application/ld+json">${JSON.stringify(buildBreadcrumbSchema(route, lang))}</script>`;
+    
+    // Case studies also get CreativeWork schema
+    if (route.path.startsWith('/casos/')) {
+      additionalSchemas += `\n    <script type="application/ld+json">${JSON.stringify(buildCreativeWorkSchema(route, lang))}</script>`;
+    }
+  }
 
   return `
     <title>${data.title}</title>
@@ -199,7 +405,7 @@ function buildSeoBlock(route, lang) {
     <script id="i18n-bridge">window.__KINETORA_LANG__ = "${lang}";</script>
 
     <script type="application/ld+json">${jsonLdOrg}</script>
-    <script type="application/ld+json">${jsonLdSite}</script>${faqScript}
+    <script type="application/ld+json">${jsonLdSite}</script>${additionalSchemas}
   `.trim();
 }
 
