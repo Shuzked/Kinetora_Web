@@ -16,12 +16,67 @@ const routes = require('./routes.config.js');
 const distPath = path.join(__dirname, 'dist');
 const PORT = 4321;
 
-// Start a lightweight local static server
-const server = http.createServer((request, response) => {
-  return handler(request, response, {
-    public: distPath,
-    cleanUrls: true
-  });
+// Start a language-aware local static server for crawl
+const server = http.createServer((req, res) => {
+  let urlPath = req.url.split('?')[0];
+  const queryString = req.url.split('?')[1] || '';
+  
+  // Check if Spanish crawl
+  let isSpanish = urlPath.includes('/es/') || urlPath === '/es' || queryString.includes('lang=es');
+  
+  // If it's an asset (has extension)
+  const ext = path.extname(urlPath);
+  if (ext) {
+    const filePath = path.join(distPath, urlPath);
+    if (fs.existsSync(filePath)) {
+      const contentType = {
+        '.html': 'text/html',
+        '.css': 'text/css',
+        '.js': 'application/javascript',
+        '.png': 'image/png',
+        '.jpg': 'image/jpeg',
+        '.svg': 'image/svg+xml',
+        '.webp': 'image/webp',
+        '.woff2': 'font/woff2'
+      }[ext] || 'application/octet-stream';
+      
+      res.writeHead(200, { 'Content-Type': contentType });
+      fs.createReadStream(filePath).pipe(res);
+    } else {
+      res.writeHead(404);
+      res.end('Not Found');
+    }
+    return;
+  }
+  
+  // It is a route (clean URL)
+  let cleanRoute = urlPath.replace(/^\/es/, '');
+  if (cleanRoute === '') cleanRoute = '/';
+  
+  let targetFile;
+  if (isSpanish) {
+    targetFile = cleanRoute === '/'
+      ? path.join(distPath, 'es', 'index.html')
+      : path.join(distPath, 'es', cleanRoute.replace(/^\//, ''), 'index.html');
+  } else {
+    targetFile = cleanRoute === '/'
+      ? path.join(distPath, 'index.html')
+      : path.join(distPath, cleanRoute.replace(/^\//, ''), 'index.html');
+  }
+  
+  if (fs.existsSync(targetFile)) {
+    res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+    fs.createReadStream(targetFile).pipe(res);
+  } else {
+    const fallbackFile = isSpanish ? path.join(distPath, 'es', 'index.html') : path.join(distPath, 'index.html');
+    if (fs.existsSync(fallbackFile)) {
+      res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+      fs.createReadStream(fallbackFile).pipe(res);
+    } else {
+      res.writeHead(404);
+      res.end('Not Found');
+    }
+  }
 });
 
 server.listen(PORT, async () => {
@@ -62,8 +117,8 @@ server.listen(PORT, async () => {
         : path.join(distPath, route.path.replace(/^\//, ''), 'index.html');
       tasks.push({ url: enUrl, file: enFile, lang: 'en', path: route.path });
       
-      // 2. Spanish Route
-      const esUrl = `http://localhost:${PORT}/es${route.path === '/' ? '' : route.path}`;
+      // 2. Spanish Route (using ?lang=es query parameters to match correct routing path)
+      const esUrl = `http://localhost:${PORT}${route.path}?lang=es`;
       const esFile = route.path === '/'
         ? path.join(distPath, 'es', 'index.html')
         : path.join(distPath, 'es', route.path.replace(/^\//, ''), 'index.html');
