@@ -113,11 +113,11 @@ const routes = [
   {
     path: '/sobre',
     en: {
-      title: 'About the Studio | Kinetora - Premium Visual Engineering',
+      title: 'About the Studio | Kinetora - Premium Startup Design',
       description: 'Learn about Kinetora\'s design engineering methodology, zero friction, 48-hour delivery cycles, and our mission to shape the future of B2B startups.',
     },
     es: {
-      title: 'Sobre el Estudio | Kinetora - Ingeniería Visual Premium',
+      title: 'Sobre el Estudio | Kinetora - Diseño de Producto Premium',
       description: 'Conoce la metodología de ingeniería de diseño de Kinetora, sin fricciones, ciclos de entrega de 48h y nuestra misión de impulsar startups B2B.',
     },
   },

@@ -67,10 +67,10 @@ const server = http.createServer((req, res) => {
             // Localized SEO tags replacement
             const seoTags = isSpanish ? `
     <title>Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios</title>
-    <meta name="description" content="Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto." />
+    <meta name="description" content="Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante diseño de producto, web y desarrollo frontend de alta conversión." />
     <link rel="canonical" href="https://kinetora.es/" />
     <meta property="og:title" content="Kinetora | Diseño para Startups - Levanta Capital, Convierte Usuarios" />
-    <meta property="og:description" content="Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante ingeniería visual, web y producto." />
+    <meta property="og:description" content="Estudio de diseño premium para startups. Levantamos capital y convertimos usuarios mediante diseño de producto, web y desarrollo frontend de alta conversión." />
     <meta property="og:url" content="https://kinetora.es/" />
     <meta property="og:locale" content="es_ES" />
     <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
@@ -78,10 +78,10 @@ const server = http.createServer((req, res) => {
     <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/" />
     ` : `
     <title>Kinetora | Design for Startups - Raise Capital, Convert Users</title>
-    <meta name="description" content="Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product." />
+    <meta name="description" content="Premium design studio for startups. We raise capital and convert users through high-converting product design, web, and frontend development." />
     <link rel="canonical" href="https://kinetora.tech/" />
     <meta property="og:title" content="Kinetora | Design for Startups - Raise Capital, Convert Users" />
-    <meta property="og:description" content="Premium design studio for startups. We raise capital and convert users through visual engineering, web, and product." />
+    <meta property="og:description" content="Premium design studio for startups. We raise capital and convert users through high-converting product design, web, and frontend development." />
     <meta property="og:url" content="https://kinetora.tech/" />
     <meta property="og:locale" content="en_US" />
     <link rel="alternate" hreflang="en" href="https://kinetora.tech/" />
