@@ -95,6 +95,14 @@ jobs:
           # Copiar contenido ES
           cp -r /tmp/dist-es/. .
 
+          # Copiar assets compartidos (JS, CSS, imágenes) de dist/assets a la raíz de deploy-es
+          if [ -d dist/assets ]; then
+            cp -r dist/assets .
+          else
+            echo "ERROR: dist/assets not found"
+            exit 1
+          fi
+
           # El .htaccess de la versión ES debería incluirse en build-static.js
           # Si no existe, lo tomamos de la versión EN (mismas reglas)
           if [ ! -f .htaccess ]; then
