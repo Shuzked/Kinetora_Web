@@ -45,8 +45,8 @@ const Contact = () => {
     lang === "es"
       ? {
           badge: "Contacto",
-          title: "Cuéntanos tu proyecto",
-          sub: "Escríbenos y, si lo prefieres, agenda una llamada directa con nuestro equipo.",
+          title: "Diseñemos tu próximo hito",
+          sub: "Cuéntanos qué estás construyendo. Recibirás una propuesta personalizada según tus objetivos en menos de 12 horas.",
           name: "Nombre",
           namePh: "Tu nombre",
           email: "Email",
@@ -59,7 +59,7 @@ const Contact = () => {
           messagePh: "Cuéntanos brevemente qué necesitas…",
           consent:
             "Acepto ser contactado para resolver dudas y recibir una propuesta personalizada.",
-          send: "Enviar mensaje",
+          send: "Iniciar conversación",
           sending: "Enviando…",
           success: "Mensaje enviado correctamente",
           errName: "Introduce tu nombre.",
@@ -83,8 +83,8 @@ const Contact = () => {
         }
       : {
           badge: "Contact",
-          title: "Tell us about your project",
-          sub: "Write to us and, if you prefer, book a call directly with our team.",
+          title: "Let's design your next milestone",
+          sub: "Tell us what you are building. You will receive a personalized proposal based on your goals in less than 12 hours.",
           name: "Name",
           namePh: "Your name",
           email: "Email",
@@ -96,7 +96,7 @@ const Contact = () => {
           message: "Message",
           messagePh: "Tell us briefly what you need…",
           consent: "I agree to be contacted and receive a tailored proposal.",
-          send: "Send message",
+          send: "Start the conversation",
           sending: "Sending…",
           success: "Message sent successfully",
           errName: "Please enter your name.",

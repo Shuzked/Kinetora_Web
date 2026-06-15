@@ -1,14 +1,41 @@
+# ==========================================
+# Robots.txt for Kinetora.tech
+# Optimized for Technical SEO & High-Performance
+# ==========================================
+
+User-agent: *
+Allow: /
+
+# Specific Search Engine Crawlers
 User-agent: Googlebot
 Allow: /
 
 User-agent: Bingbot
 Allow: /
 
-User-agent: Twitterbot
+User-agent: Yandex
 Allow: /
 
+User-agent: Baiduspider
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# Social Media Platforms (Ensures Rich Previews for CEOs/CTOs)
 User-agent: facebookexternalhit
+User-agent: facebot
+User-agent: Twitterbot
+User-agent: LinkedInBot
+User-agent: WhatsApp
 Allow: /
 
-User-agent: *
+# Ads & Marketing Bots
+User-agent: AdsBot-Google
 Allow: /
+
+User-agent: Mediapartners-Google
+Allow: /
+
+# Sitemap Location
+Sitemap: https://kinetora.tech/sitemap.xml

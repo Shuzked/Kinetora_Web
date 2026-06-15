@@ -17,15 +17,15 @@ const ValueProp = () => {
           titleTop: "El fin de la",
           titleAccent: "fricción creativa",
           sub:
-            "Un modelo pensado para velocidad, claridad y consistencia visual — con kickoff claro, suscripción a medida y gestión profesional.",
+            "Diseño de nivel enterprise integrado en tu día a día. Di adiós a los presupuestos sorpresa y a los emails perdidos, y empieza a recibir resultados reales cada 48 horas.",
           left: {
             title: "Otras agencias",
             badge: "Fricción",
             items: [
-              { t: "Briefs difusos", d: "Cambios constantes sin una alineación inicial clara." },
-              { t: "Planes rígidos", d: "Poca flexibilidad y costes variables según avance." },
-              { t: "Canales dispersos", d: "Conversaciones fragmentadas y poca trazabilidad." },
-              { t: "Entregas lentas", d: "Ritmos de semanas y demasiadas rondas de revisión." },
+              { t: "Reuniones eternas", d: "Semanas de llamadas de inicio antes de ver un solo borrador o propuesta de diseño." },
+              { t: "Facturas sorpresa", d: "Tarifas por hora y costes extra fuera de presupuesto que hacen imposible planificar." },
+              { t: "Comunicación caótica", d: "Feedback que se pierde entre emails, chats de WhatsApp y largas reuniones de estado." },
+              { t: "Plazos interminables", d: "Un simple cambio en una landing page tarda tres semanas y pasa por cuatro intermediarios." },
             ],
             metrics: [
               { k: "Ritmo", v: "Lento" },
@@ -37,10 +37,10 @@ const ValueProp = () => {
             title: "Kinetora",
             badge: "Premium",
             items: [
-              { t: "Toma de contacto inicial", d: "Reunión inicial breve para alinear objetivo y presupuesto." },
-              { t: "Suscripción a medida", d: "El plan se adapta a tu inversión y prioridades." },
-              { t: "Comunicación profesional", d: "Email o chat y reuniones puntuales para decidir rápido." },
-              { t: "Informamos y gestionamos", d: "Tareas, prioridades y entregas 48h con revisiones limitadas." },
+              { t: "Kickoff de 30 minutos", d: "Nos alineamos en una breve sesión inicial y empezamos a diseñar tu proyecto de inmediato." },
+              { t: "Suscripción mensual fija", d: "Un único precio predecible. Pausa o cancela tu suscripción cuando quieras, sin explicaciones." },
+              { t: "Canal único y centralizado", d: "Gestionamos todo tu feedback, tareas y entregas en un solo panel de ClickUp o Trello." },
+              { t: "Entregas listas en 48h", d: "Recibe propuestas de diseño terminadas y funcionales en solo dos días laborables." },
             ],
             metrics: [
               { k: "Ritmo", v: "48h" },
@@ -55,15 +55,15 @@ const ValueProp = () => {
           titleTop: "The end of",
           titleAccent: "creative friction",
           sub:
-            "A model built for speed, clarity and consistency — with a clear kickoff, tailored subscription and professional management.",
+            "Enterprise-grade design integrated into your daily workflow. Say goodbye to surprise invoices and lost emails, and start receiving real results every 48 hours.",
           left: {
             title: "Other agencies",
             badge: "Friction",
             items: [
-              { t: "Vague briefs", d: "Constant changes with no clear upfront alignment." },
-              { t: "Rigid plans", d: "Low flexibility and variable costs along the way." },
-              { t: "Scattered channels", d: "Fragmented conversations and poor traceability." },
-              { t: "Slow delivery", d: "Weeks of work and too many review rounds." },
+              { t: "Endless meetings", d: "Weeks of kickoff calls before you get to see a single design draft or concept." },
+              { t: "Surprise invoices", d: "Hourly rates and out-of-scope fees that make budgeting completely impossible." },
+              { t: "Chaotic communication", d: "Feedback lost across endless email threads, WhatsApp chats, and status calls." },
+              { t: "Interminable delays", d: "A simple landing page edit takes three weeks and goes through multiple account managers." },
             ],
             metrics: [
               { k: "Pace", v: "Slow" },
@@ -75,10 +75,10 @@ const ValueProp = () => {
             title: "Kinetora",
             badge: "Premium",
             items: [
-              { t: "Clear kickoff", d: "Short initial meeting to align scope, goals and budget." },
-              { t: "Tailored subscription", d: "The plan fits your budget and priorities." },
-              { t: "Professional comms", d: "Email or chat, plus scheduled meetings when needed." },
-              { t: "ClickUp (or your tool)", d: "Tasks, priorities and 48h turnarounds with limited revisions." },
+              { t: "30-Minute Kickoff", d: "We align on a brief session and start designing your project immediately." },
+              { t: "Fixed monthly subscription", d: "One predictable price. Pause or cancel your subscription anytime, no questions asked." },
+              { t: "Single centralized channel", d: "Manage all your feedback, tasks, and deliverables in one ClickUp or Trello board." },
+              { t: "Ready in 48 hours", d: "Receive completed, functional design updates in just two business days." },
             ],
             metrics: [
               { k: "Pace", v: "48h" },

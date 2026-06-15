@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Palette, Globe, Video, MessageSquare } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Palette, Layers, Globe, TrendingUp } from 'lucide-react';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from '@/components/MouseParallax';
 import { ImageWithSkeleton } from "@/components/ui/ImageWithSkeleton";
@@ -16,34 +17,66 @@ const Services = () => {
     lang === "es"
       ? {
           badge: "Capacidades",
-          titleTop: "Todo el músculo visual",
-          titleBottom: "que tu startup necesita.",
-          sub: "Branding, producto, web y contenido — con un sistema que mantiene calidad y consistencia a escala.",
+          titleTop: "Diseño que impulsa tu",
+          titleBottom: "capital y conversión",
+          sub: "Todo lo que necesitas para atraer inversores y ganar usuarios activos bajo una tarifa mensual predecible.",
           cards: {
-            brandingTitle: "Construcción de marca",
-            brandingDesc: "Logos, branding completo y pitch decks diseñados para convencer a inversores de primer nivel.",
-            digitalTitle: "Digital",
-            digitalDesc: "UX/UI en Figma, desarrollo web y tiendas online optimizadas para conversión.",
-            multimediaTitle: "Multimedia",
-            multimediaDesc: "Motion graphics, edición de vídeo y animación 3D de alto impacto.",
-            commsTitle: "Comunicación",
-            commsDesc: "Vídeos ADs de alta retención y copywriting estratégico para escalar tus campañas.",
+            brandingTitle: "Identidad de marca estratégica",
+            brandingDesc: (
+              <>
+                Un branding profesional que te posiciona como líder del sector y genera confianza inmediata en fondos de capital riesgo. Mira cómo diseñamos el ecosistema global de marca para <Link to="/casos/elixir-games" className="text-[#B454FF] hover:underline font-semibold">Elixir Games</Link>.
+              </>
+            ),
+            digitalTitle: "Sistemas de diseño escalables",
+            digitalDesc: (
+              <>
+                Una librería centralizada de componentes visuales en Figma y código para que tus desarrolladores programen nuevas funciones sin perder tiempo ni consistencia. Mira cómo creamos la interfaz de <Link to="/casos/dunk-low-elixir-edition" className="text-[#B454FF] hover:underline font-semibold">Dunk Low Elixir Edition</Link> para máxima velocidad.
+              </>
+            ),
+            multimediaTitle: "Diseño web enfocado a conversión",
+            multimediaDesc: (
+              <>
+                Páginas web ultrarrápidas y optimizadas para cargar al instante y convertir visitantes en usuarios activos. Como la landing de lanzamiento de token que diseñamos para <Link to="/casos/robokiden-token" className="text-[#B454FF] hover:underline font-semibold">RoboKiden</Link>, que respaldó más de 1.15M$ en ventas.
+              </>
+            ),
+            commsTitle: "Narrativas de inversión (Pitch Decks)",
+            commsDesc: (
+              <>
+                Presentaciones estratégicas que traducen hojas de ruta tecnológicas complejas en historias claras e invertibles. Usadas por <Link to="/casos/chronosworlds" className="text-[#B454FF] hover:underline font-semibold">ChronosWorlds</Link> para asegurar su ronda de financiación semilla.
+              </>
+            ),
           },
         }
       : {
           badge: "Capabilities",
-          titleTop: "All the visual power",
-          titleBottom: "your startup needs.",
-          sub: "Brand, product, web and content — with a system that keeps quality and consistency at scale.",
+          titleTop: "Design that drives",
+          titleBottom: "capital and conversion",
+          sub: "Everything you need to attract investors and win active users under a single predictable monthly rate.",
           cards: {
-            brandingTitle: "Brand building",
-            brandingDesc: "Logos, full branding and pitch decks designed to win top-tier investors.",
-            digitalTitle: "Digital",
-            digitalDesc: "UX/UI in Figma, web development and online stores optimized for conversion.",
-            multimediaTitle: "Multimedia",
-            multimediaDesc: "Motion graphics, video editing and high-impact 3D animation.",
-            commsTitle: "Communication",
-            commsDesc: "High-retention ad videos and strategic copywriting to scale your campaigns.",
+            brandingTitle: "Strategic Brand Identity",
+            brandingDesc: (
+              <>
+                Pitch-ready branding that positions you as an industry leader and builds instant trust with top-tier venture funds. Discover how we designed the global brand ecosystem for <Link to="/casos/elixir-games" className="text-[#B454FF] hover:underline font-semibold">Elixir Games</Link>.
+              </>
+            ),
+            digitalTitle: "Scalable Design Systems",
+            digitalDesc: (
+              <>
+                A centralized library of ready-to-use visual components in Figma and code, so your developers can build features faster without losing quality. See how we built the launcher UI for <Link to="/casos/dunk-low-elixir-edition" className="text-[#B454FF] hover:underline font-semibold">Dunk Low Elixir Edition</Link> for maximum speed.
+              </>
+            ),
+            multimediaTitle: "Conversion-Led Web Design",
+            multimediaDesc: (
+              <>
+                High-speed landing pages engineered to load instantly and turn visitors into active users. Like the token launch landing page we designed for <Link to="/casos/robokiden-token" className="text-[#B454FF] hover:underline font-semibold">RoboKiden</Link> that supported over $1.15M in sales.
+              </>
+            ),
+            commsTitle: "Capital Narratives (Pitch Decks)",
+            commsDesc: (
+              <>
+                Presentation decks that translate complex technology and business roadmaps into clear, investable stories. Used by <Link to="/casos/chronosworlds" className="text-[#B454FF] hover:underline font-semibold">ChronosWorlds</Link> to secure their seed funding round.
+              </>
+            ),
           },
         };
 
@@ -135,7 +168,7 @@ const Services = () => {
                 <div className="relative mb-8">
                   <ScrollParallax speed={0.15}>
                     <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                      <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                      <Layers className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                     </div>
                   </ScrollParallax>
                 </div>
@@ -173,7 +206,7 @@ const Services = () => {
                 <div className="relative mb-8">
                   <ScrollParallax speed={0.15}>
                     <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                      <Video className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                      <Globe className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                     </div>
                   </ScrollParallax>
                 </div>
@@ -211,7 +244,7 @@ const Services = () => {
                 <div className="relative mb-8">
                   <ScrollParallax speed={0.15}>
                     <div className="relative inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-white/5 border border-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.10)] transition-all duration-300 group-hover:bg-white/10 group-hover:border-[#B454FF]/30">
-                      <MessageSquare className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
+                      <TrendingUp className="w-6 h-6 text-[#B454FF] transition-transform duration-300 group-hover:rotate-3" />
                     </div>
                   </ScrollParallax>
                 </div>

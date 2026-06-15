@@ -26,10 +26,10 @@ const Footer = () => {
   const strings =
     lang === "es"
       ? {
-          badge: "-10% primer mes • Promos y noticias",
-          title: "Suscríbete a nuestro\nnewsletter",
+          badge: "Sin spam. Solo crecimiento.",
+          title: "Aprende una táctica de diseño accionable al mes",
           sub:
-            "No te pierdas ninguna noticia, promoción o descuentos de nuestros servicios. ¿A qué esperas?",
+            "Suscríbete a nuestro boletín. Compartimos desgloses reales y tácticas de conversión que puedes implementar en tu startup de inmediato.",
           placeholder: "Tu email",
           inputAria: "Introduce tu email para suscribirte",
           btn: "Suscribirse",
@@ -50,9 +50,9 @@ const Footer = () => {
           btnLoading: "Suscribiendo...",
         }
       : {
-          badge: "-10% first month • Promos & updates",
-          title: "Subscribe to our\nnewsletter",
-          sub: "Don't miss any updates, promotions or discounts. Ready to start?",
+          badge: "No spam. Just growth.",
+          title: "Get one highly actionable design tactic every month",
+          sub: "Subscribe to our briefing. We share real breakdown examples and conversion tactics that you can implement in your startup immediately.",
           placeholder: "Your email",
           inputAria: "Enter your email to subscribe",
           btn: "Subscribe",
@@ -203,9 +203,9 @@ const Footer = () => {
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#B454FF]/10 border border-[#B454FF]/30 text-[#B454FF] text-[11px] font-extrabold tracking-widest uppercase mb-3">
               {strings.badge}
             </div>
-            <h3 className="tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line mb-6">
+            <h2 className="tracking-tight text-[#F5F5F5] uppercase whitespace-pre-line mb-6 text-xl sm:text-2xl md:text-[2.2rem] leading-none font-black">
               {strings.title}
-            </h3>
+            </h2>
             <p className="text-[#F5F5F5]/70 mb-8 max-w-xl">
               {strings.sub}
             </p>

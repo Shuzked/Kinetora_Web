@@ -25,7 +25,7 @@ const Testimonials = () => {
   const copy =
     lang === "es"
       ? {
-          title: "Lo que dicen los fundadores.",
+          title: "La confianza de nuestros fundadores",
           sub: "Startups que escalan con nosotros.",
           testimonials: [
             {
@@ -80,7 +80,7 @@ const Testimonials = () => {
           ],
         }
       : {
-          title: "What founders say.",
+          title: "Trusted by venture-backed founders",
           sub: "Startups scaling with us.",
           testimonials: [
             {

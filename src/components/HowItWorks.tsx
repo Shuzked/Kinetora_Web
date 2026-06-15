@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { useI18n } from "@/i18n/I18nProvider";
 import MouseParallax from "@/components/MouseParallax";
 import RevealText from "@/components/ui/RevealText";
@@ -13,66 +14,96 @@ const HowItWorks = () => {
   const copy =
     lang === "es"
       ? {
-          title: "Tu nuevo flujo creativo.",
-          titleAccent: "Kickoff y ejecución ágil.",
-          sub:
-            "Empezamos con una reunión breve para entender tu objetivo y presupuesto. Te proponemos una suscripción a medida. Nos coordinamos por el canal que prefieras (email o chat) y gestionamos tareas en tu herramienta o en ClickUp. Entregas en 48h con revisiones limitadas.",
+          title: "Cómo trabajamos juntos",
+          titleAccent: "Plazos claros y visibilidad total",
+          sub: (
+            <>
+              Un proceso rápido y transparente diseñado para fundadores. Puedes leer nuestro{" "}
+              <Link to="/casos/chronosworlds" className="text-[#B454FF] hover:underline font-semibold">
+                caso de ChronosWorlds
+              </Link>{" "}
+              o explorar todos nuestros{" "}
+              <Link to="/casos" className="text-[#B454FF] hover:underline font-semibold">
+                casos de estudio
+              </Link>
+              . Seguimos metodologías inspiradas en guías de referencia como el{" "}
+              <a href="https://a16z.com" target="_blank" rel="noopener noreferrer" className="text-[#B454FF] hover:underline font-semibold">
+                manual de a16z
+              </a>
+              .
+            </>
+          ),
           steps: [
             {
               number: "01",
-              title: "Reunión inicial",
+              title: "Auditoría inicial",
               description:
-                "Agendamos una llamada corta para entender lo que necesitas y el presupuesto disponible.",
+                "Nos compartes tus objetivos y te entregamos una hoja de ruta visual para los primeros 30 días, priorizando cada entregable.",
             },
             {
               number: "02",
-              title: "Suscripción a medida",
+              title: "Integración del sistema",
               description:
-                "Te proponemos un plan acorde a tu presupuesto, optimizado para impacto y velocidad.",
+                "Conectamos tu panel compartido en ClickUp o Trello para que tengas visibilidad total. Sabrás exactamente qué estamos diseñando y cuándo se entrega, sin tener que perseguirnos.",
             },
             {
               number: "03",
-              title: "Comunicación y tareas",
+              title: "Ciclos de diseño de 48h",
               description:
-                "Nos adaptamos al canal que te resulte más cómodo (email o chat) y a tu herramienta de gestión (tu espacio o ClickUp): prioridades, estados y plazos claros.",
+                "Tú subes tus solicitudes de diseño al panel y nosotros entregamos piezas listas y funcionales cada 48 horas laborables para no frenar tu ritmo.",
             },
             {
               number: "04",
-              title: "Ejecución 48h",
+              title: "Sincronización mensual",
               description:
-                "Producción continua con entregas en 48h y revisiones limitadas hasta cerrar cada pieza.",
+                "Analizas con nosotros los datos de conversión y el feedback de tus usuarios para ajustar las prioridades y optimizar los siguientes ciclos.",
             },
           ],
         }
       : {
-          title: "Your new creative workflow.",
-          titleAccent: "Kickoff and fast execution.",
-          sub:
-            "We start with a short meeting to understand goals and budget. We propose a tailored subscription. We coordinate through your preferred channel (email or chat) and manage tasks in your tool or in ClickUp. 48h deliveries with limited revisions.",
+          title: "How we work together",
+          titleAccent: "Clear deadlines and full visibility",
+          sub: (
+            <>
+              A fast, transparent process designed for founders. Read our{" "}
+              <Link to="/casos/chronosworlds" className="text-[#B454FF] hover:underline font-semibold">
+                ChronosWorlds case study
+              </Link>{" "}
+              or check our full{" "}
+              <Link to="/casos" className="text-[#B454FF] hover:underline font-semibold">
+                case studies
+              </Link>
+              . We follow playbooks inspired by reference guides like the{" "}
+              <a href="https://a16z.com" target="_blank" rel="noopener noreferrer" className="text-[#B454FF] hover:underline font-semibold">
+                a16z playbook
+              </a>
+              .
+            </>
+          ),
           steps: [
             {
               number: "01",
-              title: "Kickoff meeting",
+              title: "Strategic Audit",
               description:
-                "A quick call to capture scope, goals and budget so we align from day one.",
+                "You share your goals, and we deliver a clear 30-day visual roadmap mapping out your design priorities.",
             },
             {
               number: "02",
-              title: "Tailored subscription",
+              title: "System Integration",
               description:
-                "We propose a plan based on your budget, optimized for impact and speed.",
+                "We set up your shared dashboard in ClickUp or Trello, giving you full visibility so you always know what is being designed and when it will arrive, without chasing updates.",
             },
             {
               number: "03",
-              title: "Communication & tasks",
+              title: "48h Design Cycles",
               description:
-                "We adapt to your preferred channel (email or chat) and your workflow tool (your workspace or ClickUp): clear priorities, statuses and due dates.",
+                "You submit your design requests on the dashboard, and we deliver completed, functional updates every 48 hours to keep your launch momentum.",
             },
             {
               number: "04",
-              title: "48h execution",
+              title: "Monthly Growth Sync",
               description:
-                "Continuous production with 48h turnarounds and limited revisions until done.",
+                "You review the conversion metrics and user feedback with us to adjust priorities and optimize your next design cycles.",
             },
           ],
         };

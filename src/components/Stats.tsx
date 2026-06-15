@@ -11,16 +11,16 @@ const Stats = () => {
   const stats =
     lang === "es"
       ? [
-          { label: "Proyectos completados", value: 450, suffix: "+" },
-          { label: "Capital levantado", value: 12, suffix: "M€+" },
-          { label: "Tiempo de entrega", value: 48, suffix: "h" },
-          { label: "Tasa de éxito", value: 99, suffix: "%" },
+          { label: "Capital captado por clientes", value: 41.4, suffix: "M+", prefix: "$" },
+          { label: "Proyectos completados con éxito", value: 50, suffix: "+" },
+          { label: "Plazo de entrega promedio", value: 48, suffix: "h" },
+          { label: "De retención de clientes", value: 94, suffix: "%" },
         ]
       : [
-          { label: "Projects delivered", value: 450, suffix: "+" },
-          { label: "Capital raised", value: 12, suffix: "M€+" },
-          { label: "Delivery time", value: 48, suffix: "h" },
-          { label: "Success rate", value: 99, suffix: "%" },
+          { label: "Raised by our clients", value: 41.4, suffix: "M+", prefix: "$" },
+          { label: "Projects delivered successfully", value: 50, suffix: "+" },
+          { label: "Average delivery per task", value: 48, suffix: "h" },
+          { label: "Client retention rate", value: 94, suffix: "%" },
         ];
 
   return (
@@ -39,6 +39,7 @@ const Stats = () => {
               >
                 <div className="relative inline-block mb-3 sm:mb-4">
                   <div className="text-4xl md:text-6xl font-black text-[#F5F5F5] tracking-tighter flex items-baseline justify-center">
+                    {stat.prefix && <span className="text-[#B454FF] text-xl md:text-3xl mr-0.5">{stat.prefix}</span>}
                     <CountUp end={stat.value} />
                     <span className="text-[#B454FF] text-xl md:text-3xl ml-1">{stat.suffix}</span>
                   </div>

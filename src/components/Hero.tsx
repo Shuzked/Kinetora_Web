@@ -28,10 +28,10 @@ const Hero = () => {
   const copy =
     lang === "es"
       ? {
-          headlineTop: "Diseño que convierte",
-          headlineAccent: "velocidad que escala",
+          headlineTop: "El diseño que ayudó a nuestras startups a captar 41.4M$",
+          headlineAccent: "y escalar más rápido",
           sub:
-            "Te ayudamos a crecer. Creamos tu marca, tus campañas y tus plataformas. Rápido, sin dramas y con resultados.",
+            "Diseñamos marcas, páginas web y pitch decks para startups bajo una suscripción mensual flexible. Suma talento de diseño sénior con entregas en 48 horas para convencer a inversores y convertir usuarios, sin contratos de permanencia.",
           ctaPrimary: "Contactar",
           ctaSecondary: "Éxitos",
           pills: [
@@ -41,10 +41,10 @@ const Hero = () => {
           ],
         }
       : {
-          headlineTop: "Design that converts",
-          headlineAccent: "speed that scales",
+          headlineTop: "Design that helped startups raise $41.4M",
+          headlineAccent: "and scale faster",
           sub:
-            "We help you grow. We create your brand, your campaigns, and your platforms. Fast, drama-free, and results-driven.",
+            "We design brands, websites, and pitch decks for startups through a flexible monthly subscription. Get senior design talent delivered in 48 hours to win investor trust and convert users without long-term commitments.",
           ctaPrimary: "Let's talk",
           ctaSecondary: "Case studies",
           pills: [

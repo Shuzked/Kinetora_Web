@@ -11,9 +11,9 @@ export const seoDefaults: Record<SupportedLang, {
   shareImage?: string;
 }> = {
   es: {
-    title: "Kinetora — Agencia creativa por suscripción para Startups y B2B",
+    title: "Kinetora | Estudio de Diseño para Startups",
     description:
-      "UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.",
+      "Con 41.4M$ captados por nuestros clientes, Kinetora es el startup design studio por suscripción con entregas en 48h y sin contratos de permanencia.",
     keywords: [
       "agencia creativa", "suscripción", "startup", "B2B", "diseño UX", "UI", "diseño web",
       "web performance", "motion graphics", "pitch deck", "branding", "identidad de marca",
@@ -24,9 +24,9 @@ export const seoDefaults: Record<SupportedLang, {
     shareImage: "/assets/social/kinetora-social-share.webp",
   },
   en: {
-    title: "Kinetora — Creative agency on subscription for Startups & B2B",
+    title: "Kinetora | Startup Design Studio",
     description:
-      "UX/UI, blazing-fast websites, motion graphics and pitch decks on an async subscription. 48h turnarounds, unlimited revisions, results-driven.",
+      "Helping clients raise $41.4M, Kinetora is a startup design studio offering a monthly subscription with 48h delivery and no long-term contracts.",
     keywords: [
       "creative agency", "subscription", "startup", "B2B", "UX design", "UI", "web design",
       "web performance", "motion graphics", "pitch deck", "branding", "brand identity",

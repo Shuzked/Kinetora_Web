@@ -46,11 +46,15 @@ const FAQ = () => {
           },
           {
             q: "¿Hay permanencia o costes ocultos?",
-            a: "Sin permanencia. Puedes pausar o cancelar tu suscripción en cualquier momento con 30 días de aviso. Sin costes ocultos. El precio mensual cubre todo lo acordado en tu plan.",
+            a: "No. Creemos que la única razón para que te quedes debe ser la calidad de nuestro trabajo, no un trozo de papel. Los planes se facturan mes a mes y puedes cancelar cuando quieras con 30 días de aviso.",
           },
           {
-            q: "¿Qué significa pausar la suscripción?",
-            a: "Si tienes un período más tranquilo, puedes pausar tu suscripción y reanudarla más tarde sin perder los días restantes. Es flexible por diseño.",
+            q: "¿Cómo funciona el sistema de pausas?",
+            a: "Si tienes un mes con menos volumen de trabajo, puedes pausar tu suscripción con un clic y guardar los días restantes para el futuro. Preferimos que congeles tu plan antes de que canceles.",
+          },
+          {
+            q: "¿Cedéis los derechos de propiedad intelectual (IP)?",
+            a: "Sí. Una vez abonada la factura mensual, todos los diseños y el código de interfaz son 100% de tu propiedad. No hay licencias ocultas ni restricciones de uso posteriores.",
           },
           {
             q: "¿Hay algo que no cubráis?",
@@ -88,11 +92,15 @@ const FAQ = () => {
           },
           {
             q: "Is there a minimum stay or hidden costs?",
-            a: "No minimum stay. You can pause or cancel your subscription at any time with a 30-day notice. No hidden costs. The monthly price covers everything agreed upon in your plan.",
+            a: "No. We believe the only reason you should stay is the quality of our work, not a piece of paper. Plans are billed monthly and you can cancel anytime with 30 days notice.",
           },
           {
-            q: "What does pausing the subscription mean?",
-            a: "If you have a quieter period, you can pause your subscription and resume it later without losing the remaining days. It's flexible by design.",
+            q: "How does the subscription pause system work?",
+            a: "If you have a month with less design work, you can pause your subscription with one click and save the remaining days for the future. We'd rather you pause your plan than cancel.",
+          },
+          {
+            q: "Do you transfer Intellectual Property (IP) rights?",
+            a: "Yes. Once payment is made, all designs and interface code are 100% yours. No hidden licenses or post-delivery restrictions.",
           },
           {
             q: "Is there anything you don't cover?",

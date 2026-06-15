@@ -300,9 +300,9 @@ const CaseStudyPost = () => {
                   />
 
                   <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 sm:p-8">
-                    <div className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
+                    <h2 className="text-[11px] font-black uppercase tracking-[0.28em] text-[#F5F5F5]/60">
                       {ui.readyTitle}
-                    </div>
+                    </h2>
                     <p className="mt-3 text-sm sm:text-base text-[#F5F5F5]/75 leading-relaxed max-w-2xl">
                       {ui.readyBody}
                     </p>

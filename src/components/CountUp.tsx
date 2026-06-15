@@ -23,7 +23,7 @@ const CountUp: React.FC<CountUpProps> = ({ end, duration = 1.2, suffix = "", cla
 
     const tick = (now: number) => {
       const progress = Math.min((now - start) / d, 1);
-      const current = Math.floor(end * progress);
+      const current = end * progress;
       setValue(current);
       if (progress < 1) {
         raf = requestAnimationFrame(tick);
@@ -34,7 +34,11 @@ const CountUp: React.FC<CountUpProps> = ({ end, duration = 1.2, suffix = "", cla
     return () => cancelAnimationFrame(raf);
   }, [isInView, end, duration]);
 
-  const formatted = new Intl.NumberFormat("es-ES").format(value);
+  const hasDecimals = !Number.isInteger(end);
+  const formatted = new Intl.NumberFormat("es-ES", {
+    minimumFractionDigits: hasDecimals ? 1 : 0,
+    maximumFractionDigits: hasDecimals ? 1 : 0
+  }).format(value);
   return (
     <span ref={ref} className={className}>
       {formatted}{suffix}

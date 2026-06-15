@@ -28,50 +28,104 @@
     
     <!-- No GTM/GA4 scripts here - they are loaded dynamically by useCookieConsent.ts after user choice -->
 
-    <!-- Favicon: usar icono -->
+    <!-- ⚡ CRITICAL PERFORMANCE & SEO (Staff Level) -->
+    <style>
+      :root { --background: #0D0D0D; --foreground: #F5F5F5; --accent: #B454FF; }
+      body { 
+        background: #0D0D0D; color: #F5F5F5; margin: 0; font-family: 'Inter', sans-serif; 
+        overflow-x: hidden; -webkit-font-smoothing: antialiased; 
+      }
+      #root { min-height: 100vh; display: flex; flex-direction: column; }
+      .kin-container { width: 100%; max-width: 80rem; margin: 0 auto; padding: 0 1.25rem; box-sizing: border-box; }
+      
+      /* Layout Stability (CLS Protection) */
+      nav { position: fixed; top: 0; width: 100%; z-index: 50; height: auto; }
+      @media (min-width: 768px) { nav { height: auto; } }
+      
+      .nav-height-protection { height: auto; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+      @media (min-width: 768px) { .nav-height-protection { height: auto; grid-template-columns: 1fr auto 1fr; } }
+      
+      .hero-section { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
+      
+      /* LCP Priority Paint: H1 must be visible immediately */
+      h1 { 
+        font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1.1; 
+        margin: 0 0 1.5rem 0; opacity: 1 !important; visibility: visible !important; 
+        font-size: 2.2rem;
+      }
+      @media (min-width: 768px) { h1 { font-size: 4.5rem; } }
+      
+      .liquid-bg-container { position: absolute; inset: 0; background: #0D0D0D; overflow: hidden; z-index: -1; }
+    </style>
 
-    <link rel="icon" type="image/svg+xml" href="/Favicon_Kinetora.svg" />
-    <link rel="apple-touch-icon" href="/Favicon_Kinetora.svg" />
-    <!-- Preload logo to avoid layout jank if used in hero -->
-    <link rel="preload" as="image" href="/Logotipo.svg" type="image/svg+xml" />
-    <!-- Preload LCP image fallback for mobile hero -->
-    <link rel="preload" as="image" href="/assets/hero/hero-kinetora-bg.webp" imagesrcset="/assets/hero/hero-kinetora-bg.webp 1600w" imagesizes="100vw" />
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGkyMZhrib2Bg-4.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" type="image/png" href="/Favicon_Kinetora.png" />
+    <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
 
-    <!-- Performance hints -->
-    <link rel="preconnect" href="https://ezarpucfsasumwpcderw.supabase.co" crossorigin />
-    <link rel="dns-prefetch" href="https://ezarpucfsasumwpcderw.supabase.co" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-    <title>Kinetora — Agencia creativa por suscripción para Startups y B2B</title>
-    <meta name="title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
-    <meta name="description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
+    <title>Kinetora | Estudio de Diseño para Startups</title>
+    <meta name="title" content="Kinetora | Estudio de Diseño para Startups">
+    <meta name="description" content="Con 41.4M$ captados por nuestros clientes, Kinetora es el startup design studio por suscripción con entregas en 48h y sin contratos de permanencia.">
     <meta name="keywords" content="agencia creativa, suscripción, startup, B2B, diseño UX, UI, diseño web, web performance, motion graphics, pitch deck, branding, identidad de marca, diseño de producto, diseño de interfaces, diseño SaaS, diseño landing page">
-    <meta property="og:title" content="Kinetora — Agencia creativa por suscripción">
-    <meta property="og:description" content="Tu departamento creativo bajo demanda: UX/UI, Web, Motion, Pitch Decks. 48h. Sin fricción.">
+    <meta property="og:title" content="Kinetora | Estudio de Diseño para Startups">
+    <meta property="og:description" content="Con 41.4M$ captados por nuestros clientes, Kinetora es el startup design studio por suscripción con entregas en 48h y sin contratos de permanencia.">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Kinetora">
     <meta property="og:url" content="https://kinetora.tech/">
-    <meta property="og:image" content="/assets/social/kinetora-social-share.webp">
-    <meta property="og:image:alt" content="Kinetora, agencia creativa y de diseño">
+    <meta property="og:image" content="https://kinetora.tech/assets/social/kinetora-social-share.webp">
+    <meta property="og:image:alt" content="Kinetora, startup design studio">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Kinetora — Agencia creativa por suscripción para Startups y B2B">
-    <meta name="twitter:description" content="UX/UI, webs ultrarrápidas, motion graphics y pitch decks bajo suscripción asíncrona. Entregas en 48h, revisiones ilimitadas y enfoque a resultados.">
+    <meta name="twitter:title" content="Kinetora | Estudio de Diseño para Startups">
+    <meta name="twitter:description" content="Con 41.4M$ captados por nuestros clientes, Kinetora es el startup design studio por suscripción con entregas en 48h y sin contratos de permanencia.">
     <meta name="twitter:image" content="/assets/social/kinetora-social-share.webp">
 
     <meta name="theme-color" content="#0D0D0D">
     <link rel="canonical" href="https://kinetora.tech/" />
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <script type="module" crossorigin src="/assets/index-CETs6vBi.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DCrbb8bD.css">
-  </head>
+    <link rel="stylesheet" href="/assets/globals.D0U-_kOv.css" media="print" onload="this.media='all'" />
+    <script>
+      (function() {
+        const CHECK_INTERVAL = 60000; // Check every 60 seconds
+        const VERSION_FILE = '/version.json';
+        const STORAGE_KEY = 'kinetora_app_version';
 
+        async function checkVersion() {
+          try {
+            // Fetch version with a timestamp to bypass browser cache
+            const response = await fetch(`${VERSION_FILE}?t=${Date.now()}`, { cache: 'no-store' });
+            if (!response.ok) return;
+            const data = await response.json();
+            const serverVersion = data.version;
+            const localVersion = localStorage.getItem(STORAGE_KEY);
+
+            if (localVersion && serverVersion !== localVersion) {
+              console.log('🚀 New version available. Refreshing...');
+              localStorage.setItem(STORAGE_KEY, serverVersion);
+              // Force reload from server, avoiding cache
+              window.location.reload();
+            } else if (!localVersion) {
+              localStorage.setItem(STORAGE_KEY, serverVersion);
+            }
+          } catch (e) {
+            console.error('Update check failed:', e);
+          }
+        }
+
+        // Run initial check and then periodic
+        setTimeout(checkVersion, 2000); // 2s after load
+        setInterval(checkVersion, CHECK_INTERVAL);
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index.BHh8JAzH.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index.CchujTKq.css">
+  </head>
   <body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKLGBK2S"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <div id="root"></div>
+    <div id="root"></div>
+    <!-- Hidden SVG Noise Filter for Film Grain Texture -->
+    <svg style="position: fixed; top: 0; left: 0; width: 0; height: 0; opacity: 0; pointer-events: none; overflow: hidden;" aria-hidden="true">
+      <filter id="grainyNoise">
+        <feTurbulence type="fractalNoise" baseFrequency="0.50" numOctaves="3" stitchTiles="stitch" />
+        <feColorMatrix type="saturate" values="0" />
+      </filter>
+    </svg>
   </body>
 </html>

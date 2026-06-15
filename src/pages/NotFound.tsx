@@ -50,9 +50,9 @@ const NotFound = () => {
               transition={{ duration: 0.6 }}
               className="flex flex-col items-center"
             >
-              <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] font-black tracking-[0.3em] uppercase text-[#F5F5F5]/60 mb-8 backdrop-blur-sm">
+              <h2 className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-5 py-2 text-[11px] font-black tracking-[0.3em] uppercase text-[#F5F5F5]/60 mb-8 backdrop-blur-sm">
                 {copy.badge}
-              </div>
+              </h2>
 
               <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9] mb-6 max-w-3xl">
                 {copy.title}
