@@ -74,12 +74,12 @@ function buildFAQSchema(lang) {
   const isES = lang === 'es';
   const faqs = isES ? [
     {
-      q: "¿Cómo funciona el sistema de pausas?",
-      a: "Si tienes un mes con menos volumen de trabajo, puedes pausar tu suscripción con un clic y guardar los días restantes para el futuro. Preferimos que congeles tu plan antes de que canceles."
+      q: "¿Cómo funciona el sistema de pausas en la suscripción?",
+      a: "Entendemos la naturaleza dinámica de las startups. Si no tienes solicitudes de diseño activas un mes, puedes pausar tu suscripción y guardar los días restantes para el futuro, sin penalizaciones ni costes ocultos."
     },
     {
-      q: "¿Hay permanencia o costes ocultos?",
-      a: "No. Creemos que la única razón para que te quedes debe ser la calidad de nuestro trabajo, no un trozo de papel. Los planes se facturan mes a mes y puedes cancelar cuando quieras con 30 días de aviso."
+      q: "¿Existe algún tipo de permanencia o contrato a largo plazo?",
+      a: "No. Operamos con total transparencia y confianza. Los planes son mensuales y puedes cancelar en cualquier momento con 30 días de antelación."
     },
     {
       q: "¿Qué implica exactamente la entrega en 48 horas?",
@@ -87,7 +87,7 @@ function buildFAQSchema(lang) {
     },
     {
       q: "¿Cedéis los derechos de propiedad intelectual (IP)?",
-      a: "Sí. Una vez abonada la factura mensual, todos los diseños y el código de interfaz son 100% de tu propiedad. No hay licencias ocultas ni restricciones de uso posteriores."
+      a: "Absolutamente. Al finalizar y abonar el proyecto, la propiedad intelectual de los diseños y el código frontend (React/Tailwind) es 100% tuya."
     },
     {
       q: "¿Qué incluye la \"Identidad de Marca\"?",
@@ -108,11 +108,11 @@ function buildFAQSchema(lang) {
   ] : [
     {
       q: "How does the subscription pause system work?",
-      a: "If you have a month with less design work, you can pause your subscription with one click and save the remaining days for the future. We'd rather you pause your plan than cancel."
+      a: "We understand the dynamic nature of startups. If you do not have active design requests for a month, you can pause your subscription and save the remaining days for the future, with zero penalties or hidden fees."
     },
     {
-      q: "Is there a minimum stay or hidden costs?",
-      a: "No. We believe the only reason you should stay is the quality of our work, not a piece of paper. Plans are billed monthly and you can cancel anytime with 30 days notice."
+      q: "Is there any kind of commitment or long-term contract?",
+      a: "No. We operate with complete transparency and confidence. Plans are billed monthly and you can cancel at any time with 30 days notice."
     },
     {
       q: "What exactly does 48-hour delivery entail?",
@@ -120,7 +120,7 @@ function buildFAQSchema(lang) {
     },
     {
       q: "Do you transfer Intellectual Property (IP) rights?",
-      a: "Yes. Once payment is made, all designs and interface code are 100% yours. No hidden licenses or post-delivery restrictions."
+      a: "Absolutely. Upon completion and payment of the project, the intellectual property of the designs and frontend code (React/Tailwind) is 100% yours."
     },
     {
       q: "What does \"Brand Identity\" include?",
@@ -161,8 +161,8 @@ function buildServicesSchema(lang) {
   const services = isES ? [
     {
       "@type": "Service",
-      "name": "Identidad de marca estratégica",
-      "description": "Un branding profesional que te posiciona como líder del sector y genera confianza inmediata en fondos de capital riesgo.",
+      "name": "Identidad de Marca Estratégica",
+      "description": "Construimos identidades de marca premium que atraen inversión de capital de riesgo y exigen la atención del mercado.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -171,8 +171,8 @@ function buildServicesSchema(lang) {
     },
     {
       "@type": "Service",
-      "name": "Sistemas de diseño escalables",
-      "description": "Una librería centralizada de componentes visuales en Figma y código para que tus desarrolladores programen nuevas funciones sin perder tiempo ni consistencia.",
+      "name": "Sistemas de Diseño Escalables",
+      "description": "Desarrollamos sistemas de diseño listos para producción en Figma y código React/Tailwind para la velocidad del ecosistema startup.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -181,8 +181,8 @@ function buildServicesSchema(lang) {
     },
     {
       "@type": "Service",
-      "name": "Diseño web enfocado a conversión",
-      "description": "Páginas web ultrarrápidas y optimizadas para cargar al instante y convertir visitantes en usuarios activos.",
+      "name": "Diseño Web Orientado a Conversión",
+      "description": "Lanzamos páginas de aterrizaje de alto rendimiento y optimizadas para Core Web Vitals para maximizar conversiones y tracción.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -191,8 +191,8 @@ function buildServicesSchema(lang) {
     },
     {
       "@type": "Service",
-      "name": "Narrativas de inversión (Pitch Decks)",
-      "description": "Presentaciones estratégicas que traducen hojas de ruta tecnológicas complejas en historias claras e invertibles.",
+      "name": "Narrativas de Capital (Pitch Decks)",
+      "description": "Estructuramos y diseñamos pitch decks y memorias de inversión estratégicas que han ayudado a startups a levantar más de $41.4M.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -203,7 +203,7 @@ function buildServicesSchema(lang) {
     {
       "@type": "Service",
       "name": "Strategic Brand Identity",
-      "description": "Pitch-ready branding that positions you as an industry leader and builds instant trust with top-tier venture funds.",
+      "description": "We construct premium brand identities built to attract venture capital and command market trust.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -213,7 +213,7 @@ function buildServicesSchema(lang) {
     {
       "@type": "Service",
       "name": "Scalable Design Systems",
-      "description": "A centralized library of ready-to-use visual components in Figma and code, so your developers can build features faster without losing quality.",
+      "description": "We develop production-ready design systems in Figma and React/Tailwind code built for startup product velocity.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -223,7 +223,7 @@ function buildServicesSchema(lang) {
     {
       "@type": "Service",
       "name": "Conversion-Led Web Design",
-      "description": "High-speed landing pages engineered to load instantly and turn visitors into active users.",
+      "description": "We launch high-performing landing pages optimized for Core Web Vitals to maximize conversions and early product adoption.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -233,7 +233,7 @@ function buildServicesSchema(lang) {
     {
       "@type": "Service",
       "name": "Capital Narratives (Pitch Decks)",
-      "description": "Presentation decks that translate complex technology and business roadmaps into clear, investable stories.",
+      "description": "We structure and design high-impact pitch decks and capital narratives that have helped startups secure $41.4M+ in funding.",
       "provider": {
         "@type": "LocalBusiness",
         "name": "Kinetora",
@@ -324,7 +324,7 @@ function buildCreativeWorkSchema(route, lang) {
     clientName = "CyberTitans Pulse";
     description = isES ? "Identidad visual y contenido de redes para torneo competitivo." : "Visual identity and social content for competitive tournament.";
     result = isES ? "1.4M de alcance" : "1.4M reach";
-  } else if (slug === 'cybertitans-clash-impacto-brutal-y-evolucion-web3') {
+  } else if (slug === 'cybertitans-clash') {
     clientName = "CyberTitans Clash";
     description = isES ? "Sistema visual, UI/UX de producto y activos de retención Web3." : "Visual system, product UI/UX and Web3 retention assets.";
     result = isES ? "1.5M de alcance" : "1.5M reach";

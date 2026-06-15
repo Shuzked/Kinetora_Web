@@ -3,12 +3,12 @@ const routes = [
   {
     path: '/',
     en: {
-      title: 'Kinetora | Startup Design Studio',
-      description: 'Helping clients raise $41.4M, Kinetora is a startup design studio offering a monthly subscription with 48h delivery and no long-term contracts.',
+      title: 'Kinetora | B2B Startup Design Studio - Raise Capital & Convert Users',
+      description: 'Premium design studio for venture-backed SaaS, Web3, and gaming startups. We accelerate product launches, design brand identities, and raise capital.',
     },
     es: {
-      title: 'Kinetora | Estudio de Diseño para Startups',
-      description: 'Con 41.4M$ captados por nuestros clientes, Kinetora es el startup design studio por suscripción con entregas en 48h y sin contratos de permanencia.',
+      title: 'Kinetora | Estudio de Diseño B2B - Levanta Capital y Convierte Usuarios',
+      description: 'Estudio de diseño premium para startups SaaS, Web3 y gaming de alto crecimiento. Aceleramos tu marca, producto e inversión en ciclos de 48h.',
     },
   },
   {
@@ -78,7 +78,7 @@ const routes = [
     },
   },
   {
-    path: '/casos/cybertitans-clash-impacto-brutal-y-evolucion-web3',
+    path: '/casos/cybertitans-clash',
     en: {
       title: 'CyberTitans Clash: UI/UX & Web3 Evolution | Case Study | Kinetora',
       description: 'High-performance visual systems and player UI/UX designed to drive user retention and organic reach for eSports tournaments.',
