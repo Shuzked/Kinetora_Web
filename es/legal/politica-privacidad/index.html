@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preconnect: GTM (no bloquea parser) -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <!-- Google Tag Manager (movido después de meta charset/viewport para no bloquear parser) -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MKLGBK2S');</script>
+    <!-- End Google Tag Manager -->
+    <!-- viewport already set above -->
+    <!-- Cookie Consent Mode v2 (Prior Consent) -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      
+      // Default consent status (Deny everything by default)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted', // Always granted for security
+        'wait_for_update': 500
+      });
+
+      // DataLayer stub
+      window.dataLayer.push({
+        'gtm.start': new Date().getTime(),
+        event: 'gtm.js'
+      });
+    </script>
+    
+    <!-- No GTM/GA4 scripts here - they are loaded dynamically by useCookieConsent.ts after user choice -->
+    
+    <!-- Web Vitals RUM (Early Metrics Capture) -->
+
+    <!-- ⚡ CRITICAL PERFORMANCE & SEO (Staff Level) -->
+    <style>
+      :root { --background: #0D0D0D; --foreground: #F5F5F5; --accent: #B454FF; }
+      body { 
+        background: #0D0D0D; color: #F5F5F5; margin: 0; font-family: 'Inter', sans-serif; 
+        overflow-x: hidden; -webkit-font-smoothing: antialiased; 
+      }
+      #root { min-height: 100vh; display: flex; flex-direction: column; }
+      .kin-container { width: 100%; max-width: 80rem; margin: 0 auto; padding: 0 1.25rem; box-sizing: border-box; }
+      
+      /* Layout Stability (CLS Protection) */
+      nav { position: fixed; top: 0; width: 100%; z-index: 50; height: auto; }
+      @media (min-width: 768px) { nav { height: auto; } }
+      
+      .nav-height-protection { height: auto; display: grid; grid-template-columns: 1fr 1fr; align-items: center; }
+      @media (min-width: 768px) { .nav-height-protection { height: auto; grid-template-columns: 1fr auto 1fr; } }
+      
+      .hero-section { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; position: relative; }
+      @supports (height: 100dvh) { .hero-section { min-height: 100dvh; } }
+      
+      /* LCP Priority Paint: H1 must be visible immediately — no animation on initial render */
+      h1 { 
+        font-family: 'Inter', sans-serif;
+        font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; line-height: 1.05; 
+        margin: 0 0 1.5rem 0; opacity: 1 !important; visibility: visible !important; 
+        font-size: clamp(1.8rem, 8vw, 2.2rem);
+        /* Neutralize animate-in classes that delay H1 paint */ 
+        animation: none !important;
+        transform: none !important;
+      }
+      @media (min-width: 640px) { h1 { font-size: 3.2rem; letter-spacing: -0.04em; line-height: 1.1; } }
+      @media (min-width: 768px) { h1 { font-size: 5rem; } }
+      
+      .liquid-bg-container { position: absolute; inset: 0; background: #0D0D0D; overflow: hidden; z-index: -1; }
+    </style>
+
+    <!-- ⚡ LCP Critical: Preload the font used by H1 (Inter Black, weight 900) -->
+    <link rel="preload" href="/assets/fonts/Inter_24pt-Black.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload Regular for body text -->
+    <link rel="preload" href="/assets/fonts/Inter_24pt-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload logo SVG (above-the-fold) -->
+    <link rel="preload" href="/Logotipo.svg" as="image" fetchpriority="high" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/Favicon_Kinetora.png" />
+    <link rel="apple-touch-icon" href="/Favicon_Kinetora.png" />
+
+    <script>
+      // 1. Bloquear la memoria del navegador para evitar saltos automáticos
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+    </script>
+    
+    <!-- JSON-LD: Dynamic injection via react-helmet-async -->
+
+    <title>Política de Privacidad | Kinetora</title>
+    <meta name="description" content="Política de privacidad de kinetora.es." />
+    <link rel="canonical" href="https://kinetora.es/legal/politica-privacidad" />
+
+    <meta property="og:title" content="Política de Privacidad | Kinetora" />
+    <meta property="og:description" content="Política de privacidad de kinetora.es." />
+    <meta property="og:url" content="https://kinetora.es/legal/politica-privacidad" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="Kinetora" />
+    <meta property="og:image" content="https://kinetora.es/og-default.jpg" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Política de Privacidad | Kinetora" />
+    <meta name="twitter:description" content="Política de privacidad de kinetora.es." />
+    <meta name="twitter:image" content="https://kinetora.es/og-default.jpg" />
+
+    <link rel="alternate" hreflang="es" href="https://kinetora.es/legal/politica-privacidad" />
+    <link rel="alternate" hreflang="en" href="https://kinetora.tech/legal/politica-privacidad" />
+    <link rel="alternate" hreflang="x-default" href="https://kinetora.tech/legal/politica-privacidad" />
+
+    <script id="i18n-bridge">window.__KINETORA_LANG__ = "es";</script>
+
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Kinetora","url":"https://kinetora.es","logo":"https://kinetora.es/Logotipo.svg","description":"Estudio de diseño premium para startups que levantan capital y convierten usuarios.","sameAs":[],"address":{"@type":"PostalAddress","addressCountry":"ES"}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"Kinetora","url":"https://kinetora.es","inLanguage":"es-ES"}</script>
+    <script type="module" crossorigin src="/assets/index.D-twsyGA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor.CvTnPTi-.js">
+    <link rel="modulepreload" crossorigin href="/assets/radix.BfEysuNU.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui.B4dlbLeP.js">
+    <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
+    <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
+    <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css">
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKLGBK2S"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div id="root"></div>
+    <!-- Noise filter removed for performance stability -->
+
+    <script>
+      // 2. Forzar scroll al top después de que todo el JS y assets carguen
+      window.onload = function() {
+        setTimeout(function() {
+          window.scrollTo({ top: 0, behavior: 'instant' });
+        }, 50);
+      };
+    </script>
+  </body>
+</html>
