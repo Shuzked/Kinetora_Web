@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=16">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=17">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -164,9 +164,11 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inyectar Anillo y Punto por separado para inercia de resortes independientes
+  // 1. Inyectar Anillo y Punto por separado
   const ring = document.createElement("div");
   ring.id = "kinetora-premium-cursor";
   document.body.appendChild(ring);
@@ -177,11 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mouseX = 0, mouseY = 0;
   
-  // Inercia independiente: El punto es más rápido (0.35) y el anillo más elástico y fluido (0.16)
+  // Inercia
   let ringX = 0, ringY = 0;
   let dotX = 0, dotY = 0;
   let ticking = false;
   let clickScale = 1;
+  let isHovered = false; // Flag para saber si está en hover y cambiar el clamp de distancia
 
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
@@ -194,18 +197,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        // Muelle de inercia elástica del anillo (Amortiguado a 0.16 para fluidez de seda)
-        ringX += (mouseX - ringX) * 0.16;
-        ringY += (mouseY - ringY) * 0.16;
-        ring.style.left = ringX + "px";
-        ring.style.top = ringY + "px";
-        ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
-
         // Muelle de inercia del punto central (Casi instantáneo a 0.38)
         dotX += (mouseX - dotX) * 0.38;
         dotY += (mouseY - dotY) * 0.38;
         dot.style.left = dotX + "px";
         dot.style.top = dotY + "px";
+
+        // Muelle de inercia del anillo (Amortiguado a 0.16)
+        ringX += (mouseX - ringX) * 0.16;
+        ringY += (mouseY - ringY) * 0.16;
+
+        // --- CLAMP FÍSICO DE DISTANCIA (Pitágoras) ---
+        const dx = ringX - dotX;
+        const dy = ringY - dotY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // El radio máximo permitido para que el punto no salga del círculo
+        // Si está en hover el círculo es más grande (42px -> radio 21px), clamp en 18px.
+        // Si está normal el círculo es 26px -> radio 13px, clamp en 10px.
+        const maxDist = isHovered ? 18 : 10;
+        
+        if (distance > maxDist) {
+          const angle = Math.atan2(dy, dx);
+          ringX = dotX + Math.cos(angle) * maxDist;
+          ringY = dotY + Math.sin(angle) * maxDist;
+        }
+
+        ring.style.left = ringX + "px";
+        ring.style.top = ringY + "px";
+        ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
         
         ticking = false;
       });
@@ -217,22 +237,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const hoverTargets = "a, button, [role='button'], input, textarea, select";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverTargets)) {
+      isHovered = true;
       ring.classList.add("custom-cursor-hovering");
       dot.style.opacity = "0";
     }
   });
   document.addEventListener("mouseout", (e) => {
     if (e.target.closest(hoverTargets)) {
+      isHovered = false;
       ring.classList.remove("custom-cursor-hovering");
       dot.style.opacity = "1";
     }
   });
 
-  // Eventos active state (Físicas de rebote al clickar)
+  // Eventos active state (Físicas de rebote)
   document.addEventListener("mousedown", () => {
-    clickScale = 0.55; // Encogimiento del anillo
+    clickScale = 0.55; 
     ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
-    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; // El punto central se expande
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; 
   });
   document.addEventListener("mouseup", () => {
     clickScale = 1;
@@ -244,12 +266,10 @@ document.addEventListener("DOMContentLoaded", () => {
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
-    
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
     }
-    
     if (sweepAttempts > 1500) {
       clearInterval(sweepInterval);
     }
@@ -282,15 +302,15 @@ document.addEventListener("DOMContentLoaded", () => {
         let size, blurVal, speedClass;
         
         if (layer === 0) {
-          size = Math.floor(Math.random() * 6) + 12; // 12px a 18px
+          size = Math.floor(Math.random() * 6) + 12; 
           blurVal = 2;
           speedClass = "kin-deco-slow";
         } else if (layer === 1) {
-          size = Math.floor(Math.random() * 12) + 20; // 20px a 32px
+          size = Math.floor(Math.random() * 12) + 20; 
           blurVal = 0;
           speedClass = "kin-deco-medium";
         } else {
-          size = Math.floor(Math.random() * 20) + 42; // 42px a 62px
+          size = Math.floor(Math.random() * 20) + 42; 
           blurVal = 1.5;
           speedClass = "kin-deco-fast";
         }
@@ -314,7 +334,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(deco);
       }
     });
-    console.log("[Dynamic Enhancements] Premium features ready.");
+    console.log("[Dynamic Enhancements] Safe premium mechanics active.");
   }, 1200);
 });
 </script>

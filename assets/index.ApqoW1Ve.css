@@ -12,6 +12,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -85,9 +86,9 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
-  width: 28px;
-  height: 28px;
-  border: 1.5px solid rgba(180, 84, 255, 0.85); /* Anillo Morado Brillante */
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid rgba(180, 84, 255, 0.85); /* Anillo Morado */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -104,20 +105,20 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   visibility: visible !important;
   width: 6px;
   height: 6px;
-  background-color: #B454FF; /* Punto Morado Sólido */
+  background-color: #B454FF; /* Punto Morado */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99999999 !important;
   transform: translate3d(-50%, -50%, 0) scale(1);
-  transition: opacity 0.2s, transform 0.1s;
+  transition: opacity 0.2s;
   mix-blend-mode: difference !important;
 }
 
 /* Clases de hover sobre elementos clicables */
 #kinetora-premium-cursor.custom-cursor-hovering {
-  width: 46px;
-  height: 46px;
+  width: 42px;
+  height: 42px;
   border-color: rgba(180, 84, 255, 1) !important;
-  background-color: rgba(180, 84, 255, 0.1); /* Relleno morado translúcido */
+  background-color: rgba(180, 84, 255, 0.1);
 }
