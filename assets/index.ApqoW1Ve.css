@@ -11,6 +11,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -79,31 +80,31 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   pointer-events: none !important;
 }
 
-/* 2. ESTILO EXCLUSIVO DE NUESTRO ANILLO DIFERENCIAL (SPRING RING) */
+/* 2. ESTILO EXCLUSIVO DE NUESTRO ANILLO DIFERENCIAL EN MORADO BRILLANTE */
 #kinetora-premium-cursor {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
   width: 28px;
   height: 28px;
-  border: 2px solid rgba(255, 255, 255, 0.9); /* Blanco puro para inversión difference */
+  border: 1.5px solid rgba(180, 84, 255, 0.85); /* Anillo Morado Brillante */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 99999999 !important;
   transform: translate3d(-50%, -50%, 0) scale(1);
   transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, background-color 0.3s;
-  mix-blend-mode: difference !important; /* Modo diferencia de alto contraste */
+  mix-blend-mode: difference !important; /* Modo diferencia */
 }
 
-/* 3. ESTILO EXCLUSIVO DEL PUNTO CENTRAL (SPRING DOT) */
+/* 3. ESTILO EXCLUSIVO DEL PUNTO CENTRAL EN MORADO SÓLIDO */
 #kinetora-premium-dot {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
   width: 6px;
   height: 6px;
-  background-color: rgba(255, 255, 255, 0.95); /* Blanco para inversión difference */
+  background-color: #B454FF; /* Punto Morado Sólido */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
@@ -117,6 +118,6 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
 #kinetora-premium-cursor.custom-cursor-hovering {
   width: 46px;
   height: 46px;
-  border-color: rgba(255, 255, 255, 1) !important;
-  background-color: rgba(255, 255, 255, 0.15); /* Relleno sutil al pasar por encima */
+  border-color: rgba(180, 84, 255, 1) !important;
+  background-color: rgba(180, 84, 255, 0.1); /* Relleno morado translúcido */
 }
