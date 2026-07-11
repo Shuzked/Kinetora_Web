@@ -10,6 +10,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -60,12 +61,11 @@ footer {
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-/* 1. OCULTAR EL CURSOR NATIVO DEL SISTEMA WINDOWS */
+/* 1. OCULTAR EL CURSOR NATIVO DEL SISTEMA WINDOWS Y PUNTEROS ORIGINALES */
 html, body, a, button, select, input, textarea, [role="button"] {
   cursor: none !important;
 }
 
-/* 2. OCULTAR EL CURSOR ORIGINAL DE KINETORA */
 div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor),
 .custom-cursor, 
 .cursor-dot, 
@@ -79,37 +79,44 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   pointer-events: none !important;
 }
 
-/* 3. ESTILO DE NUESTRO CURSOR CON Z-INDEX ULTRA-ALTO PARA ESTAR POR DELANTE DE TODO */
+/* 2. ESTILO EXCLUSIVO DE NUESTRO ANILLO DIFERENCIAL (SPRING RING) */
 #kinetora-premium-cursor {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
-  width: 26px;
-  height: 26px;
-  border: 1.5px solid rgba(180, 84, 255, 0.45); /* Anillo Morado */
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.9); /* Blanco puro para inversión difference */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
-  /* z-index ultra-alto para flotar por delante del Cookie Banner y modales */
   z-index: 99999999 !important;
   transform: translate3d(-50%, -50%, 0) scale(1);
-  transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
-  mix-blend-mode: screen !important;
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, background-color 0.3s;
+  mix-blend-mode: difference !important; /* Modo diferencia de alto contraste */
 }
-#kinetora-premium-cursor::after {
-  content: "";
-  width: 5px;
-  height: 5px;
-  background-color: #B454FF; /* Punto Morado */
+
+/* 3. ESTILO EXCLUSIVO DEL PUNTO CENTRAL (SPRING DOT) */
+#kinetora-premium-dot {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  width: 6px;
+  height: 6px;
+  background-color: rgba(255, 255, 255, 0.95); /* Blanco para inversión difference */
   border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999999 !important;
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  transition: opacity 0.2s, transform 0.1s;
+  mix-blend-mode: difference !important;
 }
+
+/* Clases de hover sobre elementos clicables */
 #kinetora-premium-cursor.custom-cursor-hovering {
-  width: 42px;
-  height: 42px;
-  border-color: rgba(180, 84, 255, 0.85) !important;
-  background-color: rgba(180, 84, 255, 0.05);
+  width: 46px;
+  height: 46px;
+  border-color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(255, 255, 255, 0.15); /* Relleno sutil al pasar por encima */
 }

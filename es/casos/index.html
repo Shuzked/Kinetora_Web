@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=14">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=15">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -162,67 +162,85 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inyectar nuestro cursor personalizado morado con ID único
+  // 1. Inyectar Anillo y Punto por separado para inercia de resortes independientes
   const ring = document.createElement("div");
   ring.id = "kinetora-premium-cursor";
   document.body.appendChild(ring);
 
+  const dot = document.createElement("div");
+  dot.id = "kinetora-premium-dot";
+  document.body.appendChild(dot);
+
   let mouseX = 0, mouseY = 0;
-  let currentX = 0, currentY = 0;
+  
+  // Inercia independiente: El punto es más rápido (0.35) y el anillo más elástico y fluido (0.16)
+  let ringX = 0, ringY = 0;
+  let dotX = 0, dotY = 0;
   let ticking = false;
-  let clickScale = 1; // Factor de escala para el click
+  let clickScale = 1;
 
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     
-    // Actualizar coordenadas del spotlight
+    // Actualizar spotlight
     const pageY = e.clientY + window.scrollY;
     document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
     document.documentElement.style.setProperty("--mouse-y", pageY + "px");
 
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        // Efecto amortiguado (spring effect) con escala acumulada por click
-        currentX += (mouseX - currentX) * 0.25;
-        currentY += (mouseY - currentY) * 0.25;
-        
-        // Asignamos la escala física directamente por inline style para evitar conflictos con el CSS
-        ring.style.left = currentX + "px";
-        ring.style.top = currentY + "px";
+        // Muelle de inercia elástica del anillo (Amortiguado a 0.16 para fluidez de seda)
+        ringX += (mouseX - ringX) * 0.16;
+        ringY += (mouseY - ringY) * 0.16;
+        ring.style.left = ringX + "px";
+        ring.style.top = ringY + "px";
         ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+
+        // Muelle de inercia del punto central (Casi instantáneo a 0.38)
+        dotX += (mouseX - dotX) * 0.38;
+        dotY += (mouseY - dotY) * 0.38;
+        dot.style.left = dotX + "px";
+        dot.style.top = dotY + "px";
+        
         ticking = false;
       });
       ticking = true;
     }
   });
 
-  // Animación de escala sobre enlaces y botones (Hover state)
+  // Animación de hover sobre enlaces (El anillo se agranda y el punto se oculta estéticamente)
   const hoverTargets = "a, button, [role='button'], input, textarea, select";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverTargets)) {
       ring.classList.add("custom-cursor-hovering");
+      dot.style.opacity = "0";
     }
   });
   document.addEventListener("mouseout", (e) => {
     if (e.target.closest(hoverTargets)) {
       ring.classList.remove("custom-cursor-hovering");
+      dot.style.opacity = "1";
     }
   });
 
-  // Eventos active state (Click elástico por JS directo)
+  // Eventos active state (Físicas de rebote al clickar)
   document.addEventListener("mousedown", () => {
-    clickScale = 0.55; // Encogimiento instantáneo elástico
+    clickScale = 0.55; // Encogimiento del anillo
     ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; // El punto central se expande
   });
   document.addEventListener("mouseup", () => {
-    clickScale = 1; // Recupera su forma
+    clickScale = 1;
     ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper Selectivo
+  // DOM Sweeper
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
@@ -245,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
     '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
   ];
 
-  // 3. Inyección estática de iconos 3D en secciones secundarias
+  // 3. Inyección estática de iconos 3D
   setTimeout(() => {
     const sections = Array.from(document.querySelectorAll("#root section.py-20, #root section.py-24, #root section.py-12, #root section.my-20"));
     if (sections.length === 0) return;
@@ -296,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(deco);
       }
     });
-    console.log("[Dynamic Enhancements] System ready.");
+    console.log("[Dynamic Enhancements] Premium features ready.");
   }, 1200);
 });
 </script>
