@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=5">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -147,5 +147,119 @@
         }, 50);
       };
     </script>
-  </body>
+  
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Inyectar elemento físico para el cursor personalizado
+  const ring = document.createElement("div");
+  ring.className = "custom-cursor-ring";
+  document.body.appendChild(ring);
+
+  // Seguimiento suave del cursor con requestAnimationFrame
+  let mouseX = 0, mouseY = 0;
+  let currentX = 0, currentY = 0;
+  let ticking = false;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    // Actualizar coordenadas del spotlight
+    const pageY = e.clientY + window.scrollY;
+    document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
+    document.documentElement.style.setProperty("--mouse-y", pageY + "px");
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        // Efecto amortiguado (spring effect)
+        currentX += (mouseX - currentX) * 0.25;
+        currentY += (mouseY - currentY) * 0.25;
+        ring.style.left = currentX + "px";
+        ring.style.top = currentY + "px";
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  // Animación de escala sobre enlaces y botones
+  const hoverTargets = "a, button, [role='button'], input, textarea, select";
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      ring.classList.add("custom-cursor-hovering");
+    }
+  });
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      ring.classList.remove("custom-cursor-hovering");
+    }
+  });
+
+  // SVGs nativos para las partículas (0% overhead de red)
+  const svgs = [
+    '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><path d="M2 12h20"/></svg>',
+    '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>',
+    '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="22" y2="7"/><line x1="2" y1="17" x2="22" y2="17"/></svg>',
+    '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+  ];
+
+  // 2. Inyección estática de iconos 3D (ejecutada una única vez tras 1.2 segundos para no interrumpir hidratación)
+  setTimeout(() => {
+    const sections = Array.from(document.querySelectorAll("#root section, main > div, #root main"));
+    if (sections.length === 0) return;
+
+    sections.forEach((section) => {
+      // Evitar meter iconos en el Footer
+      if (section.tagName === "FOOTER" || section.closest("footer") || section.offsetHeight < 200) return;
+
+      section.style.position = "relative";
+      const count = 6; // Cantidad de iconos por sección
+      
+      for (let i = 0; i < count; i++) {
+        const deco = document.createElement("div");
+        deco.className = "kin-deco";
+
+        // Determinar capa 3D:
+        const layer = Math.floor(Math.random() * 3);
+        let size, blurVal, speedClass;
+        
+        if (layer === 0) {
+          size = Math.floor(Math.random() * 6) + 12; // 12px a 18px
+          blurVal = 2; // Desenfoque lejano
+          speedClass = "kin-deco-slow";
+        } else if (layer === 1) {
+          size = Math.floor(Math.random() * 12) + 20; // 20px a 32px
+          blurVal = 0; // Plano nítido
+          speedClass = "kin-deco-medium";
+        } else {
+          size = Math.floor(Math.random() * 20) + 42; // 42px a 62px
+          blurVal = 1.5; // Desenfoque en primer plano
+          speedClass = "kin-deco-fast";
+        }
+
+        deco.classList.add(speedClass);
+
+        // Ubicaciones repartidas estéticamente
+        const x = Math.random() * 85 + 5; 
+        const y = Math.random() * 80 + 10; 
+        
+        deco.style.left = x + "%";
+        deco.style.top = y + "%";
+        deco.style.width = size + "px";
+        deco.style.height = size + "px";
+        deco.style.filter = blurVal > 0 ? "blur(" + blurVal + "px)" : "none";
+        
+        const rotation = Math.floor(Math.random() * 360);
+        deco.style.transform = "rotate(" + rotation + "deg)";
+        deco.style.opacity = Math.random() * 0.15 + 0.05; 
+
+        deco.innerHTML = svgs[Math.floor(Math.random() * svgs.length)];
+        section.appendChild(deco);
+      }
+    });
+    console.log("[Dynamic Enhancements] Cursor & DoF Parallax successfully initialized.");
+  }, 1200);
+});
+</script>
+</body>
 </html>
