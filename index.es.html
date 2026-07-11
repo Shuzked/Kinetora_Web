@@ -139,6 +139,8 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Inyectar Anillo y Punto
@@ -222,19 +224,19 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // 2. DOM Sweeper y REORDENAMIENTO DEL HERO (Ejecutado de forma continua para contrarrestar React)
+  // 2. DOM Sweeper y REORDENAMIENTO DEL HERO (Debajo de la cuadrícula de estadísticas)
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
     
-    // Sweeper de cursor nativo
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
     }
 
-    // --- REORDENAR HERO ---
+    // --- REORDENAR HERO Y BORRAR SUBTÍTULO ---
     let brandsSection = null;
+    let statsSection = null; // Cuadrícula de estadísticas
     let heroSubtitleEl = null;
 
     const allElements = Array.from(document.querySelectorAll("*"));
@@ -244,6 +246,14 @@ document.addEventListener("DOMContentLoaded", () => {
           text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
         brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
       }
+      
+      // Buscar la sección de estadísticas (Stats Grid) que contiene "Capital generated" o "Capital generado"
+      if (text.includes("Capital generated") || text.includes("Capital generado")) {
+        // Encontrar el div contenedor de estadísticas
+        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
+      }
+      
+      // Buscar la frase a quitar
       if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
         if (el.tagName === "P" || el.tagName === "DIV") {
           heroSubtitleEl = el;
@@ -251,17 +261,23 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    if (brandsSection && heroSubtitleEl) {
-      // Posicionar brandsSection exactamente en el sitio de heroSubtitleEl
-      brandsSection.style.marginTop = "2.5rem";
-      brandsSection.style.marginBottom = "1.5rem";
+    // Eliminar la frase si existe
+    if (heroSubtitleEl) {
+      heroSubtitleEl.remove();
+    }
+
+    // Mover marcas debajo del bloque de estadísticas
+    if (brandsSection && statsSection) {
+      brandsSection.style.marginTop = "3rem";
+      brandsSection.style.marginBottom = "1rem";
       brandsSection.style.paddingTop = "0";
       brandsSection.style.paddingBottom = "0";
       
-      // Mover marcas y eliminar subtítulo
-      heroSubtitleEl.parentNode.insertBefore(brandsSection, heroSubtitleEl);
-      heroSubtitleEl.remove();
-      console.log("[Hero Reordering] Swapped subtitle with Brands list successfully.");
+      // Insertar Brands Section justo después de Stats Section
+      if (statsSection.nextSibling !== brandsSection) {
+        statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
+        console.log("[Hero Reordering] Relocated brands slider directly under the Stats Grid.");
+      }
     }
     
     if (sweepAttempts > 1000) {
