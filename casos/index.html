@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=17">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=18">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -166,9 +166,11 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inyectar Anillo y Punto por separado
+  // 1. Inyectar Anillo y Punto
   const ring = document.createElement("div");
   ring.id = "kinetora-premium-cursor";
   document.body.appendChild(ring);
@@ -178,45 +180,35 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.appendChild(dot);
 
   let mouseX = 0, mouseY = 0;
-  
-  // Inercia
   let ringX = 0, ringY = 0;
   let dotX = 0, dotY = 0;
   let ticking = false;
   let clickScale = 1;
-  let isHovered = false; // Flag para saber si está en hover y cambiar el clamp de distancia
+  let isHovered = false;
 
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     
-    // Actualizar spotlight
     const pageY = e.clientY + window.scrollY;
     document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
     document.documentElement.style.setProperty("--mouse-y", pageY + "px");
 
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        // Muelle de inercia del punto central (Casi instantáneo a 0.38)
         dotX += (mouseX - dotX) * 0.38;
         dotY += (mouseY - dotY) * 0.38;
         dot.style.left = dotX + "px";
         dot.style.top = dotY + "px";
 
-        // Muelle de inercia del anillo (Amortiguado a 0.16)
         ringX += (mouseX - ringX) * 0.16;
         ringY += (mouseY - ringY) * 0.16;
 
-        // --- CLAMP FÍSICO DE DISTANCIA (Pitágoras) ---
         const dx = ringX - dotX;
         const dy = ringY - dotY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // El radio máximo permitido para que el punto no salga del círculo
-        // Si está en hover el círculo es más grande (42px -> radio 21px), clamp en 18px.
-        // Si está normal el círculo es 26px -> radio 13px, clamp en 10px.
         const maxDist = isHovered ? 18 : 10;
-        
         if (distance > maxDist) {
           const angle = Math.atan2(dy, dx);
           ringX = dotX + Math.cos(angle) * maxDist;
@@ -226,14 +218,12 @@ document.addEventListener("DOMContentLoaded", () => {
         ring.style.left = ringX + "px";
         ring.style.top = ringY + "px";
         ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
-        
         ticking = false;
       });
       ticking = true;
     }
   });
 
-  // Animación de hover sobre enlaces (El anillo se agranda y el punto se oculta estéticamente)
   const hoverTargets = "a, button, [role='button'], input, textarea, select";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverTargets)) {
@@ -250,7 +240,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Eventos active state (Físicas de rebote)
   document.addEventListener("mousedown", () => {
     clickScale = 0.55; 
     ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
@@ -262,18 +251,52 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper
+  // 2. DOM Sweeper y REORDENAMIENTO DEL HERO (Ejecutado de forma continua para contrarrestar React)
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
+    
+    // Sweeper de cursor nativo
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
     }
-    if (sweepAttempts > 1500) {
+
+    // --- REORDENAR HERO ---
+    let brandsSection = null;
+    let heroSubtitleEl = null;
+
+    const allElements = Array.from(document.querySelectorAll("*"));
+    allElements.forEach(el => {
+      const text = el.textContent || "";
+      if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
+          text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
+        brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+      }
+      if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
+        if (el.tagName === "P" || el.tagName === "DIV") {
+          heroSubtitleEl = el;
+        }
+      }
+    });
+
+    if (brandsSection && heroSubtitleEl) {
+      // Posicionar brandsSection exactamente en el sitio de heroSubtitleEl
+      brandsSection.style.marginTop = "2.5rem";
+      brandsSection.style.marginBottom = "1.5rem";
+      brandsSection.style.paddingTop = "0";
+      brandsSection.style.paddingBottom = "0";
+      
+      // Mover marcas y eliminar subtítulo
+      heroSubtitleEl.parentNode.insertBefore(brandsSection, heroSubtitleEl);
+      heroSubtitleEl.remove();
+      console.log("[Hero Reordering] Swapped subtitle with Brands list successfully.");
+    }
+    
+    if (sweepAttempts > 1000) {
       clearInterval(sweepInterval);
     }
-  }, 10);
+  }, 15);
 
   // SVGs nativos para las partículas
   const svgs = [
@@ -334,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(deco);
       }
     });
-    console.log("[Dynamic Enhancements] Safe premium mechanics active.");
+    console.log("[Dynamic Enhancements] System ready.");
   }, 1200);
 });
 </script>
