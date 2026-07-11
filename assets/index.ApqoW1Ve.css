@@ -4,6 +4,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -72,24 +73,25 @@ html, body, a, button, select, input, textarea, [role="button"] {
   pointer-events: none !important;
 }
 
-/* 3. ESTILO DE NUESTRO CURSOR PERSONALIZADO MORADO PREMIUM (SPRING) */
+/* 3. ESTILO DE NUESTRO CURSOR PERSONALIZADO CON MODO DE FUSIÓN DIFFERENCE Y Z-INDEX BAJO EL COOKIE BANNER */
 .custom-cursor-ring {
-  width: 28px;
-  height: 28px;
-  border: 1.5px solid rgba(180, 84, 255, 0.4);
+  width: 26px;
+  height: 26px;
+  border: 2px solid rgba(255, 255, 255, 0.85); /* Blanco de alto contraste para difference */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
-  z-index: 99999 !important;
+  /* z-index: 45 para quedar por detrás del Cookie Banner (z-50) pero por delante de la web */
+  z-index: 45 !important;
   transform: translate3d(-50%, -50%, 0);
   transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1), width 0.2s, height 0.2s, border-color 0.2s;
-  mix-blend-mode: screen;
+  mix-blend-mode: difference !important; /* Modo de fusión Difference */
 }
 .custom-cursor-ring::after {
   content: "";
-  width: 4px;
-  height: 4px;
-  background-color: #B454FF;
+  width: 5px;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -97,8 +99,12 @@ html, body, a, button, select, input, textarea, [role="button"] {
   transform: translate(-50%, -50%);
 }
 .custom-cursor-hovering {
-  width: 44px;
-  height: 44px;
-  border-color: rgba(180, 84, 255, 0.8);
-  background-color: rgba(180, 84, 255, 0.05);
+  width: 42px;
+  height: 42px;
+  border-color: rgba(255, 255, 255, 1) !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.custom-cursor-active {
+  transform: translate3d(-50%, -50%, 0) scale(0.65) !important; /* Feedback físico al clickar */
+  border-color: rgba(255, 255, 255, 1) !important;
 }
