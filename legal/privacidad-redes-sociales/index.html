@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=13">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=14">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -160,17 +160,19 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Inyectar nuestro cursor personalizado morado con ID único
   const ring = document.createElement("div");
   ring.id = "kinetora-premium-cursor";
-  ring.className = "custom-cursor-ring";
   document.body.appendChild(ring);
 
   let mouseX = 0, mouseY = 0;
   let currentX = 0, currentY = 0;
   let ticking = false;
+  let clickScale = 1; // Factor de escala para el click
 
   window.addEventListener("mousemove", (e) => {
     mouseX = e.clientX;
@@ -183,17 +185,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!ticking) {
       window.requestAnimationFrame(() => {
+        // Efecto amortiguado (spring effect) con escala acumulada por click
         currentX += (mouseX - currentX) * 0.25;
         currentY += (mouseY - currentY) * 0.25;
+        
+        // Asignamos la escala física directamente por inline style para evitar conflictos con el CSS
         ring.style.left = currentX + "px";
         ring.style.top = currentY + "px";
+        ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
         ticking = false;
       });
       ticking = true;
     }
   });
 
-  // Animación de escala sobre enlaces y botones
+  // Animación de escala sobre enlaces y botones (Hover state)
   const hoverTargets = "a, button, [role='button'], input, textarea, select";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverTargets)) {
@@ -206,15 +212,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Click active feedback
+  // Eventos active state (Click elástico por JS directo)
   document.addEventListener("mousedown", () => {
-    ring.classList.add("custom-cursor-active");
+    clickScale = 0.55; // Encogimiento instantáneo elástico
+    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
   });
   document.addEventListener("mouseup", () => {
-    ring.classList.remove("custom-cursor-active");
+    clickScale = 1; // Recupera su forma
+    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
   });
 
-  // 2. DOM Sweeper Selectivo (Evita borrar nuestro propio cursor mediante exclusión :not(#kinetora-premium-cursor))
+  // DOM Sweeper Selectivo
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
@@ -222,7 +230,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
-      console.log("[DOM Sweeper] Removed native Kinetora cursor element successfully.");
     }
     
     if (sweepAttempts > 1500) {
@@ -238,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
     '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
   ];
 
-  // 3. Inyección estática de iconos 3D
+  // 3. Inyección estática de iconos 3D en secciones secundarias
   setTimeout(() => {
     const sections = Array.from(document.querySelectorAll("#root section.py-20, #root section.py-24, #root section.py-12, #root section.my-20"));
     if (sections.length === 0) return;
@@ -289,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(deco);
       }
     });
-    console.log("[Dynamic Enhancements] Dynamic assets stabilized.");
+    console.log("[Dynamic Enhancements] System ready.");
   }, 1200);
 });
 </script>

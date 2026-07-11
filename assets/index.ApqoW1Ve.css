@@ -9,6 +9,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -78,27 +79,28 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   pointer-events: none !important;
 }
 
-/* 3. ESTILO DE NUESTRO CURSOR PERSONALIZADO CON ESTÉTICA DE COLOR MORADO ORIGINAL */
+/* 3. ESTILO DE NUESTRO CURSOR CON Z-INDEX ULTRA-ALTO PARA ESTAR POR DELANTE DE TODO */
 #kinetora-premium-cursor {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
   width: 26px;
   height: 26px;
-  border: 1.5px solid rgba(180, 84, 255, 0.45); /* Anillo Morado de fábrica */
+  border: 1.5px solid rgba(180, 84, 255, 0.45); /* Anillo Morado */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
-  z-index: 45 !important;
-  transform: translate3d(-50%, -50%, 0);
-  transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1), width 0.2s, height 0.2s, border-color 0.2s;
-  mix-blend-mode: screen !important; /* Retornar a screen para que el morado brille perfectamente */
+  /* z-index ultra-alto para flotar por delante del Cookie Banner y modales */
+  z-index: 99999999 !important;
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  transition: width 0.2s, height 0.2s, border-color 0.2s, background-color 0.2s;
+  mix-blend-mode: screen !important;
 }
 #kinetora-premium-cursor::after {
   content: "";
   width: 5px;
   height: 5px;
-  background-color: #B454FF; /* Punto Morado de fábrica */
+  background-color: #B454FF; /* Punto Morado */
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -110,8 +112,4 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   height: 42px;
   border-color: rgba(180, 84, 255, 0.85) !important;
   background-color: rgba(180, 84, 255, 0.05);
-}
-#kinetora-premium-cursor.custom-cursor-active {
-  transform: translate3d(-50%, -50%, 0) scale(0.65) !important;
-  border-color: rgba(180, 84, 255, 1) !important;
 }
