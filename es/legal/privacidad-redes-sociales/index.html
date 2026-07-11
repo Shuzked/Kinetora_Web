@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=7">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=8">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -152,21 +152,51 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Spotlight de seguimiento del mouse (solo actualiza variables CSS para el spotlight nativo, sin inyectar cursor ring)
+  // 1. Inyectar nuestro cursor personalizado morado
+  const ring = document.createElement("div");
+  ring.className = "custom-cursor-ring";
+  document.body.appendChild(ring);
+
+  let mouseX = 0, mouseY = 0;
+  let currentX = 0, currentY = 0;
   let ticking = false;
 
   window.addEventListener("mousemove", (e) => {
-    const pageY = e.clientY + window.scrollY;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
     
+    // Actualizar coordenadas del spotlight
+    const pageY = e.clientY + window.scrollY;
+    document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
+    document.documentElement.style.setProperty("--mouse-y", pageY + "px");
+
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
-        document.documentElement.style.setProperty("--mouse-y", pageY + "px");
+        // Efecto amortiguado (spring effect)
+        currentX += (mouseX - currentX) * 0.25;
+        currentY += (mouseY - currentY) * 0.25;
+        ring.style.left = currentX + "px";
+        ring.style.top = currentY + "px";
         ticking = false;
       });
       ticking = true;
+    }
+  });
+
+  // Animación de escala sobre enlaces y botones
+  const hoverTargets = "a, button, [role='button'], input, textarea, select";
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      ring.classList.add("custom-cursor-hovering");
+    }
+  });
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      ring.classList.remove("custom-cursor-hovering");
     }
   });
 
@@ -178,7 +208,7 @@ document.addEventListener("DOMContentLoaded", () => {
     '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
   ];
 
-  // 2. Inyección estática de iconos 3D en secciones secundarias
+  // 2. Inyección estática de iconos 3D en secciones secundarias (respetando la animación de scroll)
   setTimeout(() => {
     const sections = Array.from(document.querySelectorAll("#root section.py-20, #root section.py-24, #root section.py-12, #root section.my-20"));
     if (sections.length === 0) return;
@@ -229,7 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(deco);
       }
     });
-    console.log("[Dynamic Enhancements] Parallax initialized safely.");
+    console.log("[Dynamic Enhancements] Custom cursor and parallax loaded.");
   }, 1200);
 });
 </script>

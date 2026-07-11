@@ -3,6 +3,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -51,4 +52,53 @@ footer {
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* 1. OCULTAR EL CURSOR NATIVO DEL SISTEMA WINDOWS */
+html, body, a, button, select, input, textarea, [role="button"] {
+  cursor: none !important;
+}
+
+/* 2. OCULTAR POR COMPLETO EL CURSOR DE PUNTOS ORIGINAL DE KINETORA */
+.custom-cursor, 
+.cursor-dot, 
+.cursor-ring,
+[class*="custom-cursor"],
+[class*="cursor-dot"],
+[class*="cursor-ring"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* 3. ESTILO DE NUESTRO CURSOR PERSONALIZADO MORADO PREMIUM (SPRING) */
+.custom-cursor-ring {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid rgba(180, 84, 255, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 99999 !important;
+  transform: translate3d(-50%, -50%, 0);
+  transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1), width 0.2s, height 0.2s, border-color 0.2s;
+  mix-blend-mode: screen;
+}
+.custom-cursor-ring::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  background-color: #B454FF;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.custom-cursor-hovering {
+  width: 44px;
+  height: 44px;
+  border-color: rgba(180, 84, 255, 0.8);
+  background-color: rgba(180, 84, 255, 0.05);
 }
