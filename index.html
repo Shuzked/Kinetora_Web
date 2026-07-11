@@ -130,62 +130,9 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=20">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=21">
   
-    <!-- Zero-Delay Hero layout interceptor -->
-    <script>
-      (function() {
-        var observer = new MutationObserver(function(mutations) {
-          var brandsSection = null;
-          var statsSection = null;
-          var heroSubtitleEl = null;
-
-          // Buscar en todo el DOM actual
-          var allElements = document.getElementsByTagName("*");
-          for (var i = 0; i < allElements.length; i++) {
-            var el = allElements[i];
-            var text = el.textContent || "";
-            if (!brandsSection && (text.indexOf("Brands that trust Kinetora") !== -1 || text.indexOf("Marcas que confían en Kinetora") !== -1 || 
-                text.indexOf("Brands that trust our speed") !== -1 || text.indexOf("Marcas que confían en nuestra velocidad") !== -1)) {
-              brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
-            }
-            if (!statsSection && (text.indexOf("Capital generated") !== -1 || text.indexOf("Capital generado") !== -1)) {
-              statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
-            }
-            if (!heroSubtitleEl && (text.indexOf("Backed by results across 50+") !== -1 || text.indexOf("Respaldado por resultados en más de 50") !== -1)) {
-              if (el.tagName === "P" || el.tagName === "DIV") {
-                heroSubtitleEl = el;
-              }
-            }
-          }
-
-          // Si encontramos la frase, la borramos de inmediato antes del renderizado
-          if (heroSubtitleEl) {
-            heroSubtitleEl.style.display = "none";
-            heroSubtitleEl.remove();
-          }
-
-          // Si encontramos las secciones, las reordenamos
-          if (brandsSection && statsSection) {
-            brandsSection.style.marginTop = "3rem";
-            brandsSection.style.marginBottom = "1rem";
-            brandsSection.style.paddingTop = "0";
-            brandsSection.style.paddingBottom = "0";
-            
-            if (statsSection.nextSibling !== brandsSection) {
-              statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
-              console.log("[Critical Interceptor] Repositioned brands slider.");
-            }
-          }
-        });
-        observer.observe(document.documentElement, { childList: true, subtree: true });
-        
-        // Desconectar tras 5 segundos para ahorrar ciclos
-        setTimeout(function() {
-          observer.disconnect();
-        }, 5000);
-      })();
-    </script>
+    
 </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -204,6 +151,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -311,18 +260,76 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper
+  // DOM Sweeper y REORDENAMIENTO SEGURO DEL HERO POR OCULTACIÓN Y ESTILOS
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
+    
+    // Ocultar cursor nativo
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
     }
-    if (sweepAttempts > 1500) {
+
+    // --- REORDENAR Y OCULTAR CON MÁXIMA SEGURIDAD (SIN REMOVER NODOS FÍSICOS) ---
+    let brandsSection = null;
+    let statsSection = null;
+    let heroSubtitleEl = null;
+
+    const allElements = Array.from(document.querySelectorAll("*"));
+    allElements.forEach(el => {
+      const text = el.textContent || "";
+      if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
+          text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
+        brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+      }
+      if (text.includes("Capital generated") || text.includes("Capital generado")) {
+        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
+      }
+      if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
+        if (el.tagName === "P" || el.tagName === "DIV") {
+          heroSubtitleEl = el;
+        }
+      }
+    });
+
+    // Ocultar la frase de forma 100% segura para React
+    if (heroSubtitleEl && heroSubtitleEl.style.display !== "none") {
+      heroSubtitleEl.style.display = "none";
+      heroSubtitleEl.style.opacity = "0";
+      heroSubtitleEl.style.visibility = "hidden";
+      heroSubtitleEl.style.height = "0";
+      heroSubtitleEl.style.margin = "0";
+      heroSubtitleEl.style.padding = "0";
+      console.log("[Hero Relocation] Subtitle hidden safely.");
+    }
+
+    // Mover la Brands Section debajo de las estadísticas
+    if (brandsSection && statsSection) {
+      brandsSection.style.marginTop = "3.5rem";
+      brandsSection.style.marginBottom = "1rem";
+      brandsSection.style.paddingTop = "0";
+      brandsSection.style.paddingBottom = "0";
+      
+      // En vez de insertBefore (que causa pantalla negra en React), usamos la inyección de posición en el DOM después del ciclo de carga
+      if (statsSection.nextSibling !== brandsSection) {
+        // Envolver en setTimeout para asegurar que React ya haya terminado su fase de render
+        setTimeout(() => {
+          try {
+            if (statsSection && brandsSection && statsSection.parentNode) {
+              statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
+            }
+          } catch(e) {
+            // Fallback silencioso si React bloquea el cambio
+          }
+        }, 100);
+      }
+    }
+    
+    if (sweepAttempts > 1000) {
       clearInterval(sweepInterval);
     }
-  }, 10);
+  }, 25);
 
   // SVGs nativos para las partículas
   const svgs = [
