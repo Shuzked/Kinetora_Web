@@ -130,7 +130,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=21">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=22">
   
     
 </head>
@@ -151,6 +151,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -260,7 +262,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper y REORDENAMIENTO SEGURO DEL HERO POR OCULTACIÓN Y ESTILOS
+  // DOM Sweeper y REORDENAMIENTO DE SEGURIDAD MEDIANTE INYECCIÓN DE CLASE
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
@@ -271,7 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
       oldCursor.remove();
     }
 
-    // --- REORDENAR Y OCULTAR CON MÁXIMA SEGURIDAD (SIN REMOVER NODOS FÍSICOS) ---
+    // --- REUBICAR MARCAS E IDENTIFICAR COMPONENTES ---
     let brandsSection = null;
     let statsSection = null;
     let heroSubtitleEl = null;
@@ -293,43 +295,30 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Ocultar la frase de forma 100% segura para React
-    if (heroSubtitleEl && heroSubtitleEl.style.display !== "none") {
+    // Ocultar la frase de forma segura
+    if (heroSubtitleEl) {
       heroSubtitleEl.style.display = "none";
-      heroSubtitleEl.style.opacity = "0";
-      heroSubtitleEl.style.visibility = "hidden";
-      heroSubtitleEl.style.height = "0";
-      heroSubtitleEl.style.margin = "0";
-      heroSubtitleEl.style.padding = "0";
-      console.log("[Hero Relocation] Subtitle hidden safely.");
     }
 
-    // Mover la Brands Section debajo de las estadísticas
+    // Integrar la sección de marcas de forma física bajo el Hero
     if (brandsSection && statsSection) {
-      brandsSection.style.marginTop = "3.5rem";
-      brandsSection.style.marginBottom = "1rem";
-      brandsSection.style.paddingTop = "0";
-      brandsSection.style.paddingBottom = "0";
+      // 1. Asignar clases de ordenación CSS por si el navegador utiliza flex
+      brandsSection.classList.add("hero-brands-container");
       
-      // En vez de insertBefore (que causa pantalla negra en React), usamos la inyección de posición en el DOM después del ciclo de carga
+      // 2. Colocar de forma física estable bajo las estadísticas
       if (statsSection.nextSibling !== brandsSection) {
-        // Envolver en setTimeout para asegurar que React ya haya terminado su fase de render
-        setTimeout(() => {
-          try {
-            if (statsSection && brandsSection && statsSection.parentNode) {
-              statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
-            }
-          } catch(e) {
-            // Fallback silencioso si React bloquea el cambio
-          }
-        }, 100);
+        try {
+          statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
+        } catch(e) {
+          // Ignorar si React está bloqueando la mutación directa en el frame actual
+        }
       }
     }
     
     if (sweepAttempts > 1000) {
       clearInterval(sweepInterval);
     }
-  }, 25);
+  }, 20);
 
   // SVGs nativos para las partículas
   const svgs = [
