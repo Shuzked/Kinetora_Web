@@ -8,6 +8,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -63,7 +64,7 @@ html, body, a, button, select, input, textarea, [role="button"] {
   cursor: none !important;
 }
 
-/* 2. OCULTAR EL CURSOR ORIGINAL DE KINETORA (Cualquier fixed top-0 w-8 h-8 excepto el nuestro) */
+/* 2. OCULTAR EL CURSOR ORIGINAL DE KINETORA */
 div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor),
 .custom-cursor, 
 .cursor-dot, 
@@ -77,27 +78,27 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   pointer-events: none !important;
 }
 
-/* 3. ESTILO EXCLUSIVO DE NUESTRO CURSOR POR ID */
+/* 3. ESTILO DE NUESTRO CURSOR PERSONALIZADO CON ESTÉTICA DE COLOR MORADO ORIGINAL */
 #kinetora-premium-cursor {
   display: block !important;
   opacity: 1 !important;
   visibility: visible !important;
   width: 26px;
   height: 26px;
-  border: 2px solid rgba(255, 255, 255, 0.85); /* Blanco para difference */
+  border: 1.5px solid rgba(180, 84, 255, 0.45); /* Anillo Morado de fábrica */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
   z-index: 45 !important;
   transform: translate3d(-50%, -50%, 0);
   transition: transform 0.08s cubic-bezier(0.25, 1, 0.5, 1), width 0.2s, height 0.2s, border-color 0.2s;
-  mix-blend-mode: difference !important; /* Modo de fusión Difference */
+  mix-blend-mode: screen !important; /* Retornar a screen para que el morado brille perfectamente */
 }
 #kinetora-premium-cursor::after {
   content: "";
   width: 5px;
   height: 5px;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: #B454FF; /* Punto Morado de fábrica */
   border-radius: 50%;
   position: absolute;
   top: 50%;
@@ -107,10 +108,10 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
 #kinetora-premium-cursor.custom-cursor-hovering {
   width: 42px;
   height: 42px;
-  border-color: rgba(255, 255, 255, 1) !important;
-  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(180, 84, 255, 0.85) !important;
+  background-color: rgba(180, 84, 255, 0.05);
 }
 #kinetora-premium-cursor.custom-cursor-active {
   transform: translate3d(-50%, -50%, 0) scale(0.65) !important;
-  border-color: rgba(255, 255, 255, 1) !important;
+  border-color: rgba(180, 84, 255, 1) !important;
 }
