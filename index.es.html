@@ -129,10 +129,13 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inyectar nuestro cursor personalizado morado
+  // 1. Inyectar nuestro cursor personalizado morado con ID único
   const ring = document.createElement("div");
+  ring.id = "kinetora-premium-cursor";
   ring.className = "custom-cursor-ring";
   document.body.appendChild(ring);
 
@@ -161,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Animación de escala sobre enlaces y botones (Hover state)
+  // Animación de escala sobre enlaces y botones
   const hoverTargets = "a, button, [role='button'], input, textarea, select";
   document.addEventListener("mouseover", (e) => {
     if (e.target.closest(hoverTargets)) {
@@ -174,7 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Eventos active state (Click feedback)
+  // Click active feedback
   document.addEventListener("mousedown", () => {
     ring.classList.add("custom-cursor-active");
   });
@@ -182,19 +185,17 @@ document.addEventListener("DOMContentLoaded", () => {
     ring.classList.remove("custom-cursor-active");
   });
 
-  // 2. DOM Sweeper Físico (Eliminación activa del cursor original de Kinetora en el DOM)
+  // 2. DOM Sweeper Selectivo (Evita borrar nuestro propio cursor mediante exclusión :not(#kinetora-premium-cursor))
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
     
-    // Buscar el div específico por su combinación de clases del cursor de Kinetora
-    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none");
+    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
       console.log("[DOM Sweeper] Removed native Kinetora cursor element successfully.");
     }
     
-    // Detener la búsqueda tras 15 segundos para no consumir recursos
     if (sweepAttempts > 1500) {
       clearInterval(sweepInterval);
     }
@@ -208,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
     '<svg class="w-full h-full text-[#B454FF]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
   ];
 
-  // 3. Inyección estática de iconos 3D en secciones secundarias
+  // 3. Inyección estática de iconos 3D
   setTimeout(() => {
     const sections = Array.from(document.querySelectorAll("#root section.py-20, #root section.py-24, #root section.py-12, #root section.my-20"));
     if (sections.length === 0) return;
@@ -259,7 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
         section.appendChild(deco);
       }
     });
-    console.log("[Dynamic Enhancements] System ready.");
+    console.log("[Dynamic Enhancements] Dynamic assets stabilized.");
   }, 1200);
 });
 </script>
