@@ -5,6 +5,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -60,7 +61,9 @@ html, body, a, button, select, input, textarea, [role="button"] {
   cursor: none !important;
 }
 
-/* 2. OCULTAR POR COMPLETO EL CURSOR DE PUNTOS ORIGINAL DE KINETORA */
+/* 2. OCULTAR EL CURSOR ORIGINAL DE KINETORA (UTILIZANDO CLASES DETECTADAS EN EL BUNDLE DE REACT) */
+div.fixed.top-0.left-0.w-8.h-8.pointer-events-none,
+div.fixed.top-0.left-0.w-8.h-8.pointer-events-none.z-\[9999\],
 .custom-cursor, 
 .cursor-dot, 
 .cursor-ring,
@@ -77,7 +80,7 @@ html, body, a, button, select, input, textarea, [role="button"] {
 .custom-cursor-ring {
   width: 26px;
   height: 26px;
-  border: 2px solid rgba(255, 255, 255, 0.85); /* Blanco de alto contraste para difference */
+  border: 2px solid rgba(255, 255, 255, 0.85); /* Blanco para difference */
   border-radius: 50%;
   position: fixed;
   pointer-events: none;
