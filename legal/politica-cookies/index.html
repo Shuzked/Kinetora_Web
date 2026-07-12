@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=49">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=50">
   
     
 </head>
@@ -150,6 +150,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -313,13 +315,16 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM MutationObserver y Sweeper para ordenación robusta y forzada
-  function repositionBrands() {
+  // DOM Sweeper y Marcaje de Clases para ordenación CSS Flex
+  let sweepAttempts = 0;
+  const sweepInterval = setInterval(() => {
+    sweepAttempts++;
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
-    if (oldCursor) oldCursor.remove();
+    if (oldCursor) {
+      oldCursor.remove();
+    }
 
     let brandsSection = null;
-    let statsSection = null;
     let heroSubtitleEl = null;
 
     const allElements = Array.from(document.querySelectorAll("*"));
@@ -328,9 +333,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
           text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
         brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
-      }
-      if (text.includes("Capital generated") || text.includes("Capital generado")) {
-        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
       }
       if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
         if (el.tagName === "P" || el.tagName === "DIV") {
@@ -343,24 +345,15 @@ document.addEventListener("DOMContentLoaded", () => {
       heroSubtitleEl.style.display = "none";
     }
 
-    if (brandsSection && statsSection) {
-      brandsSection.style.display = "block";
-      brandsSection.style.visibility = "visible";
-      brandsSection.style.opacity = "1";
+    // En lugar de mover de nodo en React, sólo aplicamos la clase de ordenación CSS
+    if (brandsSection) {
       brandsSection.classList.add("hero-brands-container");
-      
-      if (statsSection.nextSibling !== brandsSection) {
-        try {
-          statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
-        } catch(e) {}
-      }
     }
-  }
-
-  // Ejecutar al instante y con un observer para cambios asíncronos de React
-  repositionBrands();
-  const observer = new MutationObserver(repositionBrands);
-  observer.observe(document.body, { childList: true, subtree: true });
+    
+    if (sweepAttempts > 1000) {
+      clearInterval(sweepInterval);
+    }
+  }, 20);
 
   // 3. Inyección estática de los Iconos de Marca de Kinetora
   setTimeout(() => {
