@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=48">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=49">
   
     
 </head>
@@ -150,6 +150,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -311,14 +313,10 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper y REORDENAMIENTO EXACTO
-  let sweepAttempts = 0;
-  const sweepInterval = setInterval(() => {
-    sweepAttempts++;
+  // DOM MutationObserver y Sweeper para ordenación robusta y forzada
+  function repositionBrands() {
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
-    if (oldCursor) {
-      oldCursor.remove();
-    }
+    if (oldCursor) oldCursor.remove();
 
     let brandsSection = null;
     let statsSection = null;
@@ -345,20 +343,24 @@ document.addEventListener("DOMContentLoaded", () => {
       heroSubtitleEl.style.display = "none";
     }
 
-    // Colocar el carrusel de marcas justo debajo de las estadísticas
     if (brandsSection && statsSection) {
+      brandsSection.style.display = "block";
+      brandsSection.style.visibility = "visible";
+      brandsSection.style.opacity = "1";
       brandsSection.classList.add("hero-brands-container");
+      
       if (statsSection.nextSibling !== brandsSection) {
         try {
           statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
         } catch(e) {}
       }
     }
-    
-    if (sweepAttempts > 1000) {
-      clearInterval(sweepInterval);
-    }
-  }, 20);
+  }
+
+  // Ejecutar al instante y con un observer para cambios asíncronos de React
+  repositionBrands();
+  const observer = new MutationObserver(repositionBrands);
+  observer.observe(document.body, { childList: true, subtree: true });
 
   // 3. Inyección estática de los Iconos de Marca de Kinetora
   setTimeout(() => {

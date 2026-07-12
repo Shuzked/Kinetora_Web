@@ -43,6 +43,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -182,7 +183,9 @@ p.mt-4.max-w-2xl,
 
 /* Estilos de espaciado para las marcas */
 .hero-brands-container {
-  order: 3 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
   margin-top: 3.5rem !important;
   margin-bottom: 1rem !important;
   background: transparent !important;
