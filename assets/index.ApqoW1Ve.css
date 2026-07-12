@@ -45,6 +45,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -171,38 +172,13 @@ p.mt-4.max-w-2xl,
   display: none !important;
 }
 
-/* Ajustar el contenedor interior del Hero para que sea Flexbox en columna */
-.hero-section > div,
-#hero > div {
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-/* Contenido Principal y Título del Hero */
-.hero-section > div > div:first-child,
-#hero > div > div:first-child {
-  order: 1 !important;
-}
-
-/* Cuadrícula de Estadísticas (Capital Generado, etc.) */
-.hero-section .grid,
-#hero .grid,
-.hero-section div.mt-16,
-#hero div.mt-16,
-.hero-section div.border-t,
-#hero div.border-t {
-  order: 2 !important;
-  margin-top: 2rem !important;
-}
-
-/* El Carrusel de Marcas se sitúa obligatoriamente debajo de las estadísticas */
+/* Estilos de espaciado para las marcas */
 .hero-brands-container {
-  order: 3 !important;
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin-top: 3.5rem !important;
-  margin-bottom: 1rem !important;
+  margin-top: 3rem !important;
+  padding-bottom: 2rem !important;
   background: transparent !important;
   border: none !important;
 }
