@@ -207,6 +207,8 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Inyectar Anillo y Punto
@@ -290,8 +292,11 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper y REORDENAMIENTO FORZADO PERSISTENTE EN EL HERO
-  function forceBrandsReposition() {
+  // DOM Sweeper y CLONACIÓN DE MARCAS PARA INTEGRACIÓN SEGURA CON REACT
+  let clonedBrandsNode = null;
+  let sweepAttempts = 0;
+  const sweepInterval = setInterval(() => {
+    sweepAttempts++;
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) {
       oldCursor.remove();
@@ -306,7 +311,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const text = el.textContent || "";
       if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
           text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
-        brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+        // Encontrar la marquesina original (evitando nuestro propio clon)
+        if (!el.classList.contains("kinetora-cloned-brands")) {
+          brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+        }
       }
       if (text.includes("Capital generated") || text.includes("Capital generado")) {
         statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
@@ -323,23 +331,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (brandsSection && statsSection) {
-      brandsSection.style.display = "block";
-      brandsSection.style.visibility = "visible";
-      brandsSection.style.opacity = "1";
-      brandsSection.classList.add("hero-brands-container");
+      // 1. Ocultar de forma segura la sección original en su sitio antiguo (sin removerla para no romper React)
+      brandsSection.style.display = "none";
+      brandsSection.style.height = "0px";
+      brandsSection.style.overflow = "hidden";
 
-      // Forzar inserción del nodo justo al lado de las estadísticas
-      if (statsSection.nextSibling !== brandsSection) {
-        try {
-          statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
-        } catch(e) {}
+      // 2. Crear un clon del carrusel si no existe ya uno inyectado
+      if (!clonedBrandsNode || !document.body.contains(clonedBrandsNode)) {
+        clonedBrandsNode = brandsSection.cloneNode(true);
+        clonedBrandsNode.classList.add("kinetora-cloned-brands");
+        clonedBrandsNode.classList.add("hero-brands-container");
+        clonedBrandsNode.style.display = "block";
+        clonedBrandsNode.style.height = "auto";
+        clonedBrandsNode.style.overflow = "visible";
+        clonedBrandsNode.style.visibility = "visible";
+        clonedBrandsNode.style.opacity = "1";
+        
+        statsSection.parentNode.insertBefore(clonedBrandsNode, statsSection.nextSibling);
       }
     }
-  }
-
-  // Ejecución continua persistente para ganarle a las actualizaciones del Virtual DOM de React
-  forceBrandsReposition();
-  setInterval(forceBrandsReposition, 30);
+    
+    if (sweepAttempts > 1000) {
+      clearInterval(sweepInterval);
+    }
+  }, 30);
 
   // 3. Inyección estática de los Iconos de Marca de Kinetora
   setTimeout(() => {
