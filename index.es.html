@@ -209,6 +209,8 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Inyectar Anillo y Punto
@@ -303,7 +305,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let brandsSection = null;
-    let statsSection = null;
+    let buttonsContainer = null;
     let heroSubtitleEl = null;
 
     const allElements = Array.from(document.querySelectorAll("*"));
@@ -311,13 +313,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const text = el.textContent || "";
       if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
           text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
-        // Encontrar la marquesina original (evitando nuestro propio clon)
         if (!el.classList.contains("kinetora-cloned-brands")) {
           brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
         }
       }
-      if (text.includes("Capital generated") || text.includes("Capital generado")) {
-        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
+      // Buscar el contenedor de los botones principales del Hero (See how it works / View case studies)
+      if (text.includes("SEE HOW IT WORKS") || text.includes("VER CÓMO FUNCIONA")) {
+        if (el.tagName === "DIV" && el.className.includes("flex")) {
+          buttonsContainer = el;
+        }
       }
       if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
         if (el.tagName === "P" || el.tagName === "DIV") {
@@ -330,8 +334,8 @@ document.addEventListener("DOMContentLoaded", () => {
       heroSubtitleEl.style.display = "none";
     }
 
-    if (brandsSection && statsSection) {
-      // 1. Ocultar de forma segura la sección original en su sitio antiguo (sin removerla para no romper React)
+    if (brandsSection && buttonsContainer) {
+      // 1. Ocultar de forma segura la sección original en su sitio antiguo
       brandsSection.style.display = "none";
       brandsSection.style.height = "0px";
       brandsSection.style.overflow = "hidden";
@@ -347,7 +351,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clonedBrandsNode.style.visibility = "visible";
         clonedBrandsNode.style.opacity = "1";
         
-        statsSection.parentNode.insertBefore(clonedBrandsNode, statsSection.nextSibling);
+        // Inyectar el carrusel de logos en primera pantalla justo debajo de los botones principales del Hero
+        buttonsContainer.parentNode.insertBefore(clonedBrandsNode, buttonsContainer.nextSibling);
       }
     }
     

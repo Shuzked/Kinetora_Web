@@ -48,6 +48,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -174,25 +175,28 @@ p.mt-4.max-w-2xl,
   display: none !important;
 }
 
-/* Forzar visualización de marcas */
+/* Estilos de espaciado para las marcas */
 .hero-brands-container {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin-top: 3rem !important;
+  margin-top: 2rem !important;
   padding-bottom: 2rem !important;
   background: transparent !important;
   border: none !important;
 }
 
-/* --- RESTAURACIÓN DEL SCROLL REVEAL ORIGINAL DE KINETORA --- */
+/* Reducir paddings del Hero para que quepa todo a primera pantalla */
 #hero,
 .hero-section {
   position: sticky !important;
   top: 0 !important;
   z-index: 1 !important;
+  padding-top: 4rem !important;
+  padding-bottom: 2rem !important;
 }
 
+/* --- RESTAURACIÓN DEL SCROLL REVEAL ORIGINAL DE KINETORA --- */
 #root main > div > div:not(#hero):not(.hero-section),
 #root section:not(#hero):not(.hero-section),
 #root div.py-20:not(#hero):not(.hero-section),
