@@ -46,6 +46,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -172,13 +173,20 @@ p.mt-4.max-w-2xl,
   display: none !important;
 }
 
-/* Estilos de espaciado para las marcas */
-.hero-brands-container {
+/* Forzar que el carrusel de logos y marcas sea visible */
+.hero-brands-container,
+[class*="hero-brands-container"],
+[class*="brands-container"],
+[class*="brands-slider"],
+[class*="marquee"],
+[class*="Brands_container"] {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin-top: 3rem !important;
-  padding-bottom: 2rem !important;
+  height: auto !important;
+  min-height: 80px !important;
+  margin-top: 3.5rem !important;
+  margin-bottom: 1rem !important;
   background: transparent !important;
   border: none !important;
 }
