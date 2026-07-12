@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=41">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=42">
   
     
 </head>
@@ -214,9 +214,11 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inyectar Anillo y Punto de Cursor Premium
+  // 1. Inyectar Anillo y Punto
   const ring = document.createElement("div");
   ring.id = "kinetora-premium-cursor";
   document.body.appendChild(ring);
@@ -345,43 +347,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, 20);
 
-  // 3. Inyección limpia de los Iconos de Marca de Kinetora
+  // 3. Inyección estática de los Iconos de Marca de Kinetora
   setTimeout(() => {
-    // Buscar todos los bloques principales
-    const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-20'], #root div[class*='py-24'], #root main > div > div"));
+    // Buscar todos los bloques principales de la página (Hero, Capabilities, Studio, etc.)
+    const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-20'], #root div[class*='py-24'], #root main > div > div, #root #hero"));
     
     const sections = [];
     candidates.forEach(c => {
-      if (c.tagName === "FOOTER" || c.closest("footer") || c.tagName === "NAV" || c.closest("nav") || c.id === "hero" || c.querySelector("h1") || c.offsetHeight < 120) return;
+      if (c.tagName === "FOOTER" || c.closest("footer") || c.tagName === "NAV" || c.closest("nav") || c.querySelector("h1") || c.offsetHeight < 120) return;
       
       const classes = c.className || "";
-      const id = c.id || "";
-      
-      // Omitir sub-bloques internos estructurantes de React
+      // Excluir layouts internos para evitar duplicados locales
       if (classes.includes("grid") || classes.includes("flex-row") || classes.includes("gap-") || classes.includes("max-w-7xl")) return;
-
-      // EXCLUSIÓN ABSOLUTA DE CAPABILITIES RECORRIENDO EL ÁRBOL ASCENDENTE
-      let parent = c;
-      let isCapabilities = false;
-      while (parent && parent !== document.body) {
-        const pId = parent.id || "";
-        const pClass = parent.className || "";
-        const pText = parent.textContent || "";
-        
-        if (
-          pId.includes("capabilities") || 
-          pClass.includes("bg-zinc-900/50") || 
-          pText.includes("ALL THE VISUAL POWER") || 
-          pText.includes("TODO EL PODER VISUAL") ||
-          pText.includes("Strategic Brand Identity")
-        ) {
-          isCapabilities = true;
-          break;
-        }
-        parent = parent.parentElement;
-      }
-
-      if (isCapabilities) return;
 
       const isNested = sections.some(existing => existing.contains(c) || c.contains(existing));
       if (!isNested) {
@@ -389,9 +366,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
+    // Añadir el Hero explícitamente a la lista si no se incluyó
+    const heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
+    if (heroEl && !sections.includes(heroEl)) {
+      sections.push(heroEl);
+    }
+
     if (sections.length === 0) return;
 
-    // CATÁLOGO OFICIAL DE ICONOS 100% VERIFICADOS EN DISCO
+    // LISTA DE ICONOS 100% VERIFICADOS FÍSICAMENTE EN EL DISCO
     const brandDecoIcons = [
       "/assets/decorations/kinetora-triangle-purple.webp",
       "/assets/decorations/kinetora-triangle-white.webp",
@@ -417,12 +400,26 @@ document.addEventListener("DOMContentLoaded", () => {
       "/assets/decorations/kinetora-arrow-right-purple.webp"
     ];
 
+    // Algoritmo Fisher-Yates para barajar los iconos sin repetir
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
     const particles = [];
 
     sections.forEach((section) => {
       section.style.position = "relative";
-      // 2 iconos asimétricos por bloque de contenido principal
-      const count = 2;
+      
+      // Barajar el catálogo para cada sección para que no se repitan
+      const shuffledIcons = shuffleArray(brandDecoIcons);
+      
+      // Inyectar 3 iconos aleatorios no repetitivos por sección
+      const count = 3;
       for (let i = 0; i < count; i++) {
         const deco = document.createElement("div");
         deco.className = "kin-deco";
@@ -449,7 +446,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         deco.classList.add(speedClass);
 
-        const x = i === 0 ? (Math.random() * 15 + 5) : (Math.random() * 15 + 80); 
+        // Posiciones asimétricas (izquierda, centro y derecha)
+        let x;
+        if (i === 0) {
+          x = Math.random() * 15 + 5; // Izquierda
+        } else if (i === 1) {
+          x = Math.random() * 20 + 40; // Centro
+        } else {
+          x = Math.random() * 15 + 80; // Derecha
+        }
+        
         const y = Math.random() * 60 + 20; 
         
         deco.style.left = x + "%";
@@ -459,7 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deco.style.filter = blurVal > 0 ? "blur(" + blurVal + "px)" : "none";
         
         const rotation = Math.floor(Math.random() * 360);
-        const iconUrl = brandDecoIcons[Math.floor(Math.random() * brandDecoIcons.length)];
+        const iconUrl = shuffledIcons[i % shuffledIcons.length];
         
         deco.innerHTML = '<img src="' + iconUrl + '" alt="Deco" loading="lazy" style="transform: rotate(' + rotation + 'deg);" />';
         section.appendChild(deco);
@@ -505,7 +511,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateParallaxPhysics();
-    console.log("[Kinetora Parallax Physics Engine] Active with 3D Depth of Field on all sections.");
+    console.log("[Kinetora Parallax Physics] Re-injected universally on all sections.");
   }, 1200);
 });
 </script>

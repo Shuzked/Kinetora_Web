@@ -36,6 +36,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -60,7 +61,7 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0.30 !important;
+  opacity: 0.28 !important; /* Opacidad premium equilibrada */
   transition: opacity 0.3s ease;
 }
 .kin-deco-slow { animation: float-slow 8s ease-in-out infinite; }
