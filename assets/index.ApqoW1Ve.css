@@ -17,6 +17,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -35,6 +36,13 @@
   pointer-events: none;
   z-index: 1 !important;
   will-change: transform, filter;
+}
+.kin-deco img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.18; /* Transparencia premium para no entorpecer el contenido */
+  transition: opacity 0.3s ease;
 }
 .kin-deco-slow { animation: float-slow 8s ease-in-out infinite; }
 .kin-deco-medium { animation: float-medium 6s ease-in-out infinite; }
@@ -128,7 +136,6 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
 }
 
 /* --- REORDENACIÓN DEL HERO Y OCULTACIÓN DE SUBTÍTULO POR CSS --- */
-/* Ocultar el subtítulo "Backed by results across..." por texto o clase aproximada */
 p.text-zinc-400,
 p.text-zinc-500,
 p.mt-4.max-w-2xl,
@@ -136,20 +143,17 @@ p.mt-4.max-w-2xl,
   display: none !important;
 }
 
-/* Permitir reordenación en el contenedor del Hero */
 .hero-section > div,
 #hero > div {
   display: flex !important;
   flex-direction: column !important;
 }
 
-/* Asegurar que las estadísticas estén al final y las marcas vayan directamente debajo */
 .hero-section .grid,
 #hero .grid {
   order: 2 !important;
 }
 
-/* Colocar la sección de marcas inmediatamente debajo de las estadísticas */
 .hero-brands-container {
   order: 3 !important;
   margin-top: 3.5rem !important;
