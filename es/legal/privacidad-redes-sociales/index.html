@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=47">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=48">
   
     
 </head>
@@ -150,6 +150,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -309,7 +311,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
   });
 
-  // DOM Sweeper y REORDENAMIENTO DE MARCAS ADENTRO DEL HERO
+  // DOM Sweeper y REORDENAMIENTO EXACTO
   let sweepAttempts = 0;
   const sweepInterval = setInterval(() => {
     sweepAttempts++;
@@ -319,8 +321,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let brandsSection = null;
+    let statsSection = null;
     let heroSubtitleEl = null;
-    let heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
 
     const allElements = Array.from(document.querySelectorAll("*"));
     allElements.forEach(el => {
@@ -328,6 +330,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
           text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
         brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+      }
+      if (text.includes("Capital generated") || text.includes("Capital generado")) {
+        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
       }
       if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
         if (el.tagName === "P" || el.tagName === "DIV") {
@@ -340,14 +345,12 @@ document.addEventListener("DOMContentLoaded", () => {
       heroSubtitleEl.style.display = "none";
     }
 
-    // Mover físicamente el contenedor de marcas DENTRO del Hero
-    if (brandsSection && heroEl) {
+    // Colocar el carrusel de marcas justo debajo de las estadísticas
+    if (brandsSection && statsSection) {
       brandsSection.classList.add("hero-brands-container");
-      // Buscar el contenedor interno de React en el Hero para insertarlo al final
-      const heroContainer = heroEl.querySelector("div.container") || heroEl.querySelector("div.max-w-7xl") || heroEl.firstElementChild;
-      if (heroContainer && brandsSection.parentNode !== heroContainer) {
+      if (statsSection.nextSibling !== brandsSection) {
         try {
-          heroContainer.appendChild(brandsSection);
+          statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
         } catch(e) {}
       }
     }
