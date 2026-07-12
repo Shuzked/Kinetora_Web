@@ -130,7 +130,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=34">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=35">
   
     
 </head>
@@ -2490,6 +2490,281 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateParallaxPhysics();
     console.log("[Kinetora Parallax Physics Engine] Active with 3D Depth of Field.");
+  }, 1200);
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Inyectar Anillo y Punto
+  const ring = document.createElement("div");
+  ring.id = "kinetora-premium-cursor";
+  document.body.appendChild(ring);
+
+  const dot = document.createElement("div");
+  dot.id = "kinetora-premium-dot";
+  document.body.appendChild(dot);
+
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+  let dotX = 0, dotY = 0;
+  let ticking = false;
+  let clickScale = 1;
+  let isHovered = false;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    const pageY = e.clientY + window.scrollY;
+    document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
+    document.documentElement.style.setProperty("--mouse-y", pageY + "px");
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        dotX += (mouseX - dotX) * 0.38;
+        dotY += (mouseY - dotY) * 0.38;
+        dot.style.left = dotX + "px";
+        dot.style.top = dotY + "px";
+
+        ringX += (mouseX - ringX) * 0.16;
+        ringY += (mouseY - ringY) * 0.16;
+
+        const dx = ringX - dotX;
+        const dy = ringY - dotY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        const maxDist = isHovered ? 18 : 10;
+        if (distance > maxDist) {
+          const angle = Math.atan2(dy, dx);
+          ringX = dotX + Math.cos(angle) * maxDist;
+          ringY = dotY + Math.sin(angle) * maxDist;
+        }
+
+        ring.style.left = ringX + "px";
+        ring.style.top = ringY + "px";
+        ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  const hoverTargets = "a, button, [role='button'], input, textarea, select";
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      isHovered = true;
+      ring.classList.add("custom-cursor-hovering");
+      dot.style.opacity = "0";
+    }
+  });
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      isHovered = false;
+      ring.classList.remove("custom-cursor-hovering");
+      dot.style.opacity = "1";
+    }
+  });
+
+  document.addEventListener("mousedown", () => {
+    clickScale = 0.55; 
+    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; 
+  });
+  document.addEventListener("mouseup", () => {
+    clickScale = 1;
+    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
+  });
+
+  // DOM Sweeper y REORDENAMIENTO
+  let sweepAttempts = 0;
+  const sweepInterval = setInterval(() => {
+    sweepAttempts++;
+    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
+    if (oldCursor) {
+      oldCursor.remove();
+    }
+
+    let brandsSection = null;
+    let statsSection = null;
+    let heroSubtitleEl = null;
+
+    const allElements = Array.from(document.querySelectorAll("*"));
+    allElements.forEach(el => {
+      const text = el.textContent || "";
+      if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
+          text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
+        brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+      }
+      if (text.includes("Capital generated") || text.includes("Capital generado")) {
+        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
+      }
+      if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
+        if (el.tagName === "P" || el.tagName === "DIV") {
+          heroSubtitleEl = el;
+        }
+      }
+    });
+
+    if (heroSubtitleEl) {
+      heroSubtitleEl.style.display = "none";
+    }
+
+    if (brandsSection && statsSection) {
+      brandsSection.classList.add("hero-brands-container");
+      if (statsSection.nextSibling !== brandsSection) {
+        try {
+          statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
+        } catch(e) {}
+      }
+    }
+    
+    if (sweepAttempts > 1000) {
+      clearInterval(sweepInterval);
+    }
+  }, 20);
+
+  // 3. Inyección estática de los Iconos de Marca de Kinetora (Tandas 1 a 8)
+  setTimeout(() => {
+    // Selector universal: Buscar todos los bloques que hacen de sección visual
+    const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-'], #root div[class*='my-'], #root main > div > div"));
+    
+    // Filtrar candidatos únicos para evitar duplicidades anidadas
+    const sections = [];
+    candidates.forEach(c => {
+      // Omitir el Hero en sí mismo para no entorpecer el slider de marcas, footer, navbar o elementos muy pequeños
+      if (c.tagName === "FOOTER" || c.closest("footer") || c.tagName === "NAV" || c.closest("nav") || c.id === "hero" || c.querySelector("h1") || c.offsetHeight < 100) return;
+      
+      // Asegurarse de que no estamos inyectando en un div padre o hijo que ya listamos
+      const isNested = sections.some(existing => existing.contains(c) || c.contains(existing));
+      if (!isNested) {
+        sections.push(c);
+      }
+    });
+
+    if (sections.length === 0) return;
+
+    // Lista exclusiva de los 26 iconos oficiales de la identidad de Kinetora
+    const brandDecoIcons = [
+      "/assets/decorations/kinetora-triangle-purple.webp",
+      "/assets/decorations/kinetora-triangle-white.webp",
+      "/assets/decorations/kinetora-circle-white.webp",
+      "/assets/decorations/kinetora-circle-purple.webp",
+      "/assets/decorations/kinetora-square-white.webp",
+      "/assets/decorations/kinetora-cross-white.webp",
+      "/assets/decorations/kinetora-plus-purple.webp",
+      "/assets/decorations/kinetora-square-purple.webp",
+      "/assets/decorations/kinetora-plus-white-thin.webp",
+      "/assets/decorations/kinetora-circle-purple-shadow.webp",
+      "/assets/decorations/kinetora-triangle-purple-shadow.webp",
+      "/assets/decorations/kinetora-cross-purple-shadow.webp",
+      "/assets/decorations/kinetora-cross-purple-thin.webp",
+      "/assets/decorations/kinetora-polygon-white.webp",
+      "/assets/decorations/kinetora-plus-purple-thin.webp",
+      "/assets/decorations/kinetora-polygon-purple.webp",
+      "/assets/decorations/kinetora-cross-white-thin.webp",
+      "/assets/decorations/kinetora-zigzag-purple.webp",
+      "/assets/decorations/kinetora-chevron-white.webp",
+      "/assets/decorations/kinetora-chevron-purple.webp",
+      "/assets/decorations/kinetora-zigzag-purple-v2.webp",
+      "/assets/decorations/kinetora-chevron-left-purple.webp",
+      "/assets/decorations/kinetora-zigzag-white.webp",
+      "/assets/decorations/kinetora-arrow-right-white.webp",
+      "/assets/decorations/kinetora-chevron-left-white.webp",
+      "/assets/decorations/kinetora-arrow-right-purple.webp"
+    ];
+
+    const particles = [];
+
+    sections.forEach((section) => {
+      section.style.position = "relative";
+      // Mantener minimalismo de marca: 4 iconos asimétricos por sección principal
+      const count = 4;
+      for (let i = 0; i < count; i++) {
+        const deco = document.createElement("div");
+        deco.className = "kin-deco";
+
+        const layer = Math.floor(Math.random() * 3);
+        let size, blurVal, speedClass, depthFactor;
+        
+        if (layer === 0) {
+          size = Math.floor(Math.random() * 8) + 16; 
+          blurVal = 2; // Desenfoque lejano
+          speedClass = "kin-deco-slow";
+          depthFactor = 0.03; 
+        } else if (layer === 1) {
+          size = Math.floor(Math.random() * 16) + 24; 
+          blurVal = 0; // Contenido nítido
+          speedClass = "kin-deco-medium";
+          depthFactor = 0.07; 
+        } else {
+          size = Math.floor(Math.random() * 26) + 40; 
+          blurVal = 1; // Desenfoque cercano de lente
+          speedClass = "kin-deco-fast";
+          depthFactor = 0.12; 
+        }
+
+        deco.classList.add(speedClass);
+
+        const x = Math.random() * 80 + 10; 
+        const y = Math.random() * 70 + 15; 
+        
+        deco.style.left = x + "%";
+        deco.style.top = y + "%";
+        deco.style.width = size + "px";
+        deco.style.height = size + "px";
+        deco.style.filter = blurVal > 0 ? "blur(" + blurVal + "px)" : "none";
+        
+        const rotation = Math.floor(Math.random() * 360);
+        const iconUrl = brandDecoIcons[Math.floor(Math.random() * brandDecoIcons.length)];
+        
+        deco.innerHTML = '<img src="' + iconUrl + '" alt="Deco Icon" loading="lazy" style="transform: rotate(' + rotation + 'deg);" />';
+        section.appendChild(deco);
+
+        particles.push({
+          element: deco,
+          x: 0,
+          y: 0,
+          targetX: 0,
+          targetY: 0,
+          factor: depthFactor,
+          rotation: rotation
+        });
+      }
+    });
+
+    // 4. Bucle interactivo de físicas elásticas de paralaje con el ratón
+    let lastMouseX = window.innerWidth / 2;
+    let lastMouseY = window.innerHeight / 2;
+
+    window.addEventListener("mousemove", (e) => {
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+    });
+
+    function updateParallaxPhysics() {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const moveX = lastMouseX - centerX;
+      const moveY = lastMouseY - centerY;
+
+      particles.forEach(p => {
+        p.targetX = moveX * -p.factor;
+        p.targetY = moveY * -p.factor;
+
+        // Físicas elásticas (lerp/muelle)
+        p.x += (p.targetX - p.x) * 0.08;
+        p.y += (p.targetY - p.y) * 0.08;
+
+        p.element.style.transform = "translate3d(" + p.x + "px, " + p.y + "px, 0)";
+      });
+
+      requestAnimationFrame(updateParallaxPhysics);
+    }
+
+    updateParallaxPhysics();
+    console.log("[Kinetora Parallax Physics Engine] Active with 3D Depth of Field on all sections.");
   }, 1200);
 });
 </script>
