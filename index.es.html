@@ -213,55 +213,39 @@
 
 
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Inyectar Anillo y Punto
+  // 1. Cursor
   const ring = document.createElement("div");
   ring.id = "kinetora-premium-cursor";
   document.body.appendChild(ring);
-
   const dot = document.createElement("div");
   dot.id = "kinetora-premium-dot";
   document.body.appendChild(dot);
 
-  let mouseX = 0, mouseY = 0;
-  let ringX = 0, ringY = 0;
-  let dotX = 0, dotY = 0;
-  let ticking = false;
-  let clickScale = 1;
-  let isHovered = false;
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0, dotX = 0, dotY = 0;
+  let ticking = false, clickScale = 1, isHovered = false;
 
   window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    
-    const pageY = e.clientY + window.scrollY;
+    mouseX = e.clientX; mouseY = e.clientY;
     document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
-    document.documentElement.style.setProperty("--mouse-y", pageY + "px");
-
+    document.documentElement.style.setProperty("--mouse-y", (e.clientY + window.scrollY) + "px");
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        dotX += (mouseX - dotX) * 0.38;
-        dotY += (mouseY - dotY) * 0.38;
-        dot.style.left = dotX + "px";
-        dot.style.top = dotY + "px";
-
-        ringX += (mouseX - ringX) * 0.16;
-        ringY += (mouseY - ringY) * 0.16;
-
-        const dx = ringX - dotX;
-        const dy = ringY - dotY;
+        dotX += (mouseX - dotX) * 0.38; dotY += (mouseY - dotY) * 0.38;
+        dot.style.left = dotX + "px"; dot.style.top = dotY + "px";
+        ringX += (mouseX - ringX) * 0.16; ringY += (mouseY - ringY) * 0.16;
+        const dx = ringX - dotX, dy = ringY - dotY;
         const distance = Math.sqrt(dx * dx + dy * dy);
-        
         const maxDist = isHovered ? 18 : 10;
         if (distance > maxDist) {
           const angle = Math.atan2(dy, dx);
           ringX = dotX + Math.cos(angle) * maxDist;
           ringY = dotY + Math.sin(angle) * maxDist;
         }
-
-        ring.style.left = ringX + "px";
-        ring.style.top = ringY + "px";
+        ring.style.left = ringX + "px"; ring.style.top = ringY + "px";
         ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
         ticking = false;
       });
@@ -271,142 +255,141 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const hoverTargets = "a, button, [role='button'], input, textarea, select";
   document.addEventListener("mouseover", (e) => {
-    if (e.target.closest(hoverTargets)) {
-      isHovered = true;
-      ring.classList.add("custom-cursor-hovering");
-      dot.style.opacity = "0";
-    }
+    if (e.target.closest(hoverTargets)) { isHovered = true; ring.classList.add("custom-cursor-hovering"); dot.style.opacity = "0"; }
   });
   document.addEventListener("mouseout", (e) => {
-    if (e.target.closest(hoverTargets)) {
-      isHovered = false;
-      ring.classList.remove("custom-cursor-hovering");
-      dot.style.opacity = "1";
-    }
+    if (e.target.closest(hoverTargets)) { isHovered = false; ring.classList.remove("custom-cursor-hovering"); dot.style.opacity = "1"; }
   });
+  document.addEventListener("mousedown", () => { clickScale = 0.55; ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")"; dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; });
+  document.addEventListener("mouseup", () => { clickScale = 1; ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")"; dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)"; });
 
-  document.addEventListener("mousedown", () => {
-    clickScale = 0.55; 
-    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
-    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; 
-  });
-  document.addEventListener("mouseup", () => {
-    clickScale = 1;
-    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
-    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
-  });
+  // 2. BRANDS OVERLAY - Inyectar carrusel de logos como FIXED overlay en la parte inferior del viewport
+  const brands = [
+    { name: "Square Enix", src: "/assets/brands/square-enix.svg" },
+    { name: "Solana", src: "/assets/brands/solana.svg" },
+    { name: "Elixir Games", src: "/assets/brands/elixir-games.svg" },
+    { name: "Litlab Games", src: "/assets/brands/litlab-games.svg" },
+    { name: "Friends4Payment", src: "/assets/brands/friends4payment.svg" },
+    { name: "Hard Lock", src: "/assets/brands/hard-lock.svg" },
+    { name: "BUU AI", src: "/assets/brands/buu-ai.svg" },
+    { name: "Sphere Studios", src: "/assets/brands/sphere-studios.svg" },
+    { name: "A2AX", src: "/assets/brands/a2ax.svg" }
+  ];
 
-  // DOM Sweeper y CLONACIÓN DE MARCAS PARA INTEGRACIÓN SEGURA CON REACT
-  let clonedBrandsNode = null;
-  let sweepAttempts = 0;
-  const sweepInterval = setInterval(() => {
-    sweepAttempts++;
-    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
-    if (oldCursor) {
-      oldCursor.remove();
-    }
+  function createBrandsOverlay() {
+    if (document.getElementById("kinetora-hero-brands-overlay")) return;
 
-    let brandsSection = null;
-    let heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
-    let heroSubtitleEl = null;
+    const overlay = document.createElement("div");
+    overlay.id = "kinetora-hero-brands-overlay";
 
-    const allElements = Array.from(document.querySelectorAll("*"));
-    allElements.forEach(el => {
-      const text = el.textContent || "";
-      if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
-          text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
-        if (!el.classList.contains("kinetora-cloned-brands")) {
-          brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
-        }
-      }
-      if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
-        if (el.tagName === "P" || el.tagName === "DIV") {
-          heroSubtitleEl = el;
-        }
-      }
+    // Título
+    const isES = window.__KINETORA_LANG__ === "es";
+    const title = document.createElement("div");
+    title.className = "brands-title-text";
+    title.textContent = isES ? "Marcas que confían en nuestra velocidad" : "Brands that trust our speed";
+    overlay.appendChild(title);
+
+    // Marquee
+    const wrapper = document.createElement("div");
+    wrapper.className = "marquee-wrapper";
+    
+    const inner = document.createElement("div");
+    inner.className = "marquee-inner";
+
+    // Duplicar para scroll infinito (2x)
+    const allBrands = [...brands, ...brands];
+    allBrands.forEach(b => {
+      const item = document.createElement("div");
+      item.className = "brand-logo-item";
+      const img = document.createElement("img");
+      img.src = b.src;
+      img.alt = b.name;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.width = 160;
+      img.height = 48;
+      item.appendChild(img);
+      inner.appendChild(item);
     });
 
-    if (heroSubtitleEl) {
-      heroSubtitleEl.style.display = "none";
-    }
+    wrapper.appendChild(inner);
+    overlay.appendChild(wrapper);
+    document.body.appendChild(overlay);
 
-    if (brandsSection && heroEl) {
-      // 1. Ocultar de forma segura la sección original en su sitio antiguo
-      brandsSection.style.display = "none";
-      brandsSection.style.height = "0px";
-      brandsSection.style.overflow = "hidden";
-
-      // 2. Crear un clon del carrusel si no existe ya uno inyectado
-      if (!clonedBrandsNode || !document.body.contains(clonedBrandsNode)) {
-        clonedBrandsNode = brandsSection.cloneNode(true);
-        clonedBrandsNode.classList.add("kinetora-cloned-brands");
-        clonedBrandsNode.classList.add("hero-brands-container");
-        clonedBrandsNode.style.display = "block";
-        clonedBrandsNode.style.height = "auto";
-        clonedBrandsNode.style.overflow = "visible";
-        clonedBrandsNode.style.visibility = "visible";
-        clonedBrandsNode.style.opacity = "1";
-        
-        // Buscar el contenedor flex del Hero para inyectarlo al final (debajo de las estadísticas en el mismo árbol del Hero)
-        const heroContainer = heroEl.querySelector("div.container") || heroEl.querySelector("div.max-w-7xl") || heroEl.firstElementChild;
-        if (heroContainer) {
-          heroContainer.appendChild(clonedBrandsNode);
+    // Ocultar la sección original de Brands de React (la que está en el div.mt-[100svh])
+    const origInterval = setInterval(() => {
+      const sections = document.querySelectorAll("section.kin-section");
+      sections.forEach(sec => {
+        const text = sec.getAttribute("aria-label") || sec.textContent || "";
+        if (text.includes("Brands that trust") || text.includes("Marcas que conf")) {
+          if (!sec.dataset.hiddenByOverlay) {
+            sec.style.display = "none";
+            sec.dataset.hiddenByOverlay = "true";
+          }
         }
-      }
-    }
-    
-    if (sweepAttempts > 1000) {
-      clearInterval(sweepInterval);
-    }
-  }, 30);
+      });
+    }, 100);
+    setTimeout(() => clearInterval(origInterval), 15000);
 
-  // 3. Inyección estática de los Iconos de Marca de Kinetora
+    // Ocultar el overlay al hacer scroll (el contenido z-10 lo tapará)
+    function updateOverlayVisibility() {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const threshold = window.innerHeight * 0.15;
+      if (scrollY > threshold) {
+        overlay.style.opacity = "0";
+        overlay.style.transition = "opacity 0.3s ease";
+      } else {
+        overlay.style.opacity = "1";
+        overlay.style.transition = "opacity 0.3s ease";
+      }
+      requestAnimationFrame(updateOverlayVisibility);
+    }
+    updateOverlayVisibility();
+  }
+
+  // Esperar a que React monte el Hero
+  const waitForHero = setInterval(() => {
+    const heroEl = document.querySelector(".hero-section");
+    if (heroEl) {
+      clearInterval(waitForHero);
+      createBrandsOverlay();
+    }
+  }, 50);
+
+  // Cleanup: remove old cursor
+  const cleanupInterval = setInterval(() => {
+    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
+    if (oldCursor) oldCursor.remove();
+  }, 200);
+  setTimeout(() => clearInterval(cleanupInterval), 10000);
+
+  // 3. Parallax decorations
   setTimeout(() => {
     const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-20'], #root div[class*='py-24'], #root main > div > div, #root #hero"));
-    
     const sections = [];
     candidates.forEach(c => {
       if (c.tagName === "FOOTER" || c.closest("footer") || c.tagName === "NAV" || c.closest("nav") || c.querySelector("h1") || c.offsetHeight < 120) return;
-      
       const classes = c.className || "";
       if (classes.includes("grid") || classes.includes("flex-row") || classes.includes("gap-") || classes.includes("max-w-7xl")) return;
-
       const isNested = sections.some(existing => existing.contains(c) || c.contains(existing));
-      if (!isNested) {
-        sections.push(c);
-      }
+      if (!isNested) sections.push(c);
     });
-
     const heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
-    if (heroEl && !sections.includes(heroEl)) {
-      sections.push(heroEl);
-    }
-
+    if (heroEl && !sections.includes(heroEl)) sections.push(heroEl);
     if (sections.length === 0) return;
 
     const brandDecoIcons = [
-      "/assets/decorations/kinetora-triangle-purple.webp",
-      "/assets/decorations/kinetora-triangle-white.webp",
-      "/assets/decorations/kinetora-circle-white.webp",
-      "/assets/decorations/kinetora-circle-purple.webp",
-      "/assets/decorations/kinetora-square-white.webp",
-      "/assets/decorations/kinetora-cross-white.webp",
-      "/assets/decorations/kinetora-plus-purple.webp",
-      "/assets/decorations/kinetora-square-purple.webp",
-      "/assets/decorations/kinetora-plus-white-thin.webp",
-      "/assets/decorations/kinetora-circle-purple-shadow.webp",
-      "/assets/decorations/kinetora-triangle-purple-shadow.webp",
-      "/assets/decorations/kinetora-cross-purple-shadow.webp",
-      "/assets/decorations/kinetora-cross-purple-thin.webp",
-      "/assets/decorations/kinetora-polygon-white.webp",
-      "/assets/decorations/kinetora-zigzag-purple.webp",
-      "/assets/decorations/kinetora-chevron-white.webp",
-      "/assets/decorations/kinetora-zigzag-purple-v2.webp",
-      "/assets/decorations/kinetora-chevron-left-purple.webp",
-      "/assets/decorations/kinetora-zigzag-white.webp",
-      "/assets/decorations/kinetora-arrow-right-white.webp",
-      "/assets/decorations/kinetora-chevron-left-white.webp",
-      "/assets/decorations/kinetora-arrow-right-purple.webp"
+      "/assets/decorations/kinetora-triangle-purple.webp", "/assets/decorations/kinetora-triangle-white.webp",
+      "/assets/decorations/kinetora-circle-white.webp", "/assets/decorations/kinetora-circle-purple.webp",
+      "/assets/decorations/kinetora-square-white.webp", "/assets/decorations/kinetora-cross-white.webp",
+      "/assets/decorations/kinetora-plus-purple.webp", "/assets/decorations/kinetora-square-purple.webp",
+      "/assets/decorations/kinetora-plus-white-thin.webp", "/assets/decorations/kinetora-circle-purple-shadow.webp",
+      "/assets/decorations/kinetora-triangle-purple-shadow.webp", "/assets/decorations/kinetora-cross-purple-shadow.webp",
+      "/assets/decorations/kinetora-cross-purple-thin.webp", "/assets/decorations/kinetora-polygon-white.webp",
+      "/assets/decorations/kinetora-zigzag-purple.webp", "/assets/decorations/kinetora-chevron-white.webp",
+      "/assets/decorations/kinetora-zigzag-purple-v2.webp", "/assets/decorations/kinetora-chevron-left-purple.webp",
+      "/assets/decorations/kinetora-zigzag-white.webp", "/assets/decorations/kinetora-arrow-right-white.webp",
+      "/assets/decorations/kinetora-chevron-left-white.webp", "/assets/decorations/kinetora-arrow-right-purple.webp"
     ];
 
     function shuffleArray(array) {
@@ -419,93 +402,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const particles = [];
-
     sections.forEach((section) => {
       section.style.position = "relative";
       const shuffledIcons = shuffleArray(brandDecoIcons);
-      const count = 3;
-      for (let i = 0; i < count; i++) {
+      for (let i = 0; i < 3; i++) {
         const deco = document.createElement("div");
         deco.className = "kin-deco";
-
         const layer = Math.floor(Math.random() * 3);
         let size, blurVal, speedClass, depthFactor;
-        
-        if (layer === 0) {
-          size = Math.floor(Math.random() * 6) + 14; 
-          blurVal = 2; 
-          speedClass = "kin-deco-slow";
-          depthFactor = 0.03; 
-        } else if (layer === 1) {
-          size = Math.floor(Math.random() * 12) + 20; 
-          blurVal = 0; 
-          speedClass = "kin-deco-medium";
-          depthFactor = 0.07; 
-        } else {
-          size = Math.floor(Math.random() * 16) + 32; 
-          blurVal = 1; 
-          speedClass = "kin-deco-fast";
-          depthFactor = 0.12; 
-        }
-
+        if (layer === 0) { size = Math.floor(Math.random() * 6) + 14; blurVal = 2; speedClass = "kin-deco-slow"; depthFactor = 0.03; }
+        else if (layer === 1) { size = Math.floor(Math.random() * 12) + 20; blurVal = 0; speedClass = "kin-deco-medium"; depthFactor = 0.07; }
+        else { size = Math.floor(Math.random() * 16) + 32; blurVal = 1; speedClass = "kin-deco-fast"; depthFactor = 0.12; }
         deco.classList.add(speedClass);
-
-        const x = i === 0 ? (Math.random() * 15 + 5) : (i === 1 ? (Math.random() * 20 + 40) : (Math.random() * 15 + 80)); 
-        const y = Math.random() * 60 + 20; 
-        
-        deco.style.left = x + "%";
-        deco.style.top = y + "%";
-        deco.style.width = size + "px";
-        deco.style.height = size + "px";
+        const x = i === 0 ? (Math.random() * 15 + 5) : (i === 1 ? (Math.random() * 20 + 40) : (Math.random() * 15 + 80));
+        const y = Math.random() * 60 + 20;
+        deco.style.left = x + "%"; deco.style.top = y + "%";
+        deco.style.width = size + "px"; deco.style.height = size + "px";
         deco.style.filter = blurVal > 0 ? "blur(" + blurVal + "px)" : "none";
-        
         const rotation = Math.floor(Math.random() * 360);
-        const iconUrl = shuffledIcons[i % shuffledIcons.length];
-        
-        deco.innerHTML = '<img src="' + iconUrl + '" alt="Deco" loading="lazy" style="transform: rotate(' + rotation + 'deg);" />';
+        deco.innerHTML = '<img src="' + shuffledIcons[i % shuffledIcons.length] + '" alt="" loading="lazy" style="transform: rotate(' + rotation + 'deg);" />';
         section.appendChild(deco);
-
-        particles.push({
-          element: deco,
-          x: 0,
-          y: 0,
-          targetX: 0,
-          targetY: 0,
-          factor: depthFactor,
-          rotation: rotation
-        });
+        particles.push({ element: deco, x: 0, y: 0, targetX: 0, targetY: 0, factor: depthFactor });
       }
     });
 
-    let lastMouseX = window.innerWidth / 2;
-    let lastMouseY = window.innerHeight / 2;
-
-    window.addEventListener("mousemove", (e) => {
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
-    });
-
+    let lastMouseX = window.innerWidth / 2, lastMouseY = window.innerHeight / 2;
+    window.addEventListener("mousemove", (e) => { lastMouseX = e.clientX; lastMouseY = e.clientY; });
     function updateParallaxPhysics() {
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const moveX = lastMouseX - centerX;
-      const moveY = lastMouseY - centerY;
-
+      const moveX = lastMouseX - window.innerWidth / 2, moveY = lastMouseY - window.innerHeight / 2;
       particles.forEach(p => {
-        p.targetX = moveX * -p.factor;
-        p.targetY = moveY * -p.factor;
-
-        p.x += (p.targetX - p.x) * 0.08;
-        p.y += (p.targetY - p.y) * 0.08;
-
+        p.targetX = moveX * -p.factor; p.targetY = moveY * -p.factor;
+        p.x += (p.targetX - p.x) * 0.08; p.y += (p.targetY - p.y) * 0.08;
         p.element.style.transform = "translate3d(" + p.x + "px, " + p.y + "px, 0)";
       });
-
       requestAnimationFrame(updateParallaxPhysics);
     }
-
     updateParallaxPhysics();
-    console.log("[Kinetora Parallax Physics] Re-injected universally on all sections.");
   }, 1200);
 });
 </script>

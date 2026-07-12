@@ -50,6 +50,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -81,131 +82,160 @@
 .kin-deco-medium { animation: float-medium 6s ease-in-out infinite; }
 .kin-deco-fast { animation: float-fast 5s ease-in-out infinite; }
 
-/* Custom cursor spotlight rule */
-.spotlight {
-  position: relative;
-}
+.spotlight { position: relative; }
 .spotlight::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0; width: 100%; height: 100%;
   background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(180, 84, 255, 0.06), transparent 40%);
-  pointer-events: none;
-  z-index: 1;
-  transition: opacity 0.5s ease;
+  pointer-events: none; z-index: 1; transition: opacity 0.5s ease;
 }
 
-/* Isolated Custom Footer styling */
-footer.bg-zinc-950,
-footer#footer,
-footer {
+footer.bg-zinc-950, footer#footer, footer {
   background-color: rgba(10, 10, 10, 0.95) !important;
   backdrop-filter: blur(16px) !important;
   -webkit-backdrop-filter: blur(16px) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-/* 1. OCULTAR EL CURSOR NATIVO DEL SISTEMA WINDOWS Y PUNTEROS ORIGINALES */
 html, body, a, button, select, input, textarea, [role="button"] {
   cursor: none !important;
 }
 
 div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor),
-.custom-cursor, 
-.cursor-dot, 
-.cursor-ring,
+.custom-cursor, .cursor-dot, .cursor-ring,
 [class*="custom-cursor"]:not(#kinetora-premium-cursor),
-[class*="cursor-dot"],
-[class*="cursor-ring"] {
-  display: none !important;
-  opacity: 0 !important;
-  visibility: hidden !important;
-  pointer-events: none !important;
+[class*="cursor-dot"], [class*="cursor-ring"] {
+  display: none !important; opacity: 0 !important;
+  visibility: hidden !important; pointer-events: none !important;
 }
 
-/* 2. ESTILO EXCLUSIVO DE NUESTRO ANILLO DIFERENCIAL EN MORADO BRILLANTE */
 #kinetora-premium-cursor {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  width: 26px;
-  height: 26px;
+  display: block !important; opacity: 1 !important; visibility: visible !important;
+  width: 26px; height: 26px;
   border: 1.5px solid rgba(180, 84, 255, 0.85);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
+  border-radius: 50%; position: fixed; pointer-events: none;
   z-index: 99999999 !important;
   transform: translate3d(-50%, -50%, 0) scale(1);
   transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1), height 0.3s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, background-color 0.3s;
   mix-blend-mode: difference !important;
 }
 
-/* 3. ESTILO EXCLUSIVO DEL PUNTO CENTRAL EN MORADO SÓLIDO */
 #kinetora-premium-dot {
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  width: 6px;
-  height: 6px;
-  background-color: #B454FF;
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
+  display: block !important; opacity: 1 !important; visibility: visible !important;
+  width: 6px; height: 6px; background-color: #B454FF;
+  border-radius: 50%; position: fixed; pointer-events: none;
   z-index: 99999999 !important;
   transform: translate3d(-50%, -50%, 0) scale(1);
-  transition: opacity 0.2s;
-  mix-blend-mode: difference !important;
+  transition: opacity 0.2s; mix-blend-mode: difference !important;
 }
 
-/* Hover cursor */
 #kinetora-premium-cursor.custom-cursor-hovering {
-  width: 42px;
-  height: 42px;
+  width: 42px; height: 42px;
   border-color: rgba(180, 84, 255, 1) !important;
   background-color: rgba(180, 84, 255, 0.1);
 }
 
-/* --- REORDENACIÓN DEL HERO Y OCULTACIÓN DE SUBTÍTULO POR CSS --- */
-p.text-zinc-400,
-p.text-zinc-500,
-p.mt-4.max-w-2xl,
-.hero-section p {
+/* Ocultar subtítulo del hero */
+.hero-section p.text-zinc-400, .hero-section p.text-zinc-500 {
   display: none !important;
 }
 
-/* Forzar visualización de marcas */
-.hero-brands-container {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+/* =====================================================
+   BRANDS CAROUSEL OVERLAY - FIXED POSITION DENTRO DEL HERO
+   Posiciona el carrusel de marcas como overlay fijo en la parte 
+   inferior del viewport, con un z-index entre el Hero (z-0) y 
+   el contenido scrollable (z-10), de modo que se "vea" como 
+   parte del Hero y desaparezca al hacer scroll.
+   ===================================================== */
+#kinetora-hero-brands-overlay {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
   width: 100% !important;
-  max-width: 100% !important;
-  margin-top: 4rem !important;
-  padding-bottom: 2rem !important;
+  z-index: 5 !important;
   background: transparent !important;
-  border: none !important;
+  padding: 1rem 0 2rem 0 !important;
+  pointer-events: none;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
-/* Reducir paddings del Hero */
-#hero,
-.hero-section {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1 !important;
-  padding-top: 4rem !important;
-  padding-bottom: 2rem !important;
+#kinetora-hero-brands-overlay * {
+  pointer-events: auto;
+}
+
+#kinetora-hero-brands-overlay .brands-title-text {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(245, 245, 245, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+@keyframes kinetora-marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+#kinetora-hero-brands-overlay .marquee-wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 48px;
+}
+
+#kinetora-hero-brands-overlay .marquee-inner {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  min-width: max-content;
+  animation: kinetora-marquee 70s linear infinite;
+  will-change: transform;
+}
+
+#kinetora-hero-brands-overlay .marquee-inner:hover {
+  animation-play-state: paused;
+}
+
+#kinetora-hero-brands-overlay .brand-logo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 140px;
+  flex-shrink: 0;
+}
+
+#kinetora-hero-brands-overlay .brand-logo-item img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 0.55;
+  filter: grayscale(1) contrast(1.2);
+  transition: all 0.3s ease;
+}
+
+#kinetora-hero-brands-overlay .brand-logo-item img:hover {
+  opacity: 1;
+  filter: grayscale(0) contrast(1);
 }
 
 /* --- RESTAURACIÓN DEL SCROLL REVEAL ORIGINAL DE KINETORA --- */
+#hero, .hero-section {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1 !important;
+}
+
 #root main > div > div:not(#hero):not(.hero-section),
 #root section:not(#hero):not(.hero-section),
 #root div.py-20:not(#hero):not(.hero-section),
-#capabilities,
-#pricing,
-#studio,
+#capabilities, #pricing, #studio,
 main > div > div:not(#hero):not(.hero-section) {
   position: relative !important;
   z-index: 10 !important;
