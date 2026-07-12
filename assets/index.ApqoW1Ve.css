@@ -39,6 +39,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -180,23 +181,4 @@ p.mt-4.max-w-2xl,
   order: 3 !important;
   margin-top: 3.5rem !important;
   margin-bottom: 1rem !important;
-}
-
-/* --- VELOCIDAD Y ESTRUCTURA DE SCROLL ORIGINAL --- */
-#hero,
-.hero-section {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 5 !important;
-}
-
-#root main > div > div:not(#hero):not(.hero-section),
-#root section:not(#hero):not(.hero-section),
-#root div.py-20:not(#hero):not(.hero-section),
-#capabilities,
-#pricing,
-#studio {
-  position: relative !important;
-  z-index: 20 !important;
-  background-color: #09090b !important;
 }
