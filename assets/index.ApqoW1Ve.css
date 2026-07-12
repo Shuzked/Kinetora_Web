@@ -41,6 +41,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -178,10 +179,12 @@ p.mt-4.max-w-2xl,
   order: 2 !important;
 }
 
+/* Estilos de espaciado para las marcas DENTRO del Hero */
 .hero-brands-container {
-  order: 3 !important;
-  margin-top: 3.5rem !important;
-  margin-bottom: 1rem !important;
+  margin-top: 2rem !important;
+  padding-bottom: 2rem !important;
+  background: transparent !important;
+  border: none !important;
 }
 
 /* --- RESTAURACIÓN DEL SCROLL REVEAL ORIGINAL DE KINETORA --- */
@@ -189,10 +192,9 @@ p.mt-4.max-w-2xl,
 .hero-section {
   position: sticky !important;
   top: 0 !important;
-  z-index: 1 !important; /* Capa inferior fija */
+  z-index: 1 !important;
 }
 
-/* Todo el contenido que sigue después del Hero se apila por encima */
 #root main > div > div:not(#hero):not(.hero-section),
 #root section:not(#hero):not(.hero-section),
 #root div.py-20:not(#hero):not(.hero-section),
@@ -201,6 +203,6 @@ p.mt-4.max-w-2xl,
 #studio,
 main > div > div:not(#hero):not(.hero-section) {
   position: relative !important;
-  z-index: 10 !important; /* Capa superior */
-  background-color: #09090b !important; /* Color de fondo opaco para cubrir el Hero */
+  z-index: 10 !important;
+  background-color: #09090b !important;
 }
