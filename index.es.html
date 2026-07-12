@@ -215,229 +215,96 @@
 
 
 
+
+
+<!-- KINETORA BRANDS BAR — Static HTML overlay -->
+<div id="kinetora-brands-bar" aria-hidden="true">
+  <div class="kb-title">Marcas que conf&iacute;an en nuestra velocidad</div>
+  <div class="kb-track-wrapper">
+    <div class="kb-track">
+      <div class="kb-item"><img src="/assets/brands/square-enix.svg" alt="Square Enix" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/solana.svg" alt="Solana" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/elixir-games.svg" alt="Elixir Games" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/litlab-games.svg" alt="Litlab Games" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/friends4payment.svg" alt="Friends4Payment" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/hard-lock.svg" alt="Hard Lock" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/buu-ai.svg" alt="BUU AI" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/sphere-studios.svg" alt="Sphere Studios" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/a2ax.svg" alt="A2AX" width="160" height="48" loading="eager"></div>
+      <div class="kb-item"><img src="/assets/brands/square-enix.svg" alt="Square Enix" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/solana.svg" alt="Solana" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/elixir-games.svg" alt="Elixir Games" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/litlab-games.svg" alt="Litlab Games" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/friends4payment.svg" alt="Friends4Payment" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/hard-lock.svg" alt="Hard Lock" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/buu-ai.svg" alt="BUU AI" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/sphere-studios.svg" alt="Sphere Studios" width="160" height="48" loading="lazy"></div>
+      <div class="kb-item"><img src="/assets/brands/a2ax.svg" alt="A2AX" width="160" height="48" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Cursor
-  const ring = document.createElement("div");
-  ring.id = "kinetora-premium-cursor";
-  document.body.appendChild(ring);
-  const dot = document.createElement("div");
-  dot.id = "kinetora-premium-dot";
-  document.body.appendChild(dot);
+  const ring = document.createElement("div"); ring.id = "kinetora-premium-cursor"; document.body.appendChild(ring);
+  const dot = document.createElement("div"); dot.id = "kinetora-premium-dot"; document.body.appendChild(dot);
+  let mouseX=0,mouseY=0,ringX=0,ringY=0,dotX=0,dotY=0,ticking=false,clickScale=1,isHovered=false;
+  window.addEventListener("mousemove",(e)=>{mouseX=e.clientX;mouseY=e.clientY;document.documentElement.style.setProperty("--mouse-x",e.clientX+"px");document.documentElement.style.setProperty("--mouse-y",(e.clientY+window.scrollY)+"px");if(!ticking){window.requestAnimationFrame(()=>{dotX+=(mouseX-dotX)*0.38;dotY+=(mouseY-dotY)*0.38;dot.style.left=dotX+"px";dot.style.top=dotY+"px";ringX+=(mouseX-ringX)*0.16;ringY+=(mouseY-ringY)*0.16;const dx=ringX-dotX,dy=ringY-dotY,distance=Math.sqrt(dx*dx+dy*dy),maxDist=isHovered?18:10;if(distance>maxDist){const angle=Math.atan2(dy,dx);ringX=dotX+Math.cos(angle)*maxDist;ringY=dotY+Math.sin(angle)*maxDist;}ring.style.left=ringX+"px";ring.style.top=ringY+"px";ring.style.transform="translate3d(-50%,-50%,0) scale("+clickScale+")";ticking=false;});ticking=true;}});
+  const ht="a,button,[role='button'],input,textarea,select";
+  document.addEventListener("mouseover",(e)=>{if(e.target.closest(ht)){isHovered=true;ring.classList.add("custom-cursor-hovering");dot.style.opacity="0";}});
+  document.addEventListener("mouseout",(e)=>{if(e.target.closest(ht)){isHovered=false;ring.classList.remove("custom-cursor-hovering");dot.style.opacity="1";}});
+  document.addEventListener("mousedown",()=>{clickScale=0.55;ring.style.transform="translate3d(-50%,-50%,0) scale("+clickScale+")";dot.style.transform="translate3d(-50%,-50%,0) scale(1.6)";});
+  document.addEventListener("mouseup",()=>{clickScale=1;ring.style.transform="translate3d(-50%,-50%,0) scale("+clickScale+")";dot.style.transform="translate3d(-50%,-50%,0) scale(1)";});
 
-  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0, dotX = 0, dotY = 0;
-  let ticking = false, clickScale = 1, isHovered = false;
-
-  window.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX; mouseY = e.clientY;
-    document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
-    document.documentElement.style.setProperty("--mouse-y", (e.clientY + window.scrollY) + "px");
-    if (!ticking) {
-      window.requestAnimationFrame(() => {
-        dotX += (mouseX - dotX) * 0.38; dotY += (mouseY - dotY) * 0.38;
-        dot.style.left = dotX + "px"; dot.style.top = dotY + "px";
-        ringX += (mouseX - ringX) * 0.16; ringY += (mouseY - ringY) * 0.16;
-        const dx = ringX - dotX, dy = ringY - dotY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = isHovered ? 18 : 10;
-        if (distance > maxDist) {
-          const angle = Math.atan2(dy, dx);
-          ringX = dotX + Math.cos(angle) * maxDist;
-          ringY = dotY + Math.sin(angle) * maxDist;
-        }
-        ring.style.left = ringX + "px"; ring.style.top = ringY + "px";
-        ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
-
-  const hoverTargets = "a, button, [role='button'], input, textarea, select";
-  document.addEventListener("mouseover", (e) => {
-    if (e.target.closest(hoverTargets)) { isHovered = true; ring.classList.add("custom-cursor-hovering"); dot.style.opacity = "0"; }
-  });
-  document.addEventListener("mouseout", (e) => {
-    if (e.target.closest(hoverTargets)) { isHovered = false; ring.classList.remove("custom-cursor-hovering"); dot.style.opacity = "1"; }
-  });
-  document.addEventListener("mousedown", () => { clickScale = 0.55; ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")"; dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; });
-  document.addEventListener("mouseup", () => { clickScale = 1; ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")"; dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)"; });
-
-  // 2. BRANDS OVERLAY - Inyectar carrusel de logos como FIXED overlay en la parte inferior del viewport
-  const brands = [
-    { name: "Square Enix", src: "/assets/brands/square-enix.svg" },
-    { name: "Solana", src: "/assets/brands/solana.svg" },
-    { name: "Elixir Games", src: "/assets/brands/elixir-games.svg" },
-    { name: "Litlab Games", src: "/assets/brands/litlab-games.svg" },
-    { name: "Friends4Payment", src: "/assets/brands/friends4payment.svg" },
-    { name: "Hard Lock", src: "/assets/brands/hard-lock.svg" },
-    { name: "BUU AI", src: "/assets/brands/buu-ai.svg" },
-    { name: "Sphere Studios", src: "/assets/brands/sphere-studios.svg" },
-    { name: "A2AX", src: "/assets/brands/a2ax.svg" }
-  ];
-
-  function createBrandsOverlay() {
-    if (document.getElementById("kinetora-hero-brands-overlay")) return;
-
-    const overlay = document.createElement("div");
-    overlay.id = "kinetora-hero-brands-overlay";
-
-    // Título
-    const isES = window.__KINETORA_LANG__ === "es";
-    const title = document.createElement("div");
-    title.className = "brands-title-text";
-    title.textContent = isES ? "Marcas que confían en nuestra velocidad" : "Brands that trust our speed";
-    overlay.appendChild(title);
-
-    // Marquee
-    const wrapper = document.createElement("div");
-    wrapper.className = "marquee-wrapper";
-    
-    const inner = document.createElement("div");
-    inner.className = "marquee-inner";
-
-    // Duplicar para scroll infinito (2x)
-    const allBrands = [...brands, ...brands];
-    allBrands.forEach(b => {
-      const item = document.createElement("div");
-      item.className = "brand-logo-item";
-      const img = document.createElement("img");
-      img.src = b.src;
-      img.alt = b.name;
-      img.loading = "lazy";
-      img.decoding = "async";
-      img.width = 160;
-      img.height = 48;
-      item.appendChild(img);
-      inner.appendChild(item);
-    });
-
-    wrapper.appendChild(inner);
-    overlay.appendChild(wrapper);
-    document.body.appendChild(overlay);
-
-    // Ocultar la sección original de Brands de React (la que está en el div.mt-[100svh])
-    const origInterval = setInterval(() => {
-      const sections = document.querySelectorAll("section.kin-section");
-      sections.forEach(sec => {
-        const text = sec.getAttribute("aria-label") || sec.textContent || "";
-        if (text.includes("Brands that trust") || text.includes("Marcas que conf")) {
-          if (!sec.dataset.hiddenByOverlay) {
-            sec.style.display = "none";
-            sec.dataset.hiddenByOverlay = "true";
-          }
-        }
-      });
-    }, 100);
-    setTimeout(() => clearInterval(origInterval), 15000);
-
-    // Ocultar el overlay al hacer scroll (el contenido z-10 lo tapará)
-    function updateOverlayVisibility() {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const threshold = window.innerHeight * 0.15;
-      if (scrollY > threshold) {
-        overlay.style.opacity = "0";
-        overlay.style.transition = "opacity 0.3s ease";
-      } else {
-        overlay.style.opacity = "1";
-        overlay.style.transition = "opacity 0.3s ease";
-      }
-      requestAnimationFrame(updateOverlayVisibility);
-    }
-    updateOverlayVisibility();
-  }
-
-  // Esperar a que React monte el Hero
-  const waitForHero = setInterval(() => {
-    const heroEl = document.querySelector(".hero-section");
-    if (heroEl) {
-      clearInterval(waitForHero);
-      createBrandsOverlay();
-    }
-  }, 50);
-
-  // Cleanup: remove old cursor
-  const cleanupInterval = setInterval(() => {
+  // 2. Ocultar "Backed by results..." y cursor viejo
+  const cleanup = setInterval(() => {
+    // Remove old cursor
     const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
     if (oldCursor) oldCursor.remove();
+    // Hide "Backed by results" / "Respaldado por resultados"
+    document.querySelectorAll("p").forEach(p => {
+      const t = p.textContent || "";
+      if (t.includes("Backed by results") || t.includes("Respaldado por resultados")) {
+        p.style.display = "none";
+      }
+    });
   }, 200);
-  setTimeout(() => clearInterval(cleanupInterval), 10000);
+  setTimeout(() => clearInterval(cleanup), 15000);
 
-  // 3. Parallax decorations
+  // 3. Brands bar: ocultar al hacer scroll
+  const brandsBar = document.getElementById("kinetora-brands-bar");
+  if (brandsBar) {
+    function updateBrandsVisibility() {
+      const sy = window.scrollY || window.pageYOffset;
+      brandsBar.style.opacity = sy > (window.innerHeight * 0.1) ? "0" : "1";
+      requestAnimationFrame(updateBrandsVisibility);
+    }
+    updateBrandsVisibility();
+  }
+
+  // 4. Parallax decorations
   setTimeout(() => {
-    const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-20'], #root div[class*='py-24'], #root main > div > div, #root #hero"));
+    const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-20'], #root div[class*='py-24'], #root main > div > div"));
     const sections = [];
     candidates.forEach(c => {
       if (c.tagName === "FOOTER" || c.closest("footer") || c.tagName === "NAV" || c.closest("nav") || c.querySelector("h1") || c.offsetHeight < 120) return;
-      const classes = c.className || "";
-      if (classes.includes("grid") || classes.includes("flex-row") || classes.includes("gap-") || classes.includes("max-w-7xl")) return;
-      const isNested = sections.some(existing => existing.contains(c) || c.contains(existing));
-      if (!isNested) sections.push(c);
+      const cls = c.className || "";
+      if (cls.includes("grid") || cls.includes("flex-row") || cls.includes("gap-") || cls.includes("max-w-7xl")) return;
+      const nested = sections.some(ex => ex.contains(c) || c.contains(ex));
+      if (!nested) sections.push(c);
     });
-    const heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
+    const heroEl = document.querySelector(".hero-section");
     if (heroEl && !sections.includes(heroEl)) sections.push(heroEl);
-    if (sections.length === 0) return;
-
-    const brandDecoIcons = [
-      "/assets/decorations/kinetora-triangle-purple.webp", "/assets/decorations/kinetora-triangle-white.webp",
-      "/assets/decorations/kinetora-circle-white.webp", "/assets/decorations/kinetora-circle-purple.webp",
-      "/assets/decorations/kinetora-square-white.webp", "/assets/decorations/kinetora-cross-white.webp",
-      "/assets/decorations/kinetora-plus-purple.webp", "/assets/decorations/kinetora-square-purple.webp",
-      "/assets/decorations/kinetora-plus-white-thin.webp", "/assets/decorations/kinetora-circle-purple-shadow.webp",
-      "/assets/decorations/kinetora-triangle-purple-shadow.webp", "/assets/decorations/kinetora-cross-purple-shadow.webp",
-      "/assets/decorations/kinetora-cross-purple-thin.webp", "/assets/decorations/kinetora-polygon-white.webp",
-      "/assets/decorations/kinetora-zigzag-purple.webp", "/assets/decorations/kinetora-chevron-white.webp",
-      "/assets/decorations/kinetora-zigzag-purple-v2.webp", "/assets/decorations/kinetora-chevron-left-purple.webp",
-      "/assets/decorations/kinetora-zigzag-white.webp", "/assets/decorations/kinetora-arrow-right-white.webp",
-      "/assets/decorations/kinetora-chevron-left-white.webp", "/assets/decorations/kinetora-arrow-right-purple.webp"
-    ];
-
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
-
-    const particles = [];
-    sections.forEach((section) => {
-      section.style.position = "relative";
-      const shuffledIcons = shuffleArray(brandDecoIcons);
-      for (let i = 0; i < 3; i++) {
-        const deco = document.createElement("div");
-        deco.className = "kin-deco";
-        const layer = Math.floor(Math.random() * 3);
-        let size, blurVal, speedClass, depthFactor;
-        if (layer === 0) { size = Math.floor(Math.random() * 6) + 14; blurVal = 2; speedClass = "kin-deco-slow"; depthFactor = 0.03; }
-        else if (layer === 1) { size = Math.floor(Math.random() * 12) + 20; blurVal = 0; speedClass = "kin-deco-medium"; depthFactor = 0.07; }
-        else { size = Math.floor(Math.random() * 16) + 32; blurVal = 1; speedClass = "kin-deco-fast"; depthFactor = 0.12; }
-        deco.classList.add(speedClass);
-        const x = i === 0 ? (Math.random() * 15 + 5) : (i === 1 ? (Math.random() * 20 + 40) : (Math.random() * 15 + 80));
-        const y = Math.random() * 60 + 20;
-        deco.style.left = x + "%"; deco.style.top = y + "%";
-        deco.style.width = size + "px"; deco.style.height = size + "px";
-        deco.style.filter = blurVal > 0 ? "blur(" + blurVal + "px)" : "none";
-        const rotation = Math.floor(Math.random() * 360);
-        deco.innerHTML = '<img src="' + shuffledIcons[i % shuffledIcons.length] + '" alt="" loading="lazy" style="transform: rotate(' + rotation + 'deg);" />';
-        section.appendChild(deco);
-        particles.push({ element: deco, x: 0, y: 0, targetX: 0, targetY: 0, factor: depthFactor });
-      }
-    });
-
-    let lastMouseX = window.innerWidth / 2, lastMouseY = window.innerHeight / 2;
-    window.addEventListener("mousemove", (e) => { lastMouseX = e.clientX; lastMouseY = e.clientY; });
-    function updateParallaxPhysics() {
-      const moveX = lastMouseX - window.innerWidth / 2, moveY = lastMouseY - window.innerHeight / 2;
-      particles.forEach(p => {
-        p.targetX = moveX * -p.factor; p.targetY = moveY * -p.factor;
-        p.x += (p.targetX - p.x) * 0.08; p.y += (p.targetY - p.y) * 0.08;
-        p.element.style.transform = "translate3d(" + p.x + "px, " + p.y + "px, 0)";
-      });
-      requestAnimationFrame(updateParallaxPhysics);
-    }
-    updateParallaxPhysics();
+    if (!sections.length) return;
+    const icons=["/assets/decorations/kinetora-triangle-purple.webp","/assets/decorations/kinetora-triangle-white.webp","/assets/decorations/kinetora-circle-white.webp","/assets/decorations/kinetora-circle-purple.webp","/assets/decorations/kinetora-square-white.webp","/assets/decorations/kinetora-cross-white.webp","/assets/decorations/kinetora-plus-purple.webp","/assets/decorations/kinetora-square-purple.webp","/assets/decorations/kinetora-plus-white-thin.webp","/assets/decorations/kinetora-circle-purple-shadow.webp","/assets/decorations/kinetora-triangle-purple-shadow.webp","/assets/decorations/kinetora-cross-purple-shadow.webp","/assets/decorations/kinetora-cross-purple-thin.webp","/assets/decorations/kinetora-polygon-white.webp","/assets/decorations/kinetora-zigzag-purple.webp","/assets/decorations/kinetora-chevron-white.webp"];
+    function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+    const particles=[];
+    sections.forEach(sec=>{sec.style.position="relative";const si=shuffle(icons);for(let i=0;i<3;i++){const d=document.createElement("div");d.className="kin-deco";const l=Math.floor(Math.random()*3);let sz,bl,sp,df;if(l===0){sz=14+Math.floor(Math.random()*6);bl=2;sp="kin-deco-slow";df=0.03;}else if(l===1){sz=20+Math.floor(Math.random()*12);bl=0;sp="kin-deco-medium";df=0.07;}else{sz=32+Math.floor(Math.random()*16);bl=1;sp="kin-deco-fast";df=0.12;}d.classList.add(sp);const x=i===0?(Math.random()*15+5):(i===1?(Math.random()*20+40):(Math.random()*15+80));d.style.left=x+"%";d.style.top=(Math.random()*60+20)+"%";d.style.width=sz+"px";d.style.height=sz+"px";d.style.filter=bl>0?"blur("+bl+"px)":"none";const rot=Math.floor(Math.random()*360);d.innerHTML='<img src="'+si[i%si.length]+'" alt="" loading="lazy" style="transform:rotate('+rot+'deg);" />';sec.appendChild(d);particles.push({element:d,x:0,y:0,tx:0,ty:0,f:df});}});
+    let lmx=window.innerWidth/2,lmy=window.innerHeight/2;
+    window.addEventListener("mousemove",(e)=>{lmx=e.clientX;lmy=e.clientY;});
+    function upd(){const mx=lmx-window.innerWidth/2,my=lmy-window.innerHeight/2;particles.forEach(p=>{p.tx=mx*-p.f;p.ty=my*-p.f;p.x+=(p.tx-p.x)*0.08;p.y+=(p.ty-p.y)*0.08;p.element.style.transform="translate3d("+p.x+"px,"+p.y+"px,0)";});requestAnimationFrame(upd);}
+    upd();
   }, 1200);
 });
 </script>
