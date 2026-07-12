@@ -28,6 +28,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -46,6 +47,7 @@
   pointer-events: none;
   z-index: 10 !important; /* Capa por encima de las secciones, por debajo del texto */
   will-change: transform, filter;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .kin-deco img {
   width: 100%;
