@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=54">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=55">
   
     
 </head>
@@ -150,6 +150,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -334,7 +336,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     let brandsSection = null;
-    let buttonsContainer = null;
+    let heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
     let heroSubtitleEl = null;
 
     const allElements = Array.from(document.querySelectorAll("*"));
@@ -344,12 +346,6 @@ document.addEventListener("DOMContentLoaded", () => {
           text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
         if (!el.classList.contains("kinetora-cloned-brands")) {
           brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
-        }
-      }
-      // Buscar el contenedor de los botones principales del Hero (See how it works / View case studies)
-      if (text.includes("SEE HOW IT WORKS") || text.includes("VER CÓMO FUNCIONA")) {
-        if (el.tagName === "DIV" && el.className.includes("flex")) {
-          buttonsContainer = el;
         }
       }
       if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
@@ -363,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
       heroSubtitleEl.style.display = "none";
     }
 
-    if (brandsSection && buttonsContainer) {
+    if (brandsSection && heroEl) {
       // 1. Ocultar de forma segura la sección original en su sitio antiguo
       brandsSection.style.display = "none";
       brandsSection.style.height = "0px";
@@ -380,8 +376,11 @@ document.addEventListener("DOMContentLoaded", () => {
         clonedBrandsNode.style.visibility = "visible";
         clonedBrandsNode.style.opacity = "1";
         
-        // Inyectar el carrusel de logos en primera pantalla justo debajo de los botones principales del Hero
-        buttonsContainer.parentNode.insertBefore(clonedBrandsNode, buttonsContainer.nextSibling);
+        // Buscar el contenedor flex del Hero para inyectarlo al final (debajo de las estadísticas en el mismo árbol del Hero)
+        const heroContainer = heroEl.querySelector("div.container") || heroEl.querySelector("div.max-w-7xl") || heroEl.firstElementChild;
+        if (heroContainer) {
+          heroContainer.appendChild(clonedBrandsNode);
+        }
       }
     }
     

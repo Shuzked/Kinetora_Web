@@ -49,6 +49,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -175,18 +176,20 @@ p.mt-4.max-w-2xl,
   display: none !important;
 }
 
-/* Estilos de espaciado para las marcas */
+/* Forzar visualización de marcas */
 .hero-brands-container {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;
-  margin-top: 2rem !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-top: 4rem !important;
   padding-bottom: 2rem !important;
   background: transparent !important;
   border: none !important;
 }
 
-/* Reducir paddings del Hero para que quepa todo a primera pantalla */
+/* Reducir paddings del Hero */
 #hero,
 .hero-section {
   position: sticky !important;
