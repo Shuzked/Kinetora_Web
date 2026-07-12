@@ -129,7 +129,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=42">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=43">
   
     
 </head>
@@ -150,6 +150,8 @@
       };
     </script>
   
+
+
 
 
 
@@ -349,7 +351,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 3. Inyección estática de los Iconos de Marca de Kinetora
   setTimeout(() => {
-    // Buscar todos los bloques principales de la página (Hero, Capabilities, Studio, etc.)
     const candidates = Array.from(document.querySelectorAll("#root section, #root div[class*='py-20'], #root div[class*='py-24'], #root main > div > div, #root #hero"));
     
     const sections = [];
@@ -357,7 +358,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (c.tagName === "FOOTER" || c.closest("footer") || c.tagName === "NAV" || c.closest("nav") || c.querySelector("h1") || c.offsetHeight < 120) return;
       
       const classes = c.className || "";
-      // Excluir layouts internos para evitar duplicados locales
       if (classes.includes("grid") || classes.includes("flex-row") || classes.includes("gap-") || classes.includes("max-w-7xl")) return;
 
       const isNested = sections.some(existing => existing.contains(c) || c.contains(existing));
@@ -366,7 +366,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Añadir el Hero explícitamente a la lista si no se incluyó
     const heroEl = document.querySelector("#hero") || document.querySelector(".hero-section");
     if (heroEl && !sections.includes(heroEl)) {
       sections.push(heroEl);
@@ -374,7 +373,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (sections.length === 0) return;
 
-    // LISTA DE ICONOS 100% VERIFICADOS FÍSICAMENTE EN EL DISCO
     const brandDecoIcons = [
       "/assets/decorations/kinetora-triangle-purple.webp",
       "/assets/decorations/kinetora-triangle-white.webp",
@@ -400,7 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
       "/assets/decorations/kinetora-arrow-right-purple.webp"
     ];
 
-    // Algoritmo Fisher-Yates para barajar los iconos sin repetir
     function shuffleArray(array) {
       const arr = [...array];
       for (let i = arr.length - 1; i > 0; i--) {
@@ -414,11 +411,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     sections.forEach((section) => {
       section.style.position = "relative";
-      
-      // Barajar el catálogo para cada sección para que no se repitan
       const shuffledIcons = shuffleArray(brandDecoIcons);
-      
-      // Inyectar 3 iconos aleatorios no repetitivos por sección
       const count = 3;
       for (let i = 0; i < count; i++) {
         const deco = document.createElement("div");
@@ -446,16 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         deco.classList.add(speedClass);
 
-        // Posiciones asimétricas (izquierda, centro y derecha)
-        let x;
-        if (i === 0) {
-          x = Math.random() * 15 + 5; // Izquierda
-        } else if (i === 1) {
-          x = Math.random() * 20 + 40; // Centro
-        } else {
-          x = Math.random() * 15 + 80; // Derecha
-        }
-        
+        const x = i === 0 ? (Math.random() * 15 + 5) : (i === 1 ? (Math.random() * 20 + 40) : (Math.random() * 15 + 80)); 
         const y = Math.random() * 60 + 20; 
         
         deco.style.left = x + "%";
@@ -482,7 +466,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // 4. Bucle interactivo de físicas elásticas de paralaje con el ratón
     let lastMouseX = window.innerWidth / 2;
     let lastMouseY = window.innerHeight / 2;
 
