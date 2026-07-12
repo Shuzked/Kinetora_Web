@@ -38,6 +38,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -181,17 +182,14 @@ p.mt-4.max-w-2xl,
   margin-bottom: 1rem !important;
 }
 
-/* --- ESTILOS DE PARALAJE DE REVELACIÓN (SCROLL REVEAL ORIGINAL RESTORED) --- */
+/* --- VELOCIDAD Y ESTRUCTURA DE SCROLL ORIGINAL --- */
 #hero,
 .hero-section {
   position: sticky !important;
   top: 0 !important;
-  z-index: 5 !important; /* Capa inferior fija */
-  height: 100vh !important;
-  min-height: 650px !important;
+  z-index: 5 !important;
 }
 
-/* Forzar que el resto del cuerpo del layout de React se apile por encima */
 #root main > div > div:not(#hero):not(.hero-section),
 #root section:not(#hero):not(.hero-section),
 #root div.py-20:not(#hero):not(.hero-section),
@@ -199,6 +197,6 @@ p.mt-4.max-w-2xl,
 #pricing,
 #studio {
   position: relative !important;
-  z-index: 20 !important; /* Capa superior que sube y tapa */
-  background-color: #09090b !important; /* Color de fondo sólido oscuro oficial de Kinetora */
+  z-index: 20 !important;
+  background-color: #09090b !important;
 }
