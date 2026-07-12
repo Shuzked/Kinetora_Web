@@ -20,6 +20,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -36,15 +37,14 @@
 .kin-deco {
   position: absolute;
   pointer-events: none;
-  /* z-index: 10 para flotar por encima de los fondos de las secciones, pero debajo del texto principal */
-  z-index: 10 !important;
+  z-index: 10 !important; /* Capa por encima del fondo, por debajo del texto */
   will-change: transform, filter;
 }
 .kin-deco img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  opacity: 0.22 !important; /* Opacidad premium aumentada para visibilidad óptima sobre fondo oscuro */
+  opacity: 0.30 !important; /* Opacidad premium muy visible */
   transition: opacity 0.3s ease;
 }
 .kin-deco-slow { animation: float-slow 8s ease-in-out infinite; }

@@ -536,5 +536,202 @@ document.addEventListener("DOMContentLoaded", () => {
   }, 1200);
 });
 </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Inyectar Anillo y Punto
+  const ring = document.createElement("div");
+  ring.id = "kinetora-premium-cursor";
+  document.body.appendChild(ring);
+
+  const dot = document.createElement("div");
+  dot.id = "kinetora-premium-dot";
+  document.body.appendChild(dot);
+
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+  let dotX = 0, dotY = 0;
+  let ticking = false;
+  let clickScale = 1;
+  let isHovered = false;
+
+  window.addEventListener("mousemove", (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    
+    const pageY = e.clientY + window.scrollY;
+    document.documentElement.style.setProperty("--mouse-x", e.clientX + "px");
+    document.documentElement.style.setProperty("--mouse-y", pageY + "px");
+
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        dotX += (mouseX - dotX) * 0.38;
+        dotY += (mouseY - dotY) * 0.38;
+        dot.style.left = dotX + "px";
+        dot.style.top = dotY + "px";
+
+        ringX += (mouseX - ringX) * 0.16;
+        ringY += (mouseY - ringY) * 0.16;
+
+        const dx = ringX - dotX;
+        const dy = ringY - dotY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        const maxDist = isHovered ? 18 : 10;
+        if (distance > maxDist) {
+          const angle = Math.atan2(dy, dx);
+          ringX = dotX + Math.cos(angle) * maxDist;
+          ringY = dotY + Math.sin(angle) * maxDist;
+        }
+
+        ring.style.left = ringX + "px";
+        ring.style.top = ringY + "px";
+        ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  const hoverTargets = "a, button, [role='button'], input, textarea, select";
+  document.addEventListener("mouseover", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      isHovered = true;
+      ring.classList.add("custom-cursor-hovering");
+      dot.style.opacity = "0";
+    }
+  });
+  document.addEventListener("mouseout", (e) => {
+    if (e.target.closest(hoverTargets)) {
+      isHovered = false;
+      ring.classList.remove("custom-cursor-hovering");
+      dot.style.opacity = "1";
+    }
+  });
+
+  document.addEventListener("mousedown", () => {
+    clickScale = 0.55; 
+    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1.6)"; 
+  });
+  document.addEventListener("mouseup", () => {
+    clickScale = 1;
+    ring.style.transform = "translate3d(-50%, -50%, 0) scale(" + clickScale + ")";
+    dot.style.transform = "translate3d(-50%, -50%, 0) scale(1)";
+  });
+
+  // DOM Sweeper y REORDENAMIENTO
+  let sweepAttempts = 0;
+  const sweepInterval = setInterval(() => {
+    sweepAttempts++;
+    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
+    if (oldCursor) {
+      oldCursor.remove();
+    }
+
+    let brandsSection = null;
+    let statsSection = null;
+    let heroSubtitleEl = null;
+
+    const allElements = Array.from(document.querySelectorAll("*"));
+    allElements.forEach(el => {
+      const text = el.textContent || "";
+      if (text.includes("Brands that trust Kinetora") || text.includes("Marcas que confían en Kinetora") || 
+          text.includes("Brands that trust our speed") || text.includes("Marcas que confían en nuestra velocidad")) {
+        brandsSection = el.closest("section") || el.closest("div.py-12") || el.closest("div.py-20") || el.closest("div.py-24");
+      }
+      if (text.includes("Capital generated") || text.includes("Capital generado")) {
+        statsSection = el.closest("div.grid") || el.closest("div.border-t") || el.closest("div.mt-16");
+      }
+      if (text.includes("Backed by results across 50+") || text.includes("Respaldado por resultados en más de 50")) {
+        if (el.tagName === "P" || el.tagName === "DIV") {
+          heroSubtitleEl = el;
+        }
+      }
+    });
+
+    if (heroSubtitleEl) {
+      heroSubtitleEl.style.display = "none";
+    }
+
+    if (brandsSection && statsSection) {
+      brandsSection.classList.add("hero-brands-container");
+      if (statsSection.nextSibling !== brandsSection) {
+        try {
+          statsSection.parentNode.insertBefore(brandsSection, statsSection.nextSibling);
+        } catch(e) {}
+      }
+    }
+    
+    if (sweepAttempts > 1000) {
+      clearInterval(sweepInterval);
+    }
+  }, 20);
+
+  // 3. Inyección estática de los Iconos de Marca de Kinetora (Tanda 1)
+  setTimeout(() => {
+    const sections = Array.from(document.querySelectorAll("#root section.py-20, #root section.py-24, #root section.py-12, #root section.my-20"));
+    if (sections.length === 0) return;
+
+    // Lista exclusiva de los WebPs de la identidad de Kinetora
+    const brandDecoIcons = [
+      "/assets/decorations/tanda1-triangle-purple.webp",
+      "/assets/decorations/tanda1-circle-white.webp",
+      "/assets/decorations/tanda1-triangle-white.webp"
+    ];
+
+    sections.forEach((section) => {
+      if (section.tagName === "FOOTER" || section.closest("footer") || section.id === "hero" || section.querySelector("h1")) return;
+
+      section.style.position = "relative";
+      
+      // Inyectar 4 iconos por sección
+      const count = 4;
+      for (let i = 0; i < count; i++) {
+        const deco = document.createElement("div");
+        deco.className = "kin-deco";
+
+        const layer = Math.floor(Math.random() * 3);
+        let size, blurVal, speedClass;
+        
+        if (layer === 0) {
+          size = Math.floor(Math.random() * 8) + 16; // 16px a 24px
+          blurVal = 1.5;
+          speedClass = "kin-deco-slow";
+        } else if (layer === 1) {
+          size = Math.floor(Math.random() * 16) + 24; // 24px a 40px
+          blurVal = 0;
+          speedClass = "kin-deco-medium";
+        } else {
+          size = Math.floor(Math.random() * 26) + 40; // 40px a 66px
+          blurVal = 1;
+          speedClass = "kin-deco-fast";
+        }
+
+        deco.classList.add(speedClass);
+
+        const x = Math.random() * 85 + 5; 
+        const y = Math.random() * 80 + 10; 
+        
+        deco.style.left = x + "%";
+        deco.style.top = y + "%";
+        deco.style.width = size + "px";
+        deco.style.height = size + "px";
+        deco.style.filter = blurVal > 0 ? "blur(" + blurVal + "px)" : "none";
+        
+        const rotation = Math.floor(Math.random() * 360);
+        deco.style.transform = "rotate(" + rotation + "deg)";
+
+        // Obtener un icono de la tanda 1
+        const iconUrl = brandDecoIcons[i % brandDecoIcons.length];
+        
+        deco.innerHTML = '<img src="' + iconUrl + '" alt="Deco Icon" loading="lazy" />';
+        section.appendChild(deco);
+      }
+    });
+    console.log("[Tanda 1] Injected brand identity icons across all sections.");
+  }, 1200);
+});
+</script>
 </body>
 </html>
