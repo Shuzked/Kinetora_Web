@@ -130,7 +130,7 @@
     <link rel="modulepreload" crossorigin href="/assets/framer.CVLkQepO.js">
     <link rel="modulepreload" crossorigin href="/assets/swiper.wBuYnoxN.js">
     <link rel="stylesheet" crossorigin href="/assets/swiper.B_l4pjL9.css">
-    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=57">
+    <link rel="stylesheet" crossorigin href="/assets/index.ApqoW1Ve.css?v=58">
   
     
 </head>
@@ -274,6 +274,8 @@
   </div>
 </div>
 
+
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   // 1. Cursor
@@ -287,31 +289,112 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("mousedown",()=>{clickScale=0.55;ring.style.transform="translate3d(-50%,-50%,0) scale("+clickScale+")";dot.style.transform="translate3d(-50%,-50%,0) scale(1.6)";});
   document.addEventListener("mouseup",()=>{clickScale=1;ring.style.transform="translate3d(-50%,-50%,0) scale("+clickScale+")";dot.style.transform="translate3d(-50%,-50%,0) scale(1)";});
 
-  // 2. Ocultar "Backed by results..." y cursor viejo
-  const cleanup = setInterval(() => {
-    // Remove old cursor
-    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
-    if (oldCursor) oldCursor.remove();
-    // Hide "Backed by results" / "Respaldado por resultados"
-    document.querySelectorAll("p").forEach(p => {
-      const t = p.textContent || "";
-      if (t.includes("Backed by results") || t.includes("Respaldado por resultados")) {
+  // 2. INYECTAR MARQUEE DE MARCAS DENTRO DEL HERO, DESPUÉS DEL STATS GRID
+  const brands = [
+    {n:"Square Enix",s:"/assets/brands/square-enix.svg"},
+    {n:"Solana",s:"/assets/brands/solana.svg"},
+    {n:"Elixir Games",s:"/assets/brands/elixir-games.svg"},
+    {n:"Litlab Games",s:"/assets/brands/litlab-games.svg"},
+    {n:"Friends4Payment",s:"/assets/brands/friends4payment.svg"},
+    {n:"Hard Lock",s:"/assets/brands/hard-lock.svg"},
+    {n:"BUU AI",s:"/assets/brands/buu-ai.svg"},
+    {n:"Sphere Studios",s:"/assets/brands/sphere-studios.svg"},
+    {n:"A2AX",s:"/assets/brands/a2ax.svg"}
+  ];
+
+  let marqueeInjected = false;
+
+  function tryInjectMarquee() {
+    if (marqueeInjected) return;
+
+    // Buscar el Hero section
+    const hero = document.querySelector(".hero-section");
+    if (!hero) return;
+
+    // Buscar el grid de estadísticas dentro del Hero
+    // El grid tiene clases: grid grid-cols-2 md:grid-cols-4
+    const statsGrid = hero.querySelector("[class*='grid-cols-2'][class*='grid-cols-4']");
+    if (!statsGrid) return;
+
+    // El wrapper del stats grid es el padre del grid
+    const statsWrapper = statsGrid.parentElement;
+    if (!statsWrapper) return;
+
+    // Ocultar el párrafo "Backed by results..." / "Respaldado por resultados..."
+    const allParagraphs = statsWrapper.querySelectorAll("p");
+    allParagraphs.forEach(p => {
+      const txt = p.textContent || "";
+      if (txt.includes("Backed by results") || txt.includes("Respaldado por resultados")) {
         p.style.display = "none";
       }
     });
-  }, 200);
-  setTimeout(() => clearInterval(cleanup), 15000);
 
-  // 3. Brands bar: ocultar al hacer scroll
-  const brandsBar = document.getElementById("kinetora-brands-bar");
-  if (brandsBar) {
-    function updateBrandsVisibility() {
-      const sy = window.scrollY || window.pageYOffset;
-      brandsBar.style.opacity = sy > (window.innerHeight * 0.1) ? "0" : "1";
-      requestAnimationFrame(updateBrandsVisibility);
+    // Crear el marquee
+    const isES = window.__KINETORA_LANG__ === "es";
+    const marqueeContainer = document.createElement("div");
+    marqueeContainer.id = "kinetora-hero-marquee";
+
+    // Título
+    const title = document.createElement("div");
+    title.className = "khm-title";
+    title.textContent = isES ? "Marcas que conf\u00edan en nuestra velocidad" : "Brands that trust our speed";
+    marqueeContainer.appendChild(title);
+
+    // Track wrapper (overflow hidden, full viewport width)
+    const trackWrap = document.createElement("div");
+    trackWrap.className = "khm-track-wrap";
+
+    // Track (animado)
+    const track = document.createElement("div");
+    track.className = "khm-track";
+
+    // Logos x3 para scroll infinito
+    for (let rep = 0; rep < 3; rep++) {
+      brands.forEach(b => {
+        const logo = document.createElement("div");
+        logo.className = "khm-logo";
+        const img = document.createElement("img");
+        img.src = b.s;
+        img.alt = b.n;
+        img.width = 160;
+        img.height = 48;
+        img.loading = rep === 0 ? "eager" : "lazy";
+        img.decoding = "async";
+        logo.appendChild(img);
+        track.appendChild(logo);
+      });
     }
-    updateBrandsVisibility();
+
+    trackWrap.appendChild(track);
+    marqueeContainer.appendChild(trackWrap);
+
+    // Insertar DESPUÉS del statsWrapper (dentro del mismo contenedor flex del Hero)
+    statsWrapper.after(marqueeContainer);
+
+    marqueeInjected = true;
+    console.log("[Kinetora] Brands marquee injected inside Hero after stats grid.");
   }
+
+  // Usar MutationObserver para detectar cuando React monta el Hero
+  const observer = new MutationObserver(() => {
+    tryInjectMarquee();
+  });
+  observer.observe(document.getElementById("root"), { childList: true, subtree: true });
+
+  // También intentar inmediatamente y con retries
+  tryInjectMarquee();
+  const retryInterval = setInterval(() => {
+    tryInjectMarquee();
+    if (marqueeInjected) clearInterval(retryInterval);
+  }, 100);
+  setTimeout(() => { clearInterval(retryInterval); observer.disconnect(); }, 15000);
+
+  // 3. Cleanup: remove old cursor, hide "Backed by" on other pages too
+  const cleanup = setInterval(() => {
+    const oldCursor = document.querySelector("div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)");
+    if (oldCursor) oldCursor.remove();
+  }, 500);
+  setTimeout(() => clearInterval(cleanup), 10000);
 
   // 4. Parallax decorations
   setTimeout(() => {

@@ -52,6 +52,7 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -67,8 +68,7 @@
 }
 .kin-deco {
   position: absolute; pointer-events: none; z-index: 10 !important;
-  will-change: transform, filter;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, filter; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .kin-deco img { width: 100%; height: 100%; object-fit: contain; opacity: 0.28 !important; transition: opacity 0.3s ease; }
 .kin-deco-slow { animation: float-slow 8s ease-in-out infinite; }
@@ -114,87 +114,100 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
 }
 
 /* ======================================================================
-   BRANDS CAROUSEL OVERLAY — HTML ESTÁTICO FUERA DE #root
-   Renderizado como position:fixed en la parte inferior del viewport.
-   z-index: 5 → entre Hero (z-0/z-1) y contenido scrollable (z-10).
-   Se desvanece al hacer scroll.
+   HERO LAYOUT FIXES
+   1. Quitar overflow:hidden del Hero para que el marquee no se recorte
+   2. Reducir padding para hacer espacio al marquee
+   ====================================================================== */
+.hero-section {
+  overflow: visible !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1 !important;
+}
+
+/* Reducir py del contenido central del Hero para ganar espacio */
+.hero-section .py-12 {
+  padding-top: 2rem !important;
+  padding-bottom: 1rem !important;
+}
+
+@media (min-width: 640px) {
+  .hero-section .py-12 {
+    padding-top: 3rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+}
+
+/* ======================================================================
+   BRANDS MARQUEE DENTRO DEL HERO — Inyectado por JS después del stats grid
    ====================================================================== */
 @keyframes kinetora-marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
-#kinetora-brands-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  padding: 0.75rem 0 1.5rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+#kinetora-hero-marquee {
+  width: 100%;
+  margin-top: 2rem;
+  opacity: 1;
 }
 
-#kinetora-brands-bar .kb-title {
+#kinetora-hero-marquee .khm-title {
   font-family: 'Inter', sans-serif;
   font-size: 10px;
   font-weight: 700;
-  color: rgba(245, 245, 245, 0.5);
+  color: rgba(245, 245, 245, 0.45);
   text-transform: uppercase;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.35em;
   text-align: center;
   margin-bottom: 0.75rem;
 }
 
-#kinetora-brands-bar .kb-track-wrapper {
+#kinetora-hero-marquee .khm-track-wrap {
   position: relative;
   overflow: hidden;
-  width: 100%;
-  height: 44px;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  height: 40px;
 }
 
-#kinetora-brands-bar .kb-track {
+#kinetora-hero-marquee .khm-track {
   display: flex;
   align-items: center;
-  gap: 3rem;
+  gap: 2.5rem;
   min-width: max-content;
   animation: kinetora-marquee-scroll 60s linear infinite;
   will-change: transform;
-  pointer-events: auto;
 }
 
-#kinetora-brands-bar .kb-track:hover {
+#kinetora-hero-marquee .khm-track:hover {
   animation-play-state: paused;
 }
 
-#kinetora-brands-bar .kb-item {
+#kinetora-hero-marquee .khm-logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 36px;
-  width: 130px;
+  height: 32px;
+  width: 120px;
   flex-shrink: 0;
 }
 
-#kinetora-brands-bar .kb-item img {
+#kinetora-hero-marquee .khm-logo img {
   max-height: 100%;
   max-width: 100%;
   object-fit: contain;
   opacity: 0.5;
-  filter: grayscale(1) contrast(1.25);
+  filter: grayscale(1) contrast(1.2);
   transition: all 0.3s ease;
-  pointer-events: auto;
 }
 
-#kinetora-brands-bar .kb-item img:hover {
+#kinetora-hero-marquee .khm-logo img:hover {
   opacity: 1;
   filter: grayscale(0) contrast(1);
 }
 
-/* OCULTAR la sección original de Brands de React (en el div.mt-[100svh]) */
+/* OCULTAR la sección original de Brands de React */
 section.kin-section[aria-label*="Brands"],
 section.kin-section[aria-label*="Marcas"] {
   display: none !important;
@@ -202,14 +215,7 @@ section.kin-section[aria-label*="Marcas"] {
   overflow: hidden !important;
 }
 
-/* SCROLL REVEAL: Hero sticky, contenido relative z-10 */
-.hero-section {
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1 !important;
-}
-
-/* El contenido scrollable cubre el Hero al hacer scroll */
+/* SCROLL REVEAL */
 #root main > div > div:not(.hero-section),
 #root section:not(.hero-section),
 #capabilities, #pricing, #studio,
