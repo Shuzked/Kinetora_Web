@@ -53,7 +53,10 @@
 
 
 
+
 /* 3D Depth of Field Parallax Engine Styles */
+
+/* ===================== PARALLAX DECORATIONS ===================== */
 @keyframes float-slow {
   0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
   50% { transform: translate3d(0, -15px, 0) rotate(5deg); }
@@ -75,6 +78,7 @@
 .kin-deco-medium { animation: float-medium 6s ease-in-out infinite; }
 .kin-deco-fast { animation: float-fast 5s ease-in-out infinite; }
 
+/* ===================== MOUSE SPOTLIGHT ===================== */
 .spotlight { position: relative; }
 .spotlight::before {
   content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -82,13 +86,14 @@
   pointer-events: none; z-index: 1; transition: opacity 0.5s ease;
 }
 
+/* ===================== FOOTER ===================== */
 footer.bg-zinc-950, footer#footer, footer {
   background-color: rgba(10, 10, 10, 0.95) !important;
   backdrop-filter: blur(16px) !important; -webkit-backdrop-filter: blur(16px) !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
 }
 
-/* CURSOR */
+/* ===================== CUSTOM CURSOR ===================== */
 html, body, a, button, select, input, textarea, [role="button"] { cursor: none !important; }
 div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor),
 .custom-cursor, .cursor-dot, .cursor-ring,
@@ -113,24 +118,44 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   width: 42px; height: 42px; border-color: rgba(180, 84, 255, 1) !important; background-color: rgba(180, 84, 255, 0.1);
 }
 
-/* ======================================================================
-   HERO LAYOUT FIXES
-   1. Quitar overflow:hidden del Hero para que el marquee no se recorte
-   2. Reducir padding para hacer espacio al marquee
-   ====================================================================== */
+/* =====================================================================
+   FIX #1: HERO — SCROLL REVEAL + NO ZOOM/BLUR BACKGROUND
+   
+   - Keep hero as position:fixed (React default) — NOT sticky.
+     Sticky was causing the scroll "sticking" sensation.
+   - The content wrapper already has mt-[100svh] to scroll over the hero.
+   - Disable the parallax zoom-out/blur effect that creates the ugly
+     black frame by neutralizing scale and filter transforms on the
+     hero background container.
+   ===================================================================== */
+
+/* Keep hero fixed as React intended. No override to sticky. */
 .hero-section {
-  overflow: visible !important;
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1 !important;
+  /* Let React's own fixed/inset-0/h-svh stay */
+  z-index: 0 !important;
 }
 
-/* Reducir py del contenido central del Hero para ganar espacio */
+/* KILL the ugly zoom-out/blur on the hero background.
+   React sets inline styles {scale, opacity, filter} on this div.
+   We override them with !important so the bg stays clean. */
+.hero-section > div:first-child > div:first-child {
+  /* This targets the framer-motion div wrapping the liquid bg */
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  scale: 1 !important;
+}
+
+/* Also kill the ugly dark vignette radial gradient */
+.hero-section .bg-\[radial-gradient\(ellipse_at_center\,transparent_35\%\,rgba\(13\,13\,13\,0\.85\)_100\%\)\] {
+  opacity: 0.4 !important;
+}
+
+/* Reduce hero padding slightly to help content fit */
 .hero-section .py-12 {
-  padding-top: 2rem !important;
+  padding-top: 2.5rem !important;
   padding-bottom: 1rem !important;
 }
-
 @media (min-width: 640px) {
   .hero-section .py-12 {
     padding-top: 3rem !important;
@@ -138,9 +163,69 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   }
 }
 
-/* ======================================================================
-   BRANDS MARQUEE DENTRO DEL HERO — Inyectado por JS después del stats grid
-   ====================================================================== */
+/* Allow overflow for the brands marquee to show */
+.hero-section {
+  overflow: visible !important;
+}
+
+/* =====================================================================
+   FIX #2: SECTION BACKGROUNDS — UNIFIED COLOR
+   
+   The original React app uses bg-[#0D0D0D] everywhere.
+   Our previous CSS forced #09090b which created mismatches.
+   Now we use #0D0D0D consistently everywhere.
+   ===================================================================== */
+
+/* The scrollable content wrapper — must cover the hero on scroll */
+.mt-\[100svh\] {
+  position: relative !important;
+  z-index: 10 !important;
+  background-color: #0D0D0D !important;
+}
+
+/* All section wrappers inside the scrollable area */
+.mt-\[100svh\] > div,
+.mt-\[100svh\] > section,
+.mt-\[100svh\] section.kin-section {
+  background-color: #0D0D0D !important;
+}
+
+/* Footer wrapper */
+#root > div > div.relative.z-10.bg-\[\#0D0D0D\] {
+  background-color: #0D0D0D !important;
+}
+
+/* =====================================================================
+   FIX #3: SEPARATOR LINES — HIDE THE SVG WAVE DIVIDERS
+   
+   The wave SVG separator (le component) uses fill:#0D0D0D with
+   h-12 -mt-6, creating visible seams between sections when backgrounds
+   don't perfectly match. We make them invisible since all sections 
+   share the same background color now.
+   ===================================================================== */
+.hero-section ~ div .pointer-events-none.w-full.h-12.-mt-6,
+.mt-\[100svh\] .pointer-events-none.w-full.h-12,
+div.relative.w-full.h-12.-mt-6.z-20.pointer-events-none {
+  display: none !important;
+}
+
+/* =====================================================================
+   FIX #4: ABOUT/STUDIO SECTION — BACKGROUND CONSISTENCY
+   
+   Elements inside the About section had bg that didn't match the parent.
+   Force consistent #0D0D0D background on all child elements.
+   ===================================================================== */
+
+/* Remove any mismatch on section inner elements */
+section.kin-section,
+.kin-section > div,
+.kin-section .kin-container {
+  background-color: transparent !important;
+}
+
+/* =====================================================================
+   BRANDS MARQUEE — Injected inside Hero after stats grid
+   ===================================================================== */
 @keyframes kinetora-marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -148,7 +233,7 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
 
 #kinetora-hero-marquee {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
   opacity: 1;
 }
 
@@ -207,20 +292,10 @@ div.fixed.top-0.left-0.w-8.h-8.pointer-events-none:not(#kinetora-premium-cursor)
   filter: grayscale(0) contrast(1);
 }
 
-/* OCULTAR la sección original de Brands de React */
+/* Hide original React Brands section */
 section.kin-section[aria-label*="Brands"],
 section.kin-section[aria-label*="Marcas"] {
   display: none !important;
   height: 0 !important;
   overflow: hidden !important;
-}
-
-/* SCROLL REVEAL */
-#root main > div > div:not(.hero-section),
-#root section:not(.hero-section),
-#capabilities, #pricing, #studio,
-main > div > div:not(.hero-section) {
-  position: relative !important;
-  z-index: 10 !important;
-  background-color: #09090b !important;
 }
