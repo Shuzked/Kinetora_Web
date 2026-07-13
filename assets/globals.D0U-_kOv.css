@@ -1,0 +1,595 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 96%;
+    --card: 240 10% 4%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 270 100% 66%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 96%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 270 100% 66%;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 96%;
+    --card: 240 10% 4%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 270 100% 66%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 0 0% 64%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 96%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 96%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 270 100% 66%;
+  }
+}
+
+/* Global base improvements for responsiveness */
+@layer base {
+  html {
+    /* Slightly tighter default letter spacing for better density on mobile */
+    letter-spacing: 0.01em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+    scroll-behavior: smooth; /* Garantiza navegación suave por Anchor en móvil tras desactivar JS Lenis */
+  }
+
+  body {
+    @apply bg-[#0D0D0D] text-[#F5F5F5];
+    overflow-x: clip;
+    font-display: swap;
+  }
+
+  /* Clamp heading sizes for better scaling between mobile and desktop */
+  h1 {
+    @apply font-black tracking-tighter uppercase;
+    font-size: clamp(1.2rem, 5vw + 0.5rem, 4rem);
+    line-height: 1.15;
+    letter-spacing: -0.04em;
+  }
+
+  h2 {
+    @apply font-black tracking-tighter uppercase;
+    font-size: clamp(1.15rem, 4.5vw + 0.5rem, 3.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+  }
+
+  h3 {
+    @apply font-black tracking-tight uppercase;
+    font-size: clamp(1.1rem, 4vw + 0.5rem, 2.2rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  h4, h5, h6 {
+    @apply font-black tracking-tight uppercase;
+    font-size: clamp(1rem, 3.5vw + 0.5rem, 1.8rem);
+    line-height: 1.2;
+  }
+
+  h1, h2, h3, h4, h5, h6,
+  .text-4xl, .text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl {
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+  }
+  
+  p {
+    font-size: clamp(1rem, 1.1vw + 0.5rem, 1.25rem);
+    line-height: 1.6;
+    color: rgba(245, 245, 245, 0.7);
+  }
+}
+
+/* Components: shared responsive utilities */
+@layer components {
+
+  /* Unified container with safe gutters */
+  .kin-container {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* max-width: 88rem; /* ~1408px */
+  /* padding-left: clamp(1.25rem, 5vw, 4rem); */
+  /* padding-right: clamp(1.25rem, 5vw, 4rem); */
+  /* } */
+
+  /* Full width container for sliders that touch edges but align content */
+  .kin-container-fluid {
+    @apply w-full mx-auto;
+    max-width: 100%;
+  }
+
+  /* Section vertical rhythm */
+  .kin-section {
+    padding-top: clamp(4rem, 12vw, 10rem);
+    padding-bottom: clamp(4rem, 12vw, 10rem);
+  }
+
+  /* Landing: ensure consistent section margin collapse handling when nested in ParallaxSection */
+  .kin-section>.kin-container {
+    @apply relative z-10;
+  }
+
+  /* Rounded, bordered blocks spacing standard */
+  .kin-card {
+    @apply rounded-3xl border border-white/10 bg-[#1A1A1A];
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+    padding: clamp(1.25rem, 2.5vw, 2.5rem);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .premium-glass {
+    @apply bg-[#141414] border border-white/10;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Grid gaps standard across breakpoints */
+  .kin-grid-gap {
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  /* Avoid horizontal scrollbars from child transforms */
+  .kin-no-overflow {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
+  /* Hide native scrollbars on small screens (e.g., filter chips) */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  /* Marquee (Brands) */
+  .marquee-track {
+    animation-name: kinetora-marquee;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: var(--marquee-duration, 55s);
+  }
+
+  /* WP-style post typography (case studies) */
+  .wp-post {
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 sm:p-8;
+  }
+
+
+
+  /* .wp-media — layout wrapper with box styling */
+  .wp-media {
+    @apply rounded-[2rem] border border-white/10 bg-white/[0.07] p-5 sm:p-7;
+  }
+
+  .wp-post__content {
+    color: rgba(245, 245, 245, 0.86);
+    font-size: 0.98rem;
+    line-height: 1.85;
+  }
+
+  .wp-post__media {
+    font-size: 0.95rem;
+  }
+
+  .wp-post__media>*+* {
+    margin-top: 1.25rem;
+  }
+
+  .wp-post__content>*+* {
+    margin-top: 1.15rem;
+  }
+
+  .wp-post__content p {
+    margin-top: 1.6rem;
+  }
+
+  .wp-post__content h2,
+  .wp-post__content h3,
+  .wp-post__content h4 {
+    color: #f5f5f5;
+    font-weight: 900;
+    letter-spacing: -0.025em;
+    line-height: 1.25;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    word-wrap: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    hyphens: none !important;
+  }
+
+  .wp-post__content h2 {
+    font-size: clamp(1.25rem, 1.2vw + 1rem, 1.85rem);
+  }
+
+  .wp-post__content h3 {
+    font-size: clamp(1.1rem, 0.9vw + 0.95rem, 1.45rem);
+  }
+
+  .wp-post__content a {
+    color: #b454ff;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .wp-post__content a:hover {
+    text-decoration: underline;
+  }
+
+  .wp-post__content ul,
+  .wp-post__content ol {
+    padding-left: 1.25rem;
+    margin-top: 1rem;
+  }
+
+  .wp-post__content li+li {
+    margin-top: 0.45rem;
+  }
+
+  .wp-post__content blockquote {
+    border-left: 3px solid rgba(180, 84, 255, 0.55);
+    padding-left: 1.1rem;
+    margin-top: 1.35rem;
+    margin-bottom: 1.35rem;
+    color: rgba(245, 245, 245, 0.9);
+    font-weight: 700;
+  }
+
+  .wp-post__content figure {
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .wp-post__content img,
+  .wp-post__content video {
+    border-radius: 1.35rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.35);
+  }
+
+  .wp-post__content video {
+    width: 100%;
+    height: auto;
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .wp-post__content figcaption {
+    margin-top: 0.65rem;
+    font-size: 0.8rem;
+    color: rgba(245, 245, 245, 0.6);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .wp-post__content hr,
+  .wp-post__content .wp-block-separator {
+    border: 0;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1.75rem 0;
+  }
+
+  .wp-post__content .wp-embed {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1.35rem;
+    background: rgba(255, 255, 255, 0.04);
+    overflow: hidden;
+  }
+
+  /* Gutenberg blocks: columns / gallery / buttons */
+  .wp-post__content .wp-block-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+
+  @media (min-width: 768px) {
+    .wp-post__content .wp-block-columns {
+      flex-direction: row;
+      gap: 1.5rem;
+    }
+
+    .wp-post__content .wp-block-column {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+  }
+
+  .wp-post__content .wp-block-gallery,
+  .wp-post__content .blocks-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.4rem;
+    margin-bottom: 1.4rem;
+  }
+
+  @media (min-width: 768px) {
+
+    .wp-post__content .wp-block-gallery,
+    .wp-post__content .blocks-gallery-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  .wp-post__content .wp-block-button__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    padding: 0.85rem 1.25rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(180, 84, 255, 0.15);
+    border: 1px solid rgba(180, 84, 255, 0.35);
+    color: #f5f5f5;
+    text-decoration: none;
+  }
+
+  .wp-post__content .wp-block-button__link:hover {
+    background: rgba(180, 84, 255, 0.22);
+    text-decoration: none;
+  }
+
+  .wp-post__content .alignwide {
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .wp-post__content .alignwide {
+      margin-left: -2.25rem;
+      margin-right: -2.25rem;
+    }
+
+    .wp-post__content .alignfull {
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      width: 100vw;
+      max-width: 100vw;
+    }
+
+    .wp-post__content .alignfull img {
+      border-radius: 0;
+    }
+  }
+}
+
+@keyframes kinetora-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-testimonials {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-testimonials {
+  animation: marquee-testimonials var(--marquee-duration, 50s) linear infinite;
+}
+
+.pause-on-hover:hover {
+  animation-play-state: paused;
+}
+
+@keyframes pulse-slow {
+
+  0%,
+  100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.15);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  /* Antes: desactivaba por completo la animación y forzaba transform, lo que impedía reactivarla */
+  /* Ahora: pausamos por defecto, pero permitimos reactivarla con data-animate="always" */
+  .marquee-track {
+    animation-play-state: paused !important;
+  }
+
+  [data-animate="always"] .marquee-track {
+    animation-play-state: running !important;
+  }
+}
+
+/* Utilities overrides and small helpers */
+@layer utilities {
+
+  /* Slightly larger tap targets on touch devices */
+  @media (pointer: coarse) {
+    .kin-touch-target {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  /* Clamp paragraph measure for readability */
+  .kin-prose {
+    max-width: 68ch;
+  }
+
+  /* Ensure main layout never causes horizontal scroll */
+  main {
+    overflow-x: clip;
+  }
+
+  /* Soft vertical fade using mask-image to avoid visible color cuts between sections */
+  .kin-fade-y {
+    --kin-fade-size: 72px;
+    /* controls how long the fade is on top/bottom */
+    -webkit-mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 1) var(--kin-fade-size),
+        rgba(0, 0, 0, 1) calc(100% - var(--kin-fade-size)),
+        rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to bottom,
+        rgba(0, 0, 0, 0) 0,
+        rgba(0, 0, 0, 1) var(--kin-fade-size),
+        rgba(0, 0, 0, 1) calc(100% - var(--kin-fade-size)),
+        rgba(0, 0, 0, 0) 100%);
+  }
+
+  .kin-fade-x {
+    -webkit-mask-image: linear-gradient(to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 1) 15%,
+        rgba(0, 0, 0, 1) 85%,
+        rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to right,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 1) 15%,
+        rgba(0, 0, 0, 1) 85%,
+        rgba(0, 0, 0, 0) 100%);
+  }
+
+  .premium-apple-button {
+    @apply transition-all duration-200 active:scale-95 shadow-sm hover:shadow-lg;
+    border-radius: 12px;
+  }
+
+  .premium-apple-button-primary {
+    @apply bg-[#B454FF] text-white hover:bg-[#A342FF];
+    box-shadow: 0 4px 20px rgba(180, 84, 255, 0.3);
+  }
+
+  .premium-apple-button-ghost {
+    @apply bg-white/5 border border-white/10 text-white/40 hover:text-white hover:bg-white/10;
+  }
+}
+
+/* Liquid Hero Background Animation */
+.liquid-bg-container {
+  @apply absolute inset-0 bg-[#0D0D0D] overflow-hidden;
+}
+
+.liquid-blob {
+  @apply absolute rounded-full blur-[110px] opacity-60 mix-blend-screen;
+  width: 65vw;
+  height: 65vw;
+  will-change: transform;
+  animation: liquid-move 32s infinite alternate ease-in-out;
+}
+
+.blob-purple {
+  background: radial-gradient(circle, #7C3AED 0%, transparent 70%);
+  top: -15%;
+  left: -10%;
+  animation-duration: 26s;
+}
+
+.blob-blue {
+  background: radial-gradient(circle, #2563EB 0%, transparent 70%);
+  bottom: -20%;
+  right: -10%;
+  animation-duration: 36s;
+  animation-delay: -6s;
+}
+
+.blob-coral {
+  background: radial-gradient(circle, #F43F5E 0%, transparent 70%);
+  top: 35%;
+  left: 15%;
+  width: 50vw;
+  height: 50vw;
+  animation-duration: 30s;
+  animation-delay: -12s;
+  opacity: 0.4;
+}
+
+@keyframes liquid-move {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+  }
+
+  33% {
+    transform: translate(14vw, 10vh) scale(1.18) rotate(120deg);
+  }
+
+  66% {
+    transform: translate(-10vw, 18vh) scale(0.92) rotate(240deg);
+  }
+
+  100% {
+    transform: translate(0, 0) scale(1) rotate(360deg);
+  }
+}
+
+/* Film Grain (Noise Texture) - Paso 4 Implementation */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.08;
+  filter: url(#grainyNoise);
+  will-change: transform;
+  mix-blend-mode: overlay;
+  background-repeat: repeat;
+}
